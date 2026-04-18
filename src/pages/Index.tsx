@@ -6,6 +6,7 @@ import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
 import { RebateEstimator } from "@/components/RebateEstimator";
 import { SITE, SERVICES } from "@/lib/site";
+import { NY_SYSTEMS } from "@/lib/nySystems";
 import heroTechnician from "@/assets/hero-technician.webp";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
 import jobBoiler from "@/assets/job-boiler-install.webp";

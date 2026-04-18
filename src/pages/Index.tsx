@@ -188,6 +188,23 @@ const Index = () => {
           <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">Featured Work</div>
           <h2 className="text-3xl md:text-4xl font-extrabold">Recent installs and service jobs</h2>
         </div>
+
+        {/* Before / After boiler replacement */}
+        <div className="mb-10">
+          <div className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Boiler replacement — before & after</div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {[
+              { src: jobBoilerBefore, label: "Before", alt: "Old gas boiler before replacement, with aged piping and wiring" },
+              { src: jobBoilerAfter, label: "After", alt: "New Weil-McLain gas boiler installed with clean copper piping and updated venting" },
+            ].map((p) => (
+              <figure key={p.label} className="relative rounded-lg overflow-hidden border border-border">
+                <img src={p.src} alt={p.alt} loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                <figcaption className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 rounded">{p.label}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {[
             { src: jobMitsubishi, alt: "Mitsubishi ductless mini-split exterior unit install" },

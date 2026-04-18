@@ -2,6 +2,7 @@ import { Star } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
+import { SITE } from "@/lib/site";
 
 const reviews = [
   { q: "Showed up on time, diagnosed the problem fast, and had our AC running the same day. Professional from start to finish.", a: "Sarah M.", town: "Scarsdale" },
@@ -21,12 +22,15 @@ const Reviews = () => (
     />
 
     <section className="container mx-auto px-4 py-16">
-      <div className="flex items-center gap-3 mb-10 justify-center">
-        <div className="flex gap-1 text-accent">
-          {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-6 w-6 fill-current" />)}
+      <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 mb-10 bg-card border border-border rounded-lg px-6 py-4 hover:shadow-md transition-shadow">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl font-bold text-foreground">5.0</span>
+          <div className="flex gap-1">
+            {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-6 w-6 fill-amber-400 text-amber-400" />)}
+          </div>
         </div>
-        <div className="text-lg font-bold">Trusted by customers across Westchester County</div>
-      </div>
+        <div className="text-muted-foreground">on Google · <span className="font-semibold text-foreground">{SITE.rating.count} reviews</span></div>
+      </a>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {reviews.map((r, i) => (

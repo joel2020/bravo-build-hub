@@ -35,6 +35,15 @@ const Index = () => {
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Free estimates</span>
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Local techs</span>
             </div>
+            <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 bg-white dark:bg-card border border-border rounded-full px-4 py-2 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-1">
+                <span className="font-bold text-foreground">5.0</span>
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />)}
+                </div>
+              </div>
+              <span className="text-sm text-muted-foreground">on Google</span>
+            </a>
           </div>
           <div className="aspect-[4/3] rounded-lg bg-muted border border-border flex items-center justify-center text-muted-foreground">
             <div className="text-center px-6">

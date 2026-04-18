@@ -2,15 +2,18 @@ export const SITE = {
   name: "Bravo Mechanical",
   legalName: "Bravo Mechanical LLC",
   tagline: "Reliable HVAC Service You Can Count On",
-  phone: "(914) 555-0123",
-  phoneHref: "tel:+19145550123",
+  phone: "(914) 361-9142",
+  phoneHref: "tel:+19143619142",
   email: "info@bravomechanical.com",
   emailHref: "mailto:info@bravomechanical.com",
   area: "Westchester County, NY",
+  rating: { score: 5.0, count: 5, source: "Google" },
+  social: {
+    facebook: "https://www.facebook.com/p/Bravo-Mechanical-LLC-61576283462607/",
+    google: "https://www.google.com/maps/place/Bravo+Mechanical+LLC/data=!4m2!3m1!1s0x0:0x51712bb23caf72a8",
+  },
   hours: [
-    { day: "Mon – Fri", time: "7:00 AM – 7:00 PM" },
-    { day: "Saturday", time: "8:00 AM – 4:00 PM" },
-    { day: "Sunday", time: "Emergency service only" },
+    { day: "Mon – Sun", time: "Open 24 hours" },
   ],
 };
 

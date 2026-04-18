@@ -7,6 +7,7 @@ import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
 import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
+import jobGasFurnace from "@/assets/job-gas-furnace.jpg";
 import heroTechnician from "@/assets/hero-technician.webp";
 
 export type NYSystem = {

@@ -5,6 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
 import { SITE, SERVICES } from "@/lib/site";
+import heroTechnician from "@/assets/hero-technician.jpg";
 
 const Index = () => {
   return (
@@ -45,12 +46,14 @@ const Index = () => {
               <span className="text-sm text-muted-foreground">on Google</span>
             </a>
           </div>
-          <div className="aspect-[4/3] rounded-lg bg-muted border border-border flex items-center justify-center text-muted-foreground">
-            <div className="text-center px-6">
-              <Wrench className="h-12 w-12 mx-auto mb-3 opacity-40" />
-              <div className="text-sm font-medium">Hero photo placeholder</div>
-              <div className="text-xs">Replace with Bravo Mechanical field photo</div>
-            </div>
+          <div className="aspect-[4/3] rounded-lg overflow-hidden border border-border shadow-lg">
+            <img
+              src={heroTechnician}
+              alt="Bravo Mechanical HVAC technician servicing an outdoor AC condenser unit at a Westchester County home"
+              width={1280}
+              height={960}
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
       </section>

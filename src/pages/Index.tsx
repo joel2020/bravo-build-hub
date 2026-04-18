@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
+import { RebateEstimator } from "@/components/RebateEstimator";
 import { SITE, SERVICES } from "@/lib/site";
 import heroTechnician from "@/assets/hero-technician.webp";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
@@ -245,9 +246,12 @@ const Index = () => {
             </article>
           ))}
         </div>
-        <div className="mt-8 p-5 bg-secondary border border-border rounded-lg text-sm text-muted-foreground">
-          <strong className="text-foreground">NY rebates & incentives:</strong> Many of the systems above qualify for NYSERDA Clean Heat, NYS Comfort Home, and federal Inflation Reduction Act (25C) tax credits. We'll walk you through what your project is eligible for during your estimate.
+        <div className="mt-8">
+          <RebateEstimator />
         </div>
+        <p className="mt-4 text-xs text-muted-foreground">
+          Programs covered: NYSERDA Clean Heat, NYS Comfort Home, federal Inflation Reduction Act (25C) tax credits, and Con Edison utility rebates.
+        </p>
       </section>
 
       {/* Featured work */}

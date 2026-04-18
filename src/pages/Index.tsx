@@ -288,11 +288,12 @@ const Index = () => {
             <img key={i} src={p.src} alt={p.alt} loading="lazy" className="aspect-square w-full object-cover rounded border border-border" />
           ))}
         </div>
+        </div>
       </section>
 
       {/* Reviews */}
-      <section className="bg-secondary border-y border-border">
-        <div className="container mx-auto px-4 py-16 lg:py-24">
+      <section className="container mx-auto px-4 py-16 lg:py-24">
+        <div className="">
           <div className="max-w-2xl mb-10">
             <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">What Customers Say</div>
             <h2 className="text-3xl md:text-4xl font-extrabold">Trusted by Westchester homeowners and businesses</h2>

@@ -142,7 +142,7 @@ const Index = () => {
       <section className="container mx-auto px-4 py-16 lg:py-24">
         <div className="grid md:grid-cols-2 gap-6">
           {[
-            { title: "Residential HVAC", img: jobResidentialHvac, text: "Heating and cooling for single-family homes, condos, and multi-family properties across Westchester County.", points: ["Furnace & boiler service", "Central AC and ductless mini-splits", "Heat pumps & thermostats", "Air quality & humidity control"] },
+            { title: "Residential HVAC", img: jobBoiler, text: "Heating and cooling for single-family homes, condos, and multi-family properties across Westchester County.", points: ["Furnace & boiler service", "Central AC and ductless mini-splits", "Heat pumps & thermostats", "Air quality & humidity control"] },
             { title: "Commercial HVAC", img: jobRadiator, text: "Reliable HVAC service for offices, retail, restaurants, and light-industrial facilities.", points: ["Rooftop units", "Service contracts", "Preventive maintenance", "Emergency response"] },
           ].map((c) => (
             <div key={c.title} className="bg-card border border-border rounded-lg overflow-hidden">

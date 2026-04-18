@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Calculator, CheckCircle2, Loader2 } from "lucide-react";
+import { Calculator, CheckCircle2, Loader2, Info } from "lucide-react";
 
 type RebateRange = { low: number; high: number };
 type ProgramEstimate = {
@@ -15,52 +15,88 @@ type ProgramEstimate = {
   notes: string;
 };
 
-// Public-program rebate ranges (typical for NY residential, 2024-2025 schedules).
-// These are estimates only — final amounts depend on equipment, contractor, and program funding.
-const SYSTEMS = {
+// NY rebate model — 2024-2025 program schedules.
+// Estimates only. Final amounts depend on equipment, contractor enrollment,
+// household income, system size, and current program funding.
+//
+// Key rules encoded:
+// - NYSERDA Clean Heat is paid $/ton via the utility (Con Ed, National Grid, etc.) — NOT additive.
+// - Federal 25C = 30% of project cost capped per category. Heat pumps & HPWHs share a $2,000 annual cap.
+// - Comfort Home is a package incentive, requires participating contractor + qualifying measures.
+// - EmPower+ / IRA HEEHRA can cover up to 100% / $8,000 for income-qualified households.
+
+type SystemDef = {
+  label: string;
+  // NYSERDA Clean Heat $/ton (utility-delivered, varies by territory; midpoints used).
+  cleanHeatPerTon: { low: number; high: number } | null;
+  // Comfort Home eligibility (only applies as part of qualifying package).
+  comfortHome: { low: number; high: number };
+  // Federal 25C: cap and category. heatPumpGroup shares $2,000 annual cap with HPWH.
+  fed25c: { cap: number; group: "heatPumpGroup" | "envelope" | "hpwh" | "none" };
+  // HEEHRA cap for income-qualified households (IRA point-of-sale rebate, NY rollout via NYSERDA).
+  heehraCap: number;
+  // Typical project cost range — used for accurate 30% 25C calculation if user doesn't provide cost.
+  typicalCost: { low: number; high: number };
+  // Typical system size in tons (for $/ton math). null = N/A.
+  typicalTons: { low: number; high: number } | null;
+};
+
+const SYSTEMS: Record<string, SystemDef> = {
   "ducted-heat-pump": {
     label: "Whole-home ducted heat pump",
-    nyserda: { low: 1500, high: 3000 },
+    cleanHeatPerTon: { low: 800, high: 1500 },
     comfortHome: { low: 1000, high: 4000 },
-    federal25c: { low: 2000, high: 2000 },
-    coned: { low: 500, high: 1000 },
+    fed25c: { cap: 2000, group: "heatPumpGroup" },
+    heehraCap: 8000,
+    typicalCost: { low: 15000, high: 30000 },
+    typicalTons: { low: 3, high: 5 },
   },
   "ductless-mini-split": {
     label: "Ductless mini-split heat pump",
-    nyserda: { low: 1000, high: 2500 },
+    cleanHeatPerTon: { low: 800, high: 1500 },
     comfortHome: { low: 500, high: 2500 },
-    federal25c: { low: 2000, high: 2000 },
-    coned: { low: 500, high: 1000 },
+    fed25c: { cap: 2000, group: "heatPumpGroup" },
+    heehraCap: 8000,
+    typicalCost: { low: 5000, high: 15000 },
+    typicalTons: { low: 1, high: 3 },
   },
   "heat-pump-water-heater": {
     label: "Heat pump water heater",
-    nyserda: { low: 700, high: 1000 },
+    cleanHeatPerTon: null,
     comfortHome: { low: 0, high: 0 },
-    federal25c: { low: 600, high: 600 },
-    coned: { low: 0, high: 250 },
+    fed25c: { cap: 2000, group: "hpwh" },
+    heehraCap: 1750,
+    typicalCost: { low: 2500, high: 5000 },
+    typicalTons: null,
   },
   "high-efficiency-furnace": {
     label: "High-efficiency gas furnace (95%+ AFUE)",
-    nyserda: { low: 0, high: 0 },
+    cleanHeatPerTon: null,
     comfortHome: { low: 0, high: 0 },
-    federal25c: { low: 600, high: 600 },
-    coned: { low: 0, high: 0 },
+    fed25c: { cap: 600, group: "envelope" },
+    heehraCap: 0,
+    typicalCost: { low: 4000, high: 8000 },
+    typicalTons: null,
   },
   "high-efficiency-boiler": {
     label: "High-efficiency gas boiler (95%+ AFUE)",
-    nyserda: { low: 0, high: 0 },
+    cleanHeatPerTon: null,
     comfortHome: { low: 0, high: 0 },
-    federal25c: { low: 600, high: 600 },
-    coned: { low: 0, high: 0 },
+    fed25c: { cap: 600, group: "envelope" },
+    heehraCap: 0,
+    typicalCost: { low: 6000, high: 12000 },
+    typicalTons: null,
   },
   "central-ac": {
     label: "Central air conditioning",
-    nyserda: { low: 0, high: 0 },
+    cleanHeatPerTon: null,
     comfortHome: { low: 0, high: 0 },
-    federal25c: { low: 600, high: 600 },
-    coned: { low: 0, high: 250 },
+    fed25c: { cap: 600, group: "envelope" },
+    heehraCap: 0,
+    typicalCost: { low: 6000, high: 12000 },
+    typicalTons: null,
   },
-} as const;
+};
 
 type SystemKey = keyof typeof SYSTEMS;
 
@@ -77,6 +113,12 @@ const HEATING_FUELS = [
   { value: "propane", label: "Propane" },
 ];
 
+const INCOME_TIERS = [
+  { value: "above", label: "Above 80% Area Median Income (standard)" },
+  { value: "moderate", label: "60-80% AMI (moderate income)" },
+  { value: "low", label: "Below 60% AMI (low income)" },
+];
+
 const leadSchema = z.object({
   name: z.string().trim().min(1, "Please enter your name").max(100),
   email: z.string().trim().email("Enter a valid email").max(255),
@@ -84,16 +126,67 @@ const leadSchema = z.object({
   zip: z.string().trim().regex(/^\d{5}(-\d{4})?$/, "Enter a valid ZIP"),
 });
 
-const fmt = (n: number) => `$${n.toLocaleString()}`;
+const fmt = (n: number) => `$${Math.round(n).toLocaleString()}`;
 
-const buildEstimates = (system: SystemKey): ProgramEstimate[] => {
+const buildEstimates = (
+  system: SystemKey,
+  projectCost: number | null,
+  tons: number | null,
+  income: string,
+): ProgramEstimate[] => {
   const s = SYSTEMS[system];
-  return [
-    { name: "NYSERDA Clean Heat", range: s.nyserda, notes: "Heat pump rebates via your utility" },
-    { name: "NYS Comfort Home", range: s.comfortHome, notes: "Whole-home electrification package" },
-    { name: "Federal 25C tax credit", range: s.federal25c, notes: "30% of project cost up to cap" },
-    { name: "Con Edison rebates", range: s.coned, notes: "Local utility instant rebates" },
-  ].filter((p) => p.range.high > 0);
+  const programs: ProgramEstimate[] = [];
+
+  // 1. NYSERDA Clean Heat (delivered via utility — Con Ed, National Grid, etc.)
+  if (s.cleanHeatPerTon) {
+    const t = tons ?? ((s.typicalTons!.low + s.typicalTons!.high) / 2);
+    programs.push({
+      name: "NYSERDA Clean Heat (via utility)",
+      range: {
+        low: Math.round(t * s.cleanHeatPerTon.low),
+        high: Math.round(t * s.cleanHeatPerTon.high),
+      },
+      notes: `${t} tons × $${s.cleanHeatPerTon.low}-$${s.cleanHeatPerTon.high}/ton. Delivered by Con Edison or your utility.`,
+    });
+  }
+
+  // 2. Comfort Home (only if qualifying package — show as conditional)
+  if (s.comfortHome.high > 0) {
+    programs.push({
+      name: "NYS Comfort Home (if qualifying package)",
+      range: s.comfortHome,
+      notes: "Requires participating contractor + 2+ qualifying measures (insulation, air sealing, heat pump).",
+    });
+  }
+
+  // 3. Federal 25C — 30% of project cost up to cap
+  if (s.fed25c.cap > 0) {
+    const costLow = projectCost ?? s.typicalCost.low;
+    const costHigh = projectCost ?? s.typicalCost.high;
+    const low = Math.min(costLow * 0.3, s.fed25c.cap);
+    const high = Math.min(costHigh * 0.3, s.fed25c.cap);
+    const groupNote = s.fed25c.group === "heatPumpGroup" || s.fed25c.group === "hpwh"
+      ? " Heat pumps & HPWH share a single $2,000 annual cap."
+      : "";
+    programs.push({
+      name: "Federal 25C tax credit",
+      range: { low: Math.round(low), high: Math.round(high) },
+      notes: `30% of project cost, capped at ${fmt(s.fed25c.cap)}.${groupNote}`,
+    });
+  }
+
+  // 4. IRA HEEHRA (income-qualified only)
+  if (income !== "above" && s.heehraCap > 0) {
+    const pct = income === "low" ? 1.0 : 0.5; // 100% for <60% AMI, 50% for 60-80% AMI
+    const amount = Math.round(s.heehraCap * pct);
+    programs.push({
+      name: "IRA HEEHRA / EmPower+ (income-qualified)",
+      range: { low: amount, high: amount },
+      notes: `Up to ${pct * 100}% of cost, capped at ${fmt(amount)}. NY rollout via NYSERDA — availability varies.`,
+    });
+  }
+
+  return programs;
 };
 
 export const RebateEstimator = () => {
@@ -101,19 +194,33 @@ export const RebateEstimator = () => {
   const [system, setSystem] = useState<SystemKey | "">("");
   const [homeType, setHomeType] = useState("");
   const [currentHeating, setCurrentHeating] = useState("");
+  const [income, setIncome] = useState("above");
+  const [projectCost, setProjectCost] = useState("");
+  const [tons, setTons] = useState("");
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [lead, setLead] = useState({ name: "", email: "", phone: "", zip: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const estimates = useMemo(() => (system ? buildEstimates(system) : []), [system]);
+  const sysDef = system ? SYSTEMS[system] : null;
+  const showTons = sysDef?.cleanHeatPerTon != null;
+
+  const parsedCost = projectCost ? Number(projectCost.replace(/[^0-9.]/g, "")) : null;
+  const parsedTons = tons ? Number(tons) : null;
+
+  const estimates = useMemo(
+    () => (system ? buildEstimates(system, parsedCost, parsedTons, income) : []),
+    [system, parsedCost, parsedTons, income],
+  );
+
+  // Total: sum non-conditional rebates only (Comfort Home is conditional, but we include in range)
   const total = useMemo(
     () => estimates.reduce(
       (acc, p) => ({ low: acc.low + p.range.low, high: acc.high + p.range.high }),
-      { low: 0, high: 0 }
+      { low: 0, high: 0 },
     ),
-    [estimates]
+    [estimates],
   );
 
   const showResults = system && homeType;
@@ -172,11 +279,13 @@ export const RebateEstimator = () => {
         </div>
         <div>
           <h3 className="font-bold text-lg md:text-xl">NY rebate estimator</h3>
-          <p className="text-sm text-muted-foreground">See what your project may qualify for in under 30 seconds.</p>
+          <p className="text-sm text-muted-foreground">
+            Top-of-funnel estimate based on current NY & federal programs. Not a quote.
+          </p>
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-3 gap-4 mb-5">
+      <div className="grid sm:grid-cols-3 gap-4 mb-4">
         <div>
           <Label htmlFor="system">System you're considering</Label>
           <Select value={system} onValueChange={(v) => setSystem(v as SystemKey)}>
@@ -208,6 +317,51 @@ export const RebateEstimator = () => {
         </div>
       </div>
 
+      {system && (
+        <div className="grid sm:grid-cols-3 gap-4 mb-5">
+          <div>
+            <Label htmlFor="cost">Est. project cost <span className="text-muted-foreground">(optional)</span></Label>
+            <Input
+              id="cost"
+              type="text"
+              inputMode="numeric"
+              placeholder={`e.g. ${sysDef?.typicalCost.low.toLocaleString()}`}
+              value={projectCost}
+              onChange={(e) => setProjectCost(e.target.value)}
+              className="mt-1.5"
+            />
+            <p className="text-xs text-muted-foreground mt-1">Used for accurate 30% federal credit math.</p>
+          </div>
+          {showTons && (
+            <div>
+              <Label htmlFor="tons">System size (tons) <span className="text-muted-foreground">(optional)</span></Label>
+              <Input
+                id="tons"
+                type="number"
+                min={0.5}
+                max={10}
+                step={0.5}
+                placeholder={`e.g. ${sysDef?.typicalTons?.low}`}
+                value={tons}
+                onChange={(e) => setTons(e.target.value)}
+                className="mt-1.5"
+              />
+              <p className="text-xs text-muted-foreground mt-1">NYSERDA Clean Heat pays $/ton.</p>
+            </div>
+          )}
+          <div>
+            <Label htmlFor="income">Household income</Label>
+            <Select value={income} onValueChange={setIncome}>
+              <SelectTrigger id="income" className="mt-1.5"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {INCOME_TIERS.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground mt-1">Unlocks EmPower+ / HEEHRA rebates.</p>
+          </div>
+        </div>
+      )}
+
       {showResults && estimates.length > 0 && (
         <div className="border-t border-border pt-5">
           <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
@@ -229,9 +383,13 @@ export const RebateEstimator = () => {
               </li>
             ))}
           </ul>
-          <p className="text-xs text-muted-foreground mb-5">
-            Estimates only. Final rebate amounts depend on equipment selected, contractor enrollment, household income, and current program funding.
-          </p>
+
+          <div className="flex items-start gap-2 bg-muted/50 border border-border rounded-md p-3 mb-5">
+            <Info className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              <strong>Estimates only — not a quote.</strong> Final amounts depend on equipment selected, contractor enrollment in each program, system size, household income verification, your utility territory, and current program funding levels. NYSERDA Clean Heat is delivered through your utility (Con Edison, National Grid, etc.) and is not stacked on top of utility rebates. Federal 25C heat pump and heat pump water heater credits share a single $2,000 annual cap. We'll verify your exact eligibility when we quote your project.
+            </p>
+          </div>
 
           {!showLeadForm && !submitted && (
             <Button onClick={() => setShowLeadForm(true)} className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-bold">

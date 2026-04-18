@@ -6,6 +6,7 @@ import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
 import { RebateEstimator } from "@/components/RebateEstimator";
 import { SITE, SERVICES } from "@/lib/site";
+import { NY_SYSTEMS } from "@/lib/nySystems";
 import heroTechnician from "@/assets/hero-technician.webp";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
 import jobBoiler from "@/assets/job-boiler-install.webp";
@@ -192,58 +193,20 @@ const Index = () => {
           <p className="mt-3 text-muted-foreground">Westchester and the Hudson Valley see frigid winters and hot, humid summers. These are the systems we install most often — and what they're best suited for.</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {[
-            {
-              img: jobBoilerAfter,
-              alt: "High-efficiency gas boiler installation in a Westchester home basement",
-              title: "High-efficiency gas boilers",
-              desc: "The workhorse of NY winters. Modern condensing boilers (Weil-McLain, Navien, Buderus) deliver 90%+ AFUE efficiency for hydronic baseboard and radiator systems common in older Westchester homes.",
-              best: "Best for: existing hot-water heat, multi-family, oversized older homes",
-            },
-            {
-              img: jobMitsubishi,
-              alt: "Mitsubishi ductless mini-split heat pump exterior unit",
-              title: "Ductless mini-split heat pumps",
-              desc: "Mitsubishi and Daikin cold-climate heat pumps now heat efficiently down to -13°F — qualifying for NYS Clean Heat rebates. Ideal for homes without ductwork, additions, and finished basements or attics.",
-              best: "Best for: zoned comfort, no-duct retrofits, electrification rebates",
-            },
-            {
-              img: jobMiniSplit,
-              alt: "Whole-home air-source heat pump exterior condenser",
-              title: "Whole-home air-source heat pumps",
-              desc: "Centrally-ducted heat pumps replace traditional AC + furnace combos with one all-electric system. Eligible for federal 25C tax credits and NYSERDA Comfort Home incentives.",
-              best: "Best for: full electrification, ducted homes, long-term energy savings",
-            },
-            {
-              img: heroTechnician,
-              alt: "Outdoor central air conditioning condenser unit",
-              title: "Central air conditioning",
-              desc: "Carrier, Lennox, and Trane condensers paired with matched coils keep humidity low through July and August. We size to Manual J — never just by square footage — to avoid short-cycling.",
-              best: "Best for: existing forced-air homes, whole-house cooling",
-            },
-            {
-              img: jobBoilerBefore,
-              alt: "Gas furnace installation in a residential utility room",
-              title: "High-efficiency gas furnaces",
-              desc: "For ducted homes that want fast, powerful heat, a 95%+ AFUE two-stage furnace pairs perfectly with central AC. Reliable in NY's coldest stretches when heat pumps need backup.",
-              best: "Best for: ducted homes, dual-fuel systems, fast recovery",
-            },
-            {
-              img: jobWaterHeater,
-              alt: "Heat pump water heater installation",
-              title: "Heat pump water heaters",
-              desc: "Hybrid electric units (Rheem, AO Smith, Bradley White) use 60% less energy than standard tanks. NYSERDA offers rebates up to $700 for qualifying installations.",
-              best: "Best for: basement installs, lowering electric bills, going all-electric",
-            },
-          ].map((s) => (
-            <article key={s.title} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col">
-              <img src={s.img} alt={s.alt} loading="lazy" className="aspect-[16/10] w-full object-cover" />
+          {NY_SYSTEMS.map((s) => (
+            <Link
+              key={s.slug}
+              to={`/services/${s.slug}`}
+              className="bg-card border border-border rounded-lg overflow-hidden flex flex-col hover:border-accent hover:shadow-md transition-all group"
+            >
+              <img src={s.card.img} alt={s.card.alt} loading="lazy" className="aspect-[16/10] w-full object-cover" />
               <div className="p-6 flex flex-col flex-1">
-                <h3 className="font-bold text-lg mb-2">{s.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{s.desc}</p>
-                <div className="text-xs font-semibold text-accent mt-auto">{s.best}</div>
+                <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">{s.card.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{s.card.desc}</p>
+                <div className="text-xs font-semibold text-accent mt-auto">{s.card.best}</div>
+                <div className="text-sm text-accent font-semibold mt-3">Learn more →</div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
         <div className="mt-8">

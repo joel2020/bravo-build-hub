@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import About from "./pages/About.tsx";
 import Services from "./pages/Services.tsx";
+import NYSystem from "./pages/NYSystem.tsx";
 import ServiceAreas from "./pages/ServiceAreas.tsx";
 import Reviews from "./pages/Reviews.tsx";
 import Contact from "./pages/Contact.tsx";
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:slug" element={<NYSystem />} />
           <Route path="/service-areas" element={<ServiceAreas />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/contact" element={<Contact />} />

@@ -7,6 +7,7 @@ import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
 import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
+import jobGasFurnace from "@/assets/job-gas-furnace.jpg";
 import heroTechnician from "@/assets/hero-technician.webp";
 
 export type NYSystem = {
@@ -181,7 +182,7 @@ export const NY_SYSTEMS: NYSystem[] = [
   {
     slug: "gas-furnaces",
     card: {
-      img: jobBoilerBefore,
+      img: jobGasFurnace,
       alt: "Gas furnace installation in a residential utility room",
       title: "High-efficiency gas furnaces",
       desc: "For ducted homes that want fast, powerful heat, a 95%+ AFUE two-stage furnace pairs perfectly with central AC. Reliable in NY's coldest stretches when heat pumps need backup.",
@@ -198,7 +199,7 @@ export const NY_SYSTEMS: NYSystem[] = [
         "Every install includes new PVC venting, condensate handling, and combustion analysis at start-up to lock in advertised efficiency.",
       ],
       gallery: [
-        { src: jobBoilerBefore, alt: "Gas furnace installation in a utility room" },
+        { src: jobGasFurnace, alt: "High-efficiency two-stage gas furnace installed in a residential basement" },
         { src: jobBoiler, alt: "High-efficiency gas heating equipment install" },
         { src: jobOilTank, alt: "Furnace venting and gas piping" },
       ],

@@ -15,7 +15,6 @@ import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
 import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
-import teamEquipment from "@/assets/team-equipment.jpg";
 
 const Index = () => {
   return (

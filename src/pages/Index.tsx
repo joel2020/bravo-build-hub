@@ -126,15 +126,11 @@ const Index = () => {
               ))}
             </ul>
           </div>
-          <div className="aspect-square rounded-lg overflow-hidden border border-border shadow-lg">
-            <img
-              src={teamEquipment}
-              alt="Bravo Mechanical HVAC technician in navy uniform standing beside an outdoor AC condenser and service van at a Westchester County home"
-              loading="lazy"
-              width={1024}
-              height={1024}
-              className="h-full w-full object-cover"
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <img src={jobBoilerAfter} alt="New Weil-McLain gas boiler installed with clean copper piping" loading="lazy" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobMitsubishi} alt="Mitsubishi ductless mini-split exterior unit install" loading="lazy" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobWaterHeater} alt="AO Smith water heater installation" loading="lazy" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobOilTank} alt="Roth oil tank piping and gauge work" loading="lazy" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
           </div>
         </div>
       </section>

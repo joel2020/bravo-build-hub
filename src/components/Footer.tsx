@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { SITE, SERVICES } from "@/lib/site";
+import logo from "@/assets/logo-bravo.webp";
 
 export const Footer = () => {
   const year = new Date().getFullYear();
@@ -9,7 +10,9 @@ export const Footer = () => {
       <div className="container mx-auto px-4 py-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <div className="h-10 w-10 rounded bg-primary-foreground text-primary flex items-center justify-center font-extrabold text-lg">B</div>
+            <div className="h-10 w-10 rounded bg-primary-foreground flex items-center justify-center p-1">
+              <img src={logo} alt="Bravo Mechanical logo" className="h-full w-full object-contain" />
+            </div>
             <div className="font-extrabold text-lg">Bravo Mechanical</div>
           </div>
           <p className="text-sm text-primary-foreground/80">Serving all of Westchester County, NY.</p>

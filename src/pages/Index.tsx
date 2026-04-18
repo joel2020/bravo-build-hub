@@ -5,7 +5,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
 import { SITE, SERVICES } from "@/lib/site";
-import heroTechnician from "@/assets/hero-technician.jpg";
+import heroTechnician from "@/assets/hero-technician.webp";
+import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
+import jobBoiler from "@/assets/job-boiler-install.webp";
+import jobWaterHeater from "@/assets/job-water-heater.webp";
+import jobOilTank from "@/assets/job-oil-tank.webp";
+import jobRadiator from "@/assets/job-radiator-repair.webp";
+import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
+import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 
 const Index = () => {
   return (
@@ -129,11 +136,11 @@ const Index = () => {
       <section className="container mx-auto px-4 py-16 lg:py-24">
         <div className="grid md:grid-cols-2 gap-6">
           {[
-            { title: "Residential HVAC", text: "Heating and cooling for single-family homes, condos, and multi-family properties across Westchester County.", points: ["Furnace & boiler service", "Central AC and ductless mini-splits", "Heat pumps & thermostats", "Air quality & humidity control"] },
-            { title: "Commercial HVAC", text: "Reliable HVAC service for offices, retail, restaurants, and light-industrial facilities.", points: ["Rooftop units", "Service contracts", "Preventive maintenance", "Emergency response"] },
+            { title: "Residential HVAC", img: jobMitsubishi, text: "Heating and cooling for single-family homes, condos, and multi-family properties across Westchester County.", points: ["Furnace & boiler service", "Central AC and ductless mini-splits", "Heat pumps & thermostats", "Air quality & humidity control"] },
+            { title: "Commercial HVAC", img: jobRadiator, text: "Reliable HVAC service for offices, retail, restaurants, and light-industrial facilities.", points: ["Rooftop units", "Service contracts", "Preventive maintenance", "Emergency response"] },
           ].map((c) => (
             <div key={c.title} className="bg-card border border-border rounded-lg overflow-hidden">
-              <div className="aspect-[16/9] bg-muted flex items-center justify-center text-muted-foreground text-sm">Photo placeholder</div>
+              <img src={c.img} alt={c.title} loading="lazy" className="aspect-[16/9] w-full object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2">{c.title}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{c.text}</p>
@@ -180,10 +187,17 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-extrabold">Recent installs and service jobs</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="aspect-square bg-muted border border-border rounded flex items-center justify-center text-xs text-muted-foreground">
-              Photo {i + 1}
-            </div>
+          {[
+            { src: jobMitsubishi, alt: "Mitsubishi ductless mini-split exterior unit install" },
+            { src: jobBoiler, alt: "Roth oil tank and boiler installation" },
+            { src: jobWaterHeater, alt: "AO Smith water heater installation" },
+            { src: jobOilTank, alt: "Roth oil tank piping and gauge work" },
+            { src: jobRadiator, alt: "Commercial radiator and copper piping repair" },
+            { src: jobMiniSplit, alt: "Exterior heat pump install on residential home" },
+            { src: heroTechnician, alt: "Outdoor AC condenser install on patio" },
+            { src: jobExteriorWhite, alt: "Exterior service work on a white-sided home" },
+          ].map((p, i) => (
+            <img key={i} src={p.src} alt={p.alt} loading="lazy" className="aspect-square w-full object-cover rounded border border-border" />
           ))}
         </div>
       </section>

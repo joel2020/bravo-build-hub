@@ -4,6 +4,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo-bravo.webp";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -22,9 +23,7 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 lg:h-20 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setOpen(false)}>
-            <div className="h-10 w-10 rounded bg-primary text-primary-foreground flex items-center justify-center font-extrabold text-lg">
-              B
-            </div>
+            <img src={logo} alt="Bravo Mechanical logo" className="h-10 w-10 object-contain" />
             <div className="leading-tight">
               <div className="font-extrabold text-lg text-foreground">Bravo Mechanical</div>
               <div className="text-[11px] text-muted-foreground hidden sm:block uppercase tracking-wider">HVAC • Westchester County</div>

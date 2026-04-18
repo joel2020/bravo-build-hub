@@ -14,7 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      rebate_estimates: {
+        Row: {
+          created_at: string
+          current_heating: string | null
+          email: string
+          estimated_total: number
+          home_type: string
+          id: string
+          name: string
+          phone: string | null
+          programs: Json
+          system_type: string
+          zip: string
+        }
+        Insert: {
+          created_at?: string
+          current_heating?: string | null
+          email: string
+          estimated_total?: number
+          home_type: string
+          id?: string
+          name: string
+          phone?: string | null
+          programs?: Json
+          system_type: string
+          zip: string
+        }
+        Update: {
+          created_at?: string
+          current_heating?: string | null
+          email?: string
+          estimated_total?: number
+          home_type?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          programs?: Json
+          system_type?: string
+          zip?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

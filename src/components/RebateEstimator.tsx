@@ -60,8 +60,8 @@ const SYSTEMS: Record<string, SystemDef> = {
     typicalCost: { low: 5000, high: 15000 },
     typicalTons: { low: 1, high: 3 },
   },
-  "heat-pump-water-heater": {
-    label: "Heat pump water heater",
+  "water-heater": {
+    label: "Water heater (hybrid heat pump)",
     cleanHeatPerTon: null,
     comfortHome: { low: 0, high: 0 },
     fed25c: { cap: 2000, group: "hpwh" },

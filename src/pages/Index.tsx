@@ -15,6 +15,7 @@ import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
 import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
+import teamEquipment from "@/assets/team-equipment.jpg";
 
 const Index = () => {
   return (
@@ -126,10 +127,15 @@ const Index = () => {
               ))}
             </ul>
           </div>
-          <div className="aspect-square rounded-lg bg-muted border border-border flex items-center justify-center text-muted-foreground">
-            <div className="text-center px-6">
-              <div className="text-sm font-medium">Team / equipment photo placeholder</div>
-            </div>
+          <div className="aspect-square rounded-lg overflow-hidden border border-border shadow-lg">
+            <img
+              src={teamEquipment}
+              alt="Bravo Mechanical HVAC technician in navy uniform standing beside an outdoor AC condenser and service van at a Westchester County home"
+              loading="lazy"
+              width={1024}
+              height={1024}
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
       </section>

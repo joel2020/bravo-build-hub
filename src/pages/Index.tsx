@@ -378,6 +378,97 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Recent Projects in Westchester */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="max-w-2xl mb-10">
+          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Recent Work</div>
+          <h2 className="text-3xl md:text-4xl font-extrabold">Recent Projects in Westchester County</h2>
+          <p className="mt-3 text-muted-foreground">
+            Real boiler replacements, burner service, and gas system work completed by our local Westchester techs. Every job is permitted, code-compliant, and built to last.
+          </p>
+        </div>
+
+        <article className="bg-card border border-border rounded-lg overflow-hidden mb-8">
+          <div className="grid md:grid-cols-2">
+            <figure className="relative">
+              <img
+                src={projectBoilerBefore}
+                alt="Old failing Dunkirk oil boiler with rusted heat exchanger and damaged insulation before replacement in a Westchester County, NY basement"
+                loading="lazy"
+                className="w-full h-72 md:h-full object-cover"
+              />
+              <figcaption className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 rounded">
+                Before
+              </figcaption>
+            </figure>
+            <figure className="relative">
+              <img
+                src={projectBoilerAfter}
+                alt="New Weil-McLain high-efficiency gas boiler installation with clean piping in a Westchester County, NY home"
+                loading="lazy"
+                className="w-full h-72 md:h-full object-cover"
+              />
+              <figcaption className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 rounded">
+                After
+              </figcaption>
+            </figure>
+          </div>
+          <div className="p-6">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+              <MapPin className="h-3.5 w-3.5 text-accent" />
+              <span>Westchester County, NY</span>
+              <span aria-hidden="true">•</span>
+              <span>Boiler Replacement</span>
+            </div>
+            <h3 className="text-xl font-extrabold mb-2">Full oil-to-gas boiler conversion</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              <strong>Problem:</strong> An aging Dunkirk oil boiler with a deteriorating heat exchanger and failed insulation was no longer safe or efficient — high fuel bills and frequent service calls.{" "}
+              <strong>Solution:</strong> We removed the old unit and installed a new Weil-McLain high-efficiency gas boiler with clean copper piping, proper venting, and a fresh chimney liner. Result: lower fuel costs, quieter operation, and a system the homeowner can trust for the next 20+ years.
+            </p>
+          </div>
+        </article>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              img: projectBurnerService,
+              alt: "Bravo Mechanical technician servicing a blue oil-fired boiler with Beckett burner and expansion tank in a Westchester County, NY basement",
+              tag: "Burner Service",
+              title: "Oil burner overhaul & tune-up",
+              desc: "Full burner teardown, nozzle and electrode replacement, combustion analysis, and safety check on a residential oil-fired boiler.",
+            },
+            {
+              img: projectBeckettBurner,
+              alt: "Close-up of a Beckett oil burner and service switch on a residential heating system serviced by Bravo Mechanical in Westchester County, NY",
+              tag: "Diagnostic & Repair",
+              title: "Beckett burner diagnostic",
+              desc: "No-heat call resolved with a full burner diagnostic, control board test, and replacement parts — system back online same day.",
+            },
+            {
+              img: projectGasBoiler,
+              alt: "Compact green gas-fired boiler with red expansion tank and natural gas piping installed by Bravo Mechanical in a Westchester County, NY home",
+              tag: "Gas Boiler",
+              title: "Compact gas boiler install",
+              desc: "Tight basement install: new gas-fired boiler with expansion tank, code-compliant gas piping, and clean venting to suit a small mechanical room.",
+            },
+          ].map((p) => (
+            <article key={p.title} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col">
+              <img src={p.img} alt={p.alt} loading="lazy" className="w-full h-56 object-cover" />
+              <div className="p-5 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                  <MapPin className="h-3.5 w-3.5 text-accent" />
+                  <span>Westchester County, NY</span>
+                  <span aria-hidden="true">•</span>
+                  <span>{p.tag}</span>
+                </div>
+                <h3 className="font-extrabold mb-2">{p.title}</h3>
+                <p className="text-sm text-muted-foreground flex-1">{p.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <CTABand />
     </Layout>
   );

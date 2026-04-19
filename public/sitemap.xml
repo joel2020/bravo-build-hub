@@ -72,4 +72,9 @@
   <url><loc>https://bravo-build-hub.lovable.app/services/commercial/scarsdale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/reviews</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/blog</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/blog/winter-furnace-prep-westchester</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/blog/ny-heat-pump-rebates-2025</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/blog/why-is-my-boiler-short-cycling</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/blog/hvac-permits-yonkers-guide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

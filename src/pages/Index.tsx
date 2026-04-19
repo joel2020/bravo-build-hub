@@ -446,10 +446,10 @@ const Index = () => {
             },
             {
               img: projectGasBoiler,
-              alt: "Compact green gas-fired boiler with red expansion tank and natural gas piping installed by Bravo Mechanical in a Westchester County, NY home",
-              tag: "Gas Boiler",
-              title: "Compact gas boiler install",
-              desc: "Tight basement install: new gas-fired boiler with expansion tank, code-compliant gas piping, and clean venting to suit a small mechanical room.",
+              alt: "Gas-fired boiler with expansion tank serviced and maintained by Bravo Mechanical in a Westchester County, NY home",
+              tag: "Maintenance & Service",
+              title: "Gas boiler maintenance & service",
+              desc: "Annual gas boiler service: combustion analysis, expansion tank pressure check, gas valve and control inspection, and full safety check to keep the system running efficiently.",
             },
           ].map((p) => (
             <article key={p.title} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col">

@@ -432,17 +432,17 @@ const Index = () => {
           {[
             {
               img: projectBurnerService,
-              alt: "Bravo Mechanical technician servicing a blue oil-fired boiler with Beckett burner and expansion tank in a Westchester County, NY basement",
-              tag: "Burner Service",
-              title: "Oil burner overhaul & tune-up",
-              desc: "Full burner teardown, nozzle and electrode replacement, combustion analysis, and safety check on a residential oil-fired boiler.",
+              alt: "Bravo Mechanical technician performing oil boiler service on a blue oil-fired boiler with Beckett burner and expansion tank in a Westchester County, NY basement",
+              tag: "Maintenance & Service",
+              title: "Oil boiler service & maintenance",
+              desc: "Annual oil boiler maintenance: burner teardown and cleaning, nozzle and electrode replacement, combustion analysis, and full safety check to keep the system running efficiently.",
             },
             {
               img: projectBeckettBurner,
-              alt: "Close-up of a Beckett oil burner and service switch on a residential heating system serviced by Bravo Mechanical in Westchester County, NY",
-              tag: "Diagnostic & Repair",
-              title: "Beckett burner diagnostic",
-              desc: "No-heat call resolved with a full burner diagnostic, control board test, and replacement parts — system back online same day.",
+              alt: "Close-up of a Beckett oil burner and service switch on a residential oil boiler serviced and maintained by Bravo Mechanical in Westchester County, NY",
+              tag: "Maintenance & Service",
+              title: "Beckett oil burner tune-up",
+              desc: "Routine oil boiler maintenance: full Beckett burner service, control board test, filter and nozzle replacement, and combustion tuning for clean, efficient operation.",
             },
             {
               img: projectGasBoiler,

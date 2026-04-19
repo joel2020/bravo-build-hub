@@ -12,6 +12,10 @@ import ServiceAreas from "./pages/ServiceAreas.tsx";
 import CityPage from "./pages/CityPage.tsx";
 import Reviews from "./pages/Reviews.tsx";
 import Contact from "./pages/Contact.tsx";
+import Blog from "./pages/Blog.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
+import Auth from "./pages/Auth.tsx";
+import AdminComments from "./pages/AdminComments.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -31,7 +35,11 @@ const App = () => (
           <Route path="/service-areas" element={<ServiceAreas />} />
           <Route path="/service-areas/:slug" element={<CityPage />} />
           <Route path="/reviews" element={<Reviews />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/admin/comments" element={<AdminComments />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

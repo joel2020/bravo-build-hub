@@ -19,6 +19,11 @@ import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
 import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
 import jobResidentialHvac from "@/assets/job-residential-hvac.jpg";
+import projectBoilerBefore from "@/assets/project-boiler-before.png";
+import projectBoilerAfter from "@/assets/project-boiler-after.png";
+import projectBurnerService from "@/assets/project-burner-service.png";
+import projectBeckettBurner from "@/assets/project-beckett-burner.png";
+import projectGasBoiler from "@/assets/project-gas-boiler.png";
 
 const Index = () => {
   useEffect(() => {

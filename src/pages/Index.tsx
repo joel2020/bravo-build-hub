@@ -91,6 +91,33 @@ const Index = () => {
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Free estimates</span>
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Local techs</span>
             </div>
+            <div className="mt-6">
+              <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Local HVAC service in</div>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { name: "Yonkers", slug: "yonkers" },
+                  { name: "White Plains", slug: "white-plains" },
+                  { name: "New Rochelle", slug: "new-rochelle" },
+                  { name: "Mount Vernon", slug: "mount-vernon" },
+                  { name: "Scarsdale", slug: "scarsdale" },
+                ].map((c) => (
+                  <Link
+                    key={c.slug}
+                    to={`/service-areas/${c.slug}`}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold bg-card border border-border rounded-full px-3 py-1.5 hover:border-accent hover:text-accent transition-colors"
+                  >
+                    <MapPin className="h-3.5 w-3.5 text-accent" />
+                    {c.name}
+                  </Link>
+                ))}
+                <Link
+                  to="/service-areas"
+                  className="inline-flex items-center text-sm font-semibold text-accent px-2 py-1.5 hover:underline"
+                >
+                  View all →
+                </Link>
+              </div>
+            </div>
             <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 bg-white dark:bg-card border border-border rounded-full px-4 py-2 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center gap-1">
                 <span className="font-bold text-foreground">5.0</span>

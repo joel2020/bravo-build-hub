@@ -7,8 +7,8 @@ export const Footer = () => {
   const year = new Date().getFullYear();
   return (
     <footer className="bg-primary text-primary-foreground mt-16">
-      <div className="container mx-auto px-4 py-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-        <div>
+      <div className="container mx-auto px-4 py-12 grid gap-10 md:grid-cols-2 lg:grid-cols-5">
+        <div className="lg:col-span-1">
           <div className="flex items-center gap-2 mb-3">
             <div className="h-10 w-10 rounded bg-primary-foreground flex items-center justify-center p-1">
               <img src={logo} alt="Bravo Mechanical logo" className="h-full w-full object-contain" />
@@ -27,6 +27,30 @@ export const Footer = () => {
                 <Link to="/services" className="text-primary-foreground/80 hover:text-primary-foreground">{s.title}</Link>
               </li>
             ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Service Areas</h3>
+          <ul className="space-y-2 text-sm">
+            {[
+              { name: "Yonkers", slug: "yonkers" },
+              { name: "White Plains", slug: "white-plains" },
+              { name: "New Rochelle", slug: "new-rochelle" },
+              { name: "Mount Vernon", slug: "mount-vernon" },
+              { name: "Scarsdale", slug: "scarsdale" },
+            ].map((c) => (
+              <li key={c.slug}>
+                <Link to={`/service-areas/${c.slug}`} className="text-primary-foreground/80 hover:text-primary-foreground">
+                  HVAC {c.name}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link to="/service-areas" className="text-primary-foreground font-semibold hover:underline">
+                View all areas →
+              </Link>
+            </li>
           </ul>
         </div>
 

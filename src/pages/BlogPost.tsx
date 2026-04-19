@@ -63,7 +63,7 @@ const BlogPost = () => {
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4">{post.title}</h1>
           <p className="text-lg text-muted-foreground mb-4">{post.excerpt}</p>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
             <span>By {post.author}</span>
             <span className="inline-flex items-center gap-1">
               <Calendar className="h-4 w-4" />
@@ -80,6 +80,16 @@ const BlogPost = () => {
               </span>
             )}
           </div>
+          {post.cover && (
+            <img
+              src={post.cover}
+              alt={post.title}
+              width={1600}
+              height={896}
+              fetchPriority="high"
+              className="w-full h-auto rounded-lg border border-border shadow-sm aspect-[16/9] object-cover"
+            />
+          )}
         </header>
 
         <div className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-foreground prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-p:text-foreground prose-p:leading-relaxed prose-a:text-primary prose-strong:text-foreground prose-li:text-foreground prose-table:text-sm">

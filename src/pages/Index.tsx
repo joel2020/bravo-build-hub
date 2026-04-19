@@ -73,10 +73,10 @@ const Index = () => {
               <MapPin className="h-4 w-4" /> Serving Westchester County, NY
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.05]">
-              Reliable HVAC Service You Can Count On
+              HVAC Westchester County, NY — Heating, Cooling & Repair
             </h1>
             <p className="mt-5 text-lg text-muted-foreground max-w-xl">
-              Bravo Mechanical delivers dependable heating, cooling, and ventilation service for homes and businesses across Westchester County, NY.
+              Bravo Mechanical is your local Westchester County HVAC company — licensed technicians delivering trusted heating, cooling, and ventilation service to homes and businesses from Yonkers to Yorktown.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">

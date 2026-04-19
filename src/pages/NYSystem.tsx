@@ -32,7 +32,45 @@ const NYSystem = () => {
       createdCanonical = true;
     }
     const prevHref = canonical.href;
-    canonical.href = `https://bravo-build-hub.lovable.app/services/${system.slug}`;
+    const pageUrl = `https://bravo-build-hub.lovable.app/services/${system.slug}`;
+    canonical.href = pageUrl;
+
+    // JSON-LD: Service + FAQPage
+    const serviceLd = {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: system.page.title,
+      serviceType: system.card.title,
+      description: system.page.metaDescription,
+      areaServed: { "@type": "AdministrativeArea", name: SITE.area },
+      provider: {
+        "@type": "LocalBusiness",
+        name: SITE.name,
+        telephone: SITE.phone,
+        email: SITE.email,
+        areaServed: SITE.area,
+      },
+      url: pageUrl,
+    };
+    const faqLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: system.page.faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    };
+    const serviceScript = document.createElement("script");
+    serviceScript.type = "application/ld+json";
+    serviceScript.dataset.jsonld = "service";
+    serviceScript.text = JSON.stringify(serviceLd);
+    const faqScript = document.createElement("script");
+    faqScript.type = "application/ld+json";
+    faqScript.dataset.jsonld = "faq";
+    faqScript.text = JSON.stringify(faqLd);
+    document.head.appendChild(serviceScript);
+    document.head.appendChild(faqScript);
 
     return () => {
       document.title = prevTitle;
@@ -41,6 +79,8 @@ const NYSystem = () => {
         if (createdCanonical) canonical.remove();
         else canonical.href = prevHref;
       }
+      serviceScript.remove();
+      faqScript.remove();
     };
   }, [system]);
 

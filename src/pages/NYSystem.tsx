@@ -4,7 +4,7 @@ import { ArrowLeft, CheckCircle2, Phone } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
-import { RebateEstimator } from "@/components/RebateEstimator";
+
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getNYSystem, NY_SYSTEMS } from "@/lib/nySystems";
@@ -173,7 +173,6 @@ const NYSystem = () => {
             </div>
           ))}
         </div>
-        <RebateEstimator />
       </section>
 
       {/* FAQs */}

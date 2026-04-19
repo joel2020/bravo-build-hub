@@ -40,8 +40,10 @@ export function useSeo({ title, description, canonical, image, type = "website",
     upsertMeta('meta[name="twitter:title"]', "name", "twitter:title", title);
     upsertMeta('meta[name="twitter:description"]', "name", "twitter:description", description);
     if (image) {
-      upsertMeta('meta[property="og:image"]', "property", "og:image", image);
-      upsertMeta('meta[name="twitter:image"]', "name", "twitter:image", image);
+      const absoluteImage = image.startsWith("http") ? image : window.location.origin + image;
+      upsertMeta('meta[property="og:image"]', "property", "og:image", absoluteImage);
+      upsertMeta('meta[name="twitter:image"]', "name", "twitter:image", absoluteImage);
+      upsertMeta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
     }
     const url = canonical || window.location.origin + window.location.pathname;
     upsertLink("canonical", url);

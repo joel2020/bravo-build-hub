@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CheckCircle2, Flame, Wrench, Wind, Snowflake, Home, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
+
+const SITE_URL = "https://bravo-build-hub.lovable.app";
 
 const services = [
   {

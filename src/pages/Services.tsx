@@ -116,6 +116,7 @@ const Services = () => {
 
     <CTABand />
   </Layout>
-);
+  );
+};
 
 export default Services;

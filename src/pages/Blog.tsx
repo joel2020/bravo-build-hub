@@ -81,7 +81,17 @@ const Blog = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((post) => (
             <Link key={post.slug} to={`/blog/${post.slug}`} className="group">
-              <Card className="h-full hover:shadow-lg transition-shadow">
+              <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
+                {post.cover && (
+                  <img
+                    src={post.cover}
+                    alt={post.title}
+                    width={1600}
+                    height={896}
+                    loading="lazy"
+                    className="w-full aspect-[16/9] object-cover"
+                  />
+                )}
                 <CardContent className="p-6 flex flex-col h-full">
                   <div className="flex flex-wrap gap-2 mb-3">
                     {post.tags.slice(0, 2).map((t) => (

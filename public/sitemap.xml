@@ -9,7 +9,37 @@
   <url><loc>https://bravo-build-hub.lovable.app/services/central-ac</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/services/gas-furnaces</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/services/water-heaters</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://bravo-build-hub.lovable.app/service-areas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/yonkers</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/white-plains</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/new-rochelle</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/mount-vernon</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/scarsdale</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/rye</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/harrison</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/mamaroneck</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/larchmont</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/bronxville</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/tuckahoe</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/eastchester</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/tarrytown</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/sleepy-hollow</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/ossining</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/peekskill</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/mount-kisco</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/chappaqua</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/pleasantville</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/pound-ridge</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/bedford</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/katonah</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/armonk</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/hastings-on-hudson</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/dobbs-ferry</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/irvington</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/briarcliff-manor</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/croton-on-hudson</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/yorktown</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/service-areas/somers</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/reviews</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

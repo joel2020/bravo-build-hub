@@ -4,8 +4,8 @@ export const SITE = {
   tagline: "Reliable HVAC Service You Can Count On",
   phone: "(914) 361-9142",
   phoneHref: "tel:+19143619142",
-  email: "info@bravomechanical.com",
-  emailHref: "mailto:info@bravomechanical.com",
+  email: "Bravomechanicalllc@gmail.com",
+  emailHref: "mailto:Bravomechanicalllc@gmail.com",
   area: "Westchester County, NY",
   rating: { score: 5.0, count: 5, source: "Google" },
   social: {

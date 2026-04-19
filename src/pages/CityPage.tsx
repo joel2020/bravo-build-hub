@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getCity, CITIES } from "@/lib/cities";
 import { SERVICES, SITE } from "@/lib/site";
+import { isTopCity } from "@/lib/serviceCityCombos";
 
 const SITE_URL = "https://bravo-build-hub.lovable.app";
 
@@ -195,13 +196,18 @@ const CityPage = () => {
             <p className="mt-3 text-muted-foreground">Whatever your heating, cooling, or air-quality need in {city.name}, we handle it in-house — no subcontractors, no run-around.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {SERVICES.map((s) => (
-              <div key={s.slug} className="bg-card border border-border rounded-lg p-5 flex flex-col">
-                <h3 className="font-bold mb-2">{s.title}</h3>
-                <p className="text-sm text-muted-foreground flex-1">{s.description}</p>
-                <Link to="/services" className="text-sm text-accent font-semibold mt-4">View all services →</Link>
-              </div>
-            ))}
+            {SERVICES.map((s) => {
+              const hasCombo = isTopCity(city.slug);
+              const href = hasCombo ? `/services/${s.slug}/${city.slug}` : "/services";
+              const label = hasCombo ? `${s.title} in ${city.name} →` : "View all services →";
+              return (
+                <div key={s.slug} className="bg-card border border-border rounded-lg p-5 flex flex-col">
+                  <h3 className="font-bold mb-2">{s.title}</h3>
+                  <p className="text-sm text-muted-foreground flex-1">{s.description}</p>
+                  <Link to={href} className="text-sm text-accent font-semibold mt-4">{label}</Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

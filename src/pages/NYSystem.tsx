@@ -61,6 +61,15 @@ const NYSystem = () => {
         acceptedAnswer: { "@type": "Answer", text: f.a },
       })),
     };
+    const breadcrumbLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://bravo-build-hub.lovable.app/" },
+        { "@type": "ListItem", position: 2, name: "Services", item: "https://bravo-build-hub.lovable.app/services" },
+        { "@type": "ListItem", position: 3, name: system.card.title, item: pageUrl },
+      ],
+    };
     const serviceScript = document.createElement("script");
     serviceScript.type = "application/ld+json";
     serviceScript.dataset.jsonld = "service";
@@ -69,8 +78,13 @@ const NYSystem = () => {
     faqScript.type = "application/ld+json";
     faqScript.dataset.jsonld = "faq";
     faqScript.text = JSON.stringify(faqLd);
+    const breadcrumbScript = document.createElement("script");
+    breadcrumbScript.type = "application/ld+json";
+    breadcrumbScript.dataset.jsonld = "breadcrumb";
+    breadcrumbScript.text = JSON.stringify(breadcrumbLd);
     document.head.appendChild(serviceScript);
     document.head.appendChild(faqScript);
+    document.head.appendChild(breadcrumbScript);
 
     return () => {
       document.title = prevTitle;
@@ -81,6 +95,7 @@ const NYSystem = () => {
       }
       serviceScript.remove();
       faqScript.remove();
+      breadcrumbScript.remove();
     };
   }, [system]);
 

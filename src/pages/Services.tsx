@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CheckCircle2, Flame, Wrench, Wind, Snowflake, Home, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
+
+const SITE_URL = "https://bravo-build-hub.lovable.app";
 
 const services = [
   {
@@ -50,7 +53,25 @@ const services = [
   },
 ];
 
-const Services = () => (
+const Services = () => {
+  useEffect(() => {
+    const breadcrumbLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
+      ],
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.dataset.jsonld = "breadcrumb";
+    script.text = JSON.stringify(breadcrumbLd);
+    document.head.appendChild(script);
+    return () => script.remove();
+  }, []);
+
+  return (
   <Layout>
     <PageHero
       eyebrow="Our Services"
@@ -95,6 +116,7 @@ const Services = () => (
 
     <CTABand />
   </Layout>
-);
+  );
+};
 
 export default Services;

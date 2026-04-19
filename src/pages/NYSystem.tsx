@@ -21,9 +21,26 @@ const NYSystem = () => {
     const prevDesc = desc?.getAttribute("content") ?? "";
     document.title = `${system.page.title} | ${SITE.name}`;
     if (desc) desc.setAttribute("content", system.page.metaDescription);
+
+    // Canonical tag
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    let createdCanonical = false;
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.appendChild(canonical);
+      createdCanonical = true;
+    }
+    const prevHref = canonical.href;
+    canonical.href = `https://bravo-build-hub.lovable.app/services/${system.slug}`;
+
     return () => {
       document.title = prevTitle;
       if (desc) desc.setAttribute("content", prevDesc);
+      if (canonical) {
+        if (createdCanonical) canonical.remove();
+        else canonical.href = prevHref;
+      }
     };
   }, [system]);
 

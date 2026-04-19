@@ -12,6 +12,7 @@ const nav = [
   { to: "/services", label: "Services" },
   { to: "/service-areas", label: "Service Areas" },
   { to: "/reviews", label: "Reviews" },
+  { to: "/blog", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ];
 

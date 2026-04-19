@@ -48,7 +48,7 @@ export const CommentsSection = ({ postSlug }: { postSlug: string }) => {
     e.preventDefault();
     const parsed = commentSchema.safeParse(form);
     if (!parsed.success) {
-      toast({ title: "Check your entry", description: parsed.error.errors[0].message, variant: "destructive" });
+      toast({ title: "Check your entry", description: parsed.error.issues[0].message, variant: "destructive" });
       return;
     }
     setSubmitting(true);

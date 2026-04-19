@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
-import { RebateEstimator } from "@/components/RebateEstimator";
+
 import { SITE, SERVICES } from "@/lib/site";
 import { NY_SYSTEMS } from "@/lib/nySystems";
 import heroTechnician from "@/assets/hero-technician.webp";
@@ -252,9 +252,6 @@ const Index = () => {
               </div>
             </Link>
           ))}
-        </div>
-        <div className="mt-8">
-          <RebateEstimator />
         </div>
         <p className="mt-4 text-xs text-muted-foreground">
           Programs covered: NYSERDA Clean Heat, NYS Comfort Home, federal Inflation Reduction Act (25C) tax credits, and Con Edison utility rebates.

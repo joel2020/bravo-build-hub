@@ -393,7 +393,7 @@ const Index = () => {
             <figure className="relative">
               <img
                 src={projectBoilerBefore}
-                alt="Old failing Dunkirk oil boiler with rusted heat exchanger and damaged insulation before replacement in a Westchester County, NY basement"
+                alt="Old failing Dunkirk steam boiler with damaged insulation and corrosion before replacement in a Westchester County, NY basement"
                 loading="lazy"
                 className="w-full h-72 md:h-full object-cover"
               />
@@ -404,7 +404,7 @@ const Index = () => {
             <figure className="relative">
               <img
                 src={projectBoilerAfter}
-                alt="New Weil-McLain high-efficiency gas boiler installation with clean piping in a Westchester County, NY home"
+                alt="New Weil-McLain steam boiler installation with clean near-boiler piping and proper venting in a Westchester County, NY home"
                 loading="lazy"
                 className="w-full h-72 md:h-full object-cover"
               />
@@ -418,12 +418,12 @@ const Index = () => {
               <MapPin className="h-3.5 w-3.5 text-accent" />
               <span>Westchester County, NY</span>
               <span aria-hidden="true">•</span>
-              <span>Boiler Replacement</span>
+              <span>Steam Boiler Replacement</span>
             </div>
-            <h3 className="text-xl font-extrabold mb-2">Full oil-to-gas boiler conversion</h3>
+            <h3 className="text-xl font-extrabold mb-2">Full steam boiler replacement</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              <strong>Problem:</strong> An aging Dunkirk oil boiler with a deteriorating heat exchanger and failed insulation was no longer safe or efficient — high fuel bills and frequent service calls.{" "}
-              <strong>Solution:</strong> We removed the old unit and installed a new Weil-McLain high-efficiency gas boiler with clean copper piping, proper venting, and a fresh chimney liner. Result: lower fuel costs, quieter operation, and a system the homeowner can trust for the next 20+ years.
+              <strong>Problem:</strong> An aging Dunkirk steam boiler with deteriorating insulation and corrosion was no longer safe or efficient — uneven heat across radiators, high fuel bills, and frequent service calls.{" "}
+              <strong>Solution:</strong> We removed the old unit and installed a new Weil-McLain steam boiler with proper near-boiler piping, a new Hartford loop, fresh insulation, and code-compliant venting. Result: balanced steam delivery, quieter operation, lower fuel costs, and a system built to last 20+ years.
             </p>
           </div>
         </article>

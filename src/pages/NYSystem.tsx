@@ -95,6 +95,7 @@ const NYSystem = () => {
       }
       serviceScript.remove();
       faqScript.remove();
+      breadcrumbScript.remove();
     };
   }, [system]);
 

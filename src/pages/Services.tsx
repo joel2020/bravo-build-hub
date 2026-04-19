@@ -53,7 +53,25 @@ const services = [
   },
 ];
 
-const Services = () => (
+const Services = () => {
+  useEffect(() => {
+    const breadcrumbLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
+      ],
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.dataset.jsonld = "breadcrumb";
+    script.text = JSON.stringify(breadcrumbLd);
+    document.head.appendChild(script);
+    return () => script.remove();
+  }, []);
+
+  return (
   <Layout>
     <PageHero
       eyebrow="Our Services"

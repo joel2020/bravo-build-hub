@@ -40,6 +40,36 @@
   <url><loc>https://bravo-build-hub.lovable.app/service-areas/croton-on-hudson</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/service-areas/yorktown</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/service-areas/somers</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-installation/yonkers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-repair/yonkers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/preventive-maintenance/yonkers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/indoor-air-quality/yonkers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/residential/yonkers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/commercial/yonkers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-installation/white-plains</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-repair/white-plains</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/preventive-maintenance/white-plains</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/indoor-air-quality/white-plains</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/residential/white-plains</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/commercial/white-plains</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-installation/new-rochelle</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-repair/new-rochelle</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/preventive-maintenance/new-rochelle</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/indoor-air-quality/new-rochelle</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/residential/new-rochelle</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/commercial/new-rochelle</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-installation/mount-vernon</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-repair/mount-vernon</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/preventive-maintenance/mount-vernon</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/indoor-air-quality/mount-vernon</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/residential/mount-vernon</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/commercial/mount-vernon</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-installation/scarsdale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/hvac-repair/scarsdale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/preventive-maintenance/scarsdale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/indoor-air-quality/scarsdale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/residential/scarsdale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bravo-build-hub.lovable.app/services/commercial/scarsdale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/reviews</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bravo-build-hub.lovable.app/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

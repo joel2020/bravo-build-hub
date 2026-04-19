@@ -1,5 +1,7 @@
 // Blog post loader: parses markdown files in src/content/blog/*.md with YAML frontmatter.
-// Frontmatter keys: title, slug, date (YYYY-MM-DD), excerpt, tags (comma list), city, cover, author, readingTime
+// Frontmatter keys: title, slug, date (YYYY-MM-DD), excerpt, tags (comma list), city, author, readingTime
+// Cover images are resolved via src/lib/blogCovers.ts (slug → imported asset URL).
+import { getCoverForSlug } from "./blogCovers";
 
 export type BlogPost = {
   title: string;
@@ -53,7 +55,7 @@ const posts: BlogPost[] = Object.entries(modules)
       excerpt: data.excerpt || "",
       tags: (data.tags || "").split(",").map((t) => t.trim()).filter(Boolean),
       city: data.city || undefined,
-      cover: data.cover || undefined,
+      cover: getCoverForSlug(data.slug || fileSlug) || data.cover || undefined,
       author: data.author || "Bravo Mechanical Team",
       readingMinutes: estimateMinutes(body),
       body,

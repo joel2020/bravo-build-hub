@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo-bravo.webp";
+import { trackCallClick } from "@/lib/analytics";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -52,6 +53,7 @@ export const Header = () => {
           <div className="flex items-center gap-2">
             <a
               href={SITE.phoneHref}
+              onClick={() => trackCallClick("header_desktop")}
               className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent"
             >
               <Phone className="h-4 w-4" />
@@ -62,6 +64,7 @@ export const Header = () => {
             </Button>
             <a
               href={SITE.phoneHref}
+              onClick={() => trackCallClick("header_mobile_icon")}
               className="sm:hidden inline-flex items-center justify-center h-10 w-10 rounded-md bg-accent text-accent-foreground"
               aria-label="Call now"
             >

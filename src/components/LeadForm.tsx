@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SERVICES } from "@/lib/site";
+import { trackLeadSubmit } from "@/lib/analytics";
 
 const schema = z.object({
   name: z.string().min(2, "Please enter your name"),
@@ -35,6 +36,7 @@ export const LeadForm = () => {
       return;
     }
     setErrors({});
+    trackLeadSubmit("contact_lead_form", { service: result.data.service });
     setSubmitted(true);
   };
 

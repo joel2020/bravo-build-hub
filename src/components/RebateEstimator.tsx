@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Calculator, CheckCircle2, Loader2, Info } from "lucide-react";
+import { trackLeadSubmit, trackRebateEstimate } from "@/lib/analytics";
 
 type RebateRange = { low: number; high: number };
 type ProgramEstimate = {
@@ -225,6 +226,18 @@ export const RebateEstimator = () => {
 
   const showResults = system && homeType;
 
+  // Fire rebate_estimate event once results become visible (per system selection)
+  useEffect(() => {
+    if (showResults && estimates.length > 0) {
+      trackRebateEstimate({
+        system_type: SYSTEMS[system as SystemKey].label,
+        estimated_total_high: total.high,
+        estimated_total_low: total.low,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [system, homeType]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!system || !homeType) return;
@@ -264,6 +277,10 @@ export const RebateEstimator = () => {
       return;
     }
 
+    trackLeadSubmit("rebate_estimator_lead", {
+      system_type: SYSTEMS[system].label,
+      estimated_total: total.high,
+    });
     setSubmitted(true);
     toast({
       title: "Estimate request received",

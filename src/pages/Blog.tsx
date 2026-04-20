@@ -61,6 +61,37 @@ const Blog = () => {
       />
 
       <section className="container mx-auto px-4 py-12">
+        <div className="mb-6 max-w-xl">
+          <label htmlFor="blog-search" className="sr-only">Search posts</label>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+            <Input
+              id="blog-search"
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search posts by title, city, or topic…"
+              className="pl-9 pr-9"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          {(query || activeTag) && (
+            <p className="mt-2 text-xs text-muted-foreground">
+              {filtered.length} {filtered.length === 1 ? "post" : "posts"}
+              {activeTag && <> tagged <span className="font-semibold text-foreground">{activeTag}</span></>}
+              {query && <> matching <span className="font-semibold text-foreground">"{query}"</span></>}
+            </p>
+          )}
+        </div>
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-8">
             <button

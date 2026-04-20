@@ -58,6 +58,8 @@ const Index = () => {
         "@type": "AggregateRating",
         ratingValue: SITE.rating.score,
         reviewCount: SITE.rating.count,
+        bestRating: 5,
+        worstRating: 1,
       },
     };
     const script = document.createElement("script");

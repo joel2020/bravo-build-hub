@@ -4,10 +4,11 @@ import remarkGfm from "remark-gfm";
 import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, MapPin, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, MapPin, ArrowLeft, Phone, ArrowRight } from "lucide-react";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
+import { CITIES } from "@/lib/cities";
 import { CommentsSection } from "@/components/CommentsSection";
 
 const BlogPost = () => {
@@ -20,6 +21,9 @@ const BlogPost = () => {
   const related = getAllPosts()
     .filter((p) => p.slug !== post.slug && p.tags.some((t) => post.tags.includes(t)))
     .slice(0, 3);
+  const cityMatch = post.city
+    ? CITIES.find((c) => c.name.toLowerCase() === post.city!.toLowerCase())
+    : undefined;
 
   useSeo({
     title: `${post.title} | ${SITE.name} Blog`,
@@ -95,6 +99,43 @@ const BlogPost = () => {
         <div className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-foreground prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-p:text-foreground prose-p:leading-relaxed prose-a:text-primary prose-strong:text-foreground prose-li:text-foreground prose-table:text-sm">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
         </div>
+
+        {cityMatch && (
+          <aside className="mt-10 rounded-lg border border-border bg-card p-6 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex-1">
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-accent mb-2">
+                  <MapPin className="h-3.5 w-3.5" />
+                  Local service
+                </div>
+                <h2 className="text-xl font-bold text-foreground mb-1">
+                  HVAC service in {cityMatch.name}, NY
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Need help with this in {cityMatch.name}? Our licensed Westchester techs serve
+                  {cityMatch.neighborhoods.length > 0 && (
+                    <> {cityMatch.neighborhoods.slice(0, 3).join(", ")}, </>
+                  )}
+                  {" "}and the rest of {cityMatch.region}.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-2 sm:shrink-0">
+                <Link
+                  to={`/service-areas/${cityMatch.slug}`}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-accent px-4 py-2 text-sm font-bold text-accent-foreground hover:bg-accent/90 transition-colors"
+                >
+                  {cityMatch.name} HVAC <ArrowRight className="h-4 w-4" />
+                </Link>
+                <a
+                  href={SITE.phoneHref}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary transition-colors"
+                >
+                  <Phone className="h-4 w-4" /> {SITE.phone}
+                </a>
+              </div>
+            </div>
+          </aside>
+        )}
 
         <CommentsSection postSlug={post.slug} />
 

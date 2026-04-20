@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
+import { SITE } from "@/lib/site";
 
-const SITE_URL = "https://bravo-build-hub.lovable.app";
+const SITE_URL = "https://bravomechanicalny.com";
 
 const services = [
   {
@@ -55,6 +56,21 @@ const services = [
 
 const Services = () => {
   useEffect(() => {
+    const provider = {
+      "@type": "HVACBusiness",
+      name: SITE.legalName,
+      telephone: SITE.phone,
+      email: SITE.email,
+      url: SITE_URL,
+      priceRange: "$$",
+      areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: SITE.rating.score,
+        reviewCount: SITE.rating.count,
+      },
+    };
+
     const breadcrumbLd = {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
@@ -63,12 +79,28 @@ const Services = () => {
         { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
       ],
     };
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.dataset.jsonld = "breadcrumb";
-    script.text = JSON.stringify(breadcrumbLd);
-    document.head.appendChild(script);
-    return () => script.remove();
+
+    const serviceLds = services.map((s) => ({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: `${s.title} — Westchester County, NY`,
+      serviceType: s.title,
+      description: s.desc,
+      provider,
+      areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
+      url: `${SITE_URL}/services#${s.title.toLowerCase().replace(/\s+/g, "-")}`,
+    }));
+
+    const all = [breadcrumbLd, ...serviceLds];
+    const scripts = all.map((data, i) => {
+      const el = document.createElement("script");
+      el.type = "application/ld+json";
+      el.dataset.jsonld = `services-${i}`;
+      el.text = JSON.stringify(data);
+      document.head.appendChild(el);
+      return el;
+    });
+    return () => scripts.forEach((s) => s.remove());
   }, []);
 
   return (

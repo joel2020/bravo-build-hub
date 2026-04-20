@@ -25,29 +25,55 @@ const BlogPost = () => {
     ? CITIES.find((c) => c.name.toLowerCase() === post.city!.toLowerCase())
     : undefined;
 
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://bravomechanicalny.com";
+  const absoluteCover = post.cover
+    ? (post.cover.startsWith("http") ? post.cover : origin + post.cover)
+    : undefined;
+
   useSeo({
     title: `${post.title} | ${SITE.name} Blog`,
     description: post.excerpt,
     canonical: url,
     type: "article",
     image: post.cover,
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: post.title,
-      description: post.excerpt,
-      datePublished: post.date,
-      dateModified: post.date,
-      author: { "@type": "Organization", name: post.author, url: window.location.origin },
-      publisher: {
-        "@type": "Organization",
-        name: SITE.legalName,
-        url: window.location.origin,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: post.title,
+        description: post.excerpt,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: {
+          "@type": "Organization",
+          name: post.author,
+          url: origin,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: SITE.legalName,
+          url: origin,
+          logo: {
+            "@type": "ImageObject",
+            url: `${origin}/favicon.png`,
+          },
+        },
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        keywords: post.tags.join(", "),
+        articleSection: post.tags[0],
+        ...(absoluteCover ? { image: [absoluteCover] } : {}),
+        ...(post.city ? { contentLocation: { "@type": "Place", name: `${post.city}, NY` } } : {}),
       },
-      mainEntityOfPage: { "@type": "WebPage", "@id": url },
-      keywords: post.tags.join(", "),
-      articleSection: post.tags[0],
-    },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${origin}/blog` },
+          { "@type": "ListItem", position: 3, name: post.title, item: url },
+        ],
+      },
+    ],
   });
 
   return (

@@ -21,6 +21,9 @@ const BlogPost = () => {
   const related = getAllPosts()
     .filter((p) => p.slug !== post.slug && p.tags.some((t) => post.tags.includes(t)))
     .slice(0, 3);
+  const cityMatch = post.city
+    ? CITIES.find((c) => c.name.toLowerCase() === post.city!.toLowerCase())
+    : undefined;
 
   useSeo({
     title: `${post.title} | ${SITE.name} Blog`,

@@ -5,7 +5,8 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, Clock, MapPin } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Calendar, Clock, MapPin, Search, X } from "lucide-react";
 import { getAllPosts, getAllTags } from "@/lib/blog";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
@@ -14,11 +15,21 @@ const Blog = () => {
   const posts = getAllPosts();
   const tags = getAllTags();
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
-  const filtered = useMemo(
-    () => (activeTag ? posts.filter((p) => p.tags.includes(activeTag)) : posts),
-    [posts, activeTag],
-  );
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return posts.filter((p) => {
+      if (activeTag && !p.tags.includes(activeTag)) return false;
+      if (!q) return true;
+      return (
+        p.title.toLowerCase().includes(q) ||
+        p.excerpt.toLowerCase().includes(q) ||
+        (p.city || "").toLowerCase().includes(q) ||
+        p.tags.some((t) => t.toLowerCase().includes(q))
+      );
+    });
+  }, [posts, activeTag, query]);
 
   useSeo({
     title: "HVAC Blog — Westchester Heating & Cooling Tips | Bravo Mechanical",

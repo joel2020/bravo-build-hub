@@ -116,6 +116,7 @@ const CityPage = () => {
   if (!city) return <Navigate to="/service-areas" replace />;
 
   const related = CITIES.filter((c) => c.slug !== city.slug && c.region === city.region).slice(0, 4);
+  const localPosts = getPostsForCity(city.name, 4);
 
   return (
     <Layout>

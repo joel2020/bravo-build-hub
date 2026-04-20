@@ -66,3 +66,18 @@ const posts: BlogPost[] = Object.entries(modules)
 export const getAllPosts = (): BlogPost[] => posts;
 export const getPostBySlug = (slug: string): BlogPost | undefined => posts.find((p) => p.slug === slug);
 export const getAllTags = (): string[] => Array.from(new Set(posts.flatMap((p) => p.tags))).sort();
+
+// Returns posts relevant to a given city. Matches by exact city frontmatter first,
+// then falls back to posts that include the city name as a tag. Used for internal
+// SEO linking from /service-areas/:slug pages to local blog content.
+export const getPostsForCity = (cityName: string, limit = 4): BlogPost[] => {
+  const norm = cityName.trim().toLowerCase();
+  const direct = posts.filter((p) => (p.city || "").trim().toLowerCase() === norm);
+  if (direct.length >= limit) return direct.slice(0, limit);
+  const tagged = posts.filter(
+    (p) =>
+      !direct.includes(p) &&
+      p.tags.some((t) => t.trim().toLowerCase() === norm),
+  );
+  return [...direct, ...tagged].slice(0, limit);
+};

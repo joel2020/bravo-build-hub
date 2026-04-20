@@ -167,7 +167,9 @@ const Blog = () => {
         </div>
 
         {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground py-12">No posts in this category yet.</p>
+          <p className="text-center text-muted-foreground py-12">
+            No posts found{query && <> for "{query}"</>}{activeTag && <> in {activeTag}</>}.
+          </p>
         )}
       </section>
 

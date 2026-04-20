@@ -9,6 +9,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { getCity, CITIES } from "@/lib/cities";
 import { SERVICES, SITE } from "@/lib/site";
 import { isTopCity } from "@/lib/serviceCityCombos";
+import { getPostsForCity } from "@/lib/blog";
+import { Calendar, Clock } from "lucide-react";
 
 const SITE_URL = "https://bravo-build-hub.lovable.app";
 

@@ -257,6 +257,58 @@ const CityPage = () => {
         </div>
       </section>
 
+      {/* Local blog guides for this city */}
+      {localPosts.length > 0 && (
+        <section className="container mx-auto px-4 py-12 lg:py-16">
+          <div className="max-w-2xl mb-8">
+            <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Local guides</div>
+            <h2 className="text-2xl md:text-3xl font-extrabold">HVAC guides for {city.name} homeowners</h2>
+            <p className="mt-3 text-muted-foreground">
+              Practical advice from our techs on the systems, weather, and housing stock we see most often in {city.name}.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {localPosts.map((p) => (
+              <Link
+                key={p.slug}
+                to={`/blog/${p.slug}`}
+                className="group bg-card border border-border rounded-lg overflow-hidden hover:border-accent transition-colors flex flex-col"
+              >
+                {p.cover && (
+                  <img
+                    src={p.cover}
+                    alt={p.title}
+                    width={1600}
+                    height={896}
+                    loading="lazy"
+                    className="w-full aspect-[16/9] object-cover"
+                  />
+                )}
+                <div className="p-5 flex flex-col flex-1">
+                  <h3 className="font-bold text-base mb-2 group-hover:text-accent transition-colors line-clamp-2">
+                    {p.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-1">{p.excerpt}</p>
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground mt-auto">
+                    <span className="inline-flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {new Date(p.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {p.readingMinutes} min
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-6">
+            <Link to="/blog" className="text-accent font-semibold text-sm">Browse all HVAC guides →</Link>
+          </div>
+        </section>
+      )}
+
       {/* Nearby cities */}
       {related.length > 0 && (
         <section className="container mx-auto px-4 py-12 lg:py-16">

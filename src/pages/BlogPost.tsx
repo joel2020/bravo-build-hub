@@ -4,10 +4,11 @@ import remarkGfm from "remark-gfm";
 import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, MapPin, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, MapPin, ArrowLeft, Phone, ArrowRight } from "lucide-react";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
+import { CITIES } from "@/lib/cities";
 import { CommentsSection } from "@/components/CommentsSection";
 
 const BlogPost = () => {

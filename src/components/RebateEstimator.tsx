@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Calculator, CheckCircle2, Loader2, Info } from "lucide-react";
+import { trackLeadSubmit, trackRebateEstimate } from "@/lib/analytics";
 
 type RebateRange = { low: number; high: number };
 type ProgramEstimate = {
@@ -264,6 +265,10 @@ export const RebateEstimator = () => {
       return;
     }
 
+    trackLeadSubmit("rebate_estimator_lead", {
+      system_type: SYSTEMS[system].label,
+      estimated_total: total.high,
+    });
     setSubmitted(true);
     toast({
       title: "Estimate request received",

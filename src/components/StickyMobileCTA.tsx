@@ -1,6 +1,7 @@
 import { Phone, MessageSquare, Siren } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { SITE } from "@/lib/site";
+import { trackCallClick, trackSmsClick } from "@/lib/analytics";
 
 // Sticky mobile bottom bar: Call + Text. Hidden on desktop and on the emergency page itself.
 export const StickyMobileCTA = () => {
@@ -19,6 +20,7 @@ export const StickyMobileCTA = () => {
       <div className="grid grid-cols-2 gap-2 p-2">
         <a
           href={SITE.phoneHref}
+          onClick={() => trackCallClick(isEmergency ? "sticky_mobile_emergency" : "sticky_mobile")}
           className="flex items-center justify-center gap-2 rounded-md bg-primary text-primary-foreground font-bold py-3 text-sm active:scale-[0.98] transition"
           aria-label={`Call ${SITE.name}`}
         >
@@ -27,6 +29,7 @@ export const StickyMobileCTA = () => {
         </a>
         <a
           href={smsHref}
+          onClick={() => trackSmsClick(isEmergency ? "sticky_mobile_emergency" : "sticky_mobile")}
           className="flex items-center justify-center gap-2 rounded-md bg-accent text-accent-foreground font-bold py-3 text-sm active:scale-[0.98] transition"
           aria-label={`Text ${SITE.name}`}
         >

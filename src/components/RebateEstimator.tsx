@@ -226,6 +226,18 @@ export const RebateEstimator = () => {
 
   const showResults = system && homeType;
 
+  // Fire rebate_estimate event once results become visible (per system selection)
+  useEffect(() => {
+    if (showResults && estimates.length > 0) {
+      trackRebateEstimate({
+        system_type: SYSTEMS[system as SystemKey].label,
+        estimated_total_high: total.high,
+        estimated_total_low: total.low,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [system, homeType]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!system || !homeType) return;

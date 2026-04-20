@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 import { Link } from "react-router-dom";
 import { Phone, Wrench, Snowflake, Flame, Wind, ShieldCheck, Clock, MapPin, Award, CheckCircle2, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,49 +26,8 @@ import projectBeckettBurner from "@/assets/project-beckett-burner.png";
 import projectGasBoiler from "@/assets/project-gas-boiler.png";
 
 const Index = () => {
-  useEffect(() => {
-    const ld = {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "@id": "https://bravo-build-hub.lovable.app/#localbusiness",
-      name: SITE.legalName,
-      alternateName: SITE.name,
-      url: "https://bravo-build-hub.lovable.app/",
-      telephone: SITE.phone,
-      email: SITE.email,
-      image: "https://bravo-build-hub.lovable.app/og-image.jpg",
-      priceRange: "$$",
-      address: {
-        "@type": "PostalAddress",
-        addressRegion: "NY",
-        addressLocality: "Westchester County",
-        addressCountry: "US",
-      },
-      areaServed: { "@type": "AdministrativeArea", name: SITE.area },
-      openingHoursSpecification: [
-        {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-          opens: "00:00",
-          closes: "23:59",
-        },
-      ],
-      sameAs: [SITE.social.facebook, SITE.social.google],
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: SITE.rating.score,
-        reviewCount: SITE.rating.count,
-        bestRating: 5,
-        worstRating: 1,
-      },
-    };
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.dataset.jsonld = "localbusiness";
-    script.text = JSON.stringify(ld);
-    document.head.appendChild(script);
-    return () => script.remove();
-  }, []);
+  // Homepage LocalBusiness + AggregateRating JSON-LD lives in static index.html
+  // so it's visible to all crawlers without JS rendering.
 
   return (
     <Layout>

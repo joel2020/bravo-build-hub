@@ -33,6 +33,46 @@
     gtag('config', 'G-JK03MS9MZN', { send_page_view: true });
     window.gtag = gtag;
   </script>
+
+  <!-- LocalBusiness + AggregateRating JSON-LD (homepage, server-rendered for crawlers) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HVACBusiness",
+    "@id": "https://bravomechanicalny.com/#localbusiness",
+    "name": "Bravo Mechanical LLC",
+    "alternateName": "Bravo Mechanical",
+    "url": "https://bravomechanicalny.com/",
+    "telephone": "(914) 361-9142",
+    "email": "Bravomechanicalllc@gmail.com",
+    "image": "https://bravomechanicalny.com/favicon.png",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "NY",
+      "addressLocality": "Westchester County",
+      "addressCountry": "US"
+    },
+    "areaServed": { "@type": "AdministrativeArea", "name": "Westchester County, NY" },
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    }],
+    "sameAs": [
+      "https://www.facebook.com/p/Bravo-Mechanical-LLC-61576283462607/",
+      "https://www.google.com/maps/place/Bravo+Mechanical+LLC/data=!4m2!3m1!1s0x0:0x51712bb23caf72a8"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "5",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  }
+  </script>
 </head>
 
   <body>

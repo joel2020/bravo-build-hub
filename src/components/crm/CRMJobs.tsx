@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Trash2 } from "lucide-react";
 
 const STATUSES = ["quoted", "scheduled", "in_progress", "completed", "cancelled"] as const;
 
@@ -59,13 +59,21 @@ export const CRMJobs = () => {
     if (editId) {
       const { error } = await supabase.from("jobs").update(payload).eq("id", editId);
       if (error) { toast({ title: "Update failed", description: error.message, variant: "destructive" }); return; }
+      await supabase.from("activity_log").insert({ action: "Job updated", job_id: editId, lead_id: form.lead_id, details: `Status: ${form.status}` });
       toast({ title: "Job updated" });
     } else {
-      const { error } = await supabase.from("jobs").insert(payload);
+      const { data: newJob, error } = await supabase.from("jobs").insert(payload).select("id").single();
       if (error) { toast({ title: "Insert failed", description: error.message, variant: "destructive" }); return; }
+      if (newJob) await supabase.from("activity_log").insert({ action: "Job created", job_id: newJob.id, lead_id: form.lead_id, details: form.title });
       toast({ title: "Job created" });
     }
     setOpen(false); resetForm(); load();
+  };
+
+  const deleteJob = async (id: string) => {
+    const { error } = await supabase.from("jobs").delete().eq("id", id);
+    if (error) { toast({ title: "Delete failed", description: error.message, variant: "destructive" }); return; }
+    toast({ title: "Job deleted" }); load();
   };
 
   const startEdit = (j: Job) => {
@@ -75,7 +83,7 @@ export const CRMJobs = () => {
 
   const filtered = jobs.filter((j) => {
     if (filterStatus !== "all" && j.status !== filterStatus) return false;
-    if (search && !j.title.toLowerCase().includes(search.toLowerCase())) return false;
+    if (search && !j.title.toLowerCase().includes(search.toLowerCase()) && !(j.leads?.name || "").toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
 
@@ -149,7 +157,24 @@ export const CRMJobs = () => {
                 <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColor[j.status] || ""}`}>{j.status.replace(/_/g, " ")}</span></td>
                 <td className="p-3 hidden md:table-cell">${Number(j.amount).toLocaleString()}</td>
                 <td className="p-3 hidden lg:table-cell text-muted-foreground text-xs">{j.scheduled_date || "—"}</td>
-                <td className="p-3"><Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); startEdit(j); }}>Edit</Button></td>
+                <td className="p-3 flex gap-1">
+                  <Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); startEdit(j); }}>Edit</Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button size="sm" variant="ghost" className="text-destructive" onClick={(e) => e.stopPropagation()}><Trash2 className="h-3 w-3" /></Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete job?</AlertDialogTitle>
+                        <AlertDialogDescription>This will permanently delete "{j.title}". Linked invoices may be affected.</AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => deleteJob(j.id)}>Delete</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </td>
               </tr>
             ))}
           </tbody>

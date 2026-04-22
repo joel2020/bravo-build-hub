@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Trash2 } from "lucide-react";
 
 const STATUSES = ["draft", "sent", "paid", "overdue"] as const;
 
@@ -63,6 +64,12 @@ export const CRMInvoices = () => {
       toast({ title: "Invoice created" });
     }
     setOpen(false); resetForm(); load();
+  };
+
+  const deleteInvoice = async (id: string) => {
+    const { error } = await supabase.from("invoices").delete().eq("id", id);
+    if (error) { toast({ title: "Delete failed", description: error.message, variant: "destructive" }); return; }
+    toast({ title: "Invoice deleted" }); load();
   };
 
   const startEdit = (inv: Invoice) => {
@@ -146,7 +153,24 @@ export const CRMInvoices = () => {
                 <td className="p-3">${Number(inv.amount).toLocaleString()}</td>
                 <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColor[inv.status] || ""}`}>{inv.status}</span></td>
                 <td className="p-3 hidden lg:table-cell text-muted-foreground text-xs">{inv.due_date || "—"}</td>
-                <td className="p-3"><Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); startEdit(inv); }}>Edit</Button></td>
+                <td className="p-3 flex gap-1">
+                  <Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); startEdit(inv); }}>Edit</Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button size="sm" variant="ghost" className="text-destructive" onClick={(e) => e.stopPropagation()}><Trash2 className="h-3 w-3" /></Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete invoice?</AlertDialogTitle>
+                        <AlertDialogDescription>This will permanently delete invoice "{inv.invoice_number}".</AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => deleteInvoice(inv.id)}>Delete</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </td>
               </tr>
             ))}
           </tbody>

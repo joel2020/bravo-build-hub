@@ -5,12 +5,13 @@ import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSeo } from "@/lib/seo";
-import { LogOut, Users, Briefcase, FileText, Bell } from "lucide-react";
+import { LogOut, Users, Briefcase, FileText, Bell, Activity } from "lucide-react";
 import { CRMLeads } from "@/components/crm/CRMLeads";
 import { CRMJobs } from "@/components/crm/CRMJobs";
 import { CRMInvoices } from "@/components/crm/CRMInvoices";
 import { CRMFollowUps } from "@/components/crm/CRMFollowUps";
 import { CRMDashboard } from "@/components/crm/CRMDashboard";
+import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
 
 const CRM = () => {
   const [loading, setLoading] = useState(true);
@@ -65,12 +66,14 @@ const CRM = () => {
             <TabsTrigger value="jobs"><Briefcase className="h-4 w-4 mr-1" />Jobs</TabsTrigger>
             <TabsTrigger value="invoices"><FileText className="h-4 w-4 mr-1" />Invoices</TabsTrigger>
             <TabsTrigger value="followups"><Bell className="h-4 w-4 mr-1" />Follow-ups</TabsTrigger>
+            <TabsTrigger value="activity"><Activity className="h-4 w-4 mr-1" />Activity</TabsTrigger>
           </TabsList>
           <TabsContent value="dashboard"><CRMDashboard /></TabsContent>
           <TabsContent value="leads"><CRMLeads /></TabsContent>
           <TabsContent value="jobs"><CRMJobs /></TabsContent>
           <TabsContent value="invoices"><CRMInvoices /></TabsContent>
           <TabsContent value="followups"><CRMFollowUps /></TabsContent>
+          <TabsContent value="activity"><CRMActivityLog /></TabsContent>
         </Tabs>
       </div>
     </Layout>

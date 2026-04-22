@@ -5,10 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Trash2, Phone, Mail, MapPin, Briefcase, ArrowRight } from "lucide-react";
 
 const STATUSES = ["new", "contacted", "qualified", "quoted", "won", "lost"] as const;
 const SOURCES = ["contact_form", "rebate_estimator", "phone", "referral", "google", "other"] as const;
@@ -18,11 +21,20 @@ type Lead = {
   address: string | null; source: string; status: string; notes: string | null;
   created_at: string; updated_at: string;
 };
+type LinkedJob = { id: string; title: string; status: string; amount: number | null; scheduled_date: string | null };
+type LinkedInvoice = { id: string; invoice_number: string; amount: number; status: string };
+type LinkedFollowUp = { id: string; note: string; due_date: string; completed: boolean };
 
 const statusColor: Record<string, string> = {
   new: "bg-blue-100 text-blue-800", contacted: "bg-yellow-100 text-yellow-800",
   qualified: "bg-purple-100 text-purple-800", quoted: "bg-orange-100 text-orange-800",
   won: "bg-green-100 text-green-800", lost: "bg-red-100 text-red-800",
+};
+
+const jobStatusColor: Record<string, string> = {
+  quoted: "bg-orange-100 text-orange-800", scheduled: "bg-blue-100 text-blue-800",
+  in_progress: "bg-yellow-100 text-yellow-800", completed: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
 };
 
 export const CRMLeads = () => {
@@ -32,6 +44,12 @@ export const CRMLeads = () => {
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "", source: "other" as string, status: "new" as string, notes: "" });
+
+  // Detail drawer state
+  const [detailLead, setDetailLead] = useState<Lead | null>(null);
+  const [linkedJobs, setLinkedJobs] = useState<LinkedJob[]>([]);
+  const [linkedInvoices, setLinkedInvoices] = useState<LinkedInvoice[]>([]);
+  const [linkedFollowUps, setLinkedFollowUps] = useState<LinkedFollowUp[]>([]);
 
   const load = async () => {
     const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: false });
@@ -47,13 +65,23 @@ export const CRMLeads = () => {
     if (editId) {
       const { error } = await supabase.from("leads").update(payload).eq("id", editId);
       if (error) { toast({ title: "Update failed", description: error.message, variant: "destructive" }); return; }
+      await logActivity("Lead updated", editId, null, `Status: ${form.status}`);
       toast({ title: "Lead updated" });
     } else {
-      const { error } = await supabase.from("leads").insert(payload);
+      const { data: newLead, error } = await supabase.from("leads").insert(payload).select("id").single();
       if (error) { toast({ title: "Insert failed", description: error.message, variant: "destructive" }); return; }
+      if (newLead) await logActivity("Lead created", newLead.id, null, `Source: ${form.source}`);
       toast({ title: "Lead created" });
     }
     setOpen(false); resetForm(); load();
+  };
+
+  const deleteLead = async (id: string) => {
+    const { error } = await supabase.from("leads").delete().eq("id", id);
+    if (error) { toast({ title: "Delete failed", description: error.message, variant: "destructive" }); return; }
+    toast({ title: "Lead deleted" });
+    setDetailLead(null);
+    load();
   };
 
   const startEdit = (l: Lead) => {
@@ -61,26 +89,51 @@ export const CRMLeads = () => {
     setEditId(l.id); setOpen(true);
   };
 
+  const openDetail = async (l: Lead) => {
+    setDetailLead(l);
+    const [{ data: jobs }, { data: followUps }] = await Promise.all([
+      supabase.from("jobs").select("id, title, status, amount, scheduled_date").eq("lead_id", l.id).order("created_at", { ascending: false }),
+      supabase.from("follow_ups").select("id, note, due_date, completed").eq("lead_id", l.id).order("due_date", { ascending: true }),
+    ]);
+    setLinkedJobs((jobs as LinkedJob[]) || []);
+    setLinkedFollowUps((followUps as LinkedFollowUp[]) || []);
+    // Get invoices from linked jobs
+    const jobIds = (jobs || []).map((j: any) => j.id);
+    if (jobIds.length > 0) {
+      const { data: inv } = await supabase.from("invoices").select("id, invoice_number, amount, status").in("job_id", jobIds);
+      setLinkedInvoices((inv as LinkedInvoice[]) || []);
+    } else {
+      setLinkedInvoices([]);
+    }
+  };
+
   const filtered = leads.filter((l) => {
     if (filterStatus !== "all" && l.status !== filterStatus) return false;
-    if (search && !l.name.toLowerCase().includes(search.toLowerCase()) && !(l.email || "").toLowerCase().includes(search.toLowerCase())) return false;
+    if (search && !l.name.toLowerCase().includes(search.toLowerCase()) && !(l.email || "").toLowerCase().includes(search.toLowerCase()) && !(l.phone || "").includes(search)) return false;
     return true;
   });
 
+  // Pipeline counts
+  const pipelineCounts = STATUSES.map((s) => ({ status: s, count: leads.filter((l) => l.status === s).length }));
+
   return (
     <div>
+      {/* Pipeline bar */}
+      <div className="flex gap-1 mb-4 overflow-x-auto">
+        {pipelineCounts.map((p) => (
+          <button key={p.status} onClick={() => setFilterStatus(filterStatus === p.status ? "all" : p.status)}
+            className={`flex-1 min-w-[80px] px-3 py-2 rounded-md text-center transition-colors border ${filterStatus === p.status ? "bg-primary text-primary-foreground border-primary" : "bg-background border-border hover:bg-secondary"}`}>
+            <div className="text-lg font-bold">{p.count}</div>
+            <div className="text-xs capitalize">{p.status}</div>
+          </button>
+        ))}
+      </div>
+
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search leads…" className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <Select value={filterStatus} onValueChange={setFilterStatus}>
-          <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All statuses</SelectItem>
-            {STATUSES.map((s) => <SelectItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</SelectItem>)}
-          </SelectContent>
-        </Select>
         <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) resetForm(); }}>
           <DialogTrigger asChild>
             <Button><Plus className="h-4 w-4 mr-1" />Add Lead</Button>
@@ -132,20 +185,158 @@ export const CRMLeads = () => {
             {filtered.length === 0 ? (
               <tr><td colSpan={7} className="p-6 text-center text-muted-foreground">No leads found</td></tr>
             ) : filtered.map((l) => (
-              <tr key={l.id} className="border-t border-border hover:bg-secondary/50 cursor-pointer" onClick={() => startEdit(l)}>
+              <tr key={l.id} className="border-t border-border hover:bg-secondary/50 cursor-pointer" onClick={() => openDetail(l)}>
                 <td className="p-3 font-medium">{l.name}</td>
                 <td className="p-3 hidden sm:table-cell text-muted-foreground">{l.email}</td>
                 <td className="p-3 hidden md:table-cell text-muted-foreground">{l.phone}</td>
                 <td className="p-3"><Badge variant="outline" className="text-xs">{l.source.replace(/_/g, " ")}</Badge></td>
                 <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColor[l.status] || ""}`}>{l.status}</span></td>
                 <td className="p-3 hidden lg:table-cell text-muted-foreground text-xs">{new Date(l.created_at).toLocaleDateString()}</td>
-                <td className="p-3"><Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); startEdit(l); }}>Edit</Button></td>
+                <td className="p-3">
+                  <Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); startEdit(l); }}>Edit</Button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <p className="text-xs text-muted-foreground mt-2">{filtered.length} lead{filtered.length !== 1 ? "s" : ""}</p>
+
+      {/* Lead Detail Drawer */}
+      <Sheet open={!!detailLead} onOpenChange={(o) => { if (!o) setDetailLead(null); }}>
+        <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+          {detailLead && (
+            <>
+              <SheetHeader>
+                <SheetTitle className="text-xl">{detailLead.name}</SheetTitle>
+                <span className={`inline-block w-fit px-2 py-0.5 rounded-full text-xs font-medium ${statusColor[detailLead.status] || ""}`}>{detailLead.status}</span>
+              </SheetHeader>
+
+              <div className="mt-4 space-y-4">
+                {/* Contact info */}
+                <div className="space-y-2">
+                  {detailLead.email && (
+                    <a href={`mailto:${detailLead.email}`} className="flex items-center gap-2 text-sm text-primary hover:underline">
+                      <Mail className="h-4 w-4" /> {detailLead.email}
+                    </a>
+                  )}
+                  {detailLead.phone && (
+                    <a href={`tel:${detailLead.phone}`} className="flex items-center gap-2 text-sm text-primary hover:underline">
+                      <Phone className="h-4 w-4" /> {detailLead.phone}
+                    </a>
+                  )}
+                  {detailLead.address && (
+                    <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MapPin className="h-4 w-4" /> {detailLead.address}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex gap-2 text-xs text-muted-foreground">
+                  <Badge variant="outline">{detailLead.source.replace(/_/g, " ")}</Badge>
+                  <span>Created {new Date(detailLead.created_at).toLocaleDateString()}</span>
+                </div>
+
+                {detailLead.notes && (
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">Notes</p>
+                    <p className="text-sm bg-secondary p-3 rounded-md">{detailLead.notes}</p>
+                  </div>
+                )}
+
+                <div className="flex gap-2">
+                  <Button size="sm" onClick={() => { startEdit(detailLead); setDetailLead(null); }}>Edit Lead</Button>
+                  <Button size="sm" variant="outline" onClick={() => {
+                    setForm({ name: "", email: "", phone: "", address: detailLead.address || "", source: "other", status: "new", notes: "" });
+                    setDetailLead(null);
+                    // This would need integration with jobs tab - for now open the edit dialog pre-filled
+                  }}>
+                    <Briefcase className="h-4 w-4 mr-1" /> Create Job
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button size="sm" variant="destructive"><Trash2 className="h-4 w-4" /></Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete lead?</AlertDialogTitle>
+                        <AlertDialogDescription>This will permanently delete "{detailLead.name}" and cannot be undone. Linked jobs and invoices will remain.</AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => deleteLead(detailLead.id)}>Delete</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+
+                <Separator />
+
+                {/* Linked Jobs */}
+                <div>
+                  <h3 className="text-sm font-semibold mb-2 flex items-center gap-1"><Briefcase className="h-4 w-4" /> Jobs ({linkedJobs.length})</h3>
+                  {linkedJobs.length === 0 ? (
+                    <p className="text-xs text-muted-foreground">No jobs linked</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {linkedJobs.map((j) => (
+                        <li key={j.id} className="bg-secondary p-3 rounded-md">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium">{j.title}</span>
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${jobStatusColor[j.status] || ""}`}>{j.status.replace(/_/g, " ")}</span>
+                          </div>
+                          <div className="flex gap-3 text-xs text-muted-foreground mt-1">
+                            {j.amount != null && <span>${Number(j.amount).toLocaleString()}</span>}
+                            {j.scheduled_date && <span>{j.scheduled_date}</span>}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                {/* Linked Invoices */}
+                {linkedInvoices.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold mb-2">Invoices ({linkedInvoices.length})</h3>
+                    <ul className="space-y-2">
+                      {linkedInvoices.map((inv) => (
+                        <li key={inv.id} className="bg-secondary p-3 rounded-md flex items-center justify-between">
+                          <span className="text-sm">{inv.invoice_number} — ${Number(inv.amount).toLocaleString()}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                            inv.status === "paid" ? "bg-green-100 text-green-800" : inv.status === "overdue" ? "bg-red-100 text-red-800" : "bg-blue-100 text-blue-800"
+                          }`}>{inv.status}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Linked Follow-ups */}
+                {linkedFollowUps.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold mb-2">Follow-ups ({linkedFollowUps.length})</h3>
+                    <ul className="space-y-2">
+                      {linkedFollowUps.map((fu) => (
+                        <li key={fu.id} className={`bg-secondary p-3 rounded-md ${fu.completed ? "opacity-60" : ""}`}>
+                          <p className={`text-sm ${fu.completed ? "line-through" : ""}`}>{fu.note}</p>
+                          <p className={`text-xs mt-1 ${!fu.completed && new Date(fu.due_date) < new Date() ? "text-destructive font-medium" : "text-muted-foreground"}`}>
+                            {new Date(fu.due_date).toLocaleString()}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
+
+async function logActivity(action: string, leadId: string | null, jobId: string | null, details: string | null) {
+  await supabase.from("activity_log").insert({ action, lead_id: leadId, job_id: jobId, details });
+}

@@ -17,6 +17,7 @@ import BlogPost from "./pages/BlogPost.tsx";
 import Auth from "./pages/Auth.tsx";
 import AdminComments from "./pages/AdminComments.tsx";
 import EmergencyHVAC from "./pages/EmergencyHVAC.tsx";
+import CRM from "./pages/CRM.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { StickyMobileCTA } from "./components/StickyMobileCTA";
 
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/admin/comments" element={<AdminComments />} />
+          <Route path="/admin/crm" element={<CRM />} />
           <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

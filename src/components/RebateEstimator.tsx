@@ -282,6 +282,18 @@ export const RebateEstimator = () => {
       estimated_total: total.high,
     });
     setSubmitted(true);
+
+    // Auto-create CRM lead (fire-and-forget, don't block UX)
+    supabase.from("leads").insert({
+      name: result.data.name,
+      email: result.data.email,
+      phone: result.data.phone || null,
+      address: result.data.zip,
+      source: "rebate_estimator" as any,
+      status: "new" as any,
+      notes: `Rebate estimate: ${SYSTEMS[system].label}, est $${total.low}–$${total.high}`,
+    }).then(() => {});
+
     toast({
       title: "Estimate request received",
       description: "We'll follow up within 1 business day.",

@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          created_by: string | null
+          details: string | null
+          id: string
+          job_id: string | null
+          lead_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          created_by?: string | null
+          details?: string | null
+          id?: string
+          job_id?: string | null
+          lead_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          created_by?: string | null
+          details?: string | null
+          id?: string
+          job_id?: string | null
+          lead_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_log_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_comments: {
         Row: {
           approved: boolean
@@ -41,6 +86,199 @@ export type Database = {
           created_at?: string
           id?: string
           post_slug?: string
+        }
+        Relationships: []
+      }
+      follow_ups: {
+        Row: {
+          completed: boolean
+          created_at: string
+          created_by: string | null
+          due_date: string
+          id: string
+          job_id: string | null
+          lead_id: string | null
+          note: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          created_by?: string | null
+          due_date: string
+          id?: string
+          job_id?: string | null
+          lead_id?: string | null
+          note?: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          created_by?: string | null
+          due_date?: string
+          id?: string
+          job_id?: string | null
+          lead_id?: string | null
+          note?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "follow_ups_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "follow_ups_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          amount: number
+          created_at: string
+          due_date: string | null
+          id: string
+          invoice_number: string
+          job_id: string
+          notes: string | null
+          paid_date: string | null
+          status: Database["public"]["Enums"]["invoice_status"]
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          invoice_number: string
+          job_id: string
+          notes?: string | null
+          paid_date?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          invoice_number?: string
+          job_id?: string
+          notes?: string | null
+          paid_date?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      jobs: {
+        Row: {
+          address: string | null
+          amount: number | null
+          assigned_to: string | null
+          completed_date: string | null
+          created_at: string
+          description: string | null
+          id: string
+          lead_id: string
+          notes: string | null
+          scheduled_date: string | null
+          status: Database["public"]["Enums"]["job_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          amount?: number | null
+          assigned_to?: string | null
+          completed_date?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          lead_id: string
+          notes?: string | null
+          scheduled_date?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          amount?: number | null
+          assigned_to?: string | null
+          completed_date?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          lead_id?: string
+          notes?: string | null
+          scheduled_date?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "jobs_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          address: string | null
+          assigned_to: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          source: Database["public"]["Enums"]["lead_source"]
+          status: Database["public"]["Enums"]["lead_status"]
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          assigned_to?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          source?: Database["public"]["Enums"]["lead_source"]
+          status?: Database["public"]["Enums"]["lead_status"]
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          assigned_to?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          source?: Database["public"]["Enums"]["lead_source"]
+          status?: Database["public"]["Enums"]["lead_status"]
+          updated_at?: string
         }
         Relationships: []
       }
@@ -122,6 +360,21 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      invoice_status: "draft" | "sent" | "paid" | "overdue"
+      job_status:
+        | "quoted"
+        | "scheduled"
+        | "in_progress"
+        | "completed"
+        | "cancelled"
+      lead_source:
+        | "contact_form"
+        | "rebate_estimator"
+        | "phone"
+        | "referral"
+        | "google"
+        | "other"
+      lead_status: "new" | "contacted" | "qualified" | "quoted" | "won" | "lost"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -250,6 +503,23 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      invoice_status: ["draft", "sent", "paid", "overdue"],
+      job_status: [
+        "quoted",
+        "scheduled",
+        "in_progress",
+        "completed",
+        "cancelled",
+      ],
+      lead_source: [
+        "contact_form",
+        "rebate_estimator",
+        "phone",
+        "referral",
+        "google",
+        "other",
+      ],
+      lead_status: ["new", "contacted", "qualified", "quoted", "won", "lost"],
     },
   },
 } as const

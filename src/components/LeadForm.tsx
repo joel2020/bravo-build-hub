@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SERVICES } from "@/lib/site";
 import { trackLeadSubmit } from "@/lib/analytics";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
   name: z.string().min(2, "Please enter your name"),
@@ -38,6 +39,16 @@ export const LeadForm = () => {
     setErrors({});
     trackLeadSubmit("contact_lead_form", { service: result.data.service });
     setSubmitted(true);
+
+    // Auto-create CRM lead (fire-and-forget)
+    supabase.from("leads").insert({
+      name: result.data.name,
+      email: result.data.email,
+      phone: result.data.phone,
+      source: "contact_form" as any,
+      status: "new" as any,
+      notes: `Service: ${result.data.service}. ${result.data.message}`,
+    }).then(() => {});
   };
 
   if (submitted) {

@@ -86,6 +86,129 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          id: string
+          customer_id: string | null
+          full_name: string
+          email: string | null
+          phone: string | null
+          address_line1: string | null
+          city: string | null
+          state: string | null
+          zip: string | null
+          property_type: string | null
+          service_requested: string | null
+          urgency: string
+          source: string
+          source_url: string | null
+          source_referrer: string | null
+          utm_source: string | null
+          utm_medium: string | null
+          utm_campaign: string | null
+          notes: string | null
+          status: string
+          tags: string[]
+          assigned_staff_id: string | null
+          assigned_tech_id: string | null
+          last_contact_at: string | null
+          next_follow_up_at: string | null
+          appointment_at: string | null
+          call_outcome: string | null
+          estimate_amount: number | null
+          job_value: number | null
+          maintenance_plan_status: string | null
+          transcript_url: string | null
+          transcript_text: string | null
+          call_summary: string | null
+          disposition: string | null
+          spam_score: number
+          honeypot_value: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          customer_id?: string | null
+          full_name: string
+          email?: string | null
+          phone?: string | null
+          address_line1?: string | null
+          city?: string | null
+          state?: string | null
+          zip?: string | null
+          property_type?: string | null
+          service_requested?: string | null
+          urgency?: string
+          source: string
+          source_url?: string | null
+          source_referrer?: string | null
+          utm_source?: string | null
+          utm_medium?: string | null
+          utm_campaign?: string | null
+          notes?: string | null
+          status?: string
+          tags?: string[]
+          assigned_staff_id?: string | null
+          assigned_tech_id?: string | null
+          last_contact_at?: string | null
+          next_follow_up_at?: string | null
+          appointment_at?: string | null
+          call_outcome?: string | null
+          estimate_amount?: number | null
+          job_value?: number | null
+          maintenance_plan_status?: string | null
+          transcript_url?: string | null
+          transcript_text?: string | null
+          call_summary?: string | null
+          disposition?: string | null
+          spam_score?: number
+          honeypot_value?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          customer_id?: string | null
+          full_name?: string
+          email?: string | null
+          phone?: string | null
+          address_line1?: string | null
+          city?: string | null
+          state?: string | null
+          zip?: string | null
+          property_type?: string | null
+          service_requested?: string | null
+          urgency?: string
+          source?: string
+          source_url?: string | null
+          source_referrer?: string | null
+          utm_source?: string | null
+          utm_medium?: string | null
+          utm_campaign?: string | null
+          notes?: string | null
+          status?: string
+          tags?: string[]
+          assigned_staff_id?: string | null
+          assigned_tech_id?: string | null
+          last_contact_at?: string | null
+          next_follow_up_at?: string | null
+          appointment_at?: string | null
+          call_outcome?: string | null
+          estimate_amount?: number | null
+          job_value?: number | null
+          maintenance_plan_status?: string | null
+          transcript_url?: string | null
+          transcript_text?: string | null
+          call_summary?: string | null
+          disposition?: string | null
+          spam_score?: number
+          honeypot_value?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -121,7 +244,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "office" | "office_staff" | "tech" | "marketing" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -249,7 +372,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "office", "office_staff", "tech", "marketing", "user"],
     },
   },
 } as const

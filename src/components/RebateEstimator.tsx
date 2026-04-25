@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Calculator, CheckCircle2, Loader2, Info } from "lucide-react";
 import { trackLeadSubmit, trackRebateEstimate } from "@/lib/analytics";
+import { captureLead } from "@/lib/leadCapture";
 
 type RebateRange = { low: number; high: number };
 type ProgramEstimate = {
@@ -201,8 +202,9 @@ export const RebateEstimator = () => {
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [lead, setLead] = useState({ name: "", email: "", phone: "", zip: "" });
+  const [lead, setLead] = useState({ name: "", email: "", phone: "", zip: "", company: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formStartAt] = useState(() => Date.now());
 
   const sysDef = system ? SYSTEMS[system] : null;
   const showTons = sysDef?.cleanHeatPerTon != null;
@@ -253,6 +255,11 @@ export const RebateEstimator = () => {
     }
     setErrors({});
     setSubmitting(true);
+    if (lead.company || Date.now() - formStartAt < 2000) {
+      setSubmitting(false);
+      setSubmitted(true);
+      return;
+    }
 
     const { error } = await supabase.from("rebate_estimates").insert({
       name: result.data.name,
@@ -265,6 +272,20 @@ export const RebateEstimator = () => {
       estimated_total: total.high,
       programs: estimates.map((p) => ({ name: p.name, low: p.range.low, high: p.range.high })),
     });
+
+    if (!error) {
+      await captureLead({
+        fullName: result.data.name,
+        email: result.data.email,
+        phone: result.data.phone || undefined,
+        serviceRequested: `Rebate estimator: ${SYSTEMS[system].label}`,
+        message: `ZIP ${result.data.zip}; home type ${homeType}; current heating ${currentHeating || "unknown"}; estimated incentives ${fmt(total.low)}-${fmt(total.high)}.`,
+        source: "rebate_estimator",
+        sourceUrl: typeof window !== "undefined" ? window.location.href : undefined,
+        sourceReferrer: typeof document !== "undefined" ? document.referrer : undefined,
+        honeypotValue: lead.company,
+      });
+    }
 
     setSubmitting(false);
 
@@ -424,6 +445,10 @@ export const RebateEstimator = () => {
 
       {showLeadForm && !submitted && (
         <form onSubmit={handleSubmit} className="mt-5 pt-5 border-t border-border grid sm:grid-cols-2 gap-4">
+          <div className="hidden" aria-hidden="true">
+            <Label htmlFor="rebate-company">Company</Label>
+            <Input id="rebate-company" tabIndex={-1} autoComplete="off" value={lead.company} onChange={(e) => setLead({ ...lead, company: e.target.value })} />
+          </div>
           <div>
             <Label htmlFor="lead-name">Name</Label>
             <Input id="lead-name" value={lead.name} onChange={(e) => setLead({ ...lead, name: e.target.value })} maxLength={100} className="mt-1.5" />

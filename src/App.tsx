@@ -19,6 +19,18 @@ import AdminComments from "./pages/AdminComments.tsx";
 import EmergencyHVAC from "./pages/EmergencyHVAC.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { StickyMobileCTA } from "./components/StickyMobileCTA";
+import { AuthProvider } from "./lib/auth";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import DashboardHome from "./pages/dashboard/DashboardHome";
+import LeadsPage from "./pages/dashboard/LeadsPage";
+import LeadDetailPage from "./pages/dashboard/LeadDetailPage";
+import CustomersPage from "./pages/dashboard/CustomersPage";
+import CustomerDetailPage from "./pages/dashboard/CustomerDetailPage";
+import JobsPage from "./pages/dashboard/JobsPage";
+import JobDetailPage from "./pages/dashboard/JobDetailPage";
+import CalendarPage from "./pages/dashboard/CalendarPage";
+import ContentPage from "./pages/dashboard/ContentPage";
+import SettingsPage from "./pages/dashboard/SettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -27,26 +39,41 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/services/:serviceSlug/:citySlug" element={<ServiceCityPage />} />
-          <Route path="/services/:slug" element={<NYSystem />} />
-          <Route path="/service-areas" element={<ServiceAreas />} />
-          <Route path="/service-areas/:slug" element={<CityPage />} />
-          <Route path="/reviews" element={<Reviews />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/admin/comments" element={<AdminComments />} />
-          <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <StickyMobileCTA />
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/:serviceSlug/:citySlug" element={<ServiceCityPage />} />
+            <Route path="/services/:slug" element={<NYSystem />} />
+            <Route path="/service-areas" element={<ServiceAreas />} />
+            <Route path="/service-areas/:slug" element={<CityPage />} />
+            <Route path="/reviews" element={<Reviews />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/login" element={<Auth />} />
+            <Route path="/admin/comments" element={<AdminComments />} />
+            <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
+
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardHome /></ProtectedRoute>} />
+            <Route path="/dashboard/leads" element={<ProtectedRoute allowedRoles={["admin", "office", "office_staff", "tech"]}><LeadsPage /></ProtectedRoute>} />
+            <Route path="/dashboard/leads/:id" element={<ProtectedRoute allowedRoles={["admin", "office", "office_staff", "tech"]}><LeadDetailPage /></ProtectedRoute>} />
+            <Route path="/dashboard/customers" element={<ProtectedRoute allowedRoles={["admin", "office", "office_staff", "tech"]}><CustomersPage /></ProtectedRoute>} />
+            <Route path="/dashboard/customers/:id" element={<ProtectedRoute allowedRoles={["admin", "office", "office_staff", "tech"]}><CustomerDetailPage /></ProtectedRoute>} />
+            <Route path="/dashboard/jobs" element={<ProtectedRoute allowedRoles={["admin", "office", "office_staff", "tech"]}><JobsPage /></ProtectedRoute>} />
+            <Route path="/dashboard/jobs/:id" element={<ProtectedRoute allowedRoles={["admin", "office", "office_staff", "tech"]}><JobDetailPage /></ProtectedRoute>} />
+            <Route path="/dashboard/calendar" element={<ProtectedRoute allowedRoles={["admin", "office", "office_staff", "tech"]}><CalendarPage /></ProtectedRoute>} />
+            <Route path="/dashboard/content" element={<ProtectedRoute allowedRoles={["admin", "marketing"]}><ContentPage /></ProtectedRoute>} />
+            <Route path="/dashboard/settings" element={<ProtectedRoute allowedRoles={["admin"]}><SettingsPage /></ProtectedRoute>} />
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <StickyMobileCTA />
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

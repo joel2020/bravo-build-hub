@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { z } from "zod";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SERVICES } from "@/lib/site";
-import { trackLeadSubmit } from "@/lib/analytics";
+import { trackEvent, trackLeadSubmit } from "@/lib/analytics";
+import { captureLead } from "@/lib/leadCapture";
 
 const schema = z.object({
   name: z.string().min(2, "Please enter your name"),
@@ -15,18 +16,22 @@ const schema = z.object({
   email: z.string().email("Please enter a valid email"),
   service: z.string().min(1, "Please select a service"),
   message: z.string().min(5, "Please add a short message"),
+  company: z.string().optional(),
 });
 
 type Errors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
 export const LeadForm = () => {
-  const [values, setValues] = useState({ name: "", phone: "", email: "", service: "", message: "" });
+  const submittedAtStart = useMemo(() => Date.now(), []);
+  const [values, setValues] = useState({ name: "", phone: "", email: "", service: "", message: "", company: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const update = (k: keyof typeof values, v: string) => setValues((p) => ({ ...p, [k]: v }));
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = schema.safeParse(values);
     if (!result.success) {
@@ -35,7 +40,38 @@ export const LeadForm = () => {
       setErrors(errs);
       return;
     }
+
+    // Basic anti-spam: hidden field + minimum fill time.
+    const elapsedMs = Date.now() - submittedAtStart;
+    if (result.data.company || elapsedMs < 2000) {
+      trackEvent("lead_spam_blocked", { form: "contact_lead_form", elapsed_ms: elapsedMs });
+      setSubmitted(true);
+      return;
+    }
+
     setErrors({});
+    setSubmitError(null);
+    setSubmitting(true);
+
+    const { error } = await captureLead({
+      fullName: result.data.name,
+      phone: result.data.phone,
+      email: result.data.email,
+      serviceRequested: result.data.service,
+      message: result.data.message,
+      source: "contact_form",
+      sourceUrl: typeof window !== "undefined" ? window.location.href : undefined,
+      sourceReferrer: typeof document !== "undefined" ? document.referrer : undefined,
+      honeypotValue: result.data.company,
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      setSubmitError("We couldn't submit your request right now. Please call us directly.");
+      return;
+    }
+
     trackLeadSubmit("contact_lead_form", { service: result.data.service });
     setSubmitted(true);
   };
@@ -52,6 +88,11 @@ export const LeadForm = () => {
 
   return (
     <form onSubmit={onSubmit} className="rounded-lg border border-border bg-card p-6 md:p-8 space-y-5">
+      <div className="hidden" aria-hidden="true">
+        <Label htmlFor="company">Company</Label>
+        <Input id="company" tabIndex={-1} autoComplete="off" value={values.company} onChange={(e) => update("company", e.target.value)} />
+      </div>
+
       <div className="grid md:grid-cols-2 gap-5">
         <div>
           <Label htmlFor="name">Full name</Label>
@@ -85,8 +126,11 @@ export const LeadForm = () => {
         <Textarea id="message" rows={5} value={values.message} onChange={(e) => update("message", e.target.value)} className="mt-1.5" />
         {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
       </div>
-      <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-        Request My Estimate
+
+      {submitError && <p className="text-sm text-destructive">{submitError}</p>}
+
+      <Button type="submit" size="lg" disabled={submitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
+        {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending...</> : "Request My Estimate"}
       </Button>
     </form>
   );

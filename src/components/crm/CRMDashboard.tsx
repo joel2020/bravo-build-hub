@@ -5,9 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { Briefcase, FileText, Bell, DollarSign, TrendingUp, AlertTriangle, Clock, ArrowRight, Users } from "lucide-react";
 
 type Stats = {
+  newLeadsToday: number;
+  uncontactedLeads: number;
+  overdueFollowUps: number;
   newLeadsThisWeek: number;
   openJobs: number;
-  overdueFollowUps: number;
   quotedRevenue: number;
   wonRevenue: number;
 };
@@ -17,8 +19,15 @@ type OverdueItem = { id: string; label: string; type: "invoice" | "follow_up"; d
 type ActivityEntry = { id: string; action: string; details: string | null; created_at: string; leads?: { name: string } | null; jobs?: { title: string } | null };
 
 export const CRMDashboard = () => {
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<Stats>({
-    newLeadsThisWeek: 0, openJobs: 0, overdueFollowUps: 0, quotedRevenue: 0, wonRevenue: 0,
+    newLeadsToday: 0,
+    uncontactedLeads: 0,
+    overdueFollowUps: 0,
+    newLeadsThisWeek: 0,
+    openJobs: 0,
+    quotedRevenue: 0,
+    wonRevenue: 0,
   });
   const [recentLeads, setRecentLeads] = useState<RecentLead[]>([]);
   const [overdueItems, setOverdueItems] = useState<OverdueItem[]>([]);
@@ -26,6 +35,7 @@ export const CRMDashboard = () => {
 
   useEffect(() => {
     const load = async () => {
+      setLoading(true);
       const [leads, jobs, invoices, followUps, recent, act] = await Promise.all([
         supabase.from("leads").select("status, created_at"),
         supabase.from("jobs").select("status, amount"),
@@ -42,12 +52,18 @@ export const CRMDashboard = () => {
 
       const weekStart = new Date(now);
       weekStart.setDate(now.getDate() - 7);
+
+      const dayStart = new Date(now);
+      dayStart.setHours(0, 0, 0, 0);
+
       const jobsWithAmount = j.map((x) => ({ ...x, amount: Number(x.amount || 0) }));
 
       setStats({
+        newLeadsToday: l.filter((x) => new Date(x.created_at) >= dayStart).length,
+        uncontactedLeads: l.filter((x) => x.status === "new").length,
+        overdueFollowUps: f.filter((x) => !x.completed && new Date(x.due_date) < now).length,
         newLeadsThisWeek: l.filter((x) => x.status === "new" && new Date(x.created_at) >= weekStart).length,
         openJobs: j.filter((x) => ["quoted", "scheduled", "in_progress"].includes(x.status)).length,
-        overdueFollowUps: f.filter((x) => !x.completed && new Date(x.due_date) < now).length,
         quotedRevenue: jobsWithAmount.filter((x) => x.status === "quoted").reduce((s, x) => s + x.amount, 0),
         wonRevenue: jobsWithAmount.filter((x) => x.status === "completed").reduce((s, x) => s + x.amount, 0),
       });
@@ -55,7 +71,6 @@ export const CRMDashboard = () => {
       setRecentLeads((recent.data as RecentLead[]) || []);
       setActivity((act.data as ActivityEntry[]) || []);
 
-      // Build overdue items
       const overdue: OverdueItem[] = [];
       inv.filter((x) => (x.status === "sent" || x.status === "overdue") && x.due_date && new Date(x.due_date) < now)
         .forEach((x) => overdue.push({ id: x.invoice_number, label: `Invoice ${x.invoice_number}`, type: "invoice", due: x.due_date! }));
@@ -63,29 +78,55 @@ export const CRMDashboard = () => {
         .forEach((x) => overdue.push({ id: x.note, label: x.note.substring(0, 50), type: "follow_up", due: x.due_date }));
       overdue.sort((a, b) => new Date(a.due).getTime() - new Date(b.due).getTime());
       setOverdueItems(overdue.slice(0, 6));
+      setLoading(false);
     };
     load();
   }, []);
 
+  const summaryCards = [
+    { label: "New leads today", value: stats.newLeadsToday, icon: TrendingUp, color: "text-blue-600" },
+    { label: "Uncontacted leads", value: stats.uncontactedLeads, icon: Users, color: "text-amber-600" },
+    { label: "Overdue follow-ups", value: stats.overdueFollowUps, icon: Bell, color: "text-destructive" },
+  ];
+
   const kpiCards = [
     { label: "New Leads (7d)", value: stats.newLeadsThisWeek, icon: TrendingUp, color: "text-primary" },
     { label: "Open Jobs", value: stats.openJobs, icon: Briefcase, color: "text-primary" },
-    { label: "Overdue Follow-ups", value: stats.overdueFollowUps, icon: Bell, color: "text-destructive" },
     { label: "Quoted Revenue", value: `$${stats.quotedRevenue.toLocaleString()}`, icon: DollarSign, color: "text-amber-600" },
     { label: "Won Revenue", value: `$${stats.wonRevenue.toLocaleString()}`, icon: ArrowRight, color: "text-green-600" },
     { label: "Overdue Invoices", value: invCount(overdueItems, "invoice"), icon: FileText, color: "text-destructive" },
   ];
 
   const statusColor: Record<string, string> = {
-    new: "bg-blue-100 text-blue-800", contacted: "bg-yellow-100 text-yellow-800",
-    qualified: "bg-purple-100 text-purple-800", quoted: "bg-orange-100 text-orange-800",
-    won: "bg-green-100 text-green-800", lost: "bg-red-100 text-red-800",
+    new: "bg-blue-100 text-blue-800",
+    contacted: "bg-yellow-100 text-yellow-800",
+    qualified: "bg-slate-200 text-slate-800",
+    quoted: "bg-purple-100 text-purple-800",
+    won: "bg-green-100 text-green-800",
+    lost: "bg-red-100 text-red-800",
   };
+
+  if (loading) {
+    return <div className="rounded-lg border p-6 text-sm text-muted-foreground">Loading CRM dashboard…</div>;
+  }
 
   return (
     <div className="space-y-6">
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {summaryCards.map((c) => (
+          <Card key={c.label}>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">{c.label}</CardTitle>
+              <c.icon className={`h-4 w-4 ${c.color}`} />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{c.value}</div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {kpiCards.map((c) => (
           <Card key={c.label}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -99,7 +140,6 @@ export const CRMDashboard = () => {
         ))}
       </div>
 
-      {/* Overdue Alerts */}
       {overdueItems.length > 0 && (
         <Card className="border-destructive/50 bg-destructive/5">
           <CardHeader className="pb-3">
@@ -124,7 +164,6 @@ export const CRMDashboard = () => {
       )}
 
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Recent Leads */}
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-semibold flex items-center gap-2">
@@ -142,7 +181,7 @@ export const CRMDashboard = () => {
                       <p className="text-sm font-medium">{lead.name}</p>
                       <p className="text-xs text-muted-foreground">{lead.source.replace(/_/g, " ")} · {new Date(lead.created_at).toLocaleDateString()}</p>
                     </div>
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColor[lead.status] || "bg-secondary text-foreground"}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${statusColor[lead.status] || "bg-secondary text-foreground"}`}>
                       {lead.status}
                     </span>
                   </li>
@@ -152,7 +191,6 @@ export const CRMDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Activity Feed */}
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-semibold flex items-center gap-2">

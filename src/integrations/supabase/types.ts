@@ -331,41 +331,65 @@ export type Database = {
         Row: {
           address: string | null
           assigned_to: string | null
+          city: string | null
           created_at: string
           email: string | null
+          gclid: string | null
           id: string
           name: string
           notes: string | null
           phone: string | null
+          service: string | null
           source: Database["public"]["Enums"]["lead_source"]
+          source_page: string | null
           status: Database["public"]["Enums"]["lead_status"]
           updated_at: string
+          urgency: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
         }
         Insert: {
           address?: string | null
           assigned_to?: string | null
+          city?: string | null
           created_at?: string
           email?: string | null
+          gclid?: string | null
           id?: string
           name: string
           notes?: string | null
           phone?: string | null
+          service?: string | null
           source?: Database["public"]["Enums"]["lead_source"]
+          source_page?: string | null
           status?: Database["public"]["Enums"]["lead_status"]
           updated_at?: string
+          urgency?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
         }
         Update: {
           address?: string | null
           assigned_to?: string | null
+          city?: string | null
           created_at?: string
           email?: string | null
+          gclid?: string | null
           id?: string
           name?: string
           notes?: string | null
           phone?: string | null
+          service?: string | null
           source?: Database["public"]["Enums"]["lead_source"]
+          source_page?: string | null
           status?: Database["public"]["Enums"]["lead_status"]
           updated_at?: string
+          urgency?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
         }
         Relationships: []
       }

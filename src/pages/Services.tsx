@@ -119,6 +119,30 @@ const Services = () => {
     />
 
     <section className="container mx-auto px-4 py-16 space-y-12">
+      <div className="bg-card border border-border rounded-lg p-6">
+        <h2 className="text-2xl font-extrabold mb-3">High-intent local services in Westchester County</h2>
+        <p className="text-muted-foreground mb-4">Explore dedicated local pages built for homeowners and property managers searching for specific HVAC services.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {[
+            ["AC Repair", "ac-repair-westchester-county-ny"],
+            ["AC Installation", "ac-installation-westchester-county-ny"],
+            ["Boiler Repair", "boiler-repair-westchester-county-ny"],
+            ["Boiler Installation", "boiler-installation-westchester-county-ny"],
+            ["Furnace Repair", "furnace-repair-westchester-county-ny"],
+            ["Furnace Installation", "furnace-installation-westchester-county-ny"],
+            ["Heat Pump Installation", "heat-pump-installation-westchester-county-ny"],
+            ["Mini-split Installation", "mini-split-installation-westchester-county-ny"],
+            ["Emergency HVAC Repair", "emergency-hvac-repair-westchester-county-ny"],
+            ["Commercial HVAC", "commercial-hvac-westchester-county-ny"],
+            ["HVAC Maintenance", "hvac-maintenance-westchester-county-ny"],
+            ["Indoor Air Quality", "indoor-air-quality-westchester-county-ny"],
+          ].map(([label, slug]) => (
+            <Link key={slug} to={`/services/${slug}`} className="border border-border rounded-md p-3 text-sm font-semibold hover:border-accent transition-colors">
+              {label} Westchester County NY
+            </Link>
+          ))}
+        </div>
+      </div>
       {services.map((s, i) => (
         <article key={s.title} id={s.title.toLowerCase().replace(/\s+/g, "-")} className="grid lg:grid-cols-3 gap-8 items-start pb-12 border-b border-border last:border-0">
           <div className="lg:col-span-1">

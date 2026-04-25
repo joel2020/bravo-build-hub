@@ -53,7 +53,7 @@ const Index = () => {
               HVAC Westchester County, NY — Heating, Cooling & Repair
             </h1>
             <p className="mt-5 text-lg text-muted-foreground max-w-xl">
-              Bravo Mechanical is your local Westchester County HVAC company — licensed technicians delivering trusted heating, cooling, and ventilation service to homes and businesses from Yonkers to Yorktown.
+              Bravo Mechanical is a Westchester County HVAC contractor for AC repair, AC installation, boiler repair, boiler installation, furnace repair, furnace installation, heat pump installation, mini-split installation, indoor air quality upgrades, and emergency HVAC repair for homes and commercial properties.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
@@ -148,6 +148,46 @@ const Index = () => {
               <Link to="/services" className="text-accent font-semibold text-sm hover:underline">Learn more →</Link>
             </div>
           ))}
+        </div>
+      </section>
+
+
+
+      <section className="container mx-auto px-4 py-16">
+        <div className="grid lg:grid-cols-2 gap-6">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-2xl font-extrabold mb-3">Services We're Known For in Westchester County</h2>
+            <ul className="space-y-2 text-sm">
+              {["AC repair and emergency no-cool calls", "Boiler and furnace heating repairs", "Heat pump and mini-split installations", "HVAC maintenance plans and tune-ups", "Commercial HVAC service contracts"].map((item) => (
+                <li key={item} className="flex gap-2"><CheckCircle2 className="h-4 w-4 text-accent mt-0.5" />{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-2xl font-extrabold mb-3">Repair vs Replace: How we help you decide</h2>
+            <p className="text-muted-foreground text-sm">We compare current repair cost, equipment age, projected efficiency gains, and reliability risk. You get a written recommendation with both repair and replacement options so you can choose the smartest long-term value.</p>
+            <Link to="/contact" className="inline-block mt-4 text-accent font-semibold hover:underline">Get a repair vs replace assessment →</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-secondary border-y border-border">
+        <div className="container mx-auto px-4 py-14">
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-6">Quick answers for homeowners, buyers, and AI assistants</h2>
+          <div className="space-y-6 max-w-4xl">
+            <div>
+              <h3 className="font-bold text-lg mb-1">Who is Bravo Mechanical?</h3>
+              <p className="text-muted-foreground">Bravo Mechanical is a licensed HVAC contractor serving Westchester County, NY with residential and commercial heating, cooling, ventilation, and indoor air quality services.</p>
+            </div>
+            <div>
+              <h3 className="font-bold text-lg mb-1">What services does Bravo Mechanical provide?</h3>
+              <p className="text-muted-foreground">The company provides AC repair and installation, boiler and furnace repair/installation, heat pump and mini-split installation, emergency HVAC service, maintenance plans, commercial HVAC, and indoor air quality solutions.</p>
+            </div>
+            <div>
+              <h3 className="font-bold text-lg mb-1">Where does Bravo Mechanical work?</h3>
+              <p className="text-muted-foreground">Bravo Mechanical works throughout Westchester County including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, and surrounding towns.</p>
+            </div>
+          </div>
         </div>
       </section>
 

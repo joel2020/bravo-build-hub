@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { z } from "zod";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,18 @@ const schema = z.object({
 
 type Errors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
+
+
+const getUrlParam = (params: URLSearchParams, key: string) => params.get(key) || null;
+
+const queueOwnerNotification = async (_leadId?: string) => {
+  // Placeholder hook: connect to an edge function, webhook, or Zapier route.
+};
+
+const queueCustomerAutoReply = async (_email?: string) => {
+  // Placeholder hook: connect to transactional email pipeline.
+};
+
 type LeadFormProps = {
   source?: "contact_form" | "rebate_estimator" | "phone" | "referral" | "google" | "other";
   defaultService?: string;
@@ -40,6 +52,16 @@ export const LeadForm = ({
   const [values, setValues] = useState({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
+  const tracking = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      source_page: window.location.pathname,
+      utm_source: getUrlParam(params, "utm_source"),
+      utm_medium: getUrlParam(params, "utm_medium"),
+      utm_campaign: getUrlParam(params, "utm_campaign"),
+      gclid: getUrlParam(params, "gclid"),
+    };
+  }, []);
   const [submitting, setSubmitting] = useState(false);
 
   const update = (k: keyof typeof values, v: string) => setValues((p) => ({ ...p, [k]: v }));
@@ -56,19 +78,27 @@ export const LeadForm = ({
     setErrors({});
     setSubmitting(true);
 
-    const { error } = await supabase.from("leads").insert({
+    const { data: insertedLead, error } = await supabase.from("leads").insert({
       name: result.data.name,
       email: result.data.email,
       phone: result.data.phone,
       source: source as any,
       status: "new" as any,
+      service: result.data.service,
+      city: city || null,
+      urgency: urgency || null,
+      source_page: tracking.source_page,
+      utm_source: tracking.utm_source,
+      utm_medium: tracking.utm_medium,
+      utm_campaign: tracking.utm_campaign,
+      gclid: tracking.gclid,
       notes: [
         `Service requested: ${result.data.service}`,
         city ? `City: ${city}` : null,
         urgency ? `Urgency: ${urgency}` : null,
         `Message: ${result.data.message}`,
       ].filter(Boolean).join(" | "),
-    });
+    }).select("id").single();
 
     setSubmitting(false);
     if (error) {
@@ -80,7 +110,9 @@ export const LeadForm = ({
       return;
     }
 
-    trackLeadSubmit("contact_lead_form", { service: result.data.service, source });
+    trackLeadSubmit("contact_lead_form", { service: result.data.service, source, ...tracking });
+    await queueOwnerNotification(insertedLead?.id);
+    await queueCustomerAutoReply(result.data.email);
     setSubmitted(true);
   };
 
@@ -89,7 +121,7 @@ export const LeadForm = ({
       <div className="rounded-lg border border-border bg-card p-8 text-center">
         <CheckCircle2 className="h-12 w-12 text-accent mx-auto mb-4" />
         <h3 className="text-xl font-bold mb-2">Thanks — we got your request.</h3>
-        <p className="text-muted-foreground">A member of the Bravo Mechanical team will reach out shortly. For urgent service, please call us directly.</p>
+        <p className="text-muted-foreground">A member of the Bravo Mechanical team will reach out shortly. If you need emergency HVAC service, call us now at (914) 361-9142 for fastest dispatch.</p>
       </div>
     );
   }

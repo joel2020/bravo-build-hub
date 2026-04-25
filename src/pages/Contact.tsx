@@ -5,12 +5,26 @@ import { LeadForm } from "@/components/LeadForm";
 import { RebateEstimator } from "@/components/RebateEstimator";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
+import { trackCallClick } from "@/lib/analytics";
 
 const Contact = () => {
   useSeo({
     title: "Contact Bravo Mechanical | HVAC Contractor Westchester County, NY",
     description: "Request HVAC service in Westchester County, NY. Contact Bravo Mechanical for AC repair, furnace and boiler service, heat pump installation, and emergency HVAC support.",
     canonical: `${SITE.siteUrl}/contact`,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      name: "Contact Bravo Mechanical",
+      url: `${SITE.siteUrl}/contact`,
+      mainEntity: {
+        "@type": "HVACBusiness",
+        name: SITE.legalName,
+        telephone: SITE.phone,
+        email: SITE.email,
+        areaServed: "Westchester County, NY",
+      },
+    },
   });
 
   return (
@@ -28,7 +42,7 @@ const Contact = () => {
             <Phone className="h-5 w-5 text-accent mt-0.5 shrink-0" />
             <div>
               <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Phone</div>
-              <a href={SITE.phoneHref} className="font-bold text-lg hover:text-accent">{SITE.phone}</a>
+              <a href={SITE.phoneHref} onClick={() => trackCallClick("contact_primary")} className="font-bold text-lg hover:text-accent">{SITE.phone}</a>
             </div>
           </div>
           <div className="flex items-start gap-3">
@@ -63,14 +77,19 @@ const Contact = () => {
             <AlertTriangle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
             <div>
               <div className="font-bold mb-1">Emergency HVAC service</div>
-              <p className="text-sm text-muted-foreground">No heat or no cooling? Call us directly at <a href={SITE.phoneHref} className="font-semibold text-accent hover:underline">{SITE.phone}</a> for fastest response.</p>
+              <p className="text-sm text-muted-foreground">No heat or no cooling? Call us directly at <a href={SITE.phoneHref} onClick={() => trackCallClick("contact_emergency")} className="font-semibold text-accent hover:underline">{SITE.phone}</a> for fastest response.</p>
             </div>
           </div>
         </div>
 
-        <div className="aspect-[4/3] bg-muted border border-border rounded-lg flex items-center justify-center text-muted-foreground text-sm">
-          Map placeholder — Westchester County, NY
-        </div>
+        <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="block aspect-[4/3] border border-border rounded-lg overflow-hidden hover:border-accent transition-colors">
+          <iframe
+            title="Bravo Mechanical Google Business Profile Map"
+            src="https://www.google.com/maps?q=Bravo+Mechanical+LLC+Westchester+County+NY&output=embed"
+            loading="lazy"
+            className="h-full w-full"
+          />
+        </a>
       </div>
 
       <div className="lg:col-span-2">

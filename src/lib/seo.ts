@@ -40,6 +40,8 @@ function toCanonicalUrl(pathOrUrl?: string) {
 }
 
 export function useSeo({ title, description, canonical, image, type = "website", jsonLd, noindex = false }: SeoOptions) {
+  const serializedJsonLd = jsonLd ? JSON.stringify(jsonLd) : "";
+
   useEffect(() => {
     document.title = title;
     upsertMeta('meta[name="description"]', "name", "description", description);
@@ -63,12 +65,14 @@ export function useSeo({ title, description, canonical, image, type = "website",
     if (jsonLd) {
       scriptEl = document.createElement("script");
       scriptEl.type = "application/ld+json";
-      scriptEl.text = JSON.stringify(jsonLd);
+      scriptEl.text = serializedJsonLd;
       scriptEl.dataset.seoJsonLd = "true";
       document.head.appendChild(scriptEl);
     }
+    document.documentElement.setAttribute("data-seo-ready", "true");
     return () => {
       if (scriptEl && scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl);
+      document.documentElement.removeAttribute("data-seo-ready");
     };
-  }, [title, description, canonical, image, type, noindex, JSON.stringify(jsonLd)]);
+  }, [title, description, canonical, image, type, noindex, jsonLd, serializedJsonLd]);
 }

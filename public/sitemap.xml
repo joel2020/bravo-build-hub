@@ -2,11 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://bravomechanicalny.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://bravomechanicalny.com/emergency-hvac-westchester</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://bravomechanicalny.com/company-facts</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://bravomechanicalny.com/about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bravomechanicalny.com/services</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://bravomechanicalny.com/services/gas-boiler</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravomechanicalny.com/services/gas-boilers</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravomechanicalny.com/services/mini-splits</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://bravomechanicalny.com/services/heat-pump</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bravomechanicalny.com/services/heat-pumps</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravomechanicalny.com/services/central-ac</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravomechanicalny.com/services/gas-furnaces</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bravomechanicalny.com/services/water-heaters</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

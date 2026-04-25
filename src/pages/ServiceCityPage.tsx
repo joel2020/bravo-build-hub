@@ -10,6 +10,7 @@ import { getCity } from "@/lib/cities";
 import { getServiceContent, SERVICE_CONTENT } from "@/lib/serviceContent";
 import { isTopCity, TOP_CITY_SLUGS } from "@/lib/serviceCityCombos";
 import { SITE } from "@/lib/site";
+import { trackEmergencyCtaClick, trackRequestServiceClick } from "@/lib/analytics";
 
 const SITE_URL = "https://bravomechanicalny.com";
 
@@ -170,7 +171,7 @@ const ServiceCityPage = () => {
             <p className="text-sm text-muted-foreground mb-5">No-pressure written quote. Licensed & insured. Same-day service when available.</p>
             <div className="flex flex-col gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact">Request an Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick(`service_city_${service.slug}_${city.slug}`)}>Request an Estimate</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold">
                 <a href={SITE.phoneHref}>
@@ -178,6 +179,13 @@ const ServiceCityPage = () => {
                   Call {SITE.phone}
                 </a>
               </Button>
+              {service.slug === "hvac-repair" && (
+                <Button asChild size="lg" variant="destructive" className="font-bold">
+                  <a href={SITE.phoneHref} onClick={() => trackEmergencyCtaClick(`service_city_emergency_${city.slug}`)}>
+                    Emergency HVAC Call
+                  </a>
+                </Button>
+              )}
             </div>
             <div className="mt-5 pt-5 border-t border-border flex items-center gap-2 text-sm">
               <div className="flex">

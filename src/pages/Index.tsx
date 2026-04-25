@@ -9,6 +9,8 @@ import { useSeo } from "@/lib/seo";
 
 import { SITE, SERVICES } from "@/lib/site";
 import { NY_SYSTEMS } from "@/lib/nySystems";
+import { getFeaturedGoogleReviews } from "@/lib/googleReviews";
+import { trackRequestServiceClick } from "@/lib/analytics";
 import heroTechnician from "@/assets/hero-technician.webp";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
 import jobBoiler from "@/assets/job-boiler-install.webp";
@@ -27,6 +29,8 @@ import projectBeckettBurner from "@/assets/project-beckett-burner.png";
 import projectGasBoiler from "@/assets/project-gas-boiler.png";
 
 const Index = () => {
+  const featuredReviews = getFeaturedGoogleReviews(3);
+
   useSeo({
     title: "HVAC Contractor Westchester County, NY | Bravo Mechanical",
     description: "Bravo Mechanical is a local HVAC contractor in Westchester County, NY for AC repair, AC installation, furnace repair, boiler repair, heat pumps, and maintenance plans.",
@@ -53,7 +57,7 @@ const Index = () => {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact">Request an Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick("home_hero")}>Request an Estimate</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold border-foreground/20">
                 <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
@@ -198,7 +202,7 @@ const Index = () => {
                     <li key={p} className="flex items-center gap-2 text-sm"><CheckCircle2 className="h-4 w-4 text-accent shrink-0" />{p}</li>
                   ))}
                 </ul>
-                <Button asChild variant="outline" className="font-semibold"><Link to="/contact">Request Service</Link></Button>
+              <Button asChild variant="outline" className="font-semibold"><Link to="/contact" onClick={() => trackRequestServiceClick("home_services")}>Request Service</Link></Button>
               </div>
             </div>
           ))}
@@ -307,19 +311,25 @@ const Index = () => {
             <h2 className="text-3xl md:text-4xl font-extrabold">Trusted by Westchester homeowners and businesses</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
-            {[
-              { q: "Showed up on time, diagnosed the problem fast, and had our AC running the same day. Professional from start to finish.", a: "Sarah M., Scarsdale" },
-              { q: "Bravo installed a new furnace for us last fall. Clean work, fair price, and the system runs great.", a: "Mike R., White Plains" },
-              { q: "Reliable for our restaurant — they keep our rooftop units running and respond quickly when we need them.", a: "Anthony D., Yonkers" },
-            ].map((t, i) => (
-              <div key={i} className="bg-card border border-border rounded-lg p-6">
-                <div className="flex gap-1 mb-3 text-accent">
-                  {Array.from({ length: 5 }).map((_, s) => <Star key={s} className="h-4 w-4 fill-current" />)}
+            {featuredReviews.length > 0 ? (
+              featuredReviews.map((review, i) => (
+                <div key={`${review.reviewerName}-${i}`} className="bg-card border border-border rounded-lg p-6">
+                  <div className="flex gap-1 mb-3 text-accent">
+                    {Array.from({ length: review.rating }).map((_, s) => <Star key={s} className="h-4 w-4 fill-current" />)}
+                  </div>
+                  <p className="text-sm mb-4">"{review.reviewText}"</p>
+                  <div className="text-sm font-semibold">{review.reviewerName}</div>
                 </div>
-                <p className="text-sm mb-4">"{t.q}"</p>
-                <div className="text-sm font-semibold">{t.a}</div>
+              ))
+            ) : (
+              <div className="md:col-span-3 bg-card border border-border rounded-lg p-6">
+                <p className="text-sm text-muted-foreground">Featured Google reviews will appear here once added to the verified reviews data file.</p>
               </div>
-            ))}
+            )}
+          </div>
+          <div className="mt-6 flex flex-wrap gap-4">
+            <Link to="/reviews" className="text-sm font-semibold text-accent hover:underline">Read all reviews →</Link>
+            <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent hover:underline">Leave a Google review →</a>
           </div>
         </div>
       </section>

@@ -4,21 +4,27 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
-
-const reviews = [
-  { q: "Showed up on time, diagnosed the problem fast, and had our AC running the same day. Professional from start to finish.", a: "Sarah M.", town: "Scarsdale" },
-  { q: "Bravo installed a new furnace for us last fall. Clean work, fair price, and the system runs great.", a: "Mike R.", town: "White Plains" },
-  { q: "Reliable for our restaurant — they keep our rooftop units running and respond quickly when we need them.", a: "Anthony D.", town: "Yonkers" },
-  { q: "Honest, knowledgeable, and easy to work with. Will use them again.", a: "Jennifer L.", town: "Tarrytown" },
-  { q: "Quick response on a no-heat call in January. Saved us from a freezing weekend.", a: "David K.", town: "Bedford" },
-  { q: "Quality install of our ductless mini-split system. Very pleased with the work.", a: "Patricia S.", town: "Mount Kisco" },
-];
+import { GOOGLE_REVIEWS } from "@/lib/googleReviews";
 
 const Reviews = () => {
+  const reviewSchema = GOOGLE_REVIEWS.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: GOOGLE_REVIEWS.map((review, index) => ({
+      "@type": "Review",
+      position: index + 1,
+      author: { "@type": "Person", name: review.reviewerName },
+      reviewRating: { "@type": "Rating", ratingValue: review.rating, bestRating: 5 },
+      reviewBody: review.reviewText,
+      ...(review.reviewDate ? { datePublished: review.reviewDate } : {}),
+    })),
+  } : undefined;
+
   useSeo({
     title: "HVAC Reviews in Westchester County, NY | Bravo Mechanical",
     description: "Read customer reviews for Bravo Mechanical's residential and commercial HVAC services across Westchester County, NY.",
     canonical: `${SITE.siteUrl}/reviews`,
+    jsonLd: reviewSchema,
   });
 
   return (
@@ -41,16 +47,31 @@ const Reviews = () => {
       </a>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {reviews.map((r, i) => (
-          <div key={i} className="bg-card border border-border rounded-lg p-6">
+        {GOOGLE_REVIEWS.length > 0 ? GOOGLE_REVIEWS.map((review, i) => (
+          <div key={`${review.reviewerName}-${i}`} className="bg-card border border-border rounded-lg p-6">
             <div className="flex gap-1 mb-3 text-accent">
-              {Array.from({ length: 5 }).map((_, s) => <Star key={s} className="h-4 w-4 fill-current" />)}
+              {Array.from({ length: review.rating }).map((_, s) => <Star key={s} className="h-4 w-4 fill-current" />)}
             </div>
-            <p className="text-sm mb-4 leading-relaxed">"{r.q}"</p>
-            <div className="text-sm font-semibold">{r.a}</div>
-            <div className="text-xs text-muted-foreground">{r.town}, NY</div>
+            <p className="text-sm mb-4 leading-relaxed">"{review.reviewText}"</p>
+            <div className="text-sm font-semibold">{review.reviewerName}</div>
+            {review.reviewDate && <div className="text-xs text-muted-foreground">Reviewed on {review.reviewDate}</div>}
+            {review.sourceUrl && (
+              <a href={review.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline mt-2 inline-block">
+                View on Google
+              </a>
+            )}
           </div>
-        ))}
+        )) : (
+          <div className="lg:col-span-3 bg-card border border-border rounded-lg p-6 text-sm text-muted-foreground">
+            No verified Google reviews have been added yet. Add real reviews in <code>src/lib/googleReviews.ts</code> to publish them here.
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8 text-center">
+        <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent hover:underline">
+          Leave a Google review →
+        </a>
       </div>
     </section>
 

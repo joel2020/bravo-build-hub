@@ -24,6 +24,7 @@ type Lead = {
 type LinkedJob = { id: string; title: string; status: string; amount: number | null; scheduled_date: string | null };
 type LinkedInvoice = { id: string; invoice_number: string; amount: number; status: string };
 type LinkedFollowUp = { id: string; note: string; due_date: string; completed: boolean };
+type ParsedLeadMeta = { service?: string; urgency?: string; city?: string };
 
 const statusColor: Record<string, string> = {
   new: "bg-blue-100 text-blue-800", contacted: "bg-yellow-100 text-yellow-800",
@@ -50,6 +51,8 @@ export const CRMLeads = () => {
   const [linkedJobs, setLinkedJobs] = useState<LinkedJob[]>([]);
   const [linkedInvoices, setLinkedInvoices] = useState<LinkedInvoice[]>([]);
   const [linkedFollowUps, setLinkedFollowUps] = useState<LinkedFollowUp[]>([]);
+  const [jobForm, setJobForm] = useState({ title: "", description: "", status: "quoted", scheduled_date: "", amount: "", notes: "" });
+  const [followUpForm, setFollowUpForm] = useState({ note: "", due_date: "", completed: false });
 
   const load = async () => {
     const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: false });
@@ -105,6 +108,66 @@ export const CRMLeads = () => {
     } else {
       setLinkedInvoices([]);
     }
+  };
+
+  const updateLeadStatus = async (lead: Lead, status: string) => {
+    const { error } = await supabase.from("leads").update({ status: status as any }).eq("id", lead.id);
+    if (error) {
+      toast({ title: "Status update failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    await logActivity("Lead status updated", lead.id, null, `Status: ${status}`);
+    setDetailLead({ ...lead, status });
+    load();
+    toast({ title: `Lead marked ${status}` });
+  };
+
+  const createJobFromLead = async () => {
+    if (!detailLead) return;
+    if (!jobForm.title.trim()) {
+      toast({ title: "Job title required", variant: "destructive" });
+      return;
+    }
+    const { data: job, error } = await supabase.from("jobs").insert({
+      lead_id: detailLead.id,
+      title: jobForm.title.trim(),
+      description: jobForm.description || null,
+      status: jobForm.status as any,
+      address: detailLead.address || null,
+      scheduled_date: jobForm.scheduled_date || null,
+      amount: jobForm.amount ? Number(jobForm.amount) : 0,
+      notes: jobForm.notes || null,
+    }).select("id").single();
+    if (error) {
+      toast({ title: "Job creation failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    await logActivity("Job created from lead", detailLead.id, job?.id || null, jobForm.title.trim());
+    toast({ title: "Job created" });
+    setJobForm({ title: "", description: "", status: "quoted", scheduled_date: "", amount: "", notes: "" });
+    openDetail(detailLead);
+  };
+
+  const createFollowUpFromLead = async () => {
+    if (!detailLead) return;
+    if (!followUpForm.note.trim() || !followUpForm.due_date) {
+      toast({ title: "Follow-up note and due date are required", variant: "destructive" });
+      return;
+    }
+    const { error } = await supabase.from("follow_ups").insert({
+      lead_id: detailLead.id,
+      note: followUpForm.note.trim(),
+      due_date: followUpForm.due_date,
+      completed: followUpForm.completed,
+    });
+    if (error) {
+      toast({ title: "Follow-up creation failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    await logActivity("Follow-up created", detailLead.id, null, followUpForm.note.trim());
+    toast({ title: "Follow-up created" });
+    setFollowUpForm({ note: "", due_date: "", completed: false });
+    openDetail(detailLead);
   };
 
   const filtered = leads.filter((l) => {
@@ -207,6 +270,10 @@ export const CRMLeads = () => {
         <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
           {detailLead && (
             <>
+              {(() => {
+                const leadMeta = parseLeadMeta(detailLead.notes);
+                return (
+            <>
               <SheetHeader>
                 <SheetTitle className="text-xl">{detailLead.name}</SheetTitle>
                 <span className={`inline-block w-fit px-2 py-0.5 rounded-full text-xs font-medium ${statusColor[detailLead.status] || ""}`}>{detailLead.status}</span>
@@ -244,12 +311,48 @@ export const CRMLeads = () => {
                   </div>
                 )}
 
+                <div className="grid grid-cols-3 gap-2">
+                  {leadMeta.service && (
+                    <div className="text-xs bg-secondary p-2 rounded-md">
+                      <div className="font-semibold text-muted-foreground uppercase">Service</div>
+                      <div>{leadMeta.service}</div>
+                    </div>
+                  )}
+                  {leadMeta.urgency && (
+                    <div className="text-xs bg-secondary p-2 rounded-md">
+                      <div className="font-semibold text-muted-foreground uppercase">Urgency</div>
+                      <div>{leadMeta.urgency}</div>
+                    </div>
+                  )}
+                  {leadMeta.city && (
+                    <div className="text-xs bg-secondary p-2 rounded-md">
+                      <div className="font-semibold text-muted-foreground uppercase">City</div>
+                      <div>{leadMeta.city}</div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground mb-2">Quick status</p>
+                  <div className="flex flex-wrap gap-2">
+                    {STATUSES.map((status) => (
+                      <Button
+                        key={status}
+                        size="sm"
+                        variant={detailLead.status === status ? "default" : "outline"}
+                        onClick={() => updateLeadStatus(detailLead, status)}
+                        className="capitalize"
+                      >
+                        {status}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="flex gap-2">
                   <Button size="sm" onClick={() => { startEdit(detailLead); setDetailLead(null); }}>Edit Lead</Button>
                   <Button size="sm" variant="outline" onClick={() => {
-                    setForm({ name: "", email: "", phone: "", address: detailLead.address || "", source: "other", status: "new", notes: "" });
-                    setDetailLead(null);
-                    // This would need integration with jobs tab - for now open the edit dialog pre-filled
+                    setJobForm((prev) => ({ ...prev, title: `HVAC Service - ${detailLead.name}`, description: detailLead.notes || "", status: "quoted", notes: detailLead.notes || "" }));
                   }}>
                     <Briefcase className="h-4 w-4 mr-1" /> Create Job
                   </Button>
@@ -271,6 +374,39 @@ export const CRMLeads = () => {
                 </div>
 
                 <Separator />
+
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold">Create job from lead</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="col-span-2"><Label>Job Title *</Label><Input value={jobForm.title} onChange={(e) => setJobForm({ ...jobForm, title: e.target.value })} /></div>
+                    <div><Label>Status</Label>
+                      <Select value={jobForm.status} onValueChange={(v) => setJobForm({ ...jobForm, status: v })}>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="quoted">Quoted</SelectItem>
+                          <SelectItem value="scheduled">Scheduled</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div><Label>Scheduled</Label><Input type="date" value={jobForm.scheduled_date} onChange={(e) => setJobForm({ ...jobForm, scheduled_date: e.target.value })} /></div>
+                    <div><Label>Amount ($)</Label><Input type="number" value={jobForm.amount} onChange={(e) => setJobForm({ ...jobForm, amount: e.target.value })} /></div>
+                    <div className="col-span-2"><Label>Description</Label><Textarea rows={2} value={jobForm.description} onChange={(e) => setJobForm({ ...jobForm, description: e.target.value })} /></div>
+                    <div className="col-span-2"><Button size="sm" onClick={createJobFromLead}><ArrowRight className="h-4 w-4 mr-1" />Create Job</Button></div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold">Create follow-up</h3>
+                  <div><Label>Note *</Label><Textarea rows={2} value={followUpForm.note} onChange={(e) => setFollowUpForm({ ...followUpForm, note: e.target.value })} /></div>
+                  <div><Label>Due date/time *</Label><Input type="datetime-local" value={followUpForm.due_date} onChange={(e) => setFollowUpForm({ ...followUpForm, due_date: e.target.value })} /></div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <input id="fu-completed" type="checkbox" checked={followUpForm.completed} onChange={(e) => setFollowUpForm({ ...followUpForm, completed: e.target.checked })} />
+                    <Label htmlFor="fu-completed">Completed</Label>
+                  </div>
+                  <Button size="sm" onClick={createFollowUpFromLead}>Create Follow-up</Button>
+                </div>
 
                 {/* Linked Jobs */}
                 <div>
@@ -330,6 +466,9 @@ export const CRMLeads = () => {
                 )}
               </div>
             </>
+                );
+              })()}
+            </>
           )}
         </SheetContent>
       </Sheet>
@@ -339,4 +478,18 @@ export const CRMLeads = () => {
 
 async function logActivity(action: string, leadId: string | null, jobId: string | null, details: string | null) {
   await supabase.from("activity_log").insert({ action, lead_id: leadId, job_id: jobId, details });
+}
+
+function parseLeadMeta(notes: string | null): ParsedLeadMeta {
+  if (!notes) return {};
+  const parts = notes.split("|").map((p) => p.trim());
+  const findValue = (label: string) => {
+    const item = parts.find((p) => p.toLowerCase().startsWith(`${label.toLowerCase()}:`));
+    return item?.split(":").slice(1).join(":").trim();
+  };
+  return {
+    service: findValue("Service requested") || findValue("Service"),
+    urgency: findValue("Urgency"),
+    city: findValue("City"),
+  };
 }

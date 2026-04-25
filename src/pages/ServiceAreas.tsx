@@ -6,6 +6,7 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { CITIES } from "@/lib/cities";
 import { SITE } from "@/lib/site";
+import { useSeo } from "@/lib/seo";
 
 const REGION_ORDER = [
   "Lower Westchester",
@@ -16,6 +17,12 @@ const REGION_ORDER = [
 ] as const;
 
 const ServiceAreas = () => {
+  useSeo({
+    title: "HVAC Service Areas | Westchester County, NY | Bravo Mechanical",
+    description: "See all Westchester County service areas for Bravo Mechanical HVAC services, including White Plains, Yonkers, New Rochelle, Scarsdale, Rye, and more.",
+    canonical: `${SITE.siteUrl}/service-areas`,
+  });
+
   const grouped = REGION_ORDER.map((region) => ({
     region,
     cities: CITIES.filter((c) => c.region === region),

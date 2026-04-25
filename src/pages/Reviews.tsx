@@ -3,6 +3,7 @@ import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { SITE } from "@/lib/site";
+import { useSeo } from "@/lib/seo";
 
 const reviews = [
   { q: "Showed up on time, diagnosed the problem fast, and had our AC running the same day. Professional from start to finish.", a: "Sarah M.", town: "Scarsdale" },
@@ -13,7 +14,14 @@ const reviews = [
   { q: "Quality install of our ductless mini-split system. Very pleased with the work.", a: "Patricia S.", town: "Mount Kisco" },
 ];
 
-const Reviews = () => (
+const Reviews = () => {
+  useSeo({
+    title: "HVAC Reviews in Westchester County, NY | Bravo Mechanical",
+    description: "Read customer reviews for Bravo Mechanical's residential and commercial HVAC services across Westchester County, NY.",
+    canonical: `${SITE.siteUrl}/reviews`,
+  });
+
+  return (
   <Layout>
     <PageHero
       eyebrow="Reviews"
@@ -48,6 +56,7 @@ const Reviews = () => (
 
     <CTABand title="Worked with us? Leave a review." subtitle="Your feedback helps other Westchester neighbors find dependable HVAC service." />
   </Layout>
-);
+  );
+};
 
 export default Reviews;

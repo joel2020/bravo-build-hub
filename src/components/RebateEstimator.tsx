@@ -281,18 +281,33 @@ export const RebateEstimator = () => {
       system_type: SYSTEMS[system].label,
       estimated_total: total.high,
     });
-    setSubmitted(true);
 
-    // Auto-create CRM lead (fire-and-forget, don't block UX)
-    supabase.from("leads").insert({
+    const { error: leadError } = await supabase.from("leads").insert({
       name: result.data.name,
       email: result.data.email,
       phone: result.data.phone || null,
       address: result.data.zip,
       source: "rebate_estimator" as any,
       status: "new" as any,
-      notes: `Rebate estimate: ${SYSTEMS[system].label}, est $${total.low}–$${total.high}`,
-    }).then(() => {});
+      notes: [
+        `Service requested: ${SYSTEMS[system].label}`,
+        `Estimated rebate range: $${total.low}–$${total.high}`,
+        `ZIP: ${result.data.zip}`,
+        `Home type: ${homeType}`,
+        currentHeating ? `Current heating: ${currentHeating}` : null,
+      ].filter(Boolean).join(" | "),
+    });
+
+    if (leadError) {
+      toast({
+        title: "Estimate saved, but CRM sync failed",
+        description: "Your estimate is saved. Please call us and mention your rebate request.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubmitted(true);
 
     toast({
       title: "Estimate request received",

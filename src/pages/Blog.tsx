@@ -35,17 +35,17 @@ const Blog = () => {
     title: "HVAC Blog — Westchester Heating & Cooling Tips | Bravo Mechanical",
     description:
       "Practical HVAC guides for Westchester County homeowners: seasonal tune-ups, NY rebates, troubleshooting, and local install advice from licensed pros.",
-    canonical: `${window.location.origin}/blog`,
+    canonical: `${SITE.siteUrl}/blog`,
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Blog",
       name: `${SITE.name} HVAC Blog`,
-      url: `${window.location.origin}/blog`,
+      url: `${SITE.siteUrl}/blog`,
       publisher: { "@type": "Organization", name: SITE.legalName },
       blogPost: posts.map((p) => ({
         "@type": "BlogPosting",
         headline: p.title,
-        url: `${window.location.origin}/blog/${p.slug}`,
+        url: `${SITE.siteUrl}/blog/${p.slug}`,
         datePublished: p.date,
         author: { "@type": "Organization", name: p.author },
       })),

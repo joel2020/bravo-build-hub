@@ -2,10 +2,19 @@ import { Phone, Mail, MapPin, Clock, AlertTriangle } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { LeadForm } from "@/components/LeadForm";
+import { RebateEstimator } from "@/components/RebateEstimator";
 import { SITE } from "@/lib/site";
+import { useSeo } from "@/lib/seo";
 
-const Contact = () => (
-  <Layout>
+const Contact = () => {
+  useSeo({
+    title: "Contact Bravo Mechanical | HVAC Contractor Westchester County, NY",
+    description: "Request HVAC service in Westchester County, NY. Contact Bravo Mechanical for AC repair, furnace and boiler service, heat pump installation, and emergency HVAC support.",
+    canonical: `${SITE.siteUrl}/contact`,
+  });
+
+  return (
+    <Layout>
     <PageHero
       eyebrow="Contact"
       title="Get in touch with Bravo Mechanical"
@@ -68,9 +77,13 @@ const Contact = () => (
         <h2 className="text-2xl font-extrabold mb-2">Request an estimate</h2>
         <p className="text-muted-foreground mb-6">Tell us a bit about what you need and we'll get back to you quickly.</p>
         <LeadForm />
+        <div className="mt-8">
+          <RebateEstimator />
+        </div>
       </div>
     </section>
   </Layout>
-);
+  );
+};
 
 export default Contact;

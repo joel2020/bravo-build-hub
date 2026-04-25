@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
+import { useSeo } from "@/lib/seo";
 
 import { SITE, SERVICES } from "@/lib/site";
 import { NY_SYSTEMS } from "@/lib/nySystems";
@@ -26,6 +27,12 @@ import projectBeckettBurner from "@/assets/project-beckett-burner.png";
 import projectGasBoiler from "@/assets/project-gas-boiler.png";
 
 const Index = () => {
+  useSeo({
+    title: "HVAC Contractor Westchester County, NY | Bravo Mechanical",
+    description: "Bravo Mechanical is a local HVAC contractor in Westchester County, NY for AC repair, AC installation, furnace repair, boiler repair, heat pumps, and maintenance plans.",
+    canonical: `${SITE.siteUrl}/`,
+  });
+
   // Homepage LocalBusiness + AggregateRating JSON-LD lives in static index.html
   // so it's visible to all crawlers without JS rendering.
 

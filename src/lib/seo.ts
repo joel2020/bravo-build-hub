@@ -8,6 +8,7 @@ type SeoOptions = {
   image?: string;
   type?: "website" | "article";
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
 };
 
 function upsertMeta(selector: string, attr: "name" | "property", key: string, content: string) {
@@ -30,7 +31,15 @@ function upsertLink(rel: string, href: string) {
   el.setAttribute("href", href);
 }
 
-export function useSeo({ title, description, canonical, image, type = "website", jsonLd }: SeoOptions) {
+const SITE_URL = "https://bravomechanicalny.com";
+
+function toCanonicalUrl(pathOrUrl?: string) {
+  if (!pathOrUrl) return `${SITE_URL}${window.location.pathname}`.replace(/\/$/, "") || SITE_URL;
+  if (pathOrUrl.startsWith("http")) return pathOrUrl.replace(/\/$/, "");
+  return `${SITE_URL}${pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`}`.replace(/\/$/, "");
+}
+
+export function useSeo({ title, description, canonical, image, type = "website", jsonLd, noindex = false }: SeoOptions) {
   useEffect(() => {
     document.title = title;
     upsertMeta('meta[name="description"]', "name", "description", description);
@@ -45,9 +54,10 @@ export function useSeo({ title, description, canonical, image, type = "website",
       upsertMeta('meta[name="twitter:image"]', "name", "twitter:image", absoluteImage);
       upsertMeta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
     }
-    const url = canonical || window.location.origin + window.location.pathname;
+    const url = toCanonicalUrl(canonical);
     upsertLink("canonical", url);
     upsertMeta('meta[property="og:url"]', "property", "og:url", url);
+    upsertMeta('meta[name="robots"]', "name", "robots", noindex ? "noindex, nofollow" : "index, follow");
 
     let scriptEl: HTMLScriptElement | null = null;
     if (jsonLd) {
@@ -60,5 +70,5 @@ export function useSeo({ title, description, canonical, image, type = "website",
     return () => {
       if (scriptEl && scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl);
     };
-  }, [title, description, canonical, image, type, JSON.stringify(jsonLd)]);
+  }, [title, description, canonical, image, type, noindex, JSON.stringify(jsonLd)]);
 }

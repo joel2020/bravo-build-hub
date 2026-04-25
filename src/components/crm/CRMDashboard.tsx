@@ -2,19 +2,14 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Briefcase, FileText, Bell, DollarSign, TrendingUp, AlertTriangle, Clock, ArrowRight } from "lucide-react";
+import { Briefcase, FileText, Bell, DollarSign, TrendingUp, AlertTriangle, Clock, ArrowRight, Users } from "lucide-react";
 
 type Stats = {
-  totalLeads: number;
-  newLeads: number;
-  activeJobs: number;
-  completedJobs: number;
-  unpaidInvoices: number;
-  overdueInvoices: number;
-  totalRevenue: number;
-  pendingFollowUps: number;
+  newLeadsThisWeek: number;
+  openJobs: number;
   overdueFollowUps: number;
-  conversionRate: number;
+  quotedRevenue: number;
+  wonRevenue: number;
 };
 
 type RecentLead = { id: string; name: string; status: string; source: string; created_at: string };
@@ -23,9 +18,7 @@ type ActivityEntry = { id: string; action: string; details: string | null; creat
 
 export const CRMDashboard = () => {
   const [stats, setStats] = useState<Stats>({
-    totalLeads: 0, newLeads: 0, activeJobs: 0, completedJobs: 0,
-    unpaidInvoices: 0, overdueInvoices: 0, totalRevenue: 0,
-    pendingFollowUps: 0, overdueFollowUps: 0, conversionRate: 0,
+    newLeadsThisWeek: 0, openJobs: 0, overdueFollowUps: 0, quotedRevenue: 0, wonRevenue: 0,
   });
   const [recentLeads, setRecentLeads] = useState<RecentLead[]>([]);
   const [overdueItems, setOverdueItems] = useState<OverdueItem[]>([]);
@@ -34,8 +27,8 @@ export const CRMDashboard = () => {
   useEffect(() => {
     const load = async () => {
       const [leads, jobs, invoices, followUps, recent, act] = await Promise.all([
-        supabase.from("leads").select("status"),
-        supabase.from("jobs").select("status"),
+        supabase.from("leads").select("status, created_at"),
+        supabase.from("jobs").select("status, amount"),
         supabase.from("invoices").select("status, amount, due_date, invoice_number"),
         supabase.from("follow_ups").select("completed, due_date, note"),
         supabase.from("leads").select("id, name, status, source, created_at").order("created_at", { ascending: false }).limit(5),
@@ -47,19 +40,16 @@ export const CRMDashboard = () => {
       const f = followUps.data || [];
       const now = new Date();
 
-      const wonLeads = l.filter((x) => x.status === "won").length;
+      const weekStart = new Date(now);
+      weekStart.setDate(now.getDate() - 7);
+      const jobsWithAmount = j.map((x) => ({ ...x, amount: Number(x.amount || 0) }));
 
       setStats({
-        totalLeads: l.length,
-        newLeads: l.filter((x) => x.status === "new").length,
-        activeJobs: j.filter((x) => ["scheduled", "in_progress"].includes(x.status)).length,
-        completedJobs: j.filter((x) => x.status === "completed").length,
-        unpaidInvoices: inv.filter((x) => x.status === "sent" || x.status === "overdue").length,
-        overdueInvoices: inv.filter((x) => x.status === "overdue").length,
-        totalRevenue: inv.filter((x) => x.status === "paid").reduce((s, x) => s + Number(x.amount), 0),
-        pendingFollowUps: f.filter((x) => !x.completed).length,
+        newLeadsThisWeek: l.filter((x) => x.status === "new" && new Date(x.created_at) >= weekStart).length,
+        openJobs: j.filter((x) => ["quoted", "scheduled", "in_progress"].includes(x.status)).length,
         overdueFollowUps: f.filter((x) => !x.completed && new Date(x.due_date) < now).length,
-        conversionRate: l.length > 0 ? Math.round((wonLeads / l.length) * 100) : 0,
+        quotedRevenue: jobsWithAmount.filter((x) => x.status === "quoted").reduce((s, x) => s + x.amount, 0),
+        wonRevenue: jobsWithAmount.filter((x) => x.status === "completed").reduce((s, x) => s + x.amount, 0),
       });
 
       setRecentLeads((recent.data as RecentLead[]) || []);
@@ -78,14 +68,12 @@ export const CRMDashboard = () => {
   }, []);
 
   const kpiCards = [
-    { label: "Total Leads", value: stats.totalLeads, icon: Users, color: "text-primary" },
-    { label: "New Leads", value: stats.newLeads, icon: TrendingUp, color: "text-primary" },
-    { label: "Conversion Rate", value: `${stats.conversionRate}%`, icon: ArrowRight, color: "text-green-600" },
-    { label: "Active Jobs", value: stats.activeJobs, icon: Briefcase, color: "text-primary" },
-    { label: "Total Revenue", value: `$${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, color: "text-green-600" },
-    { label: "Unpaid Invoices", value: stats.unpaidInvoices, icon: FileText, color: "text-destructive" },
-    { label: "Pending Follow-ups", value: stats.pendingFollowUps, icon: Bell, color: "text-amber-600" },
-    { label: "Completed Jobs", value: stats.completedJobs, icon: Briefcase, color: "text-green-600" },
+    { label: "New Leads (7d)", value: stats.newLeadsThisWeek, icon: TrendingUp, color: "text-primary" },
+    { label: "Open Jobs", value: stats.openJobs, icon: Briefcase, color: "text-primary" },
+    { label: "Overdue Follow-ups", value: stats.overdueFollowUps, icon: Bell, color: "text-destructive" },
+    { label: "Quoted Revenue", value: `$${stats.quotedRevenue.toLocaleString()}`, icon: DollarSign, color: "text-amber-600" },
+    { label: "Won Revenue", value: `$${stats.wonRevenue.toLocaleString()}`, icon: ArrowRight, color: "text-green-600" },
+    { label: "Overdue Invoices", value: invCount(overdueItems, "invoice"), icon: FileText, color: "text-destructive" },
   ];
 
   const statusColor: Record<string, string> = {
@@ -198,3 +186,7 @@ export const CRMDashboard = () => {
     </div>
   );
 };
+
+function invCount(items: OverdueItem[], type: OverdueItem["type"]) {
+  return items.filter((item) => item.type === type).length;
+}

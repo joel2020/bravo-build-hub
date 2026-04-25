@@ -44,3 +44,7 @@ export const trackRebateEstimate = (extra: EventParams = {}) =>
 
 export const trackEmergencyCtaClick = (location: string) =>
   trackEvent("emergency_cta_click", { event_category: "engagement", location });
+
+
+export const trackRequestServiceClick = (location: string) =>
+  trackEvent("request_service_click", { event_category: "lead", location });

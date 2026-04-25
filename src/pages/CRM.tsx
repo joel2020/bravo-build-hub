@@ -12,13 +12,14 @@ import { CRMInvoices } from "@/components/crm/CRMInvoices";
 import { CRMFollowUps } from "@/components/crm/CRMFollowUps";
 import { CRMDashboard } from "@/components/crm/CRMDashboard";
 import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
+import { SITE } from "@/lib/site";
 
 const CRM = () => {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
   const navigate = useNavigate();
 
-  useSeo({ title: "CRM | Bravo Mechanical", description: "Internal CRM dashboard." });
+  useSeo({ title: "CRM | Bravo Mechanical", description: "Internal CRM dashboard.", canonical: `${SITE.siteUrl}/admin/crm`, noindex: true });
 
   useEffect(() => {
     const init = async () => {

@@ -11,7 +11,7 @@ import { getServiceContent, SERVICE_CONTENT } from "@/lib/serviceContent";
 import { isTopCity, TOP_CITY_SLUGS } from "@/lib/serviceCityCombos";
 import { SITE } from "@/lib/site";
 
-const SITE_URL = "https://bravo-build-hub.lovable.app";
+const SITE_URL = "https://bravomechanicalny.com";
 
 const ServiceCityPage = () => {
   const { serviceSlug, citySlug } = useParams<{ serviceSlug: string; citySlug: string }>();

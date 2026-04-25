@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { useSeo } from "@/lib/seo";
+import { SITE } from "@/lib/site";
 
 const Auth = () => {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -15,7 +16,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useSeo({ title: "Admin Sign In | Bravo Mechanical", description: "Admin sign in." });
+  useSeo({ title: "Admin Sign In | Bravo Mechanical", description: "Admin sign in.", canonical: `${SITE.siteUrl}/auth`, noindex: true });
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {

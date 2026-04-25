@@ -2,8 +2,17 @@ import { CheckCircle2 } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
+import { useSeo } from "@/lib/seo";
+import { SITE } from "@/lib/site";
 
-const About = () => (
+const About = () => {
+  useSeo({
+    title: "About Bravo Mechanical | Westchester County HVAC Specialists",
+    description: "Learn about Bravo Mechanical, licensed and insured HVAC specialists serving residential and commercial customers throughout Westchester County, NY.",
+    canonical: `${SITE.siteUrl}/about`,
+  });
+
+  return (
   <Layout>
     <PageHero
       eyebrow="About Us"
@@ -55,6 +64,7 @@ const About = () => (
 
     <CTABand />
   </Layout>
-);
+  );
+};
 
 export default About;

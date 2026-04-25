@@ -12,7 +12,7 @@ import { isTopCity } from "@/lib/serviceCityCombos";
 import { getPostsForCity } from "@/lib/blog";
 import { Calendar, Clock } from "lucide-react";
 
-const SITE_URL = "https://bravo-build-hub.lovable.app";
+const SITE_URL = "https://bravomechanicalny.com";
 
 const CityPage = () => {
   const { slug } = useParams<{ slug: string }>();

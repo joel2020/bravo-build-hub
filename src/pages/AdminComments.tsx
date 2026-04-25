@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { Check, Trash2, LogOut } from "lucide-react";
 import { useSeo } from "@/lib/seo";
+import { SITE } from "@/lib/site";
 
 type AdminComment = {
   id: string;
@@ -26,7 +27,7 @@ const AdminComments = () => {
   const [filter, setFilter] = useState<"pending" | "approved" | "all">("pending");
   const navigate = useNavigate();
 
-  useSeo({ title: "Comment Moderation | Bravo Mechanical", description: "Admin comment moderation." });
+  useSeo({ title: "Comment Moderation | Bravo Mechanical", description: "Admin comment moderation.", canonical: `${SITE.siteUrl}/admin/comments`, noindex: true });
 
   useEffect(() => {
     const init = async () => {

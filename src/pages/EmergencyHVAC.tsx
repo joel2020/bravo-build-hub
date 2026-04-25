@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SITE, TOWNS } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
+import { LeadForm } from "@/components/LeadForm";
+import { trackEmergencyCtaClick } from "@/lib/analytics";
 
 const SITE_URL = "https://bravomechanicalny.com";
 
@@ -111,7 +113,7 @@ const EmergencyHVAC = () => {
           </p>
           <div className="mt-7 flex flex-col sm:flex-row gap-3">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-              <a href={SITE.phoneHref}>
+              <a href={SITE.phoneHref} onClick={() => trackEmergencyCtaClick("emergency_hero_call")}>
                 <Phone className="h-4 w-4 mr-2" /> Call {SITE.phone}
               </a>
             </Button>
@@ -126,6 +128,14 @@ const EmergencyHVAC = () => {
             <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Licensed & Insured</span>
             <span className="inline-flex items-center gap-1.5"><Wrench className="h-4 w-4" /> Most no-heat calls fixed same visit</span>
           </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-4 py-12">
+        <div className="max-w-3xl">
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-2">Request emergency HVAC dispatch</h2>
+          <p className="text-muted-foreground mb-6">Send your details and our team will follow up quickly.</p>
+          <LeadForm source="contact_form" defaultService="Emergency HVAC repair" urgency="emergency" defaultMessage="Urgent no-heat or no-cool issue." />
         </div>
       </section>
 
@@ -231,7 +241,7 @@ const EmergencyHVAC = () => {
           <p className="text-destructive-foreground/85 max-w-2xl mx-auto mb-8">Pipes can freeze in hours. Call now and we'll get a licensed tech rolling.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-              <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
+              <a href={SITE.phoneHref} onClick={() => trackEmergencyCtaClick("emergency_footer_call")}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
             </Button>
             <Button asChild size="lg" variant="outline" className="bg-transparent border-destructive-foreground text-destructive-foreground hover:bg-destructive-foreground hover:text-destructive font-bold">
               <a href={smsHref}><MessageSquare className="h-4 w-4 mr-2" />Text Us</a>

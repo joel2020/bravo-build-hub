@@ -17,7 +17,7 @@ const BlogPost = () => {
 
   if (!post) return <Navigate to="/blog" replace />;
 
-  const url = `${window.location.origin}/blog/${post.slug}`;
+  const url = `${SITE.siteUrl}/blog/${post.slug}`;
   const related = getAllPosts()
     .filter((p) => p.slug !== post.slug && p.tags.some((t) => post.tags.includes(t)))
     .slice(0, 3);
@@ -25,7 +25,7 @@ const BlogPost = () => {
     ? CITIES.find((c) => c.name.toLowerCase() === post.city!.toLowerCase())
     : undefined;
 
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://bravomechanicalny.com";
+  const origin = SITE.siteUrl;
   const absoluteCover = post.cover
     ? (post.cover.startsWith("http") ? post.cover : origin + post.cover)
     : undefined;

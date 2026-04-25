@@ -21,9 +21,28 @@ const schema = z.object({
 
 type Errors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
-
+type TrackingPayload = {
+  source_page: string | null;
+  landing_url: string | null;
+  referrer: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  utm_content: string | null;
+  gclid: string | null;
+  fbclid: string | null;
+};
 
 const getUrlParam = (params: URLSearchParams, key: string) => params.get(key) || null;
+
+const buildLeadNotes = (service: string, message: string, city?: string, urgency?: string) =>
+  [
+    `Service requested: ${service}`,
+    city ? `City: ${city}` : null,
+    urgency ? `Urgency: ${urgency}` : null,
+    `Message: ${message}`,
+  ].filter(Boolean).join(" | ");
 
 const queueOwnerNotification = async (_leadId?: string) => {
   // Placeholder hook: connect to an edge function, webhook, or Zapier route.
@@ -52,33 +71,86 @@ export const LeadForm = ({
   const [values, setValues] = useState({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
-  const tracking = useMemo(() => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const tracking = useMemo<TrackingPayload>(() => {
+    if (typeof window === "undefined") {
+      return {
+        source_page: null,
+        landing_url: null,
+        referrer: null,
+        utm_source: null,
+        utm_medium: null,
+        utm_campaign: null,
+        utm_term: null,
+        utm_content: null,
+        gclid: null,
+        fbclid: null,
+      };
+    }
+
     const params = new URLSearchParams(window.location.search);
     return {
       source_page: window.location.pathname,
+      landing_url: window.location.href,
+      referrer: document.referrer || null,
       utm_source: getUrlParam(params, "utm_source"),
       utm_medium: getUrlParam(params, "utm_medium"),
       utm_campaign: getUrlParam(params, "utm_campaign"),
+      utm_term: getUrlParam(params, "utm_term"),
+      utm_content: getUrlParam(params, "utm_content"),
       gclid: getUrlParam(params, "gclid"),
+      fbclid: getUrlParam(params, "fbclid"),
     };
   }, []);
-  const [submitting, setSubmitting] = useState(false);
 
   const update = (k: keyof typeof values, v: string) => setValues((p) => ({ ...p, [k]: v }));
+
+  const findRecentDuplicateLeadId = async (phone: string, email: string) => {
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const candidateIds: string[] = [];
+
+    if (phone.trim()) {
+      const { data } = await supabase
+        .from("leads")
+        .select("id, created_at")
+        .eq("phone", phone.trim())
+        .gte("created_at", since)
+        .order("created_at", { ascending: false })
+        .limit(1);
+      if (data?.[0]?.id) candidateIds.push(data[0].id);
+    }
+
+    if (email.trim()) {
+      const { data } = await supabase
+        .from("leads")
+        .select("id, created_at")
+        .eq("email", email.trim())
+        .gte("created_at", since)
+        .order("created_at", { ascending: false })
+        .limit(1);
+      if (data?.[0]?.id) candidateIds.push(data[0].id);
+    }
+
+    return candidateIds[0] || null;
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = schema.safeParse(values);
     if (!result.success) {
       const errs: Errors = {};
-      result.error.issues.forEach((i) => { errs[i.path[0] as keyof Errors] = i.message; });
+      result.error.issues.forEach((i) => {
+        errs[i.path[0] as keyof Errors] = i.message;
+      });
       setErrors(errs);
       return;
     }
+
     setErrors({});
     setSubmitting(true);
 
-    const { data: insertedLead, error } = await supabase.from("leads").insert({
+    const leadPayload = {
       name: result.data.name,
       email: result.data.email,
       phone: result.data.phone,
@@ -88,19 +160,63 @@ export const LeadForm = ({
       city: city || null,
       urgency: urgency || null,
       source_page: tracking.source_page,
+      landing_url: tracking.landing_url,
+      referrer: tracking.referrer,
       utm_source: tracking.utm_source,
       utm_medium: tracking.utm_medium,
       utm_campaign: tracking.utm_campaign,
+      utm_term: tracking.utm_term,
+      utm_content: tracking.utm_content,
       gclid: tracking.gclid,
-      notes: [
-        `Service requested: ${result.data.service}`,
-        city ? `City: ${city}` : null,
-        urgency ? `Urgency: ${urgency}` : null,
-        `Message: ${result.data.message}`,
-      ].filter(Boolean).join(" | "),
-    }).select("id").single();
+      fbclid: tracking.fbclid,
+    };
+
+    const newNotes = buildLeadNotes(result.data.service, result.data.message, city, urgency);
+    const duplicateLeadId = await findRecentDuplicateLeadId(result.data.phone, result.data.email);
+
+    let leadId: string | undefined;
+    let duplicate = false;
+    let error: Error | null = null;
+
+    if (duplicateLeadId) {
+      duplicate = true;
+      const { data: existingLead, error: existingLeadError } = await supabase
+        .from("leads")
+        .select("id, notes")
+        .eq("id", duplicateLeadId)
+        .single();
+
+      if (existingLeadError) {
+        error = existingLeadError;
+      } else {
+        const mergedNotes = [existingLead?.notes, `[Follow-up ${new Date().toISOString()}] ${newNotes}`]
+          .filter(Boolean)
+          .join(" || ");
+
+        const { error: updateError } = await supabase
+          .from("leads")
+          .update({
+            ...leadPayload,
+            notes: mergedNotes,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", duplicateLeadId);
+
+        if (updateError) error = updateError;
+        leadId = duplicateLeadId;
+      }
+    } else {
+      const { data: insertedLead, error: insertError } = await supabase
+        .from("leads")
+        .insert({ ...leadPayload, notes: newNotes })
+        .select("id")
+        .single();
+      error = insertError;
+      leadId = insertedLead?.id;
+    }
 
     setSubmitting(false);
+
     if (error) {
       toast({
         title: "Could not submit request",
@@ -110,8 +226,13 @@ export const LeadForm = ({
       return;
     }
 
-    trackLeadSubmit("contact_lead_form", { service: result.data.service, source, ...tracking });
-    await queueOwnerNotification(insertedLead?.id);
+    trackLeadSubmit("contact_lead_form", {
+      service: result.data.service,
+      source,
+      duplicate,
+      ...tracking,
+    });
+    await queueOwnerNotification(leadId);
     await queueCustomerAutoReply(result.data.email);
     setSubmitted(true);
   };

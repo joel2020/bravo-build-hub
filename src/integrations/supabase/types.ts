@@ -334,11 +334,14 @@ export type Database = {
           city: string | null
           created_at: string
           email: string | null
+          fbclid: string | null
           gclid: string | null
           id: string
           name: string
           notes: string | null
+          landing_url: string | null
           phone: string | null
+          referrer: string | null
           service: string | null
           source: Database["public"]["Enums"]["lead_source"]
           source_page: string | null
@@ -346,8 +349,10 @@ export type Database = {
           updated_at: string
           urgency: string | null
           utm_campaign: string | null
+          utm_content: string | null
           utm_medium: string | null
           utm_source: string | null
+          utm_term: string | null
         }
         Insert: {
           address?: string | null
@@ -355,11 +360,14 @@ export type Database = {
           city?: string | null
           created_at?: string
           email?: string | null
+          fbclid?: string | null
           gclid?: string | null
           id?: string
           name: string
           notes?: string | null
+          landing_url?: string | null
           phone?: string | null
+          referrer?: string | null
           service?: string | null
           source?: Database["public"]["Enums"]["lead_source"]
           source_page?: string | null
@@ -367,8 +375,10 @@ export type Database = {
           updated_at?: string
           urgency?: string | null
           utm_campaign?: string | null
+          utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null
+          utm_term?: string | null
         }
         Update: {
           address?: string | null
@@ -376,11 +386,14 @@ export type Database = {
           city?: string | null
           created_at?: string
           email?: string | null
+          fbclid?: string | null
           gclid?: string | null
           id?: string
           name?: string
           notes?: string | null
+          landing_url?: string | null
           phone?: string | null
+          referrer?: string | null
           service?: string | null
           source?: Database["public"]["Enums"]["lead_source"]
           source_page?: string | null
@@ -388,8 +401,10 @@ export type Database = {
           updated_at?: string
           urgency?: string | null
           utm_campaign?: string | null
+          utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null
+          utm_term?: string | null
         }
         Relationships: []
       }

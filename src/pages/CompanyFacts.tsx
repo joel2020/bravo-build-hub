@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { SITE, SERVICES, TOWNS } from "@/lib/site";
+import { HIGH_INTENT_SERVICES } from "@/lib/highIntentServices";
 import { useSeo } from "@/lib/seo";
 
 const CompanyFacts = () => {
@@ -49,6 +50,19 @@ const CompanyFacts = () => {
           <h2 className="text-2xl font-extrabold mb-4">Service areas</h2>
           <p className="text-sm text-muted-foreground mb-4">Major municipalities currently covered in Westchester County:</p>
           <p className="text-sm">{TOWNS.join(", ")}.</p>
+        </div>
+
+
+
+        <div className="bg-card border border-border rounded-lg p-6">
+          <h2 className="text-2xl font-extrabold mb-4">Priority service pages</h2>
+          <ul className="space-y-2 text-sm">
+            {HIGH_INTENT_SERVICES.map((service) => (
+              <li key={service.slug}>
+                <a href={`${SITE.siteUrl}/services/${service.slug}`} className="text-accent hover:underline">{SITE.siteUrl}/services/{service.slug}</a>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="bg-card border border-border rounded-lg p-6">

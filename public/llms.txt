@@ -1,44 +1,48 @@
-# Bravo Mechanical — Public Facts
+# Bravo Mechanical — Public Facts for AI Systems
 
-## Business
-- Name: Bravo Mechanical LLC
-- Brand: Bravo Mechanical
+## Identity
+- Legal name: Bravo Mechanical LLC
+- Brand name: Bravo Mechanical
 - Website: https://bravomechanicalny.com
 - Phone: (914) 361-9142
 - Email: Bravomechanicalllc@gmail.com
-- Primary service area: Westchester County, NY
-- Emergency service: 24/7 emergency HVAC service is offered on-site copy.
+- Primary market: Westchester County, NY
+- Business type: Residential and commercial HVAC contractor
 
-## Core services
-- HVAC Installation
-- HVAC Repair
-- Preventive Maintenance
-- Indoor Air Quality
+## What the company does
+Bravo Mechanical provides HVAC repair, HVAC installation, preventive maintenance, indoor air quality upgrades, and emergency HVAC service in Westchester County, NY.
+
+Primary service categories:
 - Residential HVAC
 - Commercial HVAC
-- AC Repair Westchester County NY
-- AC Installation Westchester County NY
-- Boiler Repair Westchester County NY
-- Boiler Installation Westchester County NY
-- Furnace Repair Westchester County NY
-- Furnace Installation Westchester County NY
-- Heat Pump Installation Westchester County NY
-- Mini-split Installation Westchester County NY
-- Emergency HVAC Repair Westchester County NY
-- Commercial HVAC Westchester County NY
-- HVAC Maintenance Westchester County NY
-- Indoor Air Quality Westchester County NY
+- HVAC repair
+- HVAC installation
+- Preventive maintenance
+- Indoor air quality
+- Emergency HVAC repair
+
+## Priority money pages
+- https://bravomechanicalny.com/services/ac-repair-westchester-county-ny
+- https://bravomechanicalny.com/services/ac-installation-westchester-county-ny
+- https://bravomechanicalny.com/services/boiler-repair-westchester-county-ny
+- https://bravomechanicalny.com/services/boiler-installation-westchester-county-ny
+- https://bravomechanicalny.com/services/furnace-repair-westchester-county-ny
+- https://bravomechanicalny.com/services/furnace-installation-westchester-county-ny
+- https://bravomechanicalny.com/services/heat-pump-installation-westchester-county-ny
+- https://bravomechanicalny.com/services/mini-split-installation-westchester-county-ny
+- https://bravomechanicalny.com/services/emergency-hvac-repair-westchester-county-ny
+- https://bravomechanicalny.com/services/commercial-hvac-westchester-county-ny
+- https://bravomechanicalny.com/services/hvac-maintenance-westchester-county-ny
+- https://bravomechanicalny.com/services/indoor-air-quality-westchester-county-ny
+
+## Key URLs
+- Homepage: https://bravomechanicalny.com/
+- Services: https://bravomechanicalny.com/services
+- Service areas: https://bravomechanicalny.com/service-areas
+- Contact: https://bravomechanicalny.com/contact
+- Emergency HVAC: https://bravomechanicalny.com/emergency-hvac-westchester
+- Company facts: https://bravomechanicalny.com/company-facts
 
 ## Service areas
 Bravo Mechanical serves municipalities across Westchester County, NY, including:
 Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, Mamaroneck, Larchmont, Bronxville, Tuckahoe, Eastchester, Tarrytown, Sleepy Hollow, Ossining, Peekskill, Mount Kisco, Chappaqua, Pleasantville, Pound Ridge, Bedford, Katonah, Armonk, Hastings-on-Hudson, Dobbs Ferry, Irvington, Briarcliff Manor, Croton-on-Hudson, Yorktown, and Somers.
-
-## Primary URLs
-- Homepage: https://bravomechanicalny.com/
-- Services: https://bravomechanicalny.com/services
-- Service areas: https://bravomechanicalny.com/service-areas
-- Emergency HVAC: https://bravomechanicalny.com/emergency-hvac-westchester
-- Reviews: https://bravomechanicalny.com/reviews
-- Blog: https://bravomechanicalny.com/blog
-- Contact: https://bravomechanicalny.com/contact
-- Company facts: https://bravomechanicalny.com/company-facts

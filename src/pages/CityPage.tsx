@@ -14,6 +14,34 @@ import { trackRequestServiceClick } from "@/lib/analytics";
 
 const SITE_URL = "https://bravomechanicalny.com";
 
+const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seasonal: string }> = {
+  yonkers: {
+    housing: "Many Yonkers homes still run legacy steam or hot-water boilers. We frequently retrofit these systems with high-efficiency gas boilers and add ductless cooling where ductwork is limited.",
+    permitting: "For larger replacements, we coordinate permits and inspection timing with local requirements so homeowners have paperwork in place for resale and warranty support.",
+    seasonal: "Winter no-heat and summer no-cool calls are common in older housing stock, so we prioritize same-day triage whenever possible.",
+  },
+  "white-plains": {
+    housing: "White Plains includes both high-rise condos and older single-family homes. Our work often combines airflow correction with equipment upgrades to fix uneven comfort.",
+    permitting: "We handle replacement documentation and permit coordination for homeowners, building managers, and light commercial properties.",
+    seasonal: "High summer humidity and shoulder-season furnace issues are the most frequent causes of emergency calls here.",
+  },
+  "new-rochelle": {
+    housing: "New Rochelle's coastal housing often mixes boiler heat with no central AC. We commonly install multi-zone mini-splits to add cooling without major demolition.",
+    permitting: "Where permit-triggering equipment changes are required, we provide scope details and model documentation up front.",
+    seasonal: "Sound-shore humidity drives indoor air quality concerns, so dehumidification and filtration upgrades are common add-ons.",
+  },
+  "mount-vernon": {
+    housing: "Mount Vernon properties often include older boilers and oil systems. We regularly replace unsafe or inefficient components while preserving existing distribution where possible.",
+    permitting: "Our team documents safety and combustion checks clearly so owners and property managers have clean records.",
+    seasonal: "Fast-response heating repairs in winter are especially important for multi-family and older buildings.",
+  },
+  scarsdale: {
+    housing: "Scarsdale homes are often larger and older, which makes zoning and load calculations critical. We design for consistent room-by-room comfort rather than one-size-fits-all sizing.",
+    permitting: "For full replacements and major retrofits, we coordinate permit-ready scopes and code-compliant final layouts.",
+    seasonal: "High expectations for quiet operation, clean installation details, and long-term efficiency shape most Scarsdale projects.",
+  },
+};
+
 const CityPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const city = slug ? getCity(slug) : undefined;
@@ -191,6 +219,19 @@ const CityPage = () => {
           </aside>
         </div>
       </section>
+
+      {TOP_CITY_NOTES[city.slug] && (
+        <section className="container mx-auto px-4 py-6 lg:py-8">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-2xl font-extrabold mb-3">What we see most in {city.name} homes</h2>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><strong className="text-foreground">Housing and systems:</strong> {TOP_CITY_NOTES[city.slug].housing}</li>
+              <li><strong className="text-foreground">Permits and compliance:</strong> {TOP_CITY_NOTES[city.slug].permitting}</li>
+              <li><strong className="text-foreground">Seasonal service demand:</strong> {TOP_CITY_NOTES[city.slug].seasonal}</li>
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* Services in this city */}
       <section className="bg-secondary border-y border-border">

@@ -9,6 +9,7 @@ const DIST_DIR = path.join(ROOT, "dist");
 const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 const SITE_ORIGIN = "https://bravomechanicalny.com";
 const EXCLUDED_ROUTES = new Set(["/auth", "/admin/comments", "/admin/crm"]);
+const REQUIRE_BROWSER = process.env.PRERENDER_REQUIRED === "true";
 
 function getContentType(filePath) {
   const ext = path.extname(filePath).toLowerCase();
@@ -114,6 +115,11 @@ async function waitForRouteToRender(page) {
   await page.waitForTimeout(250);
 }
 
+function isBrowserMissingError(error) {
+  const text = `${error?.message || ""}`.toLowerCase();
+  return text.includes("executable doesn't exist") || text.includes("browser has not been found");
+}
+
 async function prerender() {
   if (!existsSync(DIST_DIR)) {
     throw new Error("dist directory does not exist. Run `vite build` before prerendering.");
@@ -121,10 +127,21 @@ async function prerender() {
 
   const routes = await readRoutesFromSitemap();
   const server = createStaticServer();
-
   await new Promise((resolve) => server.listen(4173, "127.0.0.1", resolve));
 
-  const browser = await chromium.launch({ headless: true });
+  let browser;
+  try {
+    browser = await chromium.launch({ headless: true });
+  } catch (error) {
+    await new Promise((resolve, reject) => server.close((closeError) => (closeError ? reject(closeError) : resolve())));
+    if (!REQUIRE_BROWSER && isBrowserMissingError(error)) {
+      console.warn("⚠️ Skipping prerender because Playwright Chromium is not installed in this environment.");
+      console.warn("   To enable prerender output, run: npm run prerender:install");
+      return;
+    }
+    throw error;
+  }
+
   try {
     const context = await browser.newContext();
     const page = await context.newPage();

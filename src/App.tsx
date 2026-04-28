@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -14,13 +15,14 @@ import Reviews from "./pages/Reviews.tsx";
 import Contact from "./pages/Contact.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
-import Auth from "./pages/Auth.tsx";
-import AdminComments from "./pages/AdminComments.tsx";
 import EmergencyHVAC from "./pages/EmergencyHVAC.tsx";
-import CRM from "./pages/CRM.tsx";
 import CompanyFacts from "./pages/CompanyFacts.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { StickyMobileCTA } from "./components/StickyMobileCTA";
+
+const Auth = lazy(() => import("./pages/Auth.tsx"));
+const AdminComments = lazy(() => import("./pages/AdminComments.tsx"));
+const CRM = lazy(() => import("./pages/CRM.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -30,25 +32,27 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/services/:serviceSlug/:citySlug" element={<ServiceCityPage />} />
-          <Route path="/services/:slug" element={<ServiceDetail />} />
-          <Route path="/service-areas" element={<ServiceAreas />} />
-          <Route path="/service-areas/:slug" element={<CityPage />} />
-          <Route path="/reviews" element={<Reviews />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/admin/comments" element={<AdminComments />} />
-          <Route path="/admin/crm" element={<CRM />} />
-          <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
-          <Route path="/company-facts" element={<CompanyFacts />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/:serviceSlug/:citySlug" element={<ServiceCityPage />} />
+            <Route path="/services/:slug" element={<ServiceDetail />} />
+            <Route path="/service-areas" element={<ServiceAreas />} />
+            <Route path="/service-areas/:slug" element={<CityPage />} />
+            <Route path="/reviews" element={<Reviews />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/admin/comments" element={<AdminComments />} />
+            <Route path="/admin/crm" element={<CRM />} />
+            <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
+            <Route path="/company-facts" element={<CompanyFacts />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
         <StickyMobileCTA />
       </BrowserRouter>
     </TooltipProvider>

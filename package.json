@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run prerender",
+    "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -14,7 +14,7 @@
     "prerender": "node scripts/prerender.mjs",
     "prerender:install": "npx playwright install chromium",
     "validate:prerender": "node scripts/validate-prerender.mjs",
-    "build:seo": "npm run build && npm run validate:prerender"
+    "build:seo": "vite build && npm run prerender && npm run validate:prerender"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

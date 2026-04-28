@@ -4,6 +4,9 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
+import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
+import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
+import jobWaterHeater from "@/assets/job-water-heater.webp";
 
 const About = () => {
   useSeo({
@@ -23,8 +26,8 @@ const About = () => {
     <section className="container mx-auto px-4 py-16 grid lg:grid-cols-2 gap-12 items-start">
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-extrabold mb-3">Our Story</h2>
-          <p className="text-muted-foreground">Bravo Mechanical was built on a simple idea: HVAC service should be straightforward. Show up on time, explain the problem clearly, do quality work, and stand behind it. That's how we've earned our reputation across Westchester County.</p>
+          <h2 className="text-2xl font-extrabold mb-3">Our Approach</h2>
+          <p className="text-muted-foreground">Bravo Mechanical was built on a simple idea: HVAC service should be straightforward. Show up on time, explain the problem clearly, do quality work, and stand behind it. That practical approach shapes every visit.</p>
         </div>
         <div>
           <h2 className="text-2xl font-extrabold mb-3">Our Mission</h2>
@@ -47,10 +50,10 @@ const About = () => {
       </div>
 
       <div className="space-y-4">
-        <div className="aspect-[4/3] rounded-lg bg-muted border border-border flex items-center justify-center text-muted-foreground text-sm">Field/team photo placeholder</div>
+        <img src={jobBoilerAfter} alt="Completed boiler installation in Westchester County" className="aspect-[4/3] w-full rounded-lg border border-border object-cover" loading="lazy" />
         <div className="grid grid-cols-2 gap-4">
-          <div className="aspect-square rounded-lg bg-muted border border-border flex items-center justify-center text-muted-foreground text-xs">Job site photo</div>
-          <div className="aspect-square rounded-lg bg-muted border border-border flex items-center justify-center text-muted-foreground text-xs">Equipment photo</div>
+          <img src={jobMiniSplit} alt="Ductless mini-split outdoor unit installed at a local home" className="aspect-square w-full rounded-lg border border-border object-cover" loading="lazy" />
+          <img src={jobWaterHeater} alt="Water heater installation completed by Bravo Mechanical" className="aspect-square w-full rounded-lg border border-border object-cover" loading="lazy" />
         </div>
       </div>
     </section>

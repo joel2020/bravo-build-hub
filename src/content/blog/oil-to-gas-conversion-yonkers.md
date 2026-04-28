@@ -13,6 +13,8 @@ Yonkers has one of the highest concentrations of remaining oil-heat homes in Wes
 ## Step 1 — Confirm gas is on your street
 
 Most Yonkers streets have gas mains, but not all. Call Con Edison at 1-800-643-1289 or check their service map. If a main needs to be extended, that can add $5,000–$25,000 (sometimes Con Ed covers it for multi-home conversions).
+> Pricing and incentive availability vary by equipment, home conditions, utility program rules, and current market costs. This guide is for planning only; final pricing requires an on-site assessment.
+
 
 ## Step 2 — Get the gas service installed
 

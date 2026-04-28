@@ -20,6 +20,8 @@ author: Bravo Mechanical Team
 | Oil boiler in-kind replacement | $9,000–$14,000 | 20–25 yrs |
 | Oil-to-gas conversion (boiler + service line) | $14,000–$22,000 | 20–25 yrs |
 | Electric boiler | $4,500–$8,500 | 15–20 yrs |
+> Pricing and incentive availability vary by equipment, home conditions, utility program rules, and current market costs. This guide is for planning only; final pricing requires an on-site assessment.
+
 
 Pricing assumes a 2,000–3,000 sq ft Westchester home with reasonable basement access.
 

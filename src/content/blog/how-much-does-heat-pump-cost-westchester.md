@@ -2,7 +2,7 @@
 title: How Much Does a Heat Pump Cost in Westchester County, NY? (2025 Installed Pricing)
 slug: how-much-does-heat-pump-cost-westchester
 date: 2025-12-05
-excerpt: A real 2025 price breakdown for cold-climate heat pump installation in Westchester — by home size, system type, and what your net cost looks like after rebates.
+excerpt: Updated HVAC cost planning guide for cold-climate heat pump installation in Westchester — by home size, system type, and incentive considerations.
 tags: Cost, Heat Pump, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
@@ -20,6 +20,8 @@ author: Bravo Mechanical Team
 | Ducted air-source heat pump | 2,000–3,000 sq ft | $18,000–$28,000 | $11,000–$19,000 |
 | Hybrid (heat pump + existing furnace/boiler) | Any | $14,000–$22,000 | $8,000–$15,000 |
 | Geothermal (ground-source) | 2,500+ sq ft | $35,000–$60,000+ | $20,000–$40,000 |
+> Pricing and incentive availability vary by equipment, home conditions, utility program rules, and current market costs. This guide is for planning only; final pricing requires an on-site assessment.
+
 
 Pricing assumes adequate electrical service. Panel upgrades add $2,500–$5,500.
 

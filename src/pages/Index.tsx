@@ -49,10 +49,10 @@ const Index = () => {
               <MapPin className="h-4 w-4" /> Serving Westchester County, NY
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.05]">
-              Westchester HVAC Contractor for Fast, Honest Service
+              Heating and Cooling Help from a Local Westchester Team
             </h1>
             <p className="mt-5 text-lg text-muted-foreground max-w-xl">
-              We are local Westchester County technicians handling AC repair, boiler repair, furnace repair, heat pump and mini-split installs, plus 24/7 emergency HVAC calls. You get clear options, clean work, and a team that actually picks up the phone.
+              From no-cool calls to boiler and heat pump projects, we focus on clear communication, careful workmanship, and practical options for your home or business.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
@@ -64,9 +64,9 @@ const Index = () => {
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Licensed & insured</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />24/7 emergency HVAC</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Emergency HVAC support</span>
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />5.0 Google rating</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Free estimates</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Estimate options available</span>
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Local Westchester techs</span>
             </div>
             <div className="mt-6">
@@ -143,11 +143,11 @@ const Index = () => {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { img: projectBoilerAfter, alt: "Gas boiler replacement project in Westchester", town: "Yonkers", system: "Gas boiler replacement", problem: "Aging steam boiler with uneven heat and leaks.", solution: "Installed a Weil-McLain boiler with corrected near-boiler piping.", result: "Balanced heat and lower monthly fuel use." },
-            { img: jobMiniSplit, alt: "Mini-split installation project in Westchester", town: "White Plains", system: "Mitsubishi mini-split", problem: "Second floor stayed hot each summer.", solution: "Added a two-zone ductless heat pump system.", result: "Even cooling and quieter operation." },
-            { img: jobWaterHeater, alt: "Water heater replacement project in Westchester", town: "New Rochelle", system: "Water heater replacement", problem: "Old tank leaking and recovering slowly.", solution: "Replaced with a high-recovery AO Smith unit.", result: "Reliable hot water for peak morning use." },
-            { img: projectBurnerService, alt: "Oil burner service project in Westchester", town: "Mount Vernon", system: "Oil burner service", problem: "Hard starts and soot buildup.", solution: "Performed full burner cleaning, nozzle swap, and combustion test.", result: "Cleaner burn and reliable startup." },
-            { img: projectGasBoiler, alt: "Gas boiler maintenance project in Westchester", town: "Scarsdale", system: "Gas boiler maintenance", problem: "Short cycling and pressure fluctuation.", solution: "Serviced controls, adjusted expansion tank, and tuned combustion.", result: "Steady heat with fewer service calls." },
+            { img: projectBoilerAfter, alt: "Gas boiler replacement project in Westchester", town: "Yonkers", system: "Gas boiler replacement", problem: "Aging steam boiler with uneven heat and leaks.", solution: "Installed a Weil-McLain boiler with corrected near-boiler piping.", result: "More even heat and improved boiler performance." },
+            { img: jobMiniSplit, alt: "Mini-split installation project in Westchester", town: "White Plains", system: "Mitsubishi mini-split", problem: "Second floor stayed hot each summer.", solution: "Added a two-zone ductless heat pump system.", result: "More consistent second-floor comfort." },
+            { img: jobWaterHeater, alt: "Water heater replacement project in Westchester", town: "New Rochelle", system: "Water heater replacement", problem: "Old tank leaking and recovering slowly.", solution: "Replaced with a high-recovery AO Smith unit.", result: "More reliable hot water recovery for daily use." },
+            { img: projectBurnerService, alt: "Oil burner service project in Westchester", town: "Mount Vernon", system: "Oil burner service", problem: "Hard starts and soot buildup.", solution: "Performed full burner cleaning, nozzle swap, and combustion test.", result: "Improved burner operation at startup." },
+            { img: projectGasBoiler, alt: "Gas boiler maintenance project in Westchester", town: "Scarsdale", system: "Gas boiler maintenance", problem: "Short cycling and pressure fluctuation.", solution: "Serviced controls, adjusted expansion tank, and tuned combustion.", result: "More stable heat performance after service." },
           ].map((job) => (
             <article key={`${job.town}-${job.system}`} className="bg-card border border-border rounded-lg overflow-hidden">
               <img src={job.img} alt={job.alt} width={768} height={432} loading="lazy" decoding="async" className="w-full h-48 object-cover" />
@@ -229,9 +229,9 @@ const Index = () => {
             <ul className="space-y-5">
               {[
                 { icon: ShieldCheck, title: "Licensed & insured", text: "Fully licensed HVAC contractor with insured technicians." },
-                { icon: Clock, title: "Responsive service", text: "Same-day appointments and 24/7 emergency response when you need it." },
+                { icon: Clock, title: "Responsive service", text: "Prompt scheduling with after-hours support when available." },
                 { icon: Award, title: "Quality workmanship", text: "Clean installs, careful diagnostics, and equipment we'd put in our own homes." },
-                { icon: MapPin, title: "Local to Westchester", text: "We live and work here — fast arrival times across the county." },
+                { icon: MapPin, title: "Local to Westchester", text: "We live and work here, with service throughout Westchester County." },
               ].map((b) => (
                 <li key={b.title} className="flex gap-4">
                   <div className="h-10 w-10 rounded-md bg-accent text-accent-foreground flex items-center justify-center shrink-0">

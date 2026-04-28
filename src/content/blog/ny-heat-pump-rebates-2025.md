@@ -13,6 +13,8 @@ If you've Googled "heat pump rebate NY" you've seen a dozen programs and zero cl
 ## NYS Clean Heat (the big one)
 
 Administered by your utility (Con Edison or NYSEG in most of Westchester). Pays the contractor directly — you see the discount on the install quote, not a check months later.
+> Pricing and incentive availability vary by equipment, home conditions, utility program rules, and current market costs. This guide is for planning only; final pricing requires an on-site assessment.
+
 
 - **Air-source heat pump (whole home):** typically $2,000–$8,000 depending on heating capacity and whether you remove fossil-fuel backup.
 - **Ground-source (geothermal):** significantly more, often $1,500–$2,000 per ton.

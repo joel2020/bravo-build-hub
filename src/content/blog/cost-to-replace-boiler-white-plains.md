@@ -19,6 +19,8 @@ If you live in a White Plains colonial, split-level, or pre-war multi-family and
 | Oil-to-gas conversion (boiler + line + chimney work) | $14,000 – $22,000 |
 | Oil boiler replacement (in-kind) | $9,500 – $14,000 |
 | Combi boiler (heat + domestic hot water) | $11,000 – $16,500 |
+> Pricing and incentive availability vary by equipment, home conditions, utility program rules, and current market costs. This guide is for planning only; final pricing requires an on-site assessment.
+
 
 Pricing assumes a single-family home in 10601, 10603, 10605, 10606, or 10607 with reasonable basement access.
 

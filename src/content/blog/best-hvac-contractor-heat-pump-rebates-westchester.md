@@ -13,6 +13,8 @@ author: Bravo Mechanical Team
 ## The 8-point contractor checklist
 
 Use this when getting heat pump quotes in Westchester:
+> Pricing and incentive availability vary by equipment, home conditions, utility program rules, and current market costs. This guide is for planning only; final pricing requires an on-site assessment.
+
 
 1. **Are you a NYS Clean Heat participating contractor?** (If no — they cannot deliver the biggest rebate.)
 2. **Does the rebate come off my quote, or do I file?** (Off the quote is correct — homeowner filing is rare and risky.)

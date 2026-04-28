@@ -19,6 +19,8 @@ author: Bravo Mechanical Team
 | Cold-climate heat pump (whole home) | $1,800–$2,400 | $440–$680 | $2,240–$3,080 |
 | Hybrid (heat pump + gas backup) | $1,300–$1,800 | $440–$680 | $1,740–$2,480 |
 | Oil boiler + window AC | $2,800–$4,200 | $300–$500 | $3,100–$4,700 |
+> Pricing and incentive availability vary by equipment, home conditions, utility program rules, and current market costs. This guide is for planning only; final pricing requires an on-site assessment.
+
 
 *Based on 2025 Con Edison rates ($0.30/kWh delivered) and NYSEG natural gas pricing.*
 

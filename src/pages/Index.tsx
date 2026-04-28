@@ -150,7 +150,7 @@ const Index = () => {
             { img: projectGasBoiler, alt: "Gas boiler maintenance project in Westchester", town: "Scarsdale", system: "Gas boiler maintenance", problem: "Short cycling and pressure fluctuation.", solution: "Serviced controls, adjusted expansion tank, and tuned combustion.", result: "Steady heat with fewer service calls." },
           ].map((job) => (
             <article key={`${job.town}-${job.system}`} className="bg-card border border-border rounded-lg overflow-hidden">
-              <img src={job.img} alt={job.alt} loading="lazy" className="w-full h-48 object-cover" />
+              <img src={job.img} alt={job.alt} width={768} height={432} loading="lazy" decoding="async" className="w-full h-48 object-cover" />
               <div className="p-5 space-y-2">
                 <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{job.town} • {job.system}</div>
                 <p className="text-sm"><strong>Problem:</strong> {job.problem}</p>
@@ -246,10 +246,10 @@ const Index = () => {
             </ul>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <img src={jobBoilerAfter} alt="New Weil-McLain gas boiler installed with clean copper piping" loading="lazy" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobMitsubishi} alt="Mitsubishi ductless mini-split exterior unit install" loading="lazy" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobWaterHeater} alt="AO Smith water heater installation" loading="lazy" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobOilTank} alt="Roth oil tank piping and gauge work" loading="lazy" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobBoilerAfter} alt="New Weil-McLain gas boiler installed with clean copper piping" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobMitsubishi} alt="Mitsubishi ductless mini-split exterior unit install" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobWaterHeater} alt="AO Smith water heater installation" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobOilTank} alt="Roth oil tank piping and gauge work" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
           </div>
         </div>
       </section>
@@ -262,7 +262,7 @@ const Index = () => {
             { title: "Commercial HVAC", img: jobRadiator, text: "Reliable HVAC service for offices, retail, restaurants, and light-industrial facilities.", points: ["Rooftop units", "Service contracts", "Preventive maintenance", "Emergency response"] },
           ].map((c) => (
             <div key={c.title} className="bg-card border border-border rounded-lg overflow-hidden">
-              <img src={c.img} alt={c.title} loading="lazy" className="aspect-[16/9] w-full object-cover" />
+              <img src={c.img} alt={c.title} width={960} height={540} loading="lazy" decoding="async" className="aspect-[16/9] w-full object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2">{c.title}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{c.text}</p>
@@ -316,7 +316,7 @@ const Index = () => {
               to={`/services/${s.slug}`}
               className="bg-card border border-border rounded-lg overflow-hidden flex flex-col hover:border-accent hover:shadow-md transition-all group"
             >
-              <img src={s.card.img} alt={s.card.alt} loading="lazy" className="aspect-[16/10] w-full object-cover" />
+              <img src={s.card.img} alt={s.card.alt} width={960} height={600} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover" />
               <div className="p-6 flex flex-col flex-1">
                 <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">{s.card.title}</h3>
                 <p className="text-sm text-muted-foreground mb-3">{s.card.desc}</p>
@@ -348,7 +348,7 @@ const Index = () => {
               { src: jobBoilerAfter, label: "After", alt: "New Weil-McLain gas boiler installed with clean copper piping and updated venting" },
             ].map((p) => (
               <figure key={p.label} className="relative rounded-lg overflow-hidden border border-border">
-                <img src={p.src} alt={p.alt} loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                <img src={p.src} alt={p.alt} width={800} height={1000} loading="lazy" decoding="async" className="aspect-[4/5] w-full object-cover" />
                 <figcaption className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 rounded">{p.label}</figcaption>
               </figure>
             ))}
@@ -366,7 +366,7 @@ const Index = () => {
             { src: heroTechnician, alt: "Outdoor AC condenser install on patio" },
             { src: jobExteriorWhite, alt: "Exterior service work on a white-sided home" },
           ].map((p, i) => (
-            <img key={i} src={p.src} alt={p.alt} loading="lazy" className="aspect-square w-full object-cover rounded border border-border" />
+            <img key={i} src={p.src} alt={p.alt} width={600} height={600} loading="lazy" decoding="async" className="aspect-square w-full object-cover rounded border border-border" />
           ))}
         </div>
         </div>

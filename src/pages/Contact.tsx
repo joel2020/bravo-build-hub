@@ -12,19 +12,29 @@ const Contact = () => {
     title: "Contact Bravo Mechanical | HVAC Contractor Westchester County, NY",
     description: "Request HVAC service in Westchester County, NY. Contact Bravo Mechanical for AC repair, furnace and boiler service, heat pump installation, and emergency HVAC support.",
     canonical: `${SITE.siteUrl}/contact`,
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "ContactPage",
-      name: "Contact Bravo Mechanical",
-      url: `${SITE.siteUrl}/contact`,
-      mainEntity: {
-        "@type": "HVACBusiness",
-        name: SITE.legalName,
-        telephone: SITE.phone,
-        email: SITE.email,
-        areaServed: "Westchester County, NY",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        name: "Contact Bravo Mechanical",
+        url: `${SITE.siteUrl}/contact`,
+        mainEntity: {
+          "@type": "HVACBusiness",
+          name: SITE.legalName,
+          telephone: SITE.phone,
+          email: SITE.email,
+          areaServed: "Westchester County, NY",
+        },
       },
-    },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE.siteUrl}/` },
+          { "@type": "ListItem", position: 2, name: "Contact", item: `${SITE.siteUrl}/contact` },
+        ],
+      },
+    ],
   });
 
   return (

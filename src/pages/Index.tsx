@@ -21,7 +21,6 @@ import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
 import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
-import jobResidentialHvac from "@/assets/job-residential-hvac.jpg";
 import projectBoilerBefore from "@/assets/project-boiler-before.png";
 import projectBoilerAfter from "@/assets/project-boiler-after.png";
 import projectBurnerService from "@/assets/project-burner-service.png";
@@ -50,10 +49,10 @@ const Index = () => {
               <MapPin className="h-4 w-4" /> Serving Westchester County, NY
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.05]">
-              HVAC Westchester County, NY — Heating, Cooling & Repair
+              Westchester HVAC Contractor for Fast, Honest Service
             </h1>
             <p className="mt-5 text-lg text-muted-foreground max-w-xl">
-              Bravo Mechanical is a Westchester County HVAC contractor for AC repair, AC installation, boiler repair, boiler installation, furnace repair, furnace installation, heat pump installation, mini-split installation, indoor air quality upgrades, and emergency HVAC repair for homes and commercial properties.
+              We are local Westchester County technicians handling AC repair, boiler repair, furnace repair, heat pump and mini-split installs, plus 24/7 emergency HVAC calls. You get clear options, clean work, and a team that actually picks up the phone.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
@@ -65,8 +64,10 @@ const Index = () => {
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Licensed & insured</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />24/7 emergency HVAC</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />5.0 Google rating</span>
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Free estimates</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Local techs</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Local Westchester techs</span>
             </div>
             <div className="mt-6">
               <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Local HVAC service in</div>
@@ -111,7 +112,7 @@ const Index = () => {
               alt="Bravo Mechanical HVAC technician servicing an outdoor AC condenser unit at a Westchester County home"
               width={1280}
               height={960}
-              className="h-full w-full object-cover"
+              fetchPriority="high" className="h-full w-full object-cover"
             />
           </div>
         </div>
@@ -129,6 +130,34 @@ const Index = () => {
               <i.icon className="h-6 w-6" />
               <span className="font-bold uppercase tracking-wider text-sm sm:text-base">{i.label}</span>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Recent Westchester HVAC Work */}
+      <section className="container mx-auto px-4 py-14 lg:py-16">
+        <div className="max-w-2xl mb-8">
+          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Project Proof</div>
+          <h2 className="text-3xl md:text-4xl font-extrabold">Recent Westchester HVAC Work</h2>
+          <p className="mt-3 text-muted-foreground">Real field jobs completed by our team. Each project includes the issue found, what we fixed, and the outcome for the homeowner.</p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {[
+            { img: projectBoilerAfter, alt: "Gas boiler replacement project in Westchester", town: "Yonkers", system: "Gas boiler replacement", problem: "Aging steam boiler with uneven heat and leaks.", solution: "Installed a Weil-McLain boiler with corrected near-boiler piping.", result: "Balanced heat and lower monthly fuel use." },
+            { img: jobMiniSplit, alt: "Mini-split installation project in Westchester", town: "White Plains", system: "Mitsubishi mini-split", problem: "Second floor stayed hot each summer.", solution: "Added a two-zone ductless heat pump system.", result: "Even cooling and quieter operation." },
+            { img: jobWaterHeater, alt: "Water heater replacement project in Westchester", town: "New Rochelle", system: "Water heater replacement", problem: "Old tank leaking and recovering slowly.", solution: "Replaced with a high-recovery AO Smith unit.", result: "Reliable hot water for peak morning use." },
+            { img: projectBurnerService, alt: "Oil burner service project in Westchester", town: "Mount Vernon", system: "Oil burner service", problem: "Hard starts and soot buildup.", solution: "Performed full burner cleaning, nozzle swap, and combustion test.", result: "Cleaner burn and reliable startup." },
+            { img: projectGasBoiler, alt: "Gas boiler maintenance project in Westchester", town: "Scarsdale", system: "Gas boiler maintenance", problem: "Short cycling and pressure fluctuation.", solution: "Serviced controls, adjusted expansion tank, and tuned combustion.", result: "Steady heat with fewer service calls." },
+          ].map((job) => (
+            <article key={`${job.town}-${job.system}`} className="bg-card border border-border rounded-lg overflow-hidden">
+              <img src={job.img} alt={job.alt} loading="lazy" className="w-full h-48 object-cover" />
+              <div className="p-5 space-y-2">
+                <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{job.town} • {job.system}</div>
+                <p className="text-sm"><strong>Problem:</strong> {job.problem}</p>
+                <p className="text-sm"><strong>Solution:</strong> {job.solution}</p>
+                <p className="text-sm text-muted-foreground"><strong>Result:</strong> {job.result}</p>
+              </div>
+            </article>
           ))}
         </div>
       </section>
@@ -393,97 +422,6 @@ const Index = () => {
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
-      </section>
-
-      {/* Recent Projects in Westchester */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="max-w-2xl mb-10">
-          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Recent Work</div>
-          <h2 className="text-3xl md:text-4xl font-extrabold">Recent Projects in Westchester County</h2>
-          <p className="mt-3 text-muted-foreground">
-            Real boiler replacements, burner service, and gas system work completed by our local Westchester techs. Every job is permitted, code-compliant, and built to last.
-          </p>
-        </div>
-
-        <article className="bg-card border border-border rounded-lg overflow-hidden mb-8">
-          <div className="grid md:grid-cols-2">
-            <figure className="relative">
-              <img
-                src={projectBoilerBefore}
-                alt="Old failing Dunkirk steam boiler with damaged insulation and corrosion before replacement in a Westchester County, NY basement"
-                loading="lazy"
-                className="w-full h-72 md:h-full object-cover"
-              />
-              <figcaption className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 rounded">
-                Before
-              </figcaption>
-            </figure>
-            <figure className="relative">
-              <img
-                src={projectBoilerAfter}
-                alt="New Weil-McLain steam boiler installation with clean near-boiler piping and proper venting in a Westchester County, NY home"
-                loading="lazy"
-                className="w-full h-72 md:h-full object-cover"
-              />
-              <figcaption className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 rounded">
-                After
-              </figcaption>
-            </figure>
-          </div>
-          <div className="p-6">
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-              <MapPin className="h-3.5 w-3.5 text-accent" />
-              <span>Westchester County, NY</span>
-              <span aria-hidden="true">•</span>
-              <span>Steam Boiler Replacement</span>
-            </div>
-            <h3 className="text-xl font-extrabold mb-2">Full steam boiler replacement</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              <strong>Problem:</strong> An aging Dunkirk steam boiler with deteriorating insulation and corrosion was no longer safe or efficient — uneven heat across radiators, high fuel bills, and frequent service calls.{" "}
-              <strong>Solution:</strong> We removed the old unit and installed a new Weil-McLain steam boiler with proper near-boiler piping, a new Hartford loop, fresh insulation, and code-compliant venting. Result: balanced steam delivery, quieter operation, lower fuel costs, and a system built to last 20+ years.
-            </p>
-          </div>
-        </article>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              img: projectBurnerService,
-              alt: "Bravo Mechanical technician performing oil boiler service on a blue oil-fired boiler with Beckett burner and expansion tank in a Westchester County, NY basement",
-              tag: "Maintenance & Service",
-              title: "Oil boiler service & maintenance",
-              desc: "Annual oil boiler maintenance: burner teardown and cleaning, nozzle and electrode replacement, combustion analysis, and full safety check to keep the system running efficiently.",
-            },
-            {
-              img: projectBeckettBurner,
-              alt: "Close-up of a Beckett oil burner and service switch on a residential oil boiler serviced and maintained by Bravo Mechanical in Westchester County, NY",
-              tag: "Maintenance & Service",
-              title: "Beckett oil burner tune-up",
-              desc: "Routine oil boiler maintenance: full Beckett burner service, control board test, filter and nozzle replacement, and combustion tuning for clean, efficient operation.",
-            },
-            {
-              img: projectGasBoiler,
-              alt: "Gas-fired boiler with expansion tank serviced and maintained by Bravo Mechanical in a Westchester County, NY home",
-              tag: "Maintenance & Service",
-              title: "Gas boiler maintenance & service",
-              desc: "Annual gas boiler service: combustion analysis, expansion tank pressure check, gas valve and control inspection, and full safety check to keep the system running efficiently.",
-            },
-          ].map((p) => (
-            <article key={p.title} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col">
-              <img src={p.img} alt={p.alt} loading="lazy" className="w-full h-56 object-cover" />
-              <div className="p-5 flex-1 flex flex-col">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                  <MapPin className="h-3.5 w-3.5 text-accent" />
-                  <span>Westchester County, NY</span>
-                  <span aria-hidden="true">•</span>
-                  <span>{p.tag}</span>
-                </div>
-                <h3 className="font-extrabold mb-2">{p.title}</h3>
-                <p className="text-sm text-muted-foreground flex-1">{p.desc}</p>
-              </div>
-            </article>
-          ))}
         </div>
       </section>
 

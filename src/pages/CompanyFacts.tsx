@@ -12,6 +12,14 @@ const CompanyFacts = () => {
     title: `Company Facts | ${SITE.name}`,
     description: `Factual company information for ${SITE.name}, including service area, services, contact details, and key URLs.`,
     canonical,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE.siteUrl}/` },
+        { "@type": "ListItem", position: 2, name: "Company Facts", item: canonical },
+      ],
+    },
   });
 
   return (
@@ -19,7 +27,7 @@ const CompanyFacts = () => {
       <PageHero
         eyebrow="Public facts"
         title={`${SITE.name} company facts`}
-        subtitle="A concise, crawlable facts page for search engines, AI systems, and customers."
+        subtitle="Direct factual data for search engines, AI systems, and customers."
       />
 
       <section className="container mx-auto px-4 py-12 space-y-8">
@@ -32,7 +40,7 @@ const CompanyFacts = () => {
             <li><strong>Phone:</strong> <a className="text-accent hover:underline" href={SITE.phoneHref}>{SITE.phone}</a></li>
             <li><strong>Email:</strong> <a className="text-accent hover:underline" href={SITE.emailHref}>{SITE.email}</a></li>
             <li><strong>Primary service area:</strong> {SITE.area}</li>
-            <li><strong>Emergency service:</strong> 24/7 emergency HVAC service is offered based on current site copy.</li>
+            <li><strong>Emergency service:</strong> 24/7 emergency HVAC service is offered.</li>
             <li><strong>Contact page:</strong> <Link className="text-accent hover:underline" to="/contact">/contact</Link></li>
           </ul>
         </div>
@@ -48,7 +56,7 @@ const CompanyFacts = () => {
 
         <div className="bg-card border border-border rounded-lg p-6">
           <h2 className="text-2xl font-extrabold mb-4">Service areas</h2>
-          <p className="text-sm text-muted-foreground mb-4">Major municipalities currently covered in Westchester County:</p>
+          <p className="text-sm text-muted-foreground mb-4">Municipalities currently covered in Westchester County:</p>
           <p className="text-sm">{TOWNS.join(", ")}.</p>
         </div>
 

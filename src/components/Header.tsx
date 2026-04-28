@@ -25,7 +25,14 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 lg:h-20 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setOpen(false)}>
-            <img src={logo} alt="Bravo Mechanical logo" className="h-10 w-10 object-contain" />
+            <img
+              src={logo}
+              alt="Bravo Mechanical logo"
+              width={40}
+              height={40}
+              fetchPriority="high"
+              className="h-10 w-10 object-contain"
+            />
             <div className="leading-tight">
               <div className="font-extrabold text-lg text-foreground">Bravo Mechanical</div>
               <div className="text-[11px] text-muted-foreground hidden sm:block uppercase tracking-wider">HVAC • Westchester County</div>

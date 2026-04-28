@@ -11,7 +11,7 @@ export const Footer = () => {
         <div className="lg:col-span-1">
           <div className="flex items-center gap-2 mb-3">
             <div className="h-10 w-10 rounded bg-primary-foreground flex items-center justify-center p-1">
-              <img src={logo} alt="Bravo Mechanical logo" loading="lazy" decoding="async" className="h-full w-full object-contain" />
+              <img src={logo} alt="Bravo Mechanical logo" width={40} height={40} loading="lazy" decoding="async" className="h-full w-full object-contain" />
             </div>
             <div className="font-extrabold text-lg">Bravo Mechanical</div>
           </div>

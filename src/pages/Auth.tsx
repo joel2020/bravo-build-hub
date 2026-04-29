@@ -20,10 +20,10 @@ const Auth = () => {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) navigate("/admin/comments", { replace: true });
+      if (session) navigate("/admin/crm", { replace: true });
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate("/admin/comments", { replace: true });
+      if (session) navigate("/admin/crm", { replace: true });
     });
     return () => subscription.unsubscribe();
   }, [navigate]);
@@ -35,7 +35,7 @@ const Auth = () => {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: `${window.location.origin}/admin/comments` },
+        options: { emailRedirectTo: `${window.location.origin}/admin/crm` },
       });
       if (error) toast({ title: "Sign up failed", description: error.message, variant: "destructive" });
       else toast({ title: "Account created", description: "You can sign in now. Ask an existing admin to grant you the admin role." });
@@ -50,7 +50,7 @@ const Auth = () => {
     <Layout>
       <div className="container mx-auto px-4 py-16 max-w-md">
         <h1 className="text-3xl font-extrabold mb-2">{mode === "signin" ? "Admin sign in" : "Create admin account"}</h1>
-        <p className="text-muted-foreground mb-8">Restricted area for moderating blog comments.</p>
+        <p className="text-muted-foreground mb-8">Restricted area for CRM access.</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="email">Email</Label>

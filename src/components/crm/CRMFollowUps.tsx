@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import { Plus, Check } from "lucide-react";
+import { createActivity, asDateTime } from "@/lib/crm";
 
 type FollowUp = {
   id: string; lead_id: string | null; job_id: string | null;
@@ -49,13 +50,14 @@ export const CRMFollowUps = () => {
       due_date: form.due_date, note: form.note,
     });
     if (error) { toast({ title: "Insert failed", description: error.message, variant: "destructive" }); return; }
+    await createActivity("Follow-up created", { leadId: form.lead_id || null, jobId: form.job_id || null, details: form.note.trim() });
     toast({ title: "Follow-up created" }); setOpen(false); resetForm(); load();
   };
 
   const toggleComplete = async (id: string, current: boolean) => {
     const { error } = await supabase.from("follow_ups").update({ completed: !current }).eq("id", id);
     if (error) toast({ title: "Update failed", variant: "destructive" });
-    else load();
+    else { await createActivity(current ? "Follow-up reopened" : "Follow-up completed", { details: id }); load(); }
   };
 
   const filtered = items.filter((f) =>
@@ -115,7 +117,7 @@ export const CRMFollowUps = () => {
               <div className="flex-1 min-w-0">
                 <p className={`font-medium ${f.completed ? "line-through" : ""}`}>{f.note}</p>
                 <div className="flex gap-3 text-xs text-muted-foreground mt-1">
-                  <span className={isOverdue(f) ? "text-destructive font-medium" : ""}>{new Date(f.due_date).toLocaleString()}</span>
+                  <span className={isOverdue(f) ? "text-destructive font-medium" : ""}>{asDateTime(f.due_date)}</span>
                   {f.leads?.name && <span>Lead: {f.leads.name}</span>}
                   {f.jobs?.title && <span>Job: {f.jobs.title}</span>}
                 </div>

@@ -1,230 +1,69 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Briefcase, FileText, Bell, DollarSign, TrendingUp, AlertTriangle, Clock, ArrowRight, Users } from "lucide-react";
+import { asCurrency, asDate, LEAD_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
 
-type Stats = {
-  newLeadsToday: number;
-  uncontactedLeads: number;
-  overdueFollowUps: number;
-  newLeadsThisWeek: number;
-  openJobs: number;
-  quotedRevenue: number;
-  wonRevenue: number;
-};
-
-type RecentLead = { id: string; name: string; status: string; source: string; created_at: string };
-type OverdueItem = { id: string; label: string; type: "invoice" | "follow_up"; due: string };
-type ActivityEntry = { id: string; action: string; details: string | null; created_at: string; leads?: { name: string } | null; jobs?: { title: string } | null };
+type Lead = { id: string; name: string; status: string; source: string; created_at: string };
+type Job = { id: string; title: string; status: string; amount: number | null; scheduled_date: string | null; created_at: string };
+type Invoice = { status: string; amount: number; due_date: string | null };
+type Follow = { completed: boolean; due_date: string };
+type Act = { id: string; action: string; details: string | null; created_at: string; leads?: { name: string } | null; jobs?: { title: string } | null };
 
 export const CRMDashboard = () => {
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState<Stats>({
-    newLeadsToday: 0,
-    uncontactedLeads: 0,
-    overdueFollowUps: 0,
-    newLeadsThisWeek: 0,
-    openJobs: 0,
-    quotedRevenue: 0,
-    wonRevenue: 0,
-  });
-  const [recentLeads, setRecentLeads] = useState<RecentLead[]>([]);
-  const [overdueItems, setOverdueItems] = useState<OverdueItem[]>([]);
-  const [activity, setActivity] = useState<ActivityEntry[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [followUps, setFollowUps] = useState<Follow[]>([]);
+  const [activity, setActivity] = useState<Act[]>([]);
 
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      const [leads, jobs, invoices, followUps, recent, act] = await Promise.all([
-        supabase.from("leads").select("status, created_at"),
-        supabase.from("jobs").select("status, amount"),
-        supabase.from("invoices").select("status, amount, due_date, invoice_number"),
-        supabase.from("follow_ups").select("completed, due_date, note"),
-        supabase.from("leads").select("id, name, status, source, created_at").order("created_at", { ascending: false }).limit(5),
-        supabase.from("activity_log").select("id, action, details, created_at, leads(name), jobs(title)").order("created_at", { ascending: false }).limit(8),
-      ]);
-      const l = leads.data || [];
-      const j = jobs.data || [];
-      const inv = invoices.data || [];
-      const f = followUps.data || [];
-      const now = new Date();
+  useEffect(() => { (async () => {
+    setLoading(true);
+    const [l,j,i,f,a] = await Promise.all([
+      supabase.from("leads").select("id,name,status,source,created_at").order("created_at",{ascending:false}),
+      supabase.from("jobs").select("id,title,status,amount,scheduled_date,created_at").order("created_at",{ascending:false}),
+      supabase.from("invoices").select("status,amount,due_date"),
+      supabase.from("follow_ups").select("completed,due_date"),
+      supabase.from("activity_log").select("id,action,details,created_at,leads(name),jobs(title)").order("created_at",{ascending:false}).limit(10),
+    ]);
+    setLeads((l.data as Lead[])||[]); setJobs((j.data as Job[])||[]); setInvoices((i.data as Invoice[])||[]); setFollowUps((f.data as Follow[])||[]); setActivity((a.data as Act[])||[]);
+    setLoading(false);
+  })(); },[]);
 
-      const weekStart = new Date(now);
-      weekStart.setDate(now.getDate() - 7);
-
-      const dayStart = new Date(now);
-      dayStart.setHours(0, 0, 0, 0);
-
-      const jobsWithAmount = j.map((x) => ({ ...x, amount: Number(x.amount || 0) }));
-
-      setStats({
-        newLeadsToday: l.filter((x) => new Date(x.created_at) >= dayStart).length,
-        uncontactedLeads: l.filter((x) => x.status === "new").length,
-        overdueFollowUps: f.filter((x) => !x.completed && new Date(x.due_date) < now).length,
-        newLeadsThisWeek: l.filter((x) => x.status === "new" && new Date(x.created_at) >= weekStart).length,
-        openJobs: j.filter((x) => ["quoted", "scheduled", "in_progress"].includes(x.status)).length,
-        quotedRevenue: jobsWithAmount.filter((x) => x.status === "quoted").reduce((s, x) => s + x.amount, 0),
-        wonRevenue: jobsWithAmount.filter((x) => x.status === "completed").reduce((s, x) => s + x.amount, 0),
-      });
-
-      setRecentLeads((recent.data as RecentLead[]) || []);
-      setActivity((act.data as ActivityEntry[]) || []);
-
-      const overdue: OverdueItem[] = [];
-      inv.filter((x) => (x.status === "sent" || x.status === "overdue") && x.due_date && new Date(x.due_date) < now)
-        .forEach((x) => overdue.push({ id: x.invoice_number, label: `Invoice ${x.invoice_number}`, type: "invoice", due: x.due_date! }));
-      f.filter((x) => !x.completed && new Date(x.due_date) < now)
-        .forEach((x) => overdue.push({ id: x.note, label: x.note.substring(0, 50), type: "follow_up", due: x.due_date }));
-      overdue.sort((a, b) => new Date(a.due).getTime() - new Date(b.due).getTime());
-      setOverdueItems(overdue.slice(0, 6));
-      setLoading(false);
+  const metrics = useMemo(() => {
+    const now = new Date(); const day = new Date(now); day.setHours(0,0,0,0); const week = new Date(day); week.setDate(week.getDate()-7);
+    return {
+      newLeadsToday: leads.filter(l=>new Date(l.created_at)>=day).length,
+      newLeadsWeek: leads.filter(l=>new Date(l.created_at)>=week).length,
+      uncontacted: leads.filter(l=>l.status==="new").length,
+      openJobs: jobs.filter(j=>["quoted","scheduled","in_progress"].includes(j.status)).length,
+      jobsToday: jobs.filter(j=>j.scheduled_date && new Date(j.scheduled_date).toDateString()===now.toDateString()).length,
+      overdueFollowUps: followUps.filter(f=>!f.completed && new Date(f.due_date)<now).length,
+      quotedRevenue: jobs.filter(j=>j.status==="quoted").reduce((s,j)=>s+Number(j.amount||0),0),
+      wonRevenue: jobs.filter(j=>j.status==="completed").reduce((s,j)=>s+Number(j.amount||0),0),
+      overdueInvoices: invoices.filter(i=>["sent","overdue"].includes(i.status) && i.due_date && new Date(i.due_date)<now).length,
     };
-    load();
-  }, []);
+  },[leads,jobs,invoices,followUps]);
 
-  const summaryCards = [
-    { label: "New leads today", value: stats.newLeadsToday, icon: TrendingUp, color: "text-blue-600" },
-    { label: "Uncontacted leads", value: stats.uncontactedLeads, icon: Users, color: "text-amber-600" },
-    { label: "Overdue follow-ups", value: stats.overdueFollowUps, icon: Bell, color: "text-destructive" },
-  ];
+  const leadSource = useMemo(()=>Object.entries(leads.reduce((acc,l)=>{acc[l.source]=(acc[l.source]||0)+1; return acc;},{} as Record<string,number>)),[leads]);
+  const pipeline = useMemo(()=>Object.entries(leads.reduce((acc,l)=>{acc[l.status]=(acc[l.status]||0)+1; return acc;},{} as Record<string,number>)),[leads]);
 
-  const kpiCards = [
-    { label: "New Leads (7d)", value: stats.newLeadsThisWeek, icon: TrendingUp, color: "text-primary" },
-    { label: "Open Jobs", value: stats.openJobs, icon: Briefcase, color: "text-primary" },
-    { label: "Quoted Revenue", value: `$${stats.quotedRevenue.toLocaleString()}`, icon: DollarSign, color: "text-amber-600" },
-    { label: "Won Revenue", value: `$${stats.wonRevenue.toLocaleString()}`, icon: ArrowRight, color: "text-green-600" },
-    { label: "Overdue Invoices", value: invCount(overdueItems, "invoice"), icon: FileText, color: "text-destructive" },
-  ];
-
-  const statusColor: Record<string, string> = {
-    new: "bg-blue-100 text-blue-800",
-    contacted: "bg-yellow-100 text-yellow-800",
-    qualified: "bg-slate-200 text-slate-800",
-    quoted: "bg-purple-100 text-purple-800",
-    won: "bg-green-100 text-green-800",
-    lost: "bg-red-100 text-red-800",
-  };
-
-  if (loading) {
-    return <div className="rounded-lg border p-6 text-sm text-muted-foreground">Loading CRM dashboard…</div>;
-  }
-
-  return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {summaryCards.map((c) => (
-          <Card key={c.label}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{c.label}</CardTitle>
-              <c.icon className={`h-4 w-4 ${c.color}`} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{c.value}</div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {kpiCards.map((c) => (
-          <Card key={c.label}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{c.label}</CardTitle>
-              <c.icon className={`h-4 w-4 ${c.color}`} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{c.value}</div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {overdueItems.length > 0 && (
-        <Card className="border-destructive/50 bg-destructive/5">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-destructive">
-              <AlertTriangle className="h-4 w-4" /> Overdue Items ({overdueItems.length})
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2">
-              {overdueItems.map((item, i) => (
-                <li key={i} className="flex items-center justify-between text-sm">
-                  <span className="flex items-center gap-2">
-                    <Badge variant="outline" className="text-xs">{item.type === "invoice" ? "Invoice" : "Follow-up"}</Badge>
-                    <span className="truncate max-w-[200px] sm:max-w-none">{item.label}</span>
-                  </span>
-                  <span className="text-xs text-destructive font-medium whitespace-nowrap">{new Date(item.due).toLocaleDateString()}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <Users className="h-4 w-4 text-primary" /> Recent Leads
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {recentLeads.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No leads yet</p>
-            ) : (
-              <ul className="space-y-3">
-                {recentLeads.map((lead) => (
-                  <li key={lead.id} className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium">{lead.name}</p>
-                      <p className="text-xs text-muted-foreground">{lead.source.replace(/_/g, " ")} · {new Date(lead.created_at).toLocaleDateString()}</p>
-                    </div>
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${statusColor[lead.status] || "bg-secondary text-foreground"}`}>
-                      {lead.status}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" /> Recent Activity
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {activity.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No activity yet</p>
-            ) : (
-              <ul className="space-y-3">
-                {activity.map((a) => (
-                  <li key={a.id} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                    <div className="min-w-0">
-                      <p className="text-sm">
-                        <span className="font-medium">{a.action}</span>
-                        {a.leads?.name && <span className="text-muted-foreground"> · {a.leads.name}</span>}
-                        {a.jobs?.title && <span className="text-muted-foreground"> · {a.jobs.title}</span>}
-                      </p>
-                      {a.details && <p className="text-xs text-muted-foreground truncate">{a.details}</p>}
-                      <p className="text-xs text-muted-foreground">{new Date(a.created_at).toLocaleString()}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+  if (loading) return <div className="p-4 border rounded">Loading dashboard…</div>;
+  return <div className="space-y-4">
+    <div className="grid md:grid-cols-3 gap-3">{[
+      ["New leads today",metrics.newLeadsToday],["New leads this week",metrics.newLeadsWeek],["Uncontacted leads",metrics.uncontacted],
+      ["Open jobs",metrics.openJobs],["Jobs scheduled today",metrics.jobsToday],["Overdue follow-ups",metrics.overdueFollowUps],
+      ["Quoted revenue",asCurrency(metrics.quotedRevenue)],["Completed/won revenue",asCurrency(metrics.wonRevenue)],["Overdue invoices",metrics.overdueInvoices]
+    ].map(([k,v])=><Card key={String(k)}><CardHeader className="pb-2"><CardTitle className="text-sm">{k}</CardTitle></CardHeader><CardContent className="text-xl font-bold">{String(v)}</CardContent></Card>)}</div>
+    <div className="grid md:grid-cols-3 gap-3">
+      <Card><CardHeader><CardTitle className="text-sm">Recent leads</CardTitle></CardHeader><CardContent>{leads.slice(0,5).map(l=><div key={l.id} className="flex justify-between text-sm py-1"><span>{l.name}</span><Badge className={STATUS_BADGE_CLASS[l.status]}>{LEAD_STATUS_LABELS[l.status]||l.status}</Badge></div>)}</CardContent></Card>
+      <Card><CardHeader><CardTitle className="text-sm">Recent jobs</CardTitle></CardHeader><CardContent>{jobs.slice(0,5).map(j=><div key={j.id} className="text-sm py-1">{j.title} · {j.status.replace("_"," ")}</div>)}</CardContent></Card>
+      <Card><CardHeader><CardTitle className="text-sm">Recent activity</CardTitle></CardHeader><CardContent>{activity.slice(0,6).map(a=><div key={a.id} className="text-xs py-1"><b>{a.action}</b> · {a.leads?.name||a.jobs?.title||"General"} · {asDate(a.created_at)}</div>)}</CardContent></Card>
     </div>
-  );
+    <div className="grid md:grid-cols-2 gap-3">
+      <Card><CardHeader><CardTitle className="text-sm">Lead source breakdown</CardTitle></CardHeader><CardContent>{leadSource.map(([s,c])=><div className="text-sm" key={s}>{s}: {c}</div>)}</CardContent></Card>
+      <Card><CardHeader><CardTitle className="text-sm">Pipeline by status</CardTitle></CardHeader><CardContent>{pipeline.map(([s,c])=><div className="text-sm" key={s}>{LEAD_STATUS_LABELS[s]||s}: {c}</div>)}</CardContent></Card>
+    </div>
+  </div>;
 };
-
-function invCount(items: OverdueItem[], type: OverdueItem["type"]) {
-  return items.filter((item) => item.type === type).length;
-}

@@ -8,7 +8,8 @@ export const SITE = {
   email: "Bravomechanicalllc@gmail.com",
   emailHref: "mailto:Bravomechanicalllc@gmail.com",
   area: "Westchester County, NY",
-  rating: { score: 5.0, count: 5, source: "Google" },
+  // Keep this count aligned with the verified public Google profile and src/lib/googleReviews.ts.
+  rating: { score: 5.0, count: 7, source: "Google" },
   social: {
     facebook: "https://www.facebook.com/p/Bravo-Mechanical-LLC-61576283462607/",
     google: "https://www.google.com/maps/place/Bravo+Mechanical+LLC/data=!4m2!3m1!1s0x0:0x51712bb23caf72a8",

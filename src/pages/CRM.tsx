@@ -13,6 +13,7 @@ import { CRMFollowUps } from "@/components/crm/CRMFollowUps";
 import { CRMDashboard } from "@/components/crm/CRMDashboard";
 import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
 import { CRMDispatch } from "@/components/crm/CRMDispatch";
+import { CRMMyJobs } from "@/components/crm/CRMMyJobs";
 import { SITE } from "@/lib/site";
 
 const CRM = () => {
@@ -68,6 +69,7 @@ const CRM = () => {
           <TabsList className="mb-6 flex h-auto flex-wrap justify-start gap-1">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="dispatch"><CalendarDays className="h-4 w-4 mr-1" />Dispatch</TabsTrigger>
+            <TabsTrigger value="myjobs">My Jobs</TabsTrigger>
             <TabsTrigger value="leads"><Users className="h-4 w-4 mr-1" />Leads</TabsTrigger>
             <TabsTrigger value="jobs"><Briefcase className="h-4 w-4 mr-1" />Jobs</TabsTrigger>
             <TabsTrigger value="invoices"><FileText className="h-4 w-4 mr-1" />Invoices</TabsTrigger>
@@ -76,6 +78,7 @@ const CRM = () => {
           </TabsList>
           <TabsContent value="dashboard"><CRMDashboard /></TabsContent>
           <TabsContent value="dispatch"><CRMDispatch /></TabsContent>
+          <TabsContent value="myjobs"><CRMMyJobs /></TabsContent>
           <TabsContent value="leads"><CRMLeads /></TabsContent>
           <TabsContent value="jobs"><CRMJobs /></TabsContent>
           <TabsContent value="invoices"><CRMInvoices /></TabsContent>

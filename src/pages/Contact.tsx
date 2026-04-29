@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Clock, AlertTriangle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { LeadForm } from "@/components/LeadForm";
@@ -7,10 +7,18 @@ import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { trackCallClick } from "@/lib/analytics";
 
+const trustBullets = [
+  "Serving Westchester County, NY",
+  "AC, furnace, boiler, heat pump, and mini-split service",
+  "Residential and light commercial HVAC",
+  "Written estimates for approved project work",
+  "Emergency HVAC support available by phone",
+];
+
 const Contact = () => {
   useSeo({
     title: "Contact Bravo Mechanical | HVAC Contractor Westchester County, NY",
-    description: "Request HVAC service in Westchester County, NY. Contact Bravo Mechanical for AC repair, furnace and boiler service, heat pump installation, and emergency HVAC support.",
+    description: "Request HVAC service in Westchester County, NY. Contact Bravo Mechanical for AC repair, furnace and boiler service, heat pump installation, mini-splits, maintenance, and emergency HVAC support.",
     canonical: `${SITE.siteUrl}/contact`,
     jsonLd: [
       {
@@ -39,79 +47,91 @@ const Contact = () => {
 
   return (
     <Layout>
-    <PageHero
-      eyebrow="Contact"
-      title="Get in touch with Bravo Mechanical"
-      subtitle="Call us, email us, or request an estimate online. We respond fast and we'll be straight with you."
-    />
+      <PageHero
+        eyebrow="Contact Bravo Mechanical"
+        title="Request HVAC service in Westchester County"
+        subtitle="Call for urgent heating or cooling issues, or send a service request for repairs, replacements, maintenance, and installation estimates."
+      />
 
-    <section className="container mx-auto px-4 py-16 grid lg:grid-cols-3 gap-10">
-      <div className="lg:col-span-1 space-y-6">
-        <div className="bg-card border border-border rounded-lg p-6 space-y-5">
-          <div className="flex items-start gap-3">
-            <Phone className="h-5 w-5 text-accent mt-0.5 shrink-0" />
-            <div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Phone</div>
-              <a href={SITE.phoneHref} onClick={() => trackCallClick("contact_primary")} className="font-bold text-lg hover:text-accent">{SITE.phone}</a>
+      <section className="container mx-auto px-4 py-16 grid lg:grid-cols-3 gap-10">
+        <div className="lg:col-span-1 space-y-6">
+          <div className="bg-card border border-border rounded-lg p-6 space-y-5">
+            <div className="flex items-start gap-3">
+              <Phone className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+              <div>
+                <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Call for fastest response</div>
+                <a href={SITE.phoneHref} onClick={() => trackCallClick("contact_primary")} className="font-bold text-lg hover:text-accent">{SITE.phone}</a>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Mail className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+              <div>
+                <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Email</div>
+                <a href={SITE.emailHref} className="font-semibold hover:text-accent break-all">{SITE.email}</a>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <MapPin className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+              <div>
+                <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Service Area</div>
+                <div className="font-semibold">Westchester County, NY</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Clock className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+              <div>
+                <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Hours</div>
+                <ul className="text-sm space-y-0.5 mt-1">
+                  {SITE.hours.map((h) => (
+                    <li key={h.day}><span className="font-semibold">{h.day}:</span> {h.time}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
-          <div className="flex items-start gap-3">
-            <Mail className="h-5 w-5 text-accent mt-0.5 shrink-0" />
-            <div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Email</div>
-              <a href={SITE.emailHref} className="font-semibold hover:text-accent break-all">{SITE.email}</a>
+
+          <div className="bg-accent/10 border border-accent/30 rounded-lg p-5">
+            <div className="flex gap-3">
+              <AlertTriangle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+              <div>
+                <div className="font-bold mb-1">Emergency HVAC service</div>
+                <p className="text-sm text-muted-foreground">
+                  No heat, no cooling, water around equipment, burning smell, or system shutdown? Call <a href={SITE.phoneHref} onClick={() => trackCallClick("contact_emergency")} className="font-semibold text-accent hover:underline">{SITE.phone}</a>. Emergency response depends on technician availability, weather, call volume, and location, but phone calls are the fastest way to reach us for urgent service.
+                </p>
+              </div>
             </div>
           </div>
-          <div className="flex items-start gap-3">
-            <MapPin className="h-5 w-5 text-accent mt-0.5 shrink-0" />
-            <div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Service Area</div>
-              <div className="font-semibold">Westchester County, NY</div>
-            </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <Clock className="h-5 w-5 text-accent mt-0.5 shrink-0" />
-            <div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Hours</div>
-              <ul className="text-sm space-y-0.5 mt-1">
-                {SITE.hours.map((h) => (
-                  <li key={h.day}><span className="font-semibold">{h.day}:</span> {h.time}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+
+          <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="block aspect-[4/3] border border-border rounded-lg overflow-hidden hover:border-accent transition-colors">
+            <iframe
+              title="Bravo Mechanical Google Business Profile Map"
+              src="https://www.google.com/maps?q=Bravo+Mechanical+LLC+Westchester+County+NY&output=embed"
+              loading="lazy"
+              className="h-full w-full"
+            />
+          </a>
         </div>
 
-        <div className="bg-accent/10 border border-accent/30 rounded-lg p-5">
-          <div className="flex gap-3">
-            <AlertTriangle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
-            <div>
-              <div className="font-bold mb-1">Emergency HVAC service</div>
-              <p className="text-sm text-muted-foreground">No heat or no cooling? Call us directly at <a href={SITE.phoneHref} onClick={() => trackCallClick("contact_emergency")} className="font-semibold text-accent hover:underline">{SITE.phone}</a> for fastest response.</p>
-            </div>
+        <div className="lg:col-span-2">
+          <h2 className="text-2xl font-extrabold mb-2">Request service or an estimate</h2>
+          <p className="text-muted-foreground mb-4">
+            Tell us what is happening with your heating or cooling system and we will follow up with the next available service window. After you submit the form, our team reviews your request, confirms the property location, asks any needed follow-up questions, and helps schedule the appropriate service or estimate visit.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-2 mb-6">
+            {trustBullets.map((item) => (
+              <div key={item} className="flex gap-2 text-sm text-muted-foreground">
+                <CheckCircle2 className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+          <LeadForm />
+          <div className="mt-8">
+            <RebateEstimator />
           </div>
         </div>
-
-        <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="block aspect-[4/3] border border-border rounded-lg overflow-hidden hover:border-accent transition-colors">
-          <iframe
-            title="Bravo Mechanical Google Business Profile Map"
-            src="https://www.google.com/maps?q=Bravo+Mechanical+LLC+Westchester+County+NY&output=embed"
-            loading="lazy"
-            className="h-full w-full"
-          />
-        </a>
-      </div>
-
-      <div className="lg:col-span-2">
-        <h2 className="text-2xl font-extrabold mb-2">Request an estimate</h2>
-        <p className="text-muted-foreground mb-6">Tell us a bit about what you need and we'll get back to you quickly.</p>
-        <LeadForm />
-        <div className="mt-8">
-          <RebateEstimator />
-        </div>
-      </div>
-    </section>
-  </Layout>
+      </section>
+    </Layout>
   );
 };
 

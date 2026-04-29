@@ -24,7 +24,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     metaDescription: (c) =>
       `Professional HVAC installation in ${c}, NY. Furnaces, central AC, heat pumps, ductless mini-splits, and ductwork — sized right, installed clean, code-compliant. Free quotes.`,
     intro: (c) =>
-      `When it's time to replace or upgrade your heating or cooling system in ${c}, the install matters more than the brand on the box. Bravo Mechanical sizes every system with a real load calculation, pulls the right permits, and installs to manufacturer spec — so your equipment runs quieter, lasts longer, and actually delivers the efficiency you're paying for.`,
+      `When it's time to replace or upgrade your heating or cooling system in ${c}, the install matters more than the brand on the box. Bravo Mechanical sizes every system with a real load calculation, coordinates permit requirements when needed and installs to manufacturer specifications with commissioning checks.`,
     scope: [
       "Gas furnaces and high-efficiency boilers",
       "Central air conditioning systems",
@@ -47,7 +47,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       },
       {
         q: `Do you handle rebates and tax credits for ${c} homeowners?`,
-        a: `Yes. We confirm eligibility for NYS Clean Heat, NYSERDA Comfort Home, IRA 25C federal tax credits, and Con Edison rebates before you commit, and we handle the paperwork on qualifying installs.`,
+        a: `Yes. We confirm eligibility for NYS Clean Heat, NYSERDA Comfort Home, IRA 25C federal tax credits, and Con Edison rebates before you commit, and we can help you understand required documentation on qualifying installs.`,
       },
       {
         q: `How long does installation take?`,
@@ -55,7 +55,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       },
       {
         q: `Do you pull permits?`,
-        a: `Yes — every install that requires a permit gets one. We coordinate with the ${c} building department and handle inspections so the work is on the record and warranty-protected.`,
+        a: `When project scope requires a permit, we coordinate with the ${c} building department and schedule required inspections.`,
       },
     ],
   },
@@ -67,9 +67,9 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     h1: (c) => `HVAC Repair in ${c}, NY`,
     metaTitle: (c) => `HVAC Repair ${c}, NY — Same-Day Heating & AC Repair | Bravo Mechanical`,
     metaDescription: (c) =>
-      `Fast HVAC repair in ${c}, NY. No-heat, no-cool, refrigerant leaks, blower failures — same-day appointments and 24/7 emergency service. Licensed Westchester techs.`,
+      `Fast HVAC repair in ${c}, NY. No-heat, no-cool, refrigerant leaks, blower failures — prompt appointment windows and after-hours support when available. Licensed Westchester techs.`,
     intro: (c) =>
-      `When your heat or AC goes out in ${c}, you need a tech on site fast — not a callback in three days. Bravo Mechanical answers the phone 24/7 and dispatches local Westchester techs the same day whenever possible. We diagnose clearly, quote in writing before we touch a wrench, and get the system running right the first time.`,
+      `When your heat or AC goes out in ${c}, you need a tech on site fast — not a callback in three days. Bravo Mechanical responds quickly and schedules the next available Westchester technician based on urgency and availability. We diagnose clearly, quote in writing before we touch a wrench, and get the system running right the first time.`,
     scope: [
       "No-heat and no-cool emergency calls",
       "Refrigerant leak detection and repair",
@@ -80,7 +80,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ],
     signals: [
       "Same-day appointments when available",
-      "24/7 emergency dispatch in ${c}",
+      "After-hours emergency support when available in ${c}",
       "Flat, written pricing before work begins",
       "Repairs on any make or model",
       "Honest 'repair vs. replace' guidance — no upsell",
@@ -88,7 +88,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     faqs: (c) => [
       {
         q: `Do you offer same-day HVAC repair in ${c}?`,
-        a: `Yes — same-day service is available for most ${c} calls when slots are open. For after-hours no-heat or no-cool emergencies, call us 24/7 and we'll dispatch the next available tech.`,
+        a: `We offer same-day scheduling when open slots are available. For urgent after-hours no-heat or no-cool issues, call and we'll schedule the next available technician.`,
       },
       {
         q: `What does an HVAC repair cost in ${c}?`,
@@ -114,7 +114,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     metaDescription: (c) =>
       `Seasonal HVAC tune-ups and maintenance plans in ${c}, NY. Spring AC and fall heating service that prevents breakdowns, lowers bills, and extends equipment life.`,
     intro: (c) =>
-      `Most HVAC breakdowns in ${c} are preventable. A 60-minute tune-up before each season catches the small issues — a weak capacitor, a clogged drain, a low refrigerant charge — before they become a no-heat call in January or a no-cool call in July. Bravo Mechanical's maintenance plans are flat-rate, scheduled automatically, and include priority service when you do need a repair.`,
+      `Most HVAC breakdowns in ${c} are preventable. A 60-minute tune-up before each season catches the small issues — a weak capacitor, a clogged drain, a low refrigerant charge — before they become a no-heat call in January or a no-cool call in July. Bravo Mechanical's maintenance plans are scheduled automatically and include priority service when you do need a repair.`,
     scope: [
       "Spring AC tune-ups and refrigerant checks",
       "Fall heating tune-ups and combustion analysis",
@@ -125,7 +125,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ],
     signals: [
       "Flat-rate plans — no per-visit surprises",
-      "Priority dispatch for plan members",
+      "Priority scheduling for plan members",
       "Discounts on parts and repairs",
       "Multi-point checklist on every visit",
       "Reminder system — we book it, you don't have to",
@@ -141,11 +141,11 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       },
       {
         q: `Do maintenance plans really save money?`,
-        a: `Yes — for most ${c} homeowners. A well-maintained system runs 10–25% more efficiently, lasts years longer, and avoids most emergency repair calls. Plan members also get parts and labor discounts.`,
+        a: `Yes — for most ${c} homeowners. A well-maintained system often runs more consistently, may reduce avoidable breakdowns, and supports long-term equipment condition. Plan details vary by agreement.`,
       },
       {
         q: `Will maintenance keep my warranty valid?`,
-        a: `Most manufacturer warranties require documented annual maintenance. Our service records satisfy that requirement and protect your warranty.`,
+        a: `Many manufacturer warranties require documented maintenance. We provide service records for your files.`,
       },
     ],
   },
@@ -263,16 +263,16 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "Priority emergency response for contract customers",
       "Detailed service records for facility management",
       "Experience with retail, office, restaurant, medical",
-      "Local Westchester dispatch — fast on-site response",
+      "Local Westchester scheduling and on-site service",
     ],
     faqs: (c) => [
       {
         q: `Do you offer commercial HVAC service contracts in ${c}?`,
-        a: `Yes — flat-rate preventive maintenance agreements are our most popular commercial offering. Quarterly or bi-annual visits, priority dispatch, parts and labor discounts, and full service documentation for your records.`,
+        a: `Yes — preventive maintenance agreements are a common commercial option. Quarterly or bi-annual visits, priority scheduling, and service documentation are available based on plan terms.`,
       },
       {
         q: `Can you respond after hours for emergency commercial calls?`,
-        a: `Yes. Service-contract customers get priority 24/7 emergency response. We also take after-hours calls from non-contract ${c} businesses on a case-by-case basis.`,
+        a: `Yes. Service-contract customers receive priority scheduling. We also take after-hours calls from non-contract ${c} businesses when capacity allows.`,
       },
       {
         q: `What size commercial properties do you service?`,

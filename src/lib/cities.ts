@@ -18,11 +18,11 @@ export const citySlug = (name: string) =>
 const baseFaqs = (name: string) => [
   {
     q: `Do you offer same-day HVAC repair in ${name}?`,
-    a: `Yes — we keep same-day appointments open for ${name} every weekday and offer 24/7 emergency service for no-heat and no-cool calls. Our techs are local to Westchester and can usually be on-site within hours.`,
+    a: `We offer prompt appointment windows in ${name}, and after-hours emergency support when available. Response timing depends on call volume, weather, and technician availability.`,
   },
   {
     q: `Are you licensed and insured to work in ${name}, NY?`,
-    a: `Yes. Bravo Mechanical LLC is fully licensed, bonded, and insured to perform HVAC installation, service, and repair throughout Westchester County, including ${name}. We pull permits when required and our work is code-compliant.`,
+    a: `Yes. Bravo Mechanical LLC is licensed and insured to perform HVAC installation, service, and repair throughout Westchester County, including ${name}. We handle permit coordination when project scope requires it.`,
   },
   {
     q: `What HVAC brands do you install in ${name}?`,
@@ -30,7 +30,7 @@ const baseFaqs = (name: string) => [
   },
   {
     q: `Are NYS Clean Heat and federal heat-pump rebates available in ${name}?`,
-    a: `Yes. Homeowners in ${name} are eligible for NYSERDA Clean Heat rebates, NYS Comfort Home incentives, federal Inflation Reduction Act 25C tax credits (up to $2,000 for heat pumps), and Con Edison utility rebates. We confirm eligibility before purchase.`,
+    a: `In many cases, homeowners in ${name} may qualify for NYSERDA, utility, or federal incentives depending on equipment, utility territory, and current program rules. We review options during quoting.`,
   },
 ];
 

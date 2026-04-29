@@ -14,6 +14,7 @@ import { CRMDashboard } from "@/components/crm/CRMDashboard";
 import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
 import { CRMDispatch } from "@/components/crm/CRMDispatch";
 import { CRMMyJobs } from "@/components/crm/CRMMyJobs";
+import { CRMAlerts } from "@/components/crm/CRMAlerts";
 import { SITE } from "@/lib/site";
 
 const CRM = () => {
@@ -57,39 +58,37 @@ const CRM = () => {
   return (
     <Layout>
       <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#dbeafe_0,#f8fafc_35%,#ffffff_100%)] px-4 py-6 text-slate-950">
-        <div className="pointer-events-none fixed inset-0 overflow-hidden">
-          <div className="absolute -top-24 left-10 h-72 w-72 rounded-full bg-blue-200/50 blur-3xl" />
-          <div className="absolute right-8 top-20 h-96 w-96 rounded-full bg-cyan-100/70 blur-3xl" />
-          <div className="absolute bottom-0 left-1/2 h-80 w-80 rounded-full bg-slate-200/70 blur-3xl" />
-        </div>
         <div className="relative mx-auto max-w-7xl">
           <div className="mb-6 rounded-[2rem] border border-white/80 bg-white/80 p-5 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur-xl md:p-7">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-200"><Wrench className="h-6 w-6" /></div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg"><Wrench className="h-6 w-6" /></div>
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.25em] text-blue-700">Bravo Mechanical</p>
                   <h1 className="text-3xl font-black tracking-tight text-slate-950 md:text-4xl">Command Center</h1>
-                  <p className="text-sm text-slate-600">Dispatch, field updates, revenue, invoices, and follow-ups in one bright premium ops hub.</p>
+                  <p className="text-sm text-slate-600">Dispatch, field updates, revenue, invoices, and follow-ups in one premium ops hub.</p>
                 </div>
               </div>
-              <Button onClick={signOut} variant="outline" size="sm" className="w-fit rounded-xl border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50"><LogOut className="h-4 w-4 mr-2" />Sign out</Button>
+              <Button onClick={signOut} variant="outline" size="sm" className="rounded-xl"><LogOut className="h-4 w-4 mr-2" />Sign out</Button>
             </div>
           </div>
 
           <Tabs defaultValue="dashboard">
-            <TabsList className="mb-6 flex h-auto flex-wrap justify-start gap-2 rounded-2xl border border-white/80 bg-white/70 p-2 shadow-xl shadow-slate-200/60 backdrop-blur-xl">
-              <TabsTrigger className="rounded-xl data-[state=active]:bg-slate-950 data-[state=active]:text-white data-[state=active]:shadow-lg" value="dashboard">Dashboard</TabsTrigger>
-              <TabsTrigger className="rounded-xl data-[state=active]:bg-slate-950 data-[state=active]:text-white data-[state=active]:shadow-lg" value="dispatch"><CalendarDays className="h-4 w-4 mr-1" />Dispatch</TabsTrigger>
-              <TabsTrigger className="rounded-xl data-[state=active]:bg-slate-950 data-[state=active]:text-white data-[state=active]:shadow-lg" value="myjobs">My Jobs</TabsTrigger>
-              <TabsTrigger className="rounded-xl data-[state=active]:bg-slate-950 data-[state=active]:text-white data-[state=active]:shadow-lg" value="leads"><Users className="h-4 w-4 mr-1" />Leads</TabsTrigger>
-              <TabsTrigger className="rounded-xl data-[state=active]:bg-slate-950 data-[state=active]:text-white data-[state=active]:shadow-lg" value="jobs"><Briefcase className="h-4 w-4 mr-1" />Jobs</TabsTrigger>
-              <TabsTrigger className="rounded-xl data-[state=active]:bg-slate-950 data-[state=active]:text-white data-[state=active]:shadow-lg" value="invoices"><FileText className="h-4 w-4 mr-1" />Invoices</TabsTrigger>
-              <TabsTrigger className="rounded-xl data-[state=active]:bg-slate-950 data-[state=active]:text-white data-[state=active]:shadow-lg" value="followups"><Bell className="h-4 w-4 mr-1" />Follow-ups</TabsTrigger>
-              <TabsTrigger className="rounded-xl data-[state=active]:bg-slate-950 data-[state=active]:text-white data-[state=active]:shadow-lg" value="activity"><Activity className="h-4 w-4 mr-1" />Activity</TabsTrigger>
+            <TabsList className="mb-6 flex flex-wrap gap-2 rounded-2xl bg-white p-2 shadow">
+              <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+              <TabsTrigger value="alerts">Alerts</TabsTrigger>
+              <TabsTrigger value="dispatch">Dispatch</TabsTrigger>
+              <TabsTrigger value="myjobs">My Jobs</TabsTrigger>
+              <TabsTrigger value="leads">Leads</TabsTrigger>
+              <TabsTrigger value="jobs">Jobs</TabsTrigger>
+              <TabsTrigger value="invoices">Invoices</TabsTrigger>
+              <TabsTrigger value="followups">Follow-ups</TabsTrigger>
+              <TabsTrigger value="activity">Activity</TabsTrigger>
             </TabsList>
-            <div className="rounded-[2rem] border border-white/80 bg-white/90 p-4 text-slate-950 shadow-[0_24px_90px_rgba(15,23,42,0.10)] backdrop-blur-xl md:p-6">
+
+            <div className="rounded-[2rem] bg-white p-4 shadow md:p-6">
               <TabsContent value="dashboard"><CRMDashboard /></TabsContent>
+              <TabsContent value="alerts"><CRMAlerts /></TabsContent>
               <TabsContent value="dispatch"><CRMDispatch /></TabsContent>
               <TabsContent value="myjobs"><CRMMyJobs /></TabsContent>
               <TabsContent value="leads"><CRMLeads /></TabsContent>

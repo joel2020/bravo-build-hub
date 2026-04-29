@@ -15,6 +15,14 @@ import { Plus, Search, Trash2, Phone, Mail, MapPin, Briefcase, ArrowRight, Messa
 
 const STATUSES = ["new", "contacted", "qualified", "quoted", "won", "lost"] as const;
 const SOURCES = ["contact_form", "rebate_estimator", "phone", "referral", "google", "other"] as const;
+const STATUS_LABELS: Record<string, string> = {
+  new: "New",
+  contacted: "Contacted",
+  qualified: "Qualified/Scheduled",
+  quoted: "Quoted",
+  won: "Won",
+  lost: "Lost",
+};
 
 type Lead = {
   id: string; name: string; email: string | null; phone: string | null;
@@ -46,6 +54,9 @@ export const CRMLeads = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [filterSource, setFilterSource] = useState<string>("all");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "", source: "other" as string, status: "new" as string, notes: "" });
@@ -198,14 +209,25 @@ export const CRMLeads = () => {
 
   const filtered = useMemo(() => leads.filter((l) => {
     if (filterStatus !== "all" && l.status !== filterStatus) return false;
+    if (filterSource !== "all" && l.source !== filterSource) return false;
+    const createdAt = new Date(l.created_at).getTime();
+    if (fromDate && createdAt < new Date(fromDate).getTime()) return false;
+    if (toDate) {
+      const end = new Date(toDate);
+      end.setHours(23, 59, 59, 999);
+      if (createdAt > end.getTime()) return false;
+    }
+    const meta = parseLeadMeta(l.notes);
     if (
       search
       && !l.name.toLowerCase().includes(search.toLowerCase())
       && !(l.email || "").toLowerCase().includes(search.toLowerCase())
       && !(l.phone || "").toLowerCase().includes(search.toLowerCase())
+      && !(meta.city || "").toLowerCase().includes(search.toLowerCase())
+      && !(meta.service || "").toLowerCase().includes(search.toLowerCase())
     ) return false;
     return true;
-  }), [leads, filterStatus, search]);
+  }), [leads, filterStatus, filterSource, fromDate, toDate, search]);
 
   const pipelineCounts = STATUSES.map((s) => ({ status: s, count: leads.filter((l) => l.status === s).length }));
 
@@ -219,7 +241,7 @@ export const CRMLeads = () => {
           <button key={p.status} onClick={() => setFilterStatus(filterStatus === p.status ? "all" : p.status)}
             className={`flex-1 min-w-[90px] px-3 py-2 rounded-md text-center transition-colors border ${filterStatus === p.status ? "bg-primary text-primary-foreground border-primary" : "bg-background border-border hover:bg-secondary"}`}>
             <div className="text-lg font-bold">{p.count}</div>
-            <div className="text-xs capitalize">{p.status}</div>
+            <div className="text-xs">{STATUS_LABELS[p.status]}</div>
           </button>
         ))}
       </div>
@@ -227,7 +249,7 @@ export const CRMLeads = () => {
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search name, phone, email..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Input placeholder="Search name, phone, email, city, service..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
 
         <Select value={filterStatus} onValueChange={setFilterStatus}>
@@ -236,9 +258,22 @@ export const CRMLeads = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All statuses</SelectItem>
-            {STATUSES.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}
+            {STATUSES.map((s) => <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>)}
           </SelectContent>
         </Select>
+
+        <Select value={filterSource} onValueChange={setFilterSource}>
+          <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectValue placeholder="Filter source" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All sources</SelectItem>
+            {SOURCES.map((source) => <SelectItem key={source} value={source}>{source.replace(/_/g, " ")}</SelectItem>)}
+          </SelectContent>
+        </Select>
+
+        <Input type="date" className="w-full sm:w-[170px]" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+        <Input type="date" className="w-full sm:w-[170px]" value={toDate} onChange={(e) => setToDate(e.target.value)} />
 
         <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) resetForm(); }}>
           <DialogTrigger asChild>
@@ -308,7 +343,7 @@ export const CRMLeads = () => {
                       </td>
                       <td className="p-3 text-muted-foreground">{leadMeta.service || "General HVAC"}</td>
                       <td className="p-3 text-muted-foreground text-xs">{new Date(l.created_at).toLocaleString()}</td>
-                      <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${statusColor[l.status] || ""}`}>{l.status}</span></td>
+                      <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColor[l.status] || ""}`}>{STATUS_LABELS[l.status] || l.status}</span></td>
                       <td className="p-3">
                         <div className="flex flex-wrap gap-1" onClick={(e) => e.stopPropagation()}>
                           {l.phone && <Button size="sm" variant="outline" className="h-9" asChild><a href={`tel:${l.phone}`}>Call</a></Button>}
@@ -337,7 +372,7 @@ export const CRMLeads = () => {
                       <button className="text-left font-semibold hover:underline" onClick={() => openDetail(l)}>{l.name}</button>
                       <p className="text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString()}</p>
                     </div>
-                    <Badge className={`capitalize ${statusColor[l.status] || ""}`}>{l.status}</Badge>
+                    <Badge className={statusColor[l.status] || ""}>{STATUS_LABELS[l.status] || l.status}</Badge>
                   </div>
                   <p className="text-sm"><span className="text-muted-foreground">Phone:</span> {l.phone ? <a className="text-primary hover:underline" href={`tel:${l.phone}`}>{l.phone}</a> : "-"}</p>
                   <p className="text-sm"><span className="text-muted-foreground">Service:</span> {leadMeta.service || "General HVAC"}</p>
@@ -373,7 +408,7 @@ export const CRMLeads = () => {
                       <div className="rounded-md border p-3 space-y-2">
                         <div className="flex items-center justify-between">
                           <p className="font-medium">{detailLead.name}</p>
-                          <Badge className={`capitalize ${statusColor[detailLead.status] || ""}`}>{detailLead.status}</Badge>
+                          <Badge className={statusColor[detailLead.status] || ""}>{STATUS_LABELS[detailLead.status] || detailLead.status}</Badge>
                         </div>
                         <div className="text-sm space-y-1">
                           <p>{detailLead.phone ? <a href={`tel:${detailLead.phone}`} className="text-primary hover:underline">{detailLead.phone}</a> : "No phone"}</p>
@@ -408,9 +443,9 @@ export const CRMLeads = () => {
                               size="sm"
                               variant={detailLead.status === status ? "default" : "outline"}
                               onClick={() => updateLeadStatus(detailLead, status)}
-                              className="capitalize"
+                              className=""
                             >
-                              {status}
+                              {STATUS_LABELS[status]}
                             </Button>
                           ))}
                         </div>

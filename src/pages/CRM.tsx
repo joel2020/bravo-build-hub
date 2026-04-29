@@ -5,13 +5,14 @@ import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSeo } from "@/lib/seo";
-import { LogOut, Users, Briefcase, FileText, Bell, Activity } from "lucide-react";
+import { LogOut, Users, Briefcase, FileText, Bell, Activity, CalendarDays } from "lucide-react";
 import { CRMLeads } from "@/components/crm/CRMLeads";
 import { CRMJobs } from "@/components/crm/CRMJobs";
 import { CRMInvoices } from "@/components/crm/CRMInvoices";
 import { CRMFollowUps } from "@/components/crm/CRMFollowUps";
 import { CRMDashboard } from "@/components/crm/CRMDashboard";
 import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
+import { CRMDispatch } from "@/components/crm/CRMDispatch";
 import { SITE } from "@/lib/site";
 
 const CRM = () => {
@@ -57,12 +58,16 @@ const CRM = () => {
     <Layout>
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-extrabold">CRM</h1>
+          <div>
+            <h1 className="text-3xl font-extrabold">Bravo Command Center</h1>
+            <p className="text-sm text-muted-foreground">Leads, dispatch, jobs, invoices, and field updates in one place.</p>
+          </div>
           <Button onClick={signOut} variant="outline" size="sm"><LogOut className="h-4 w-4 mr-2" />Sign out</Button>
         </div>
         <Tabs defaultValue="dashboard">
-          <TabsList className="mb-6">
+          <TabsList className="mb-6 flex h-auto flex-wrap justify-start gap-1">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="dispatch"><CalendarDays className="h-4 w-4 mr-1" />Dispatch</TabsTrigger>
             <TabsTrigger value="leads"><Users className="h-4 w-4 mr-1" />Leads</TabsTrigger>
             <TabsTrigger value="jobs"><Briefcase className="h-4 w-4 mr-1" />Jobs</TabsTrigger>
             <TabsTrigger value="invoices"><FileText className="h-4 w-4 mr-1" />Invoices</TabsTrigger>
@@ -70,6 +75,7 @@ const CRM = () => {
             <TabsTrigger value="activity"><Activity className="h-4 w-4 mr-1" />Activity</TabsTrigger>
           </TabsList>
           <TabsContent value="dashboard"><CRMDashboard /></TabsContent>
+          <TabsContent value="dispatch"><CRMDispatch /></TabsContent>
           <TabsContent value="leads"><CRMLeads /></TabsContent>
           <TabsContent value="jobs"><CRMJobs /></TabsContent>
           <TabsContent value="invoices"><CRMInvoices /></TabsContent>

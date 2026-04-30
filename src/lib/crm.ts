@@ -1,4 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
+import { sendSmsWithFallback, openSmsFallback } from "./sms";
+import { sendEmail, openMailtoFallback } from "./email";
 
 export const LEAD_STATUS_LABELS: Record<string, string> = {
   new: "New",
@@ -44,8 +46,9 @@ export const STATUS_BADGE_CLASS: Record<string, string> = {
 export const asCurrency = (value: number | null | undefined) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Number(value || 0));
 
-export const asDate = (value?: string | null) => (value ? new Date(value).toLocaleDateString() : "—");
-export const asDateTime = (value?: string | null) => (value ? new Date(value).toLocaleString() : "—");
+export const asDate = (value?: string | null) => (value ? new Date(value).toLocaleDateString() : "\u2014");
+
+export const asDateTime = (value?: string | null) => (value ? new Date(value).toLocaleString() : "\u2014");
 
 export const isSameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
 
@@ -61,17 +64,7 @@ export const createActivity = async (action: string, opts?: { leadId?: string | 
   });
 };
 
-type CompletedJobInput = {
-  id: string;
-  lead_id?: string | null;
-  title?: string | null;
-  amount?: number | null;
-  total_amount?: number | null;
-  customer_name?: string | null;
-  customer_phone?: string | null;
-  customer_email?: string | null;
-  leads?: { name?: string | null; phone?: string | null; email?: string | null } | null;
-};
+const APP_URL = "https://app.bravomechanicalny.com";
 
 const invoiceNumber = () => `INV-${new Date().toISOString().slice(2, 10).replace(/-/g, "")}-${Date.now().toString().slice(-5)}`;
 
@@ -163,3 +156,138 @@ export const ensureRevenueLoopForCompletedJob = async (job: CompletedJobInput) =
 
   return { invoiceId, invoiceNumber: invoiceNo };
 };
+
+export async function sendInvoiceMessage(job: CompletedJobInput, invoiceNo: string) {
+  const customerPhone = job.customer_phone || job.leads?.phone;
+  const customerEmail = job.customer_email || job.leads?.email;
+  const customerName = job.customer_name || job.leads?.name || "there";
+  const paymentLink = `${APP_URL}/invoices`;
+
+  const results = { sms: false, email: false, errors: [] as string[] };
+
+  if (customerPhone) {
+    const smsBody = `Hi ${customerName}, your Bravo Mechanical invoice is ready: ${invoiceNo}. View and pay here: ${paymentLink}`;
+    try {
+      const smsResult = await sendSmsWithFallback(customerPhone, smsBody);
+      results.sms = smsResult.success;
+      if (!smsResult.success) {
+        results.errors.push(`SMS failed: ${smsResult.error}`);
+      }
+    } catch (e) {
+      results.errors.push(`SMS error: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+
+  if (customerEmail) {
+    const subject = "Your Bravo Mechanical Invoice";
+    const html = `
+      <!DOCTYPE html>
+      <html><body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px;">
+        <h2 style="color:#1a1a1a;">Bravo Mechanical</h2>
+        <p>Hi ${customerName},</p>
+        <p>Your invoice <strong>${invoiceNo}</strong> is ready.</p>
+        <p><a href="${paymentLink}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;">View Invoice</a></p>
+        <p style="color:#666;font-size:14px;">Thank you for choosing Bravo Mechanical.</p>
+      </body></html>
+    `;
+    try {
+      const emailResult = await sendEmail({ to: customerEmail, subject, html });
+      results.email = emailResult.success;
+      if (!emailResult.success) {
+        results.errors.push(`Email failed: ${emailResult.error}`);
+      }
+    } catch (e) {
+      results.errors.push(`Email error: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+
+  await createActivity("Invoice notification sent", {
+    jobId: job.id,
+    leadId: job.lead_id || null,
+    details: `SMS: ${results.sms ? "sent" : "skipped/failed"}, Email: ${results.email ? "sent" : "skipped/failed"}`,
+  });
+
+  return results;
+}
+
+export async function sendReviewRequest(job: CompletedJobInput) {
+  const customerPhone = job.customer_phone || job.leads?.phone;
+  const customerEmail = job.customer_email || job.leads?.email;
+  const customerName = job.customer_name || job.leads?.name || "there";
+  const reviewLink = "https://g.page/r/bravo-mechanical/review";
+
+  const results = { sms: false, email: false, errors: [] as string[] };
+
+  if (customerPhone) {
+    const smsBody = `Thanks for choosing Bravo Mechanical, ${customerName}! Could you leave us a quick review? ${reviewLink}`;
+    try {
+      const smsResult = await sendSmsWithFallback(customerPhone, smsBody);
+      results.sms = smsResult.success;
+      if (!smsResult.success) {
+        results.errors.push(`SMS failed: ${smsResult.error}`);
+      }
+    } catch (e) {
+      results.errors.push(`SMS error: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+
+  if (customerEmail) {
+    const subject = "How was your service with Bravo Mechanical?";
+    const html = `
+      <!DOCTYPE html>
+      <html><body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px;">
+        <h2 style="color:#1a1a1a;">Bravo Mechanical</h2>
+        <p>Hi ${customerName},</p>
+        <p>Thank you for choosing Bravo Mechanical. We hope you had a great experience!</p>
+        <p>Would you mind taking a moment to leave us a review?</p>
+        <p><a href="${reviewLink}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;">Leave a Review</a></p>
+        <p style="color:#666;font-size:14px;">Your feedback helps us serve you better.</p>
+      </body></html>
+    `;
+    try {
+      const emailResult = await sendEmail({ to: customerEmail, subject, html });
+      results.email = emailResult.success;
+      if (!emailResult.success) {
+        results.errors.push(`Email failed: ${emailResult.error}`);
+      }
+    } catch (e) {
+      results.errors.push(`Email error: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+
+  await createActivity("Review request sent", {
+    jobId: job.id,
+    leadId: job.lead_id || null,
+    details: `SMS: ${results.sms ? "sent" : "skipped/failed"}, Email: ${results.email ? "sent" : "skipped/failed"}`,
+  });
+
+  return results;
+}
+
+export async function sendUnpaidInvoiceFollowUp(invoiceId: string, leadId: string | null, jobId: string | null, customerPhone: string | null, customerEmail: string | null, customerName: string | null, invoiceNo: string) {
+  const results = { sms: false, email: false, errors: [] as string[] };
+  const paymentLink = `${APP_URL}/invoices`;
+
+  if (customerPhone) {
+    const smsBody = `Hi ${customerName || "there"}, this is a friendly reminder that your Bravo Mechanical invoice ${invoiceNo} is still unpaid. Please view and pay here: ${paymentLink}`;
+    try {
+      const smsResult = await sendSmsWithFallback(customerPhone, smsBody);
+      results.sms = smsResult.success;
+      if (!smsResult.success) results.errors.push(`SMS: ${smsResult.error}`);
+    } catch (e) { results.errors.push(`SMS: ${e instanceof Error ? e.message : String(e)}`); }
+  }
+
+  if (customerEmail) {
+    const subject = `Reminder: Invoice ${invoiceNo} - Bravo Mechanical`;
+    const html = `<html><body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px;"><h2>Bravo Mechanical</h2><p>Hi ${customerName || "there"},</p><p>This is a friendly reminder that invoice <strong>${invoiceNo}</strong> is still outstanding.</p><p><a href="${paymentLink}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;">Pay Now</a></p></body></html>`;
+    try {
+      const emailResult = await sendEmail({ to: customerEmail, subject, html });
+      results.email = emailResult.success;
+      if (!emailResult.success) results.errors.push(`Email: ${emailResult.error}`);
+    } catch (e) { results.errors.push(`Email: ${e instanceof Error ? e.message : String(e)}`); }
+  }
+
+  await createActivity("Unpaid invoice follow-up sent", { invoiceId, leadId, jobId, details: `SMS: ${results.sms}, Email: ${results.email}` });
+
+  return results;
+}

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { Camera, ClipboardList, Plus, Search } from "lucide-react";
-import { asCurrency, asDate, createActivity, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
+import { asCurrency, asDate, createActivity, ensureRevenueLoopForCompletedJob, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
 
 const STATUSES = ["quoted", "scheduled", "in_progress", "completed", "cancelled"] as const;
 const PHOTO_BUCKET = "job-photos";

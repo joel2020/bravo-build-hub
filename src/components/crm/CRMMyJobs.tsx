@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { asCurrency, asDate, createActivity, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
+import { asCurrency, asDate, createActivity, ensureRevenueLoopForCompletedJob, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
 import { Camera, CheckCircle2, ClipboardList, MapPin, MessageSquare, Phone, PlayCircle, RefreshCw, UserRound, Wrench } from "lucide-react";
 
 const PHOTO_BUCKET = "job-photos";
@@ -184,6 +184,7 @@ export const CRMMyJobs = () => {
     }
 
     await createActivity("Technician completed job", { jobId: job.id, leadId: job.lead_id || undefined, details: summary || job.title || "Job completed" });
+    await ensureRevenueLoopForCompletedJob(job);
     toast({ title: "Job completed" });
     await load();
   };

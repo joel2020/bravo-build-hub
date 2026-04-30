@@ -1,21 +1,28 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Plus, Check } from "lucide-react";
-import { createActivity, asDateTime } from "@/lib/crm";
+import { createActivity } from "@/lib/crm";
 
-type FollowUp = { id: string; lead_id: string | null; job_id: string | null; due_date: string; note: string; completed: boolean; leads?: { name: string } | null; jobs?: { title: string } | null };
-export const CRMFollowUps = () => {
-const [items,setItems]=useState<FollowUp[]>([]); const [leads,setLeads]=useState<{id:string;name:string}[]>([]); const [jobs,setJobs]=useState<{id:string;title:string}[]>([]); const [open,setOpen]=useState(false); const [form,setForm]=useState({lead_id:"",job_id:"",due_date:"",note:""});
-const load=async()=>{const [{data:a},{data:l},{data:j}]=await Promise.all([supabase.from("follow_ups").select("*,leads(name),jobs(title)").order("due_date"),supabase.from("leads").select("id,name"),supabase.from("jobs").select("id,title")]); setItems((a as FollowUp[])||[]); setLeads((l as any)||[]); setJobs((j as any)||[])}; useEffect(()=>{load();},[]);
-const save=async()=>{await supabase.from("follow_ups").insert({lead_id:form.lead_id||null,job_id:form.job_id||null,due_date:form.due_date,note:form.note}); await createActivity("Follow-up created",{leadId:form.lead_id||null,jobId:form.job_id||null,details:form.note}); setOpen(false); load();};
-const toggle=async(f:FollowUp)=>{await supabase.from("follow_ups").update({completed:!f.completed}).eq("id",f.id); await createActivity(f.completed?"Follow-up reopened":"Follow-up completed",{leadId:f.lead_id,jobId:f.job_id,details:f.note}); load();};
-const grouped=useMemo(()=>{const t=new Date(); const today=t.toDateString(); return {overdue:items.filter(i=>!i.completed&&new Date(i.due_date)<t&&new Date(i.due_date).toDateString()!=today),today:items.filter(i=>!i.completed&&new Date(i.due_date).toDateString()==today),upcoming:items.filter(i=>!i.completed&&new Date(i.due_date)>t&&new Date(i.due_date).toDateString()!=today),completed:items.filter(i=>i.completed)};},[items]);
-const sec=(title:string,arr:FollowUp[])=> <div className="space-y-2"><h3 className="font-semibold">{title} ({arr.length})</h3>{arr.map(f=><div key={f.id} className="border rounded p-3 flex gap-2"><button onClick={()=>toggle(f)} className="h-5 w-5 border rounded">{f.completed&&<Check className="h-3 w-3"/>}</button><div><p>{f.note}</p><p className="text-xs text-muted-foreground">{asDateTime(f.due_date)} {f.leads?.name?`• Lead: ${f.leads.name}`:""} {f.jobs?.title?`• Job: ${f.jobs.title}`:""}</p></div></div>)}</div>;
-return <div className="space-y-4"><div className="flex justify-end"><Dialog open={open} onOpenChange={setOpen}><DialogTrigger asChild><Button><Plus className="h-4 w-4 mr-1"/>Add</Button></DialogTrigger><DialogContent><DialogHeader><DialogTitle>New Follow-up</DialogTitle></DialogHeader><div className="grid gap-2"><Label>Lead</Label><Select value={form.lead_id} onValueChange={v=>setForm({...form,lead_id:v})}><SelectTrigger><SelectValue/></SelectTrigger><SelectContent>{leads.map(l=><SelectItem key={l.id} value={l.id}>{l.name}</SelectItem>)}</SelectContent></Select><Label>Job</Label><Select value={form.job_id} onValueChange={v=>setForm({...form,job_id:v})}><SelectTrigger><SelectValue/></SelectTrigger><SelectContent>{jobs.map(j=><SelectItem key={j.id} value={j.id}>{j.title}</SelectItem>)}</SelectContent></Select><Label>Due</Label><Input type="datetime-local" value={form.due_date} onChange={e=>setForm({...form,due_date:e.target.value})}/><Label>Note</Label><Textarea value={form.note} onChange={e=>setForm({...form,note:e.target.value})}/><Button onClick={save}>Create</Button></div></DialogContent></Dialog></div>{sec("Overdue",grouped.overdue)}{sec("Today",grouped.today)}{sec("Upcoming",grouped.upcoming)}{sec("Completed",grouped.completed)}</div>
-};
+type FollowUp = { id:string; lead_id:string|null; job_id:string|null; due_date:string; note:string; completed:boolean; leads?:{name:string;phone:string|null;email:string|null;address:string|null;service_type:string|null}|null; jobs?:{title:string|null;status:string|null;address:string|null}|null };
+
+export const CRMFollowUps = ()=>{
+  const [items,setItems]=useState<FollowUp[]>([]);
+  const load=async()=>{ const {data,error}=await supabase.from("follow_ups" as any).select("id,lead_id,job_id,due_date,note,completed,leads(name,phone,email,address,service_type),jobs(title,status,address)").order("due_date",{ascending:true}); if(!error) setItems((data as any)||[]); };
+  useEffect(()=>{load();},[]);
+  const now = new Date();
+  const groups = useMemo(()=>({
+    overdue: items.filter(i=>!i.completed&&new Date(i.due_date)<now&&new Date(i.due_date).toDateString()!==now.toDateString()),
+    today: items.filter(i=>!i.completed&&new Date(i.due_date).toDateString()===now.toDateString()),
+    week: items.filter(i=>!i.completed&&new Date(i.due_date)>now&&new Date(i.due_date)<=new Date(Date.now()+7*86400000)),
+    upcoming: items.filter(i=>!i.completed&&new Date(i.due_date)>new Date(Date.now()+7*86400000)),
+    completed: items.filter(i=>i.completed),
+  }),[items]);
+
+  const patch = async (f:FollowUp, payload:any, action:string)=>{ await supabase.from("follow_ups" as any).update(payload).eq("id",f.id); await createActivity(action,{leadId:f.lead_id||undefined,jobId:f.job_id||undefined,details:f.note}); load(); };
+  const snooze = (f:FollowUp,d:number)=> patch(f,{due_date:new Date(Date.now()+d*86400000).toISOString()},`Follow-up snoozed ${d} day(s)`);
+  const createJob = async (f:FollowUp)=>{ if(f.job_id) return; const title = `${f.leads?.service_type||"HVAC service"} - ${f.leads?.name||"Customer"}`; const {data}=await supabase.from("jobs" as any).insert({lead_id:f.lead_id,title,status:"quoted",address:f.leads?.address||null,customer_name:f.leads?.name||null,customer_phone:f.leads?.phone||null,customer_email:f.leads?.email||null,notes:f.note||null}).select("id").single(); await patch(f,{job_id:data?.id||null},"Job created from follow-up"); };
+
+  const Card = (f:FollowUp)=><div key={f.id} className="rounded-3xl border bg-white p-4 shadow-sm space-y-2"><div className="font-black">{f.leads?.name||"Unknown customer"}</div><div className="text-sm">{f.leads?.phone||"No phone"} {f.jobs?.title?`• ${f.jobs.title}`:""}</div><div className="text-sm text-slate-600">{f.note}</div><div className="text-xs">Due {new Date(f.due_date).toLocaleString()} • {f.completed?"Completed":"Open"}</div><div className="grid grid-cols-2 gap-2"><a className="rounded-xl border p-2 text-center" href={f.leads?.phone?`tel:${f.leads.phone}`:"#"}>Call customer</a><a className="rounded-xl border p-2 text-center" href={f.leads?.phone?`sms:${f.leads.phone}`:"#"}>Text customer</a><Button size="sm" onClick={()=>patch(f,{completed:!f.completed},f.completed?"Follow-up reopened":"Follow-up completed")}>{f.completed?"Reopen":"Mark complete"}</Button><Button size="sm" variant="outline" onClick={()=>snooze(f,1)}>Snooze 1 day</Button><Button size="sm" variant="outline" onClick={()=>snooze(f,3)}>Snooze 3 days</Button><Button size="sm" variant="outline" onClick={()=>snooze(f,7)}>Snooze 1 week</Button>{!f.job_id&&<Button size="sm" onClick={()=>createJob(f)}>Create job</Button>}</div></div>;
+
+  return <div className="space-y-4">{[["Overdue",groups.overdue],["Today",groups.today],["This Week",groups.week],["Upcoming",groups.upcoming],["Completed",groups.completed]].map(([t,arr]:any)=><section key={t}><h3 className="mb-2 font-black">{t} ({arr.length})</h3><div className="space-y-2">{arr.map((f:FollowUp)=>Card(f))}</div></section>)}</div>
+}

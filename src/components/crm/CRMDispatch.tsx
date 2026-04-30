@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { MapPin, Phone, Play, CheckCircle2, UserRound } from "lucide-react";
-import { asCurrency, asDate, createActivity, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
+import { asCurrency, asDate, createActivity, ensureRevenueLoopForCompletedJob, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
 
 const STATUSES = ["scheduled", "in_progress", "completed", "cancelled"];
 
@@ -60,7 +60,7 @@ export const CRMDispatch = () => {
     if (error) return toast({ title: "Status update failed", description: error.message, variant: "destructive" });
     await createActivity("Dispatch status updated", { jobId: job.id, leadId: job.lead_id || undefined, details: `${job.status} -> ${status}` });
     if (status === "completed") {
-      await supabase.from("review_requests").insert({ job_id: job.id, lead_id: job.lead_id, customer_name: job.leads?.name || null, customer_phone: job.leads?.phone || null, customer_email: job.leads?.email || null, status: "draft" });
+      await ensureRevenueLoopForCompletedJob({ ...job, customer_name: job.leads?.name || null, customer_phone: job.leads?.phone || null, customer_email: job.leads?.email || null });
     }
     toast({ title: `Job marked ${JOB_STATUS_LABELS[status] || status}` });
     load();

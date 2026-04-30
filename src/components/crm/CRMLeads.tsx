@@ -27,6 +27,7 @@ const emptyCustomerJobForm = {
   scheduled_date: "",
   amount: "",
   job_status: "scheduled",
+  technician_id: "unassigned",
 };
 
 const emptyJobForm = { scheduled_date: "", amount: "", status: "quoted" };
@@ -55,8 +56,17 @@ type Lead = {
   created_at?: string;
 };
 
+type Technician = {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  active: boolean;
+};
+
 export const CRMLeads = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [technicians, setTechnicians] = useState<Technician[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -69,16 +79,30 @@ export const CRMLeads = () => {
 
   const load = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("leads" as any)
-      .select("id,name,phone,email,city,service_type,urgency,source,landing_url,referrer,utm_source,utm_medium,utm_campaign,gclid,fbclid,message,status,address,created_at")
-      .order("created_at", { ascending: false });
+    const [{ data: leadData, error: leadError }, { data: techData, error: techError }] = await Promise.all([
+      supabase
+        .from("leads" as any)
+        .select("id,name,phone,email,city,service_type,urgency,source,landing_url,referrer,utm_source,utm_medium,utm_campaign,gclid,fbclid,message,status,address,created_at")
+        .order("created_at", { ascending: false }),
+      supabase
+        .from("technicians" as any)
+        .select("id,name,email,phone,active")
+        .eq("active", true)
+        .order("name", { ascending: true }),
+    ]);
 
-    if (error) {
-      toast({ title: "Could not load customers", description: error.message, variant: "destructive" });
+    if (leadError) {
+      toast({ title: "Could not load customers", description: leadError.message, variant: "destructive" });
     } else {
-      setLeads((data as Lead[]) || []);
+      setLeads((leadData as Lead[]) || []);
     }
+
+    if (techError) {
+      toast({ title: "Could not load technicians", description: techError.message, variant: "destructive" });
+    } else {
+      setTechnicians((techData as Technician[]) || []);
+    }
+
     setLoading(false);
   };
 
@@ -128,6 +152,8 @@ export const CRMLeads = () => {
       const title = form.job_title.trim() || `${form.service_type || "HVAC Service"} - ${name}`;
       const amount = form.amount ? Number(form.amount) : 0;
       const scheduled = form.scheduled_date || null;
+      const technicianId = form.technician_id === "unassigned" ? null : form.technician_id;
+      const assignedTech = technicianId ? technicians.find((tech) => tech.id === technicianId) : null;
 
       const { data: job, error: jobError } = await supabase
         .from("jobs" as any)
@@ -145,6 +171,8 @@ export const CRMLeads = () => {
           scheduled_at: scheduled,
           amount,
           total_amount: amount,
+          technician_id: technicianId,
+          dispatch_notes: form.message || null,
         })
         .select("id")
         .single();
@@ -156,8 +184,19 @@ export const CRMLeads = () => {
         return;
       }
 
-      await createActivity("Job created from manual customer entry", { leadId: lead.id, jobId: job?.id, details: title });
-      toast({ title: "Customer + job created" });
+      await createActivity("Job created from manual customer entry", { leadId: lead.id, jobId: job?.id, details: assignedTech ? `${title} assigned to ${assignedTech.name}` : title });
+
+      if (technicianId && job?.id) {
+        await supabase.from("crm_notifications" as any).insert({
+          type: "job_assigned",
+          title: "Job assigned",
+          message: `${title} assigned to ${assignedTech?.name || "technician"}`,
+          lead_id: lead.id,
+          job_id: job.id,
+        });
+      }
+
+      toast({ title: assignedTech ? `Customer + job assigned to ${assignedTech.name}` : "Customer + job created" });
     } else {
       toast({ title: "Customer added" });
     }
@@ -294,7 +333,7 @@ export const CRMLeads = () => {
           <div>
             <p className="text-xs font-black uppercase tracking-[0.24em] text-blue-700">Customers</p>
             <h2 className="text-2xl font-black tracking-tight text-slate-950">Customer + Job Intake</h2>
-            <p className="text-sm text-slate-600">Add walk-ins, phone calls, referrals, and dispatch jobs without waiting for a website form.</p>
+            <p className="text-sm text-slate-600">Add walk-ins, phone calls, referrals, schedule jobs, and assign technicians in one flow.</p>
           </div>
           <Dialog open={openCreate} onOpenChange={setOpenCreate}>
             <DialogTrigger asChild>
@@ -315,7 +354,7 @@ export const CRMLeads = () => {
                 </div>
                 <div><Label>Address</Label><Input value={customerJobForm.address} onChange={(e) => setCustomerJobForm({ ...customerJobForm, address: e.target.value })} placeholder="123 Main St" /></div>
                 <div><Label>Service needed</Label><Input value={customerJobForm.service_type} onChange={(e) => setCustomerJobForm({ ...customerJobForm, service_type: e.target.value })} placeholder="AC repair, boiler install, no heat call..." /></div>
-                <div><Label>Customer notes</Label><Textarea value={customerJobForm.message} onChange={(e) => setCustomerJobForm({ ...customerJobForm, message: e.target.value })} placeholder="What did the customer say? Access notes? Urgency?" rows={3} /></div>
+                <div><Label>Customer / dispatch notes</Label><Textarea value={customerJobForm.message} onChange={(e) => setCustomerJobForm({ ...customerJobForm, message: e.target.value })} placeholder="What did the customer say? Access notes? Urgency?" rows={3} /></div>
 
                 <div className="rounded-2xl border bg-slate-50 p-4">
                   <div className="mb-3 flex items-center justify-between gap-3">
@@ -331,7 +370,7 @@ export const CRMLeads = () => {
                   {customerJobForm.create_job && (
                     <div className="grid gap-3">
                       <div><Label>Job title</Label><Input value={customerJobForm.job_title} onChange={(e) => setCustomerJobForm({ ...customerJobForm, job_title: e.target.value })} placeholder="Leave blank to auto-name from service + customer" /></div>
-                      <div className="grid gap-3 md:grid-cols-3">
+                      <div className="grid gap-3 md:grid-cols-2">
                         <div><Label>Scheduled date</Label><Input type="date" value={customerJobForm.scheduled_date} onChange={(e) => setCustomerJobForm({ ...customerJobForm, scheduled_date: e.target.value })} /></div>
                         <div><Label>Job amount</Label><Input type="number" value={customerJobForm.amount} onChange={(e) => setCustomerJobForm({ ...customerJobForm, amount: e.target.value })} placeholder="0" /></div>
                         <div>
@@ -339,6 +378,16 @@ export const CRMLeads = () => {
                           <Select value={customerJobForm.job_status} onValueChange={(value) => setCustomerJobForm({ ...customerJobForm, job_status: value })}>
                             <SelectTrigger><SelectValue /></SelectTrigger>
                             <SelectContent>{JOB_STATUSES.map((status) => <SelectItem key={status} value={status}>{JOB_STATUS_LABELS[status]}</SelectItem>)}</SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <Label>Assign technician</Label>
+                          <Select value={customerJobForm.technician_id} onValueChange={(value) => setCustomerJobForm({ ...customerJobForm, technician_id: value })}>
+                            <SelectTrigger><SelectValue placeholder="Select technician" /></SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="unassigned">Unassigned</SelectItem>
+                              {technicians.map((tech) => <SelectItem key={tech.id} value={tech.id}>{tech.name}</SelectItem>)}
+                            </SelectContent>
                           </Select>
                         </div>
                       </div>

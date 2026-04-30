@@ -7,9 +7,8 @@ import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
 import { CRMAlerts } from "@/components/crm/CRMAlerts";
-import { CRMDashboard, PlaceholderPanel, Sidebar, TopBar } from "@/components/crm/CRMDashboard";
+import { CRMDashboard, CRMSettingsPanel, PlaceholderPanel, Sidebar, SMSInbox, TopBar } from "@/components/crm/CRMDashboard";
 import { CRMDispatch } from "@/components/crm/CRMDispatch";
-import { CRMFollowUps } from "@/components/crm/CRMFollowUps";
 import { CRMInvoices } from "@/components/crm/CRMInvoices";
 import { CRMJobs } from "@/components/crm/CRMJobs";
 import { CRMLeads } from "@/components/crm/CRMLeads";
@@ -19,6 +18,7 @@ const CRM = () => {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
   const [activeView, setActiveView] = useState("dashboard");
+  const [dashboardSearch, setDashboardSearch] = useState("");
   const navigate = useNavigate();
 
   useSeo({ title: "CRM | Bravo Mechanical", description: "Internal CRM dashboard.", canonical: `${SITE.siteUrl}/admin/crm`, noindex: true });
@@ -54,18 +54,20 @@ const CRM = () => {
     messages: "Messages",
     myjobs: "Technicians",
     invoices: "Invoices",
-    activity: "Settings",
+    activity: "Activity Log",
+    settings: "Settings",
   }[activeView] || "Dashboard";
 
   const renderActiveView = () => {
-    if (activeView === "dashboard") return <CRMDashboard />;
+    if (activeView === "dashboard") return <CRMDashboard searchQuery={dashboardSearch} onNavigate={setActiveView} />;
     if (activeView === "jobs") return <CRMJobs />;
     if (activeView === "dispatch") return <CRMDispatch />;
     if (activeView === "leads") return <CRMLeads />;
-    if (activeView === "messages") return <CRMFollowUps />;
+    if (activeView === "messages") return <SMSInbox searchQuery={dashboardSearch} />;
     if (activeView === "myjobs") return <CRMMyJobs />;
     if (activeView === "invoices") return <CRMInvoices />;
     if (activeView === "activity") return <CRMActivityLog />;
+    if (activeView === "settings") return <CRMSettingsPanel />;
     return <CRMAlerts />;
   };
 
@@ -92,7 +94,15 @@ const CRM = () => {
     <div className="min-h-screen overflow-x-hidden bg-slate-50 text-slate-950">
       <Sidebar activeView={activeView} onSelect={setActiveView} />
       <div className="min-w-0 lg:pl-[244px]">
-        <TopBar onSignOut={signOut} />
+        <TopBar
+          onSignOut={signOut}
+          onNewJob={() => setActiveView("jobs")}
+          searchQuery={dashboardSearch}
+          onSearchChange={(query) => {
+            setDashboardSearch(query);
+            if (query.trim()) setActiveView("dashboard");
+          }}
+        />
         <main className="min-w-0 overflow-x-hidden px-3 pb-5 lg:px-5 xl:px-5">
           <div className="mb-3 lg:hidden">
             <PlaceholderPanel title={activeTitle} />

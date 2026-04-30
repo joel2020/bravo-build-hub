@@ -17,6 +17,8 @@ import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import EmergencyHVAC from "./pages/EmergencyHVAC.tsx";
 import CompanyFacts from "./pages/CompanyFacts.tsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
+import TermsAndConditions from "./pages/TermsAndConditions.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { StickyMobileCTA } from "./components/StickyMobileCTA";
 
@@ -59,6 +61,8 @@ const AppRoutes = () => {
       <Route path="/admin/crm" element={<CRM />} />
       <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
       <Route path="/company-facts" element={<CompanyFacts />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

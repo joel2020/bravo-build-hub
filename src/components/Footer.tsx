@@ -86,9 +86,13 @@ export const Footer = () => {
       </div>
 
       <div className="border-t border-primary-foreground/15">
-        <div className="container mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between gap-2 text-xs text-primary-foreground/70">
+        <div className="container mx-auto px-4 py-5 flex flex-col gap-3 text-xs text-primary-foreground/70 sm:flex-row sm:items-center sm:justify-between">
           <div>© {year} {SITE.legalName}. All rights reserved.</div>
-          <div>Licensed & insured HVAC contractor serving Westchester County, NY.</div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <Link to="/privacy-policy" className="hover:text-primary-foreground hover:underline">Privacy Policy</Link>
+            <Link to="/terms-and-conditions" className="hover:text-primary-foreground hover:underline">Terms & Conditions</Link>
+            <span>Licensed & insured HVAC contractor serving Westchester County, NY.</span>
+          </div>
         </div>
       </div>
     </footer>

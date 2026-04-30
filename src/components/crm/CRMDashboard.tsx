@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { asCurrency, asDate, LEAD_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
+import { runInvoiceAutomation } from "@/lib/runInvoiceAutomation";
 
 type Lead = { id: string; name: string; status: string; source: string; created_at: string };
 type Job = { id: string; title: string; status: string; amount: number | null; scheduled_date: string | null; created_at: string };
@@ -19,6 +20,7 @@ export const CRMDashboard = () => {
   const [activity, setActivity] = useState<Act[]>([]);
 
   useEffect(() => { (async () => {
+    await runInvoiceAutomation();
     setLoading(true);
     const [l,j,i,f,a] = await Promise.all([
       supabase.from("leads").select("id,name,status,source,created_at").order("created_at",{ascending:false}),

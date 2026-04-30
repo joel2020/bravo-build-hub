@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Bravo Mechanical",
   legalName: "Bravo Mechanical LLC",
-  siteUrl: "https://bravomechanicalny.com",
+  siteUrl: "https://www.bravomechanicalny.com",
   tagline: "Reliable HVAC Service You Can Count On",
   phone: "(914) 361-9142",
   phoneHref: "tel:+19143619142",

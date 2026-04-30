@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { Layout } from "@/components/Layout";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
 import { useSeo } from "@/lib/seo";
-import { LogOut, Users, Briefcase, FileText, Bell, Activity, CalendarDays, Wrench } from "lucide-react";
-import { CRMLeads } from "@/components/crm/CRMLeads";
-import { CRMJobs } from "@/components/crm/CRMJobs";
-import { CRMInvoices } from "@/components/crm/CRMInvoices";
-import { CRMFollowUps } from "@/components/crm/CRMFollowUps";
-import { CRMDashboard } from "@/components/crm/CRMDashboard";
-import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
-import { CRMDispatch } from "@/components/crm/CRMDispatch";
-import { CRMMyJobs } from "@/components/crm/CRMMyJobs";
-import { CRMAlerts } from "@/components/crm/CRMAlerts";
 import { SITE } from "@/lib/site";
+import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
+import { CRMAlerts } from "@/components/crm/CRMAlerts";
+import { CRMDashboard, PlaceholderPanel, Sidebar, TopBar } from "@/components/crm/CRMDashboard";
+import { CRMDispatch } from "@/components/crm/CRMDispatch";
+import { CRMFollowUps } from "@/components/crm/CRMFollowUps";
+import { CRMInvoices } from "@/components/crm/CRMInvoices";
+import { CRMJobs } from "@/components/crm/CRMJobs";
+import { CRMLeads } from "@/components/crm/CRMLeads";
+import { CRMMyJobs } from "@/components/crm/CRMMyJobs";
 
 const CRM = () => {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
+  const [activeView, setActiveView] = useState("dashboard");
   const navigate = useNavigate();
 
   useSeo({ title: "CRM | Bravo Mechanical", description: "Internal CRM dashboard.", canonical: `${SITE.siteUrl}/admin/crm`, noindex: true });
@@ -27,80 +26,81 @@ const CRM = () => {
   useEffect(() => {
     const init = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { navigate("/auth", { replace: true }); return; }
+      if (!session) {
+        navigate("/auth", { replace: true });
+        return;
+      }
       const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", session.user.id);
-      const ok = (roles || []).some((r) => r.role === "admin" || r.role === "user");
+      const ok = (roles || []).some((role) => role.role === "admin" || role.role === "user");
       setAuthorized(ok);
       setLoading(false);
     };
     init();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
-      if (!s) navigate("/auth", { replace: true });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) navigate("/auth", { replace: true });
     });
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  const signOut = async () => { await supabase.auth.signOut(); };
+  const signOut = async () => {
+    await supabase.auth.signOut();
+  };
 
-  if (loading) return <Layout><div className="min-h-screen bg-slate-50 p-8 text-slate-700">Loading Bravo Command Center…</div></Layout>;
-  if (!authorized) return (
-    <Layout>
+  const activeTitle = {
+    dashboard: "Dashboard",
+    jobs: "Jobs",
+    dispatch: "Dispatch Board",
+    leads: "Customers (CRM)",
+    messages: "Messages",
+    myjobs: "Technicians",
+    invoices: "Invoices",
+    activity: "Settings",
+  }[activeView] || "Dashboard";
+
+  const renderActiveView = () => {
+    if (activeView === "dashboard") return <CRMDashboard />;
+    if (activeView === "jobs") return <CRMJobs />;
+    if (activeView === "dispatch") return <CRMDispatch />;
+    if (activeView === "leads") return <CRMLeads />;
+    if (activeView === "messages") return <CRMFollowUps />;
+    if (activeView === "myjobs") return <CRMMyJobs />;
+    if (activeView === "invoices") return <CRMInvoices />;
+    if (activeView === "activity") return <CRMActivityLog />;
+    return <CRMAlerts />;
+  };
+
+  if (loading) {
+    return <div className="min-h-screen bg-slate-50 p-8 text-slate-700">Loading Bravo Command Center...</div>;
+  }
+
+  if (!authorized) {
+    return (
       <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-slate-100 px-4 py-16 text-slate-950">
-        <div className="mx-auto max-w-md rounded-3xl border border-slate-200 bg-white/80 p-8 shadow-2xl backdrop-blur">
+        <div className="mx-auto max-w-md rounded-md border border-slate-200 bg-white/90 p-8 shadow-2xl backdrop-blur">
           <h1 className="mb-3 text-2xl font-bold">Not authorized</h1>
           <p className="mb-6 text-slate-600">You don't have CRM access.</p>
-          <Button onClick={signOut} variant="outline"><LogOut className="h-4 w-4 mr-2" />Sign out</Button>
+          <Button onClick={signOut} variant="outline">
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign out
+          </Button>
         </div>
       </div>
-    </Layout>
-  );
+    );
+  }
 
   return (
-    <Layout>
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#dbeafe_0,#f8fafc_35%,#ffffff_100%)] px-4 py-6 text-slate-950">
-        <div className="relative mx-auto max-w-7xl">
-          <div className="mb-6 rounded-[2rem] border border-white/80 bg-white/80 p-5 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur-xl md:p-7">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg"><Wrench className="h-6 w-6" /></div>
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.25em] text-blue-700">Bravo Mechanical</p>
-                  <h1 className="text-3xl font-black tracking-tight text-slate-950 md:text-4xl">Command Center</h1>
-                  <p className="text-sm text-slate-600">Dispatch, field updates, revenue, invoices, and follow-ups in one premium ops hub.</p>
-                </div>
-              </div>
-              <Button onClick={signOut} variant="outline" size="sm" className="rounded-xl"><LogOut className="h-4 w-4 mr-2" />Sign out</Button>
-            </div>
+    <div className="min-h-screen overflow-x-hidden bg-slate-50 text-slate-950">
+      <Sidebar activeView={activeView} onSelect={setActiveView} />
+      <div className="min-w-0 lg:pl-[244px]">
+        <TopBar onSignOut={signOut} />
+        <main className="min-w-0 overflow-x-hidden px-3 pb-5 lg:px-5 xl:px-5">
+          <div className="mb-3 lg:hidden">
+            <PlaceholderPanel title={activeTitle} />
           </div>
-
-          <Tabs defaultValue="dashboard">
-            <TabsList className="mb-6 flex flex-wrap gap-2 rounded-2xl bg-white p-2 shadow">
-              <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-              <TabsTrigger value="alerts">Alerts</TabsTrigger>
-              <TabsTrigger value="dispatch">Dispatch</TabsTrigger>
-              <TabsTrigger value="myjobs">My Jobs</TabsTrigger>
-              <TabsTrigger value="leads">Leads</TabsTrigger>
-              <TabsTrigger value="jobs">Jobs</TabsTrigger>
-              <TabsTrigger value="invoices">Invoices</TabsTrigger>
-              <TabsTrigger value="followups">Follow-ups</TabsTrigger>
-              <TabsTrigger value="activity">Activity</TabsTrigger>
-            </TabsList>
-
-            <div className="rounded-[2rem] bg-white p-4 shadow md:p-6">
-              <TabsContent value="dashboard"><CRMDashboard /></TabsContent>
-              <TabsContent value="alerts"><CRMAlerts /></TabsContent>
-              <TabsContent value="dispatch"><CRMDispatch /></TabsContent>
-              <TabsContent value="myjobs"><CRMMyJobs /></TabsContent>
-              <TabsContent value="leads"><CRMLeads /></TabsContent>
-              <TabsContent value="jobs"><CRMJobs /></TabsContent>
-              <TabsContent value="invoices"><CRMInvoices /></TabsContent>
-              <TabsContent value="followups"><CRMFollowUps /></TabsContent>
-              <TabsContent value="activity"><CRMActivityLog /></TabsContent>
-            </div>
-          </Tabs>
-        </div>
+          {renderActiveView()}
+        </main>
       </div>
-    </Layout>
+    </div>
   );
 };
 

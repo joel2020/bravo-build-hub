@@ -9,6 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { Camera, ClipboardList, Plus, Search } from "lucide-react";
 import { asCurrency, asDate, createActivity, ensureRevenueLoopForCompletedJob, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
+import { ensureFollowUp } from "@/lib/followUps";
+import { detectJobType } from "@/lib/jobType";
+import { getSmsTemplate } from "@/lib/smsTemplates";
 
 const STATUSES = ["quoted", "scheduled", "in_progress", "completed", "cancelled"] as const;
 const PHOTO_BUCKET = "job-photos";
@@ -22,6 +25,7 @@ const EMPTY_FORM = {
   scheduled_date: "",
   amount: "",
   notes: "",
+  job_type: "",
 };
 
 type Job = {
@@ -34,6 +38,7 @@ type Job = {
   scheduled_date: string | null;
   amount: number | null;
   notes: string | null;
+  job_type?: string | null;
   created_at: string;
   leads?: { name: string } | null;
 };
@@ -136,6 +141,7 @@ export const CRMJobs = () => {
       scheduled_date: form.scheduled_date || null,
       amount: form.amount ? Number(form.amount) : null,
       notes: form.notes || null,
+      job_type: form.job_type || detectJobType(`${form.title} ${form.description} ${form.notes}`),
     };
 
     if (editId) {
@@ -153,6 +159,9 @@ export const CRMJobs = () => {
         return;
       }
       await createActivity("Job created", { jobId: data.id, leadId: form.lead_id, details: form.title });
+      const due = new Date();
+      due.setDate(due.getDate() + 1);
+      await ensureFollowUp({ leadId: form.lead_id, jobId: data.id, dueAt: due, reason: `1-day follow-up for ${form.title}`, windowHours: 24 });
       toast({ title: "Job created" });
     }
 
@@ -172,6 +181,7 @@ export const CRMJobs = () => {
       scheduled_date: job.scheduled_date ? job.scheduled_date.slice(0, 10) : "",
       amount: job.amount == null ? "" : String(job.amount),
       notes: job.notes || "",
+      job_type: job.job_type || "",
     });
     setOpen(true);
   };
@@ -184,8 +194,19 @@ export const CRMJobs = () => {
       return;
     }
     await createActivity("Job status updated", { jobId: job.id, leadId: job.lead_id, details: `${job.status} -> ${status}` });
+    if (status === "quoted" || status === "new") {
+      const due = new Date();
+      due.setDate(due.getDate() + 3);
+      await ensureFollowUp({ leadId: job.lead_id, jobId: job.id, dueAt: due, reason: `3-day check-in for ${job.title}`, windowHours: 72 });
+    }
     toast({ title: `Job marked ${JOB_STATUS_LABELS[status] || status}` });
     await loadJobsAndLeads();
+  };
+  const completeAndSendInvoice = async (job: Job) => {
+    await updateStatus(job, "completed");
+    const result = await ensureRevenueLoopForCompletedJob(job as any);
+    const sms = getSmsTemplate("day_1", job.leads?.name, `https://pay.bravomechanical.com/invoice/${result.invoiceId}`);
+    window.open(`sms:?&body=${encodeURIComponent(sms)}`, "_self");
   };
 
   const createInvoice = async (job: Job) => {
@@ -349,6 +370,7 @@ export const CRMJobs = () => {
                 </div>
               </div>
               <div><Label>Description</Label><Textarea value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} /></div>
+              <div><Label>Job Type</Label><Input value={form.job_type} onChange={(event) => setForm({ ...form, job_type: event.target.value })} placeholder="auto-detected if blank" /></div>
               <div><Label>Notes</Label><Textarea value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} /></div>
               <Button onClick={saveJob}>Save Job</Button>
             </div>
@@ -380,6 +402,7 @@ export const CRMJobs = () => {
                 <div className="mt-3 flex flex-wrap gap-1">
                   {STATUSES.map((status) => <Button key={status} size="sm" variant="outline" onClick={() => updateStatus(job, status)}>{JOB_STATUS_LABELS[status]}</Button>)}
                   <Button size="sm" onClick={() => createInvoice(job)}>Create invoice</Button>
+                  <Button size="sm" onClick={() => completeAndSendInvoice(job)}>Complete Job & Send Invoice</Button>
                   <Button size="sm" variant="secondary" onClick={() => createFollowUp(job)}>Create follow-up</Button>
                   <Button size="sm" variant="outline" onClick={() => startEdit(job)}>Edit</Button>
                 </div>

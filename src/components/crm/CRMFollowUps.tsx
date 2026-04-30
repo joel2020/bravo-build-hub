@@ -11,6 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { AlertTriangle, CalendarClock, Check, Clock3, MessageSquare, Phone, Plus, RefreshCcw, Wrench } from "lucide-react";
 import { asDateTime, createActivity } from "@/lib/crm";
+import { ensureFollowUp } from "@/lib/followUps";
+import { getSmsTemplate } from "@/lib/smsTemplates";
 
 type LeadLite = {
   id: string;
@@ -160,6 +162,11 @@ export const CRMFollowUps = () => {
       return;
     }
     await createActivity("Follow-up completed", { leadId: followUp.lead_id, jobId: followUp.job_id, details: followUp.note });
+    if (!followUp.job_id) {
+      const due = new Date();
+      due.setDate(due.getDate() + 2);
+      await ensureFollowUp({ leadId: followUp.lead_id, dueAt: due, reason: `2-day recycle: ${followUp.note}`, windowHours: 48 });
+    }
     toast({ title: "Follow-up completed" });
     await load();
   };
@@ -275,6 +282,9 @@ export const CRMFollowUps = () => {
     const customer = followUp.leads;
     const phone = customer?.phone;
     const textBody = `Hi ${customer?.name || "there"}, following up from Bravo Mechanical.`;
+    const quickText = getSmsTemplate(followUp.job_id ? "quote" : "general", customer?.name);
+    const paymentType = followUp.note.includes("invoice_7") ? "day_7" : followUp.note.includes("invoice_3") ? "day_3" : "day_1";
+    const payText = getSmsTemplate(paymentType as any, customer?.name, "https://pay.bravomechanical.com");
 
     return (
       <div key={followUp.id} className={`rounded-3xl border bg-white p-4 shadow-sm ${urgent ? "border-red-200 bg-red-50/70" : ""}`}>
@@ -297,6 +307,10 @@ export const CRMFollowUps = () => {
             <Button asChild size="sm" variant="outline" disabled={!phone}>
               <a href={safePhoneHref(phone, "sms", textBody)}><MessageSquare className="mr-1 h-4 w-4" />Text</a>
             </Button>
+            <Button asChild size="sm" variant="outline" disabled={!phone}>
+              <a href={safePhoneHref(phone, "sms", quickText)}>Quick Text</a>
+            </Button>
+            {followUp.note.toLowerCase().includes("invoice") && <Button asChild size="sm" variant="outline" disabled={!phone}><a href={safePhoneHref(phone, "sms", payText)}>Send Payment Text</a></Button>}
             {followUp.completed ? (
               <Button size="sm" variant="outline" onClick={() => reopenFollowUp(followUp)}>Reopen</Button>
             ) : (

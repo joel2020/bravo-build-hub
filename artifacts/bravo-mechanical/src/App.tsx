@@ -1,0 +1,86 @@
+import { lazy, Suspense } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Index from "./pages/Index.tsx";
+import About from "./pages/About.tsx";
+import Services from "./pages/Services.tsx";
+import ServiceDetail from "./pages/ServiceDetail.tsx";
+import ServiceCityPage from "./pages/ServiceCityPage.tsx";
+import ServiceAreas from "./pages/ServiceAreas.tsx";
+import CityPage from "./pages/CityPage.tsx";
+import Reviews from "./pages/Reviews.tsx";
+import Contact from "./pages/Contact.tsx";
+import Blog from "./pages/Blog.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
+import EmergencyHVAC from "./pages/EmergencyHVAC.tsx";
+import CompanyFacts from "./pages/CompanyFacts.tsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
+import TermsAndConditions from "./pages/TermsAndConditions.tsx";
+import NotFound from "./pages/NotFound.tsx";
+import { StickyMobileCTA } from "./components/StickyMobileCTA";
+
+const Auth = lazy(() => import("./pages/Auth.tsx"));
+const AdminComments = lazy(() => import("./pages/AdminComments.tsx"));
+const CRM = lazy(() => import("./pages/CRM.tsx"));
+
+const queryClient = new QueryClient();
+
+const isAppSubdomain = typeof window !== "undefined" && window.location.hostname.startsWith("app.");
+
+const AppRoutes = () => {
+  if (isAppSubdomain) {
+    return (
+      <Routes>
+        <Route path="/" element={<Navigate to="/admin/crm" replace />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/admin/crm" element={<CRM />} />
+        <Route path="/admin/comments" element={<Navigate to="/admin/crm" replace />} />
+        <Route path="*" element={<Navigate to="/admin/crm" replace />} />
+      </Routes>
+    );
+  }
+
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/services" element={<Services />} />
+      <Route path="/services/:serviceSlug/:citySlug" element={<ServiceCityPage />} />
+      <Route path="/services/:slug" element={<ServiceDetail />} />
+      <Route path="/service-areas" element={<ServiceAreas />} />
+      <Route path="/service-areas/:slug" element={<CityPage />} />
+      <Route path="/reviews" element={<Reviews />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/admin/comments" element={<AdminComments />} />
+      <Route path="/admin/crm" element={<CRM />} />
+      <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
+      <Route path="/company-facts" element={<CompanyFacts />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Suspense fallback={null}>
+          <AppRoutes />
+        </Suspense>
+        {!isAppSubdomain && <StickyMobileCTA />}
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
+
+export default App;

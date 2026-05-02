@@ -25,3 +25,19 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+
+## Artifacts
+
+### Bravo Mechanical (`artifacts/bravo-mechanical/`)
+- **Type**: react-vite
+- **Preview Path**: `/`
+- **Description**: HVAC business website for Bravo Mechanical LLC serving Westchester County, NY
+- **Tech**: React 18, React Router DOM, Tailwind CSS v3, shadcn/ui, Supabase (external), @tanstack/react-query
+- **Key features**: Multi-page HVAC website with blog, CRM admin (Supabase-backed), contact/lead forms, SEO, Google Analytics, service area pages
+- **Routing**: All public pages + admin routes at /admin/crm (requires Supabase auth)
+- **Env vars needed**: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` (for admin/CRM features)
+
+### API Server (`artifacts/api-server/`)
+- **Type**: api (Express)
+- **Preview Path**: `/api`
+- **Description**: Shared backend API server (currently only health check; CRM uses Supabase directly)

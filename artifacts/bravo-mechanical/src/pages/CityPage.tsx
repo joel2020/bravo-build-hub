@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { CheckCircle2, MapPin, Phone, ArrowLeft, Star, Calendar, Clock } from "lucide-react";
 import { Layout } from "@/components/Layout";
@@ -11,8 +10,7 @@ import { SERVICES, SITE } from "@/lib/site";
 import { isTopCity } from "@/lib/serviceCityCombos";
 import { getPostsForCity } from "@/lib/blog";
 import { trackRequestServiceClick } from "@/lib/analytics";
-
-const SITE_URL = "https://bravomechanicalny.com";
+import { useSeo } from "@/lib/seo";
 
 const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seasonal: string }> = {
   yonkers: {
@@ -46,102 +44,73 @@ const CityPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const city = slug ? getCity(slug) : undefined;
 
-  useEffect(() => {
-    if (!city) return;
-    const pageUrl = `${SITE_URL}/service-areas/${city.slug}`;
-    const title = `HVAC ${city.name}, NY — Heating, Cooling & Repair | ${SITE.name}`;
-    const metaDescription = `Local HVAC service in ${city.name}, NY. Heating, cooling, repair, and installation by licensed Westchester County technicians. 24/7 emergency service. Call ${SITE.phone}.`;
+  const pageUrl = city ? `${SITE.siteUrl}/service-areas/${city.slug}` : SITE.siteUrl;
+  const title = city ? `HVAC ${city.name}, NY — Heating, Cooling & Repair | ${SITE.name}` : "Service Areas";
+  const description = city
+    ? `Local HVAC service in ${city.name}, NY. Heating, cooling, repair, and installation by licensed Westchester County technicians. 24/7 emergency service. Call ${SITE.phone}.`
+    : "";
 
-    const prevTitle = document.title;
-    const descEl = document.querySelector('meta[name="description"]');
-    const prevDesc = descEl?.getAttribute("content") ?? "";
-    document.title = title;
-    if (descEl) descEl.setAttribute("content", metaDescription);
-
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    let createdCanonical = false;
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      document.head.appendChild(canonical);
-      createdCanonical = true;
-    }
-    const prevHref = canonical.href;
-    canonical.href = pageUrl;
-
-    const localBusinessLd = {
-      "@context": "https://schema.org",
-      "@type": "HVACBusiness",
-      name: SITE.legalName,
-      image: `${SITE_URL}/og-image.jpg`,
-      telephone: SITE.phone,
-      email: SITE.email,
-      url: pageUrl,
-      priceRange: "$$",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: city.name,
-        addressRegion: "NY",
-        addressCountry: "US",
-      },
-      areaServed: {
-        "@type": "City",
-        name: `${city.name}, NY`,
-      },
-      openingHoursSpecification: [{
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-        opens: "00:00",
-        closes: "23:59",
-      }],
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: SITE.rating.score,
-        reviewCount: SITE.rating.count,
-        bestRating: 5,
-        worstRating: 1,
-      },
-    };
-
-    const faqLd = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: city.faqs.map((f) => ({
-        "@type": "Question",
-        name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a },
-      })),
-    };
-
-    const breadcrumbLd = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Service Areas", item: `${SITE_URL}/service-areas` },
-        { "@type": "ListItem", position: 3, name: city.name, item: pageUrl },
-      ],
-    };
-
-    const scripts = [localBusinessLd, faqLd, breadcrumbLd].map((data, i) => {
-      const el = document.createElement("script");
-      el.type = "application/ld+json";
-      el.dataset.jsonld = `city-${i}`;
-      el.text = JSON.stringify(data);
-      document.head.appendChild(el);
-      return el;
-    });
-
-    return () => {
-      document.title = prevTitle;
-      if (descEl) descEl.setAttribute("content", prevDesc);
-      if (canonical) {
-        if (createdCanonical) canonical.remove();
-        else canonical.href = prevHref;
-      }
-      scripts.forEach((s) => s.remove());
-    };
-  }, [city]);
+  useSeo({
+    title,
+    description,
+    canonical: pageUrl,
+    image: "/og-image.jpg",
+    jsonLd: city
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "HVACBusiness",
+            "@id": `${pageUrl}#localbusiness`,
+            name: SITE.legalName,
+            image: `${SITE.siteUrl}/og-image.jpg`,
+            telephone: SITE.phone,
+            email: SITE.email,
+            url: pageUrl,
+            priceRange: "$$",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: city.name,
+              addressRegion: "NY",
+              addressCountry: "US",
+            },
+            areaServed: { "@type": "City", name: `${city.name}, NY` },
+            openingHoursSpecification: [
+              {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                opens: "00:00",
+                closes: "23:59",
+              },
+            ],
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: SITE.rating.score,
+              reviewCount: SITE.rating.count,
+              bestRating: 5,
+              worstRating: 1,
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: city.faqs.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE.siteUrl}/` },
+              { "@type": "ListItem", position: 2, name: "Service Areas", item: `${SITE.siteUrl}/service-areas` },
+              { "@type": "ListItem", position: 3, name: city.name, item: pageUrl },
+            ],
+          },
+        ]
+      : undefined,
+  });
 
   if (!city) return <Navigate to="/service-areas" replace />;
 
@@ -233,7 +202,6 @@ const CityPage = () => {
         </section>
       )}
 
-      {/* Services in this city */}
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="max-w-2xl mb-8">
@@ -258,7 +226,6 @@ const CityPage = () => {
         </div>
       </section>
 
-      {/* Why local matters */}
       <section className="container mx-auto px-4 py-12 lg:py-16">
         <div className="max-w-2xl mb-8">
           <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Why local matters</div>
@@ -282,7 +249,6 @@ const CityPage = () => {
         </div>
       </section>
 
-      {/* FAQs */}
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="max-w-2xl mb-6">
@@ -300,7 +266,6 @@ const CityPage = () => {
         </div>
       </section>
 
-      {/* Local blog guides for this city */}
       {localPosts.length > 0 && (
         <section className="container mx-auto px-4 py-12 lg:py-16">
           <div className="max-w-2xl mb-8">
@@ -352,7 +317,6 @@ const CityPage = () => {
         </section>
       )}
 
-      {/* Nearby cities */}
       {related.length > 0 && (
         <section className="container mx-auto px-4 py-12 lg:py-16">
           <div className="mb-6">

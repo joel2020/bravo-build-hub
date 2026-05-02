@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, MapPin, Phone, Star } from "lucide-react";
 import { Layout } from "@/components/Layout";
@@ -11,8 +10,7 @@ import { getServiceContent, SERVICE_CONTENT } from "@/lib/serviceContent";
 import { isTopCity, TOP_CITY_SLUGS } from "@/lib/serviceCityCombos";
 import { SITE } from "@/lib/site";
 import { trackEmergencyCtaClick, trackRequestServiceClick } from "@/lib/analytics";
-
-const SITE_URL = "https://bravomechanicalny.com";
+import { useSeo } from "@/lib/seo";
 
 const ServiceCityPage = () => {
   const { serviceSlug, citySlug } = useParams<{ serviceSlug: string; citySlug: string }>();
@@ -20,92 +18,65 @@ const ServiceCityPage = () => {
   const city = citySlug ? getCity(citySlug) : undefined;
   const valid = !!service && !!city && isTopCity(citySlug);
 
-  useEffect(() => {
-    if (!valid || !service || !city) return;
-    const pageUrl = `${SITE_URL}/services/${service.slug}/${city.slug}`;
-    const title = service.metaTitle(city.name);
-    const description = service.metaDescription(city.name);
+  const pageUrl = service && city ? `${SITE.siteUrl}/services/${service.slug}/${city.slug}` : SITE.siteUrl;
+  const title = service && city ? service.metaTitle(city.name) : "";
+  const description = service && city ? service.metaDescription(city.name) : "";
 
-    const prevTitle = document.title;
-    const descEl = document.querySelector('meta[name="description"]');
-    const prevDesc = descEl?.getAttribute("content") ?? "";
-    document.title = title;
-    if (descEl) descEl.setAttribute("content", description);
-
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    let createdCanonical = false;
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      document.head.appendChild(canonical);
-      createdCanonical = true;
-    }
-    const prevHref = canonical.href;
-    canonical.href = pageUrl;
-
-    const serviceLd = {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      name: `${service.title} in ${city.name}, NY`,
-      serviceType: service.title,
-      provider: {
-        "@type": "HVACBusiness",
-        name: SITE.legalName,
-        telephone: SITE.phone,
-        email: SITE.email,
-        url: pageUrl,
-        priceRange: "$$",
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: SITE.rating.score,
-          reviewCount: SITE.rating.count,
-        },
-      },
-      areaServed: { "@type": "City", name: `${city.name}, NY` },
-      description: service.metaDescription(city.name),
-      url: pageUrl,
-    };
-
-    const faqLd = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: service.faqs(city.name).map((f) => ({
-        "@type": "Question",
-        name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a },
-      })),
-    };
-
-    const breadcrumbLd = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
-        { "@type": "ListItem", position: 3, name: service.title, item: `${SITE_URL}/services` },
-        { "@type": "ListItem", position: 4, name: city.name, item: pageUrl },
-      ],
-    };
-
-    const scripts = [serviceLd, faqLd, breadcrumbLd].map((data, i) => {
-      const el = document.createElement("script");
-      el.type = "application/ld+json";
-      el.dataset.jsonld = `service-city-${i}`;
-      el.text = JSON.stringify(data);
-      document.head.appendChild(el);
-      return el;
-    });
-
-    return () => {
-      document.title = prevTitle;
-      if (descEl) descEl.setAttribute("content", prevDesc);
-      if (canonical) {
-        if (createdCanonical) canonical.remove();
-        else canonical.href = prevHref;
-      }
-      scripts.forEach((s) => s.remove());
-    };
-  }, [valid, service, city]);
+  useSeo({
+    title,
+    description,
+    canonical: pageUrl,
+    image: "/og-image.jpg",
+    jsonLd:
+      service && city
+        ? [
+            {
+              "@context": "https://schema.org",
+              "@type": "Service",
+              name: `${service.title} in ${city.name}, NY`,
+              serviceType: service.title,
+              description: service.metaDescription(city.name),
+              url: pageUrl,
+              areaServed: { "@type": "City", name: `${city.name}, NY` },
+              provider: {
+                "@type": "HVACBusiness",
+                "@id": `${SITE.siteUrl}/#localbusiness`,
+                name: SITE.legalName,
+                telephone: SITE.phone,
+                email: SITE.email,
+                url: SITE.siteUrl,
+                priceRange: "$$",
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: SITE.rating.score,
+                  reviewCount: SITE.rating.count,
+                  bestRating: 5,
+                  worstRating: 1,
+                },
+              },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: service.faqs(city.name).map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: `${SITE.siteUrl}/` },
+                { "@type": "ListItem", position: 2, name: "Services", item: `${SITE.siteUrl}/services` },
+                { "@type": "ListItem", position: 3, name: service.title, item: `${SITE.siteUrl}/services` },
+                { "@type": "ListItem", position: 4, name: `${service.shortTitle} in ${city.name}`, item: pageUrl },
+              ],
+            },
+          ]
+        : undefined,
+  });
 
   if (!valid || !service || !city) return <Navigate to="/services" replace />;
 
@@ -199,7 +170,6 @@ const ServiceCityPage = () => {
         </div>
       </section>
 
-      {/* FAQs */}
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="max-w-2xl mb-6">
@@ -219,7 +189,6 @@ const ServiceCityPage = () => {
         </div>
       </section>
 
-      {/* Other services in this city */}
       <section className="container mx-auto px-4 py-12 lg:py-16">
         <div className="mb-6">
           <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">More in {city.name}</div>
@@ -239,7 +208,6 @@ const ServiceCityPage = () => {
         </div>
       </section>
 
-      {/* Same service, other cities */}
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="mb-6">

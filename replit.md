@@ -36,6 +36,13 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 - **Key features**: Multi-page HVAC website with blog, CRM admin (Supabase-backed), contact/lead forms, SEO, Google Analytics, service area pages
 - **Routing**: All public pages + admin routes at /admin/crm (requires Supabase auth)
 - **Env vars needed**: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` (for admin/CRM features)
+- **Canonical origin**: `https://bravomechanicalny.com` (NO `www`). Must match across `src/lib/site.ts`, `public/sitemap.xml`, `public/robots.txt`, `public/llms.txt`, and `index.html` JSON-LD.
+- **SEO build pipeline** (runs automatically on `pnpm build`):
+  - `scripts/generate-sitemap.mjs` — auto-generates `public/sitemap.xml` from cities, services, service-city combos, and blog markdown frontmatter (currently 113 URLs).
+  - `scripts/inject-head-metadata.mjs` — for every URL in the sitemap, writes `dist/public/<route>/index.html` with per-route `<title>`, meta description, canonical, OG/Twitter tags, and JSON-LD pre-injected. This is the fix for "Google not crawling all pages" on the SPA — every URL now serves unique, crawler-visible metadata in the initial HTML response without waiting for JavaScript.
+  - `scripts/route-data.mjs` — shared catalog that reads city/service/blog source via lightweight regex parsing (no TS runtime needed).
+  - To rebuild only the SEO outputs after edits: `pnpm --filter @workspace/bravo-mechanical run build:seo`.
+- **Adding new routes**: For routes that match the existing types (city, high-intent service, service-city combo, blog post), the sitemap and head injection update automatically. For new static routes, add an entry to `STATIC_ROUTES` in `scripts/route-data.mjs` AND a `useSeo()` call in the new page component.
 
 ### API Server (`artifacts/api-server/`)
 - **Type**: api (Express)

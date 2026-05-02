@@ -1,0 +1,31 @@
+kind = "slides"
+previewPath = "/bravo-mechanical-deck/"
+title = "Bravo Mechanical Pitch Deck"
+version = "1.0.0"
+id = "artifacts/bravo-mechanical-deck"
+router = "path"
+
+[[integratedSkills]]
+name = "slides"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/bravo-mechanical-deck/" ]
+localPort = 21799
+
+[services.development]
+run = "pnpm --filter @workspace/bravo-mechanical-deck run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/bravo-mechanical-deck", "run", "build" ]
+publicDir = "artifacts/bravo-mechanical-deck/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21799"
+BASE_PATH = "/bravo-mechanical-deck/"

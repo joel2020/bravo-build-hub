@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "D4xbzFtxxL-J45sDOdBgv"
+uri = "file://artifacts/bravo-mechanical-deck/public/technician.png"
+type = "image"
+title = "hvac technician hero"
+
+[[generated]]
+id = "3AepiWsTXVJvWKPoVaZUE"
+uri = "file://artifacts/bravo-mechanical-deck/public/ac-unit.png"
+type = "image"
+title = "ac unit home"
+
+[[generated]]
+id = "5F8hw2kbC9d7RZPc4XFye"
+uri = "file://artifacts/bravo-mechanical-deck/public/ductwork.png"
+type = "image"
+title = "ductwork interior"
+
+[[generated]]
+id = "aWdP_txfKNiNTeu0YddxO"
+uri = "file://artifacts/bravo-mechanical-deck/public/westchester.png"
+type = "image"
+title = "westchester aerial"

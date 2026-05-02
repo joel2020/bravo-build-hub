@@ -1,0 +1,58 @@
+[
+  {
+    "id": "9b1d2c34-0001-4a00-8001-000000000001",
+    "position": 1,
+    "filepath": "src/pages/slides/Title.tsx",
+    "title": "Title",
+    "description": "Bravo Mechanical — HVAC Westchester County",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9b1d2c34-0002-4a00-8001-000000000002",
+    "position": 2,
+    "filepath": "src/pages/slides/About.tsx",
+    "title": "About",
+    "description": "Licensed local technicians, 24/7, 5-star rated",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9b1d2c34-0003-4a00-8001-000000000003",
+    "position": 3,
+    "filepath": "src/pages/slides/Services.tsx",
+    "title": "Services",
+    "description": "Installation, repair, maintenance, IAQ, residential, commercial",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9b1d2c34-0004-4a00-8001-000000000004",
+    "position": 4,
+    "filepath": "src/pages/slides/ServiceArea.tsx",
+    "title": "Service Area",
+    "description": "Westchester County cities served",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9b1d2c34-0005-4a00-8001-000000000005",
+    "position": 5,
+    "filepath": "src/pages/slides/SocialProof.tsx",
+    "title": "Social Proof",
+    "description": "5.0 Google rating with customer quotes",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9b1d2c34-0006-4a00-8001-000000000006",
+    "position": 6,
+    "filepath": "src/pages/slides/WhyUs.tsx",
+    "title": "Why Bravo",
+    "description": "Differentiators: licensed, engineered, brand-agnostic, rebates",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9b1d2c34-0007-4a00-8001-000000000007",
+    "position": 7,
+    "filepath": "src/pages/slides/Contact.tsx",
+    "title": "Contact",
+    "description": "Phone, email, and service area CTA",
+    "speakerNotes": ""
+  }
+]

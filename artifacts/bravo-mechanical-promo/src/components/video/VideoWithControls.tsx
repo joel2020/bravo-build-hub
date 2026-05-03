@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Repeat, ChevronDown, ChevronUp } from 'lucide-react';
+import { Repeat, ChevronDown, ChevronUp, Volume2, VolumeX } from 'lucide-react';
 import VideoTemplate, { SCENE_DURATIONS } from './VideoTemplate';
 import { useSceneControls } from './useSceneControls';
 
@@ -13,9 +13,11 @@ interface ControlBarProps {
   activeIndex: number;
   activeDuration: number;
   tick: number;
+  isMuted: boolean;
   onToggleLock: () => void;
   onJumpTo: (index: number) => void;
   onToggleCollapsed: () => void;
+  onToggleMute: () => void;
 }
 
 function ProgressSegments({
@@ -76,9 +78,11 @@ function ControlBar({
   activeIndex,
   activeDuration,
   tick,
+  isMuted,
   onToggleLock,
   onJumpTo,
   onToggleCollapsed,
+  onToggleMute,
 }: ControlBarProps) {
   return (
     <div
@@ -101,6 +105,20 @@ function ControlBar({
         aria-pressed={locked}
       >
         <Repeat className="w-8 h-8" />
+      </button>
+
+      <button
+        onClick={onToggleMute}
+        className={`w-14 h-14 flex items-center justify-center transition-colors rounded-lg shrink-0 ${
+          isMuted
+            ? 'text-white/60 hover:text-white hover:bg-white/10'
+            : 'text-white bg-white/15 hover:bg-white/25'
+        }`}
+        title={isMuted ? 'Unmute audio' : 'Mute audio'}
+        aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
+        aria-pressed={isMuted}
+      >
+        {isMuted ? <VolumeX className="w-8 h-8" /> : <Volume2 className="w-8 h-8" />}
       </button>
 
       <div className="w-px self-stretch bg-white/15" aria-hidden="true" />
@@ -132,6 +150,9 @@ function ControlBar({
 
 export default function VideoWithControls() {
   const isIframed = typeof window !== 'undefined' && window.self !== window.top;
+  const isCanvas = typeof window !== 'undefined' && window.location.hostname.includes('replit');
+  // Default to unmuted on canvas if possible, else muted to be safe
+  const [isMuted, setIsMuted] = useState(!isCanvas);
 
   const {
     sceneKeys,
@@ -173,6 +194,9 @@ export default function VideoWithControls() {
       return !c;
     });
   }, []);
+  const handleToggleMute = useCallback(() => {
+    setIsMuted((m) => !m);
+  }, []);
 
   useEffect(() => {
     if (!(collapsed && tapPinned)) return;
@@ -185,9 +209,8 @@ export default function VideoWithControls() {
     return () => document.removeEventListener('pointerdown', onDocPointerDown);
   }, [collapsed, tapPinned]);
 
-  if (!isIframed) return <VideoTemplate />;
-
   const barVisible = !collapsed || hovering || tapPinned;
+  void isIframed;
 
   return (
     <div className="relative w-full h-screen">
@@ -196,6 +219,7 @@ export default function VideoWithControls() {
         durations={durations}
         loop
         onSceneChange={onSceneChange}
+        isMuted={isMuted}
       />
       <div
         ref={sensorRef}
@@ -214,9 +238,11 @@ export default function VideoWithControls() {
           activeIndex={activeIndex}
           activeDuration={activeDuration}
           tick={tick}
+          isMuted={isMuted}
           onToggleLock={toggleLock}
           onJumpTo={jumpTo}
           onToggleCollapsed={handleToggleCollapsed}
+          onToggleMute={handleToggleMute}
         />
       </div>
     </div>

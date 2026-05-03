@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVideoPlayer } from '@/lib/video';
 import { Scene1 } from './video_scenes/Scene1';
@@ -8,18 +8,18 @@ import { Scene4 } from './video_scenes/Scene4';
 import { Scene5 } from './video_scenes/Scene5';
 
 export const SCENE_DURATIONS = {
-  intro: 5000,
-  services: 6000,
-  trust: 6000,
-  quality: 5000,
-  cta: 6000,
+  intro: 12000,
+  area: 10000,
+  services: 16000,
+  trust: 10000,
+  cta: 12000,
 };
 
 const SCENE_COMPONENTS: Record<string, React.ComponentType> = {
   intro: Scene1,
-  services: Scene2,
-  trust: Scene3,
-  quality: Scene4,
+  area: Scene2,
+  services: Scene3,
+  trust: Scene4,
   cta: Scene5,
 };
 
@@ -27,16 +27,38 @@ export default function VideoTemplate({
   durations = SCENE_DURATIONS,
   loop = true,
   onSceneChange,
+  isMuted = true,
 }: {
   durations?: Record<string, number>;
   loop?: boolean;
   onSceneChange?: (sceneKey: string) => void;
+  isMuted?: boolean;
 } = {}) {
   const { currentSceneKey } = useVideoPlayer({ durations, loop });
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     onSceneChange?.(currentSceneKey);
   }, [currentSceneKey, onSceneChange]);
+
+  useEffect(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    const baseKey = currentSceneKey.replace(/_r[12]$/, '');
+    if (baseKey === 'intro') {
+      a.currentTime = 0;
+      a.play().catch(() => {});
+    }
+  }, [currentSceneKey]);
+
+  useEffect(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    a.muted = isMuted;
+    if (!isMuted && a.paused) {
+      a.play().catch(() => {});
+    }
+  }, [isMuted]);
 
   const baseSceneKey = currentSceneKey.replace(/_r[12]$/, '') as keyof typeof SCENE_DURATIONS;
   const sceneIndex = Object.keys(SCENE_DURATIONS).indexOf(baseSceneKey);
@@ -47,6 +69,12 @@ export default function VideoTemplate({
       className="w-full h-screen overflow-hidden relative"
       style={{ backgroundColor: 'var(--color-bg-light)' }}
     >
+      <audio
+        ref={audioRef}
+        src={`${import.meta.env.BASE_URL}voiceover.mp3`}
+        muted={isMuted}
+        playsInline
+      />
       {/* Persistent background layers */}
       <div className="absolute inset-0 z-0">
         <motion.div

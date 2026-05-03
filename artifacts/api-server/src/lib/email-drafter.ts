@@ -28,6 +28,7 @@ Hard rules:
 - Be concrete about WHY this specific page/site/directory is a good fit for the sender.
 - Never invent facts the sender did not provide.
 - Sign off with the sender's name and phone.
+- NEVER use em dashes (—) or en dashes (–). If you would normally use one, rewrite the sentence with a comma, period, parentheses, or colon instead. This rule applies to BOTH the subject and the body.
 - Output ONLY a JSON object with keys "subject" and "body". No prose, no markdown.`;
 
 function userPrompt(input: DraftInput): string {
@@ -84,8 +85,17 @@ export async function draftOutreachEmail(input: DraftInput): Promise<DraftResult
     parsed = { subject: `Quick question about ${input.prospectName}`, body: text };
   }
   return {
-    subject: parsed.subject ?? `About ${BRAVO.brand} — ${input.prospectName}`,
-    body: parsed.body ?? "(no body generated)",
+    subject: stripEmDashes(parsed.subject ?? `About ${BRAVO.brand}: ${input.prospectName}`),
+    body: stripEmDashes(parsed.body ?? "(no body generated)"),
     generatedAt: new Date().toISOString(),
   };
+}
+
+/** Defensive scrub: Claude likes em dashes; replace any that slip past the
+ *  prompt rule with a comma + space. Also handle en dashes the same way. */
+function stripEmDashes(s: string): string {
+  return s
+    .replace(/\s*—\s*/g, ", ")
+    .replace(/\s*–\s*/g, ", ")
+    .replace(/, ,/g, ",");
 }

@@ -48,3 +48,15 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 - **Type**: api (Express)
 - **Preview Path**: `/api`
 - **Description**: Shared backend API server (currently only health check; CRM uses Supabase directly)
+
+### Bravo Backlink Agent (`artifacts/backlink-agent/`)
+- **Type**: react-vite
+- **Preview Path**: `/backlink-agent/`
+- **Description**: Autonomous AI-powered backlink outreach agent for Bravo Mechanical. Scans curated **dofollow-only** targets (Westchester chambers, regional press, HVAC trade associations, NY clean-energy programs), discovers contact emails, drafts personalized outreach with Claude, and **auto-sends via Resend**.
+- **Backend**: lives in `artifacts/api-server/src/routes/backlinks.ts` + `src/lib/{prospects-seed,backlink-scanner,resend-client,storage}.ts`. JSON file storage in `artifacts/api-server/data/backlink-*.json` with per-file mutex.
+- **Pipeline (`POST /api/backlinks/scan`)**: scan targets → detect dofollow vs nofollow on `<a>` to bravomechanicalny.com → discover contact email by scraping contact page + homepage → draft email → if `autoSend` & Resend configured & email known → send via Resend and mark `contacted`.
+- **Dofollow only**: scanner parses `rel` attribute; `nofollow|sponsored|ugc` → status `linked-nofollow` (kept in pipeline). Generic citation directories (Yelp, BBB, Angi, YellowPages, Manta, Houzz, etc.) are intentionally excluded from the seed because their outbound links are nofollow.
+- **Settings** (`backlink-settings.json`): `autoSend` (default true), `dofollowOnly` (default true). Toggleable from UI.
+- **Safety**: terminal statuses (`contacted`, `responded`, `won`, `skipped`) are never overwritten by automated scans or re-sent; SSRF guard on every fetch (private/loopback/link-local/metadata IP ranges blocked).
+- **Integrations**: Resend (`connection:conn_resend_01KQP0HYA8CZ1MDCS7RFNQ7KEW`), Anthropic (`@workspace/integrations-anthropic-ai`). The from-address is whatever domain is verified in the user's Resend account.
+- **Schedule it**: hit `POST /api/backlinks/scan` from a Replit Scheduled Deployment for hands-off weekly outreach.

@@ -1,278 +1,5 @@
 [
   {
-    "id": "cit-google-business",
-    "category": "Citation directory",
-    "name": "Google Business Profile",
-    "url": "https://www.google.com/business/",
-    "notes": "Highest-priority. Verify NAP, photos, hours, services, and Q&A.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-yelp",
-    "category": "Citation directory",
-    "name": "Yelp for Business",
-    "url": "https://biz.yelp.com/",
-    "notes": "Claim listing, add photos, respond to all reviews.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-bbb",
-    "category": "Citation directory",
-    "name": "Better Business Bureau (BBB)",
-    "url": "https://www.bbb.org/get-accredited",
-    "notes": "Apply for BBB accreditation (paid) for trust signal.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-angi",
-    "category": "Citation directory",
-    "name": "Angi (Angie's List)",
-    "url": "https://pro.angi.com/",
-    "notes": "Free profile + paid leads option. Strong HVAC vertical.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-houzz",
-    "category": "Citation directory",
-    "name": "Houzz Pro",
-    "url": "https://pro.houzz.com/",
-    "notes": "Strong for renovation/replacement HVAC photos.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-homeadvisor",
-    "category": "Citation directory",
-    "name": "HomeAdvisor",
-    "url": "https://www.homeadvisor.com/inc/spa-pro/",
-    "notes": "Owned by Angi; same parent. Optional dual listing.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-thumbtack",
-    "category": "Citation directory",
-    "name": "Thumbtack",
-    "url": "https://www.thumbtack.com/pro/",
-    "notes": "Pay-per-lead; useful for emergency/repair calls.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-bing-places",
-    "category": "Citation directory",
-    "name": "Bing Places for Business",
-    "url": "https://www.bingplaces.com/",
-    "notes": "Free; powers Bing + Copilot map results.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-apple-maps",
-    "category": "Citation directory",
-    "name": "Apple Business Connect",
-    "url": "https://businessconnect.apple.com/",
-    "notes": "Free; powers Apple Maps and Siri/Apple Intelligence.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-yellowpages",
-    "category": "Citation directory",
-    "name": "YellowPages.com",
-    "url": "https://www.yellowpages.com/",
-    "notes": "Free basic listing; legacy NAP citation.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-foursquare",
-    "category": "Citation directory",
-    "name": "Foursquare for Business",
-    "url": "https://business.foursquare.com/",
-    "notes": "Powers many third-party map/directory services.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-mapquest",
-    "category": "Citation directory",
-    "name": "MapQuest",
-    "url": "https://listings.mapquest.com/",
-    "notes": "Free citation source.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-manta",
-    "category": "Citation directory",
-    "name": "Manta",
-    "url": "https://www.manta.com/",
-    "notes": "Free B2B directory; classic NAP citation.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-hotfrog",
-    "category": "Citation directory",
-    "name": "Hotfrog",
-    "url": "https://www.hotfrog.com/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-brownbook",
-    "category": "Citation directory",
-    "name": "Brownbook.net",
-    "url": "https://www.brownbook.net/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-chamberofcommerce",
-    "category": "Citation directory",
-    "name": "ChamberofCommerce.com",
-    "url": "https://www.chamberofcommerce.com/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-superpages",
-    "category": "Citation directory",
-    "name": "Superpages",
-    "url": "https://www.superpages.com/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-merchantcircle",
-    "category": "Citation directory",
-    "name": "MerchantCircle",
-    "url": "https://www.merchantcircle.com/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-cylex",
-    "category": "Citation directory",
-    "name": "Cylex USA",
-    "url": "https://www.cylex.us.com/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "cit-tupalo",
-    "category": "Citation directory",
-    "name": "Tupalo",
-    "url": "https://tupalo.com/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.218Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
     "id": "ch-westchester-county",
     "category": "Westchester chamber",
     "name": "Business Council of Westchester",
@@ -284,7 +11,8 @@
         "at": "2026-05-03T03:53:14.218Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://thebcw.org/contact/"
   },
   {
     "id": "ch-yonkers",
@@ -297,7 +25,8 @@
         "at": "2026-05-03T03:53:14.218Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.yonkerschamber.com/contact"
   },
   {
     "id": "ch-white-plains",
@@ -310,7 +39,8 @@
         "at": "2026-05-03T03:53:14.218Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://wpchamber.com/contact-us/"
   },
   {
     "id": "ch-new-rochelle",
@@ -323,7 +53,8 @@
         "at": "2026-05-03T03:53:14.218Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.newrochellechamber.org/contact-us"
   },
   {
     "id": "ch-mount-vernon",
@@ -336,7 +67,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://mountvernonchamber.org/contact/"
   },
   {
     "id": "ch-bronxville",
@@ -349,7 +81,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.bronxvillechamber.com/contact"
   },
   {
     "id": "ch-tarrytown-sleepy-hollow",
@@ -362,7 +95,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.sleepyhollowtarrytownchamber.com/contact"
   },
   {
     "id": "ch-mount-kisco",
@@ -375,7 +109,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.mountkiscochamber.com/contact-us"
   },
   {
     "id": "ch-katonah",
@@ -388,7 +123,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.katonahchamber.org/contact-us/"
   },
   {
     "id": "ch-ossining",
@@ -401,7 +137,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.ossiningchamber.org/contact"
   },
   {
     "id": "ch-peekskill",
@@ -414,7 +151,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.peekskillchamber.com/contact"
   },
   {
     "id": "ch-pleasantville",
@@ -427,7 +165,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.pleasantvillechamber.com/contact"
   },
   {
     "id": "ch-rye",
@@ -440,7 +179,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.ryechamberofcommerce.com/contact"
   },
   {
     "id": "ch-mamaroneck",
@@ -453,7 +193,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.mamaroneckchamberofcommerce.org/contact"
   },
   {
     "id": "ch-larchmont",
@@ -466,7 +207,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.larchmontchamber.org/contact"
   },
   {
     "id": "ch-armonk",
@@ -479,7 +221,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.armonkchamberofcommerce.org/contact"
   },
   {
     "id": "ch-yorktown",
@@ -492,7 +235,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.yorktownchamber.org/contact-us"
   },
   {
     "id": "ch-rivertowns",
@@ -505,7 +249,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.rivertownschamber.com/contact"
   },
   {
     "id": "pr-westchester-magazine",
@@ -519,7 +264,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://westchestermagazine.com/contact-us/"
   },
   {
     "id": "pr-lohud",
@@ -546,7 +292,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://riverjournalonline.com/contact-us/"
   },
   {
     "id": "pr-examiner-news",
@@ -559,7 +306,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.theexaminernews.com/contact-us/"
   },
   {
     "id": "pr-westmore-news",
@@ -572,7 +320,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://westmorenews.com/contact-us/"
   },
   {
     "id": "pr-rising-westchester",
@@ -585,59 +334,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
-  },
-  {
-    "id": "pr-patch-yonkers",
-    "category": "Westchester press",
-    "name": "Patch — Yonkers",
-    "url": "https://patch.com/new-york/yonkers",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "pr-patch-white-plains",
-    "category": "Westchester press",
-    "name": "Patch — White Plains",
-    "url": "https://patch.com/new-york/whiteplains",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "pr-patch-new-rochelle",
-    "category": "Westchester press",
-    "name": "Patch — New Rochelle",
-    "url": "https://patch.com/new-york/newrochelle",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "pr-patch-tarrytown",
-    "category": "Westchester press",
-    "name": "Patch — Tarrytown",
-    "url": "https://patch.com/new-york/tarrytown",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
+    ],
+    "contactUrl": "https://therising.co/contact"
   },
   {
     "id": "tr-acca",
@@ -651,7 +349,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.acca.org/about/contact"
   },
   {
     "id": "tr-ashrae",
@@ -665,7 +364,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.ashrae.org/about/contact-us"
   },
   {
     "id": "tr-phcc-ny",
@@ -678,7 +378,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.phccny.org/contact"
   },
   {
     "id": "tr-mcaa",
@@ -691,7 +392,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.mcaa.org/contact-us/"
   },
   {
     "id": "tr-nate",
@@ -705,7 +407,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.natex.org/contact-nate/"
   },
   {
     "id": "tr-bpi",
@@ -719,7 +422,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://www.bpi.org/contact"
   },
   {
     "id": "ny-cleanheat",
@@ -733,7 +437,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://cleanheat.ny.gov/contact"
   },
   {
     "id": "ny-nyserda-cn",
@@ -747,21 +452,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
-  },
-  {
-    "id": "ny-coned-marketplace",
-    "category": "NY clean-energy program",
-    "name": "Con Edison Marketplace",
-    "url": "https://coned.energysavingsproducts.com/",
-    "notes": "Manufacturer-rebate marketplace; relevant brand pages can link out.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
+    ],
+    "contactUrl": "https://www.nyserda.ny.gov/About/Contact-Us"
   },
   {
     "id": "ny-energystar-locator",
@@ -774,20 +466,8 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
-  },
-  {
-    "id": "ny-ase-doe",
-    "category": "NY clean-energy program",
-    "name": "Alliance to Save Energy / DOE Better Buildings",
-    "url": "https://www.ase.org/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
+    ],
+    "contactUrl": "https://www.energystar.gov/about/contact_us"
   },
   {
     "id": "loc-westchester-mag-resources",
@@ -800,72 +480,19 @@
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
       }
-    ]
+    ],
+    "contactUrl": "https://westchestermagazine.com/contact-us/"
   },
   {
-    "id": "loc-ct-local-newsletter",
-    "category": "Local home-improvement directory",
-    "name": "Local Westchester newsletter HVAC ad",
-    "url": "https://newsbreak.com/",
-    "notes": "NewsBreak runs hyperlocal Westchester feeds; sponsored content option.",
+    "id": "ny-ase",
+    "category": "NY clean-energy program",
+    "name": "Alliance to Save Energy",
+    "url": "https://www.ase.org/",
+    "contactUrl": "https://www.ase.org/contact",
     "status": "pending",
     "history": [
       {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "loc-nextdoor",
-    "category": "Westchester community",
-    "name": "Nextdoor for Business",
-    "url": "https://business.nextdoor.com/local",
-    "notes": "Claim a free Nextdoor business profile in Westchester neighborhoods; high-trust local recommendations.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "loc-alignable",
-    "category": "Westchester community",
-    "name": "Alignable",
-    "url": "https://www.alignable.com/",
-    "notes": "Local-business networking; profile + recommendations earn citations.",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "loc-citysearch",
-    "category": "Local home-improvement directory",
-    "name": "Citysearch",
-    "url": "https://www.citysearch.com/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
-        "event": "seeded"
-      }
-    ]
-  },
-  {
-    "id": "loc-localnewsbreak",
-    "category": "Local home-improvement directory",
-    "name": "Local.com",
-    "url": "https://www.local.com/",
-    "status": "pending",
-    "history": [
-      {
-        "at": "2026-05-03T03:53:14.219Z",
+        "at": "2026-05-03T04:19:04.194Z",
         "event": "seeded"
       }
     ]

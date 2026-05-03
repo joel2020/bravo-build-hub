@@ -1,25 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { api, type DataResponse, type Prospect, type Mention, type ProspectStatus } from "./lib/api";
 
-type TabId = "overview" | "prospects" | "mentions" | "drafts" | "runs";
+type TabId = "overview" | "prospects" | "mentions" | "drafts" | "sent" | "runs";
 
 function StatusBadge({ status }: { status: ProspectStatus }) {
   const cls =
-    status === "linked" || status === "won"
-      ? "badge badge-good"
-      : status === "contacted" || status === "responded"
-        ? "badge badge-info"
-        : status === "unreachable" || status === "skipped"
-          ? "badge badge-bad"
-          : status === "unlinked"
-            ? "badge badge-warn"
-            : "badge";
+    status === "linked" || status === "won" ? "badge badge-good"
+      : status === "contacted" || status === "responded" ? "badge badge-info"
+      : status === "unreachable" || status === "skipped" ? "badge badge-bad"
+      : status === "unlinked" || status === "linked-nofollow" ? "badge badge-warn"
+      : "badge";
   return <span className={cls}>{status}</span>;
 }
 
-function copyToClipboard(text: string) {
-  navigator.clipboard.writeText(text).catch(() => undefined);
-}
+function copyToClipboard(text: string) { navigator.clipboard.writeText(text).catch(() => undefined); }
 
 export default function App() {
   const [data, setData] = useState<DataResponse | null>(null);
@@ -28,26 +22,15 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
 
   async function refresh() {
-    try {
-      const d = await api.getData();
-      setData(d);
-      setError(null);
-    } catch (err) {
-      setError((err as Error).message);
-    }
+    try { setData(await api.getData()); setError(null); }
+    catch (err) { setError((err as Error).message); }
   }
-
-  useEffect(() => {
-    refresh();
-  }, []);
-
-  // Auto-refresh while scanning; stop when the latest run reports completed/failed.
+  useEffect(() => { refresh(); }, []);
   useEffect(() => {
     if (!scanning) return;
     const t = setInterval(refresh, 4000);
     return () => clearInterval(t);
   }, [scanning]);
-
   useEffect(() => {
     if (!scanning || !data) return;
     const latest = data.runs[0];
@@ -60,112 +43,122 @@ export default function App() {
     return {
       total: p.length,
       linked: p.filter((x) => x.status === "linked").length,
+      linkedNofollow: p.filter((x) => x.status === "linked-nofollow").length,
       unlinked: p.filter((x) => x.status === "unlinked").length,
       contacted: p.filter((x) => x.status === "contacted" || x.status === "responded").length,
       won: p.filter((x) => x.status === "won").length,
       drafts: p.filter((x) => x.emailDraft).length,
-      unreachable: p.filter((x) => x.status === "unreachable").length,
-      pending: p.filter((x) => x.status === "pending").length,
+      withEmail: p.filter((x) => x.contactEmail).length,
+      sent: p.reduce((acc, x) => acc + (x.sent?.length ?? 0), 0),
     };
   }, [data]);
 
   async function handleScan() {
     setScanning(true);
-    try {
-      await api.startScan();
-      await refresh();
-    } catch (err) {
-      setError((err as Error).message);
-      setScanning(false);
-    }
+    try { await api.startScan(); await refresh(); }
+    catch (err) { setError((err as Error).message); setScanning(false); }
   }
 
   return (
     <div style={{ minHeight: "100%", padding: "24px 32px", maxWidth: 1400, margin: "0 auto" }}>
-      {/* Header */}
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg,#3b82f6,#22d3ee)" }} />
             <h1 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>Backlink Outreach Agent</h1>
             <span className="badge badge-info">{data?.site.brand ?? "Bravo Mechanical"}</span>
+            <span className="badge badge-good">dofollow only</span>
           </div>
           <div className="muted" style={{ fontSize: 13, marginTop: 4 }}>
-            Find directories, citations, and unlinked mentions for{" "}
-            <a href={data?.site.siteUrl} target="_blank" rel="noopener noreferrer">
-              {data?.site.domain}
-            </a>{" "}
-            — drafts personalized outreach, you press send.
+            Scans curated dofollow targets for{" "}
+            <a href={data?.site.siteUrl} target="_blank" rel="noopener noreferrer">{data?.site.domain}</a>
+            , discovers contact emails, drafts personalized outreach, and {data?.settings?.autoSend ? "sends them automatically" : "queues them for review"}.
           </div>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
-          <a className="btn" href={api.digestUrl()} target="_blank" rel="noopener noreferrer">
-            ↓ Weekly digest (.md)
-          </a>
+          <a className="btn" href={api.digestUrl()} target="_blank" rel="noopener noreferrer">↓ Digest (.md)</a>
           <button className="btn btn-primary" onClick={handleScan} disabled={scanning}>
-            {scanning ? "Scanning…" : "Run scan now"}
+            {scanning ? "Running…" : "Run agent now"}
           </button>
         </div>
       </header>
 
-      {error && (
-        <div className="panel" style={{ padding: 12, marginBottom: 16, borderColor: "var(--bad)", color: "var(--bad)" }}>
-          {error}
-        </div>
-      )}
+      {data && <SettingsBar data={data} onChange={refresh} />}
 
-      {/* Stats */}
+      {error && <div className="panel" style={{ padding: 12, marginBottom: 16, borderColor: "var(--bad)", color: "var(--bad)" }}>{error}</div>}
+
       {stats && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12, marginBottom: 20 }}>
-          <Stat label="Prospects" value={stats.total} />
-          <Stat label="Live backlinks" value={stats.linked} accent="good" />
-          <Stat label="Unlinked + ready" value={stats.unlinked} accent="warn" />
-          <Stat label="Drafts ready" value={stats.drafts} accent="info" />
-          <Stat label="Contacted" value={stats.contacted} accent="info" />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 10, marginBottom: 20 }}>
+          <Stat label="Targets" value={stats.total} />
+          <Stat label="Dofollow live" value={stats.linked} accent="good" />
+          <Stat label="Nofollow only" value={stats.linkedNofollow} accent="warn" />
+          <Stat label="Drafts" value={stats.drafts} accent="info" />
+          <Stat label="With email" value={stats.withEmail} accent="info" />
+          <Stat label="Auto-sent" value={stats.sent} accent="info" />
           <Stat label="Won" value={stats.won} accent="good" />
         </div>
       )}
 
-      {/* Tabs */}
       <div style={{ display: "flex", gap: 6, marginBottom: 16, borderBottom: "1px solid var(--border)", paddingBottom: 8 }}>
         {([
           ["overview", "Overview"],
-          ["prospects", `Prospects (${data?.prospects.length ?? 0})`],
-          ["drafts", `Outreach drafts (${stats?.drafts ?? 0})`],
-          ["mentions", `Manual mentions (${data?.mentions.length ?? 0})`],
+          ["prospects", `Targets (${data?.prospects.length ?? 0})`],
+          ["drafts", `Drafts (${stats?.drafts ?? 0})`],
+          ["sent", `Sent (${stats?.sent ?? 0})`],
+          ["mentions", `Mentions (${data?.mentions.length ?? 0})`],
           ["runs", "Scan history"],
         ] as Array<[TabId, string]>).map(([id, label]) => (
-          <div key={id} className={`tab ${tab === id ? "active" : ""}`} onClick={() => setTab(id)}>
-            {label}
-          </div>
+          <div key={id} className={`tab ${tab === id ? "active" : ""}`} onClick={() => setTab(id)}>{label}</div>
         ))}
       </div>
 
-      {/* Body */}
-      {!data ? (
-        <div className="muted">Loading…</div>
-      ) : tab === "overview" ? (
-        <Overview data={data} onScan={handleScan} scanning={scanning} />
-      ) : tab === "prospects" ? (
-        <ProspectsTable data={data} onChange={refresh} />
-      ) : tab === "drafts" ? (
-        <DraftsList data={data} onChange={refresh} />
-      ) : tab === "mentions" ? (
-        <MentionsPanel data={data} onChange={refresh} />
-      ) : (
-        <RunsList data={data} />
-      )}
+      {!data ? <div className="muted">Loading…</div>
+        : tab === "overview" ? <Overview data={data} onScan={handleScan} scanning={scanning} />
+        : tab === "prospects" ? <ProspectsTable data={data} onChange={refresh} />
+        : tab === "drafts" ? <DraftsList data={data} onChange={refresh} />
+        : tab === "sent" ? <SentList data={data} />
+        : tab === "mentions" ? <MentionsPanel data={data} onChange={refresh} />
+        : <RunsList data={data} />}
+    </div>
+  );
+}
+
+function SettingsBar({ data, onChange }: { data: DataResponse; onChange: () => void }) {
+  return (
+    <div className="panel" style={{ padding: 12, marginBottom: 16, display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <span style={{ width: 8, height: 8, borderRadius: 999, background: data.resend.configured ? "var(--good)" : "var(--bad)" }} />
+        <span style={{ fontSize: 13 }}>
+          Email sender: <strong>{data.resend.configured ? `Resend (${data.resend.fromEmail})` : "Not configured"}</strong>
+        </span>
+      </div>
+      <div style={{ flex: 1 }} />
+      <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13 }}>
+        <input
+          type="checkbox"
+          checked={data.settings.autoSend}
+          onChange={async (e) => { await api.updateSettings({ autoSend: e.target.checked }); onChange(); }}
+        />
+        Auto-send drafts during scans
+      </label>
+      <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13 }}>
+        <input
+          type="checkbox"
+          checked={data.settings.dofollowOnly}
+          onChange={async (e) => { await api.updateSettings({ dofollowOnly: e.target.checked }); onChange(); }}
+        />
+        Only count dofollow as "linked"
+      </label>
     </div>
   );
 }
 
 function Stat({ label, value, accent }: { label: string; value: number; accent?: "good" | "warn" | "info" }) {
-  const color =
-    accent === "good" ? "var(--good)" : accent === "warn" ? "var(--warn)" : accent === "info" ? "var(--accent)" : "var(--text)";
+  const color = accent === "good" ? "var(--good)" : accent === "warn" ? "var(--warn)" : accent === "info" ? "var(--accent)" : "var(--text)";
   return (
-    <div className="panel" style={{ padding: "14px 16px" }}>
+    <div className="panel" style={{ padding: "12px 14px" }}>
       <div className="muted" style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 0.5 }}>{label}</div>
-      <div style={{ fontSize: 26, fontWeight: 800, color, marginTop: 4 }}>{value}</div>
+      <div style={{ fontSize: 22, fontWeight: 800, color, marginTop: 2 }}>{value}</div>
     </div>
   );
 }
@@ -176,46 +169,44 @@ function Overview({ data, onScan, scanning }: { data: DataResponse; onScan: () =
   return (
     <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
       <div className="panel" style={{ padding: 18 }}>
-        <h2 style={{ marginTop: 0, fontSize: 16 }}>How this agent works</h2>
+        <h2 style={{ marginTop: 0, fontSize: 16 }}>How this agent works (fully autonomous)</h2>
         <ol className="muted" style={{ lineHeight: 1.7, fontSize: 13, paddingLeft: 18 }}>
-          <li>It maintains a curated seed list of {data.prospects.length} legitimate prospects — directories, Westchester chambers of commerce, local press, HVAC trade associations, and NY clean-energy programs.</li>
-          <li>When you run a scan, it fetches each prospect site, checks whether they already link to <span className="kbd">{data.site.domain}</span>, and labels each as <span className="badge badge-good">linked</span>, <span className="badge badge-warn">unlinked</span>, or <span className="badge badge-bad">unreachable</span>.</li>
-          <li>For unlinked prospects, it drafts a short, specific outreach email with Anthropic's Claude — no spammy templates.</li>
-          <li>You review each draft, copy/edit, and send it yourself. You can mark each as <span className="badge badge-info">contacted</span>, <span className="badge badge-good">won</span>, or <span className="badge">skipped</span>.</li>
-          <li>You can paste in any URL where you've seen Bravo Mechanical mentioned — the agent will check for a link and draft a thank-you-please-link email.</li>
-          <li>The "Weekly digest (.md)" button downloads a markdown report you can paste into email or share.</li>
+          <li>Tracks {data.prospects.length} curated <strong>dofollow-only</strong> targets — Westchester chambers, regional press, HVAC trade associations, NY clean-energy programs, and community orgs. Generic citation directories that use rel="nofollow" (Yelp, BBB, Angi, YellowPages, etc.) are intentionally excluded.</li>
+          <li>On each scan: fetches every target, parses the HTML, and only counts a backlink as <span className="badge badge-good">linked</span> if the <code>&lt;a&gt;</code> to {data.site.domain} is dofollow. Nofollow-only links are flagged <span className="badge badge-warn">linked-nofollow</span> so the agent keeps pursuing a dofollow.</li>
+          <li>For each unlinked target, scrapes the contact page + homepage for a <code>mailto:</code> address.</li>
+          <li>Drafts a short, specific outreach email with Claude — no spammy templates, no link-for-link offers.</li>
+          <li>If <strong>Auto-send</strong> is on and a contact email was discovered, sends the email through Resend automatically and marks the target <span className="badge badge-info">contacted</span>. Otherwise the draft sits in the Drafts tab for one-click manual send.</li>
+          <li>Manual brand mentions you paste in get the same treatment.</li>
         </ol>
         <div className="panel-2" style={{ padding: 12, marginTop: 14, fontSize: 12 }}>
           <strong>Schedule it weekly:</strong> in Replit Deployments, create a Scheduled Deployment that hits{" "}
-          <span className="kbd">POST /api/backlinks/scan</span> once a week, then opens the digest URL.
+          <span className="kbd">POST /api/backlinks/scan</span> once a week. With auto-send on, no human action needed between scans.
         </div>
       </div>
       <div className="panel" style={{ padding: 18 }}>
         <h2 style={{ marginTop: 0, fontSize: 16 }}>Latest scan</h2>
         {!lastRun ? (
-          <div className="muted" style={{ fontSize: 13 }}>
-            No scans yet. Click <strong>Run scan now</strong> in the header to run the first one.
-            {scanning && " Scanning…"}
-          </div>
+          <div className="muted" style={{ fontSize: 13 }}>No scans yet. Click <strong>Run agent now</strong>.</div>
         ) : (
           <div style={{ fontSize: 13, lineHeight: 1.8 }}>
             <div className="muted">Started {new Date(lastRun.startedAt).toLocaleString()}</div>
             <div>Status: <span className={`badge ${lastRun.status === "completed" ? "badge-good" : lastRun.status === "running" ? "badge-info" : "badge-bad"}`}>{lastRun.status}</span></div>
             <hr style={{ borderColor: "var(--border)", margin: "10px 0" }} />
             <div>Scanned: <strong>{lastRun.summary.prospectsScanned}</strong></div>
-            <div>Backlinks confirmed: <strong style={{ color: "var(--good)" }}>{lastRun.summary.prospectsLinked}</strong></div>
-            <div>Unlinked: <strong style={{ color: "var(--warn)" }}>{lastRun.summary.prospectsUnlinked}</strong></div>
-            <div>Unreachable: <strong style={{ color: "var(--bad)" }}>{lastRun.summary.prospectsUnreachable}</strong></div>
-            <div>Drafts generated: <strong style={{ color: "var(--accent)" }}>{lastRun.summary.draftsGenerated}</strong></div>
+            <div style={{ color: "var(--good)" }}>Dofollow links: <strong>{lastRun.summary.prospectsLinked}</strong></div>
+            <div style={{ color: "var(--warn)" }}>Nofollow only: <strong>{lastRun.summary.prospectsLinkedNofollow}</strong></div>
+            <div style={{ color: "var(--warn)" }}>Unlinked: <strong>{lastRun.summary.prospectsUnlinked}</strong></div>
+            <div style={{ color: "var(--accent)" }}>Drafts: <strong>{lastRun.summary.draftsGenerated}</strong></div>
+            <div style={{ color: "var(--accent)" }}>Emails discovered: <strong>{lastRun.summary.emailsDiscovered}</strong></div>
+            <div style={{ color: "var(--good)" }}>Emails sent: <strong>{lastRun.summary.emailsSent}</strong></div>
+            {lastRun.summary.emailsFailed > 0 && <div style={{ color: "var(--bad)" }}>Send failures: <strong>{lastRun.summary.emailsFailed}</strong></div>}
             {lastRun.summary.error && <div style={{ color: "var(--bad)", marginTop: 6 }}>Error: {lastRun.summary.error}</div>}
           </div>
         )}
         <button className="btn btn-primary" style={{ marginTop: 12, width: "100%" }} onClick={onScan} disabled={scanning}>
-          {scanning ? "Scanning…" : "Run scan now"}
+          {scanning ? "Running…" : "Run agent now"}
         </button>
-        <div className="muted" style={{ fontSize: 11, marginTop: 8 }}>
-          Categories tracked: {categories.join(" · ")}
-        </div>
+        <div className="muted" style={{ fontSize: 11, marginTop: 8 }}>Categories: {categories.join(" · ")}</div>
       </div>
     </div>
   );
@@ -225,26 +216,16 @@ function ProspectsTable({ data, onChange }: { data: DataResponse; onChange: () =
   const [filter, setFilter] = useState<string>("all");
   const [category, setCategory] = useState<string>("all");
   const categories = Array.from(new Set(data.prospects.map((p) => p.category)));
-
-  const filtered = data.prospects.filter((p) => {
-    if (filter !== "all" && p.status !== filter) return false;
-    if (category !== "all" && p.category !== category) return false;
-    return true;
-  });
+  const filtered = data.prospects.filter((p) =>
+    (filter === "all" || p.status === filter) && (category === "all" || p.category === category),
+  );
 
   return (
     <div className="panel">
       <div style={{ padding: 12, display: "flex", gap: 10, borderBottom: "1px solid var(--border)" }}>
         <select className="input" style={{ width: 180 }} value={filter} onChange={(e) => setFilter(e.target.value)}>
           <option value="all">All statuses</option>
-          <option value="pending">Pending</option>
-          <option value="unlinked">Unlinked</option>
-          <option value="linked">Linked</option>
-          <option value="contacted">Contacted</option>
-          <option value="responded">Responded</option>
-          <option value="won">Won</option>
-          <option value="unreachable">Unreachable</option>
-          <option value="skipped">Skipped</option>
+          {["pending","unlinked","linked","linked-nofollow","contacted","responded","won","skipped","unreachable"].map((s) => <option key={s} value={s}>{s}</option>)}
         </select>
         <select className="input" style={{ width: 280 }} value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="all">All categories</option>
@@ -258,107 +239,129 @@ function ProspectsTable({ data, onChange }: { data: DataResponse; onChange: () =
             <th style={{ padding: "10px 14px" }}>Name</th>
             <th style={{ padding: "10px 14px" }}>Category</th>
             <th style={{ padding: "10px 14px" }}>Status</th>
+            <th style={{ padding: "10px 14px" }}>Contact email</th>
             <th style={{ padding: "10px 14px" }}>Last checked</th>
-            <th style={{ padding: "10px 14px" }}>Draft</th>
-            <th style={{ padding: "10px 14px" }}>Mark as</th>
+            <th style={{ padding: "10px 14px" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filtered.map((p) => (
-            <tr key={p.id} style={{ borderTop: "1px solid var(--border)" }}>
-              <td style={{ padding: "10px 14px" }}>
-                <a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a>
-                {p.notes && <div className="muted" style={{ fontSize: 11, marginTop: 2 }}>{p.notes}</div>}
-              </td>
-              <td style={{ padding: "10px 14px" }} className="muted">{p.category}</td>
-              <td style={{ padding: "10px 14px" }}><StatusBadge status={p.status} /></td>
-              <td style={{ padding: "10px 14px" }} className="muted">
-                {p.lastCheckedAt ? new Date(p.lastCheckedAt).toLocaleDateString() : "—"}
-              </td>
-              <td style={{ padding: "10px 14px" }}>
-                {p.emailDraft ? <span className="badge badge-info">draft ready</span> : <span className="muted">—</span>}
-              </td>
-              <td style={{ padding: "10px 14px" }}>
-                <select
-                  className="input"
-                  style={{ width: 130, padding: "4px 8px", fontSize: 12 }}
-                  value={p.status}
-                  onChange={async (e) => {
-                    await api.setProspectStatus(p.id, e.target.value as ProspectStatus);
-                    onChange();
-                  }}
-                >
-                  {["pending","unlinked","linked","contacted","responded","won","skipped","unreachable"].map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-              </td>
-            </tr>
-          ))}
+          {filtered.map((p) => <ProspectRow key={p.id} p={p} onChange={onChange} resendOk={data.resend.configured} />)}
         </tbody>
       </table>
     </div>
   );
 }
 
-function DraftsList({ data, onChange }: { data: DataResponse; onChange: () => void }) {
-  const drafts: Array<{ p: Prospect; isMention?: false } | { m: Mention; isMention: true }> = [];
-  for (const p of data.prospects) if (p.emailDraft && p.status !== "won") drafts.push({ p });
-  for (const m of data.mentions) if (m.emailDraft && m.status !== "won") drafts.push({ m, isMention: true });
+function ProspectRow({ p, onChange, resendOk }: { p: Prospect; onChange: () => void; resendOk: boolean }) {
+  const [emailDraft, setEmailDraft] = useState(p.contactEmail ?? "");
+  useEffect(() => { setEmailDraft(p.contactEmail ?? ""); }, [p.contactEmail]);
 
-  if (drafts.length === 0) {
-    return (
-      <div className="panel" style={{ padding: 24, textAlign: "center" }}>
-        <div className="muted">No drafts yet. Run a scan to generate them.</div>
-      </div>
-    );
+  return (
+    <tr style={{ borderTop: "1px solid var(--border)" }}>
+      <td style={{ padding: "10px 14px" }}>
+        <a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a>
+        {p.notes && <div className="muted" style={{ fontSize: 11, marginTop: 2 }}>{p.notes}</div>}
+      </td>
+      <td style={{ padding: "10px 14px" }} className="muted">{p.category}</td>
+      <td style={{ padding: "10px 14px" }}>
+        <StatusBadge status={p.status} />
+        {p.emailDraft && <div style={{ marginTop: 4 }}><span className="badge badge-info">draft ready</span></div>}
+      </td>
+      <td style={{ padding: "10px 14px" }}>
+        <input
+          className="input"
+          style={{ padding: "4px 8px", fontSize: 12, width: 220 }}
+          placeholder="not yet discovered"
+          value={emailDraft}
+          onChange={(e) => setEmailDraft(e.target.value)}
+          onBlur={async () => {
+            if ((emailDraft || "") !== (p.contactEmail || "")) {
+              await api.patchProspect(p.id, { contactEmail: emailDraft });
+              onChange();
+            }
+          }}
+        />
+      </td>
+      <td style={{ padding: "10px 14px" }} className="muted">
+        {p.lastCheckedAt ? new Date(p.lastCheckedAt).toLocaleDateString() : "—"}
+      </td>
+      <td style={{ padding: "10px 14px", display: "flex", gap: 6 }}>
+        <select
+          className="input"
+          style={{ width: 110, padding: "4px 6px", fontSize: 11 }}
+          value={p.status}
+          onChange={async (e) => { await api.setProspectStatus(p.id, e.target.value as ProspectStatus); onChange(); }}
+        >
+          {["pending","unlinked","linked","linked-nofollow","contacted","responded","won","skipped","unreachable"].map((s) => <option key={s} value={s}>{s}</option>)}
+        </select>
+        {p.emailDraft && p.contactEmail && resendOk && p.status !== "contacted" && p.status !== "won" && (
+          <button
+            className="btn btn-good"
+            style={{ padding: "4px 8px", fontSize: 11 }}
+            onClick={async () => {
+              const r = await api.sendNow(p.id);
+              if (r.error) alert(r.error);
+              onChange();
+            }}
+          >Send</button>
+        )}
+      </td>
+    </tr>
+  );
+}
+
+function DraftsList({ data, onChange }: { data: DataResponse; onChange: () => void }) {
+  const items: Array<{ kind: "p"; p: Prospect } | { kind: "m"; m: Mention }> = [];
+  for (const p of data.prospects) if (p.emailDraft && p.status !== "won" && p.status !== "contacted") items.push({ kind: "p", p });
+  for (const m of data.mentions) if (m.emailDraft && m.status !== "won" && m.status !== "contacted") items.push({ kind: "m", m });
+
+  if (items.length === 0) {
+    return <div className="panel" style={{ padding: 24, textAlign: "center" }}><div className="muted">No drafts queued. Run the agent to generate them.</div></div>;
   }
 
   return (
     <div style={{ display: "grid", gap: 12 }}>
-      {drafts.map((d, i) => {
-        const isMention = "isMention" in d && d.isMention;
-        const target = isMention ? (d as { m: Mention }).m : (d as { p: Prospect }).p;
+      {items.map((it, i) => {
+        const isMention = it.kind === "m";
+        const target = isMention ? it.m : it.p;
         const draft = target.emailDraft!;
         const name = isMention ? new URL(target.url).hostname : (target as Prospect).name;
         const cat = isMention ? "Manual mention" : (target as Prospect).category;
+        const email = target.contactEmail;
         return (
           <div key={i} className="panel" style={{ padding: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8, gap: 12 }}>
               <div>
                 <div style={{ fontWeight: 700, fontSize: 15 }}>{name}</div>
-                <div className="muted" style={{ fontSize: 12 }}>{cat} · <a href={target.url} target="_blank" rel="noopener noreferrer">{target.url}</a></div>
+                <div className="muted" style={{ fontSize: 12 }}>
+                  {cat} · <a href={target.url} target="_blank" rel="noopener noreferrer">{target.url}</a>
+                </div>
+                <div style={{ fontSize: 12, marginTop: 4 }}>
+                  To: <strong>{email ?? <span className="muted">no email yet</span>}</strong>
+                </div>
               </div>
-              <div style={{ display: "flex", gap: 8 }}>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <StatusBadge status={target.status} />
-                <button
-                  className="btn"
-                  onClick={() => copyToClipboard(`Subject: ${draft.subject}\n\n${draft.body}`)}
-                >
-                  📋 Copy
-                </button>
-                {!isMention && (
-                  <button className="btn" onClick={async () => { await api.redraft(target.id); onChange(); }}>
-                    ↻ Redraft
+                <button className="btn" onClick={() => copyToClipboard(`Subject: ${draft.subject}\n\n${draft.body}`)}>📋 Copy</button>
+                {!isMention && <button className="btn" onClick={async () => { await api.redraft((target as Prospect).id); onChange(); }}>↻ Redraft</button>}
+                {!isMention && email && data.resend.configured && (
+                  <button className="btn btn-primary" onClick={async () => { const r = await api.sendNow((target as Prospect).id); if (r.error) alert(r.error); onChange(); }}>
+                    📤 Send now
                   </button>
                 )}
                 <button
                   className="btn btn-good"
                   onClick={async () => {
                     if (isMention) await api.setMentionStatus(target.id, "contacted");
-                    else await api.setProspectStatus(target.id, "contacted");
+                    else await api.setProspectStatus((target as Prospect).id, "contacted");
                     onChange();
                   }}
-                >
-                  ✓ Mark sent
-                </button>
+                >✓ Mark sent</button>
               </div>
             </div>
             <div className="panel-2" style={{ padding: 12, marginTop: 8 }}>
               <div style={{ fontWeight: 600, marginBottom: 8 }}>Subject: {draft.subject}</div>
-              <pre style={{ whiteSpace: "pre-wrap", fontFamily: "inherit", fontSize: 13, lineHeight: 1.6, margin: 0 }}>
-                {draft.body}
-              </pre>
+              <pre style={{ whiteSpace: "pre-wrap", fontFamily: "inherit", fontSize: 13, lineHeight: 1.6, margin: 0 }}>{draft.body}</pre>
             </div>
           </div>
         );
@@ -367,25 +370,46 @@ function DraftsList({ data, onChange }: { data: DataResponse; onChange: () => vo
   );
 }
 
+function SentList({ data }: { data: DataResponse }) {
+  const items: Array<{ name: string; cat: string; sent: NonNullable<Prospect["sent"]>[number] }> = [];
+  for (const p of data.prospects) for (const s of p.sent ?? []) items.push({ name: p.name, cat: p.category, sent: s });
+  for (const m of data.mentions) for (const s of m.sent ?? []) items.push({ name: new URL(m.url).hostname, cat: "Manual mention", sent: s });
+  items.sort((a, b) => b.sent.sentAt.localeCompare(a.sent.sentAt));
+
+  if (items.length === 0) {
+    return <div className="panel" style={{ padding: 24, textAlign: "center" }}><div className="muted">No emails sent yet.</div></div>;
+  }
+  return (
+    <div style={{ display: "grid", gap: 10 }}>
+      {items.map((it, i) => (
+        <div key={i} className="panel" style={{ padding: 14 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 14 }}>{it.name}</div>
+              <div className="muted" style={{ fontSize: 12 }}>{it.cat} · to <strong>{it.sent.to}</strong> · {new Date(it.sent.sentAt).toLocaleString()}</div>
+            </div>
+            <div>{it.sent.error ? <span className="badge badge-bad">failed</span> : <span className="badge badge-good">sent</span>}</div>
+          </div>
+          <div style={{ fontSize: 13, marginTop: 6 }}><strong>Subject:</strong> {it.sent.subject}</div>
+          {it.sent.error && <div style={{ color: "var(--bad)", fontSize: 12, marginTop: 4 }}>Error: {it.sent.error}</div>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function MentionsPanel({ data, onChange }: { data: DataResponse; onChange: () => void }) {
   const [url, setUrl] = useState("");
   const [context, setContext] = useState("");
+  const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   async function add() {
-    setBusy(true);
-    setErr(null);
-    try {
-      await api.addMention(url, context || undefined);
-      setUrl("");
-      setContext("");
-      onChange();
-    } catch (e) {
-      setErr((e as Error).message);
-    } finally {
-      setBusy(false);
-    }
+    setBusy(true); setErr(null);
+    try { await api.addMention(url, context || undefined, email || undefined); setUrl(""); setContext(""); setEmail(""); onChange(); }
+    catch (e) { setErr((e as Error).message); }
+    finally { setBusy(false); }
   }
 
   return (
@@ -393,14 +417,13 @@ function MentionsPanel({ data, onChange }: { data: DataResponse; onChange: () =>
       <div className="panel" style={{ padding: 16 }}>
         <h2 style={{ marginTop: 0, fontSize: 15 }}>Add a manual mention</h2>
         <p className="muted" style={{ fontSize: 12, marginTop: 0 }}>
-          Paste a URL where you've seen "Bravo Mechanical" mentioned (article, forum post, vendor list, etc.). The agent will fetch the page, check whether it already links to {data.site.domain}, and if not, draft a polite ask-for-the-link email.
+          Paste a URL where you've seen "Bravo Mechanical" mentioned. The agent will check whether the mention links dofollow to {data.site.domain} and, if not, draft a polite ask-for-the-link email.
         </p>
         <input className="input" placeholder="https://example.com/article-mentioning-bravo" value={url} onChange={(e) => setUrl(e.target.value)} />
         <textarea className="textarea" style={{ marginTop: 8 }} placeholder="Optional: paste the snippet of context where the mention appears" value={context} onChange={(e) => setContext(e.target.value)} />
+        <input className="input" style={{ marginTop: 8 }} placeholder="Optional: contact email at the publication" value={email} onChange={(e) => setEmail(e.target.value)} />
         <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
-          <button className="btn btn-primary" onClick={add} disabled={busy || !url}>
-            {busy ? "Working…" : "Add + scan + draft"}
-          </button>
+          <button className="btn btn-primary" onClick={add} disabled={busy || !url}>{busy ? "Working…" : "Add + scan + draft"}</button>
           {err && <span style={{ color: "var(--bad)", fontSize: 12, alignSelf: "center" }}>{err}</span>}
         </div>
       </div>
@@ -409,30 +432,30 @@ function MentionsPanel({ data, onChange }: { data: DataResponse; onChange: () =>
         <div style={{ padding: 12, borderBottom: "1px solid var(--border)", fontSize: 13, fontWeight: 600 }}>
           Tracked mentions ({data.mentions.length})
         </div>
-        {data.mentions.length === 0 ? (
-          <div className="muted" style={{ padding: 16, fontSize: 13 }}>None yet.</div>
-        ) : (
+        {data.mentions.length === 0 ? <div className="muted" style={{ padding: 16, fontSize: 13 }}>None yet.</div> : (
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase" }}>
                 <th style={{ padding: "10px 14px" }}>URL</th>
                 <th style={{ padding: "10px 14px" }}>Status</th>
-                <th style={{ padding: "10px 14px" }}>Has link?</th>
-                <th style={{ padding: "10px 14px" }}>Added</th>
+                <th style={{ padding: "10px 14px" }}>Dofollow?</th>
+                <th style={{ padding: "10px 14px" }}>Email</th>
                 <th style={{ padding: "10px 14px" }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {data.mentions.map((m) => (
                 <tr key={m.id} style={{ borderTop: "1px solid var(--border)" }}>
-                  <td style={{ padding: "10px 14px", maxWidth: 380, overflow: "hidden", textOverflow: "ellipsis" }}>
+                  <td style={{ padding: "10px 14px", maxWidth: 320, overflow: "hidden", textOverflow: "ellipsis" }}>
                     <a href={m.url} target="_blank" rel="noopener noreferrer">{m.url}</a>
                   </td>
                   <td style={{ padding: "10px 14px" }}><StatusBadge status={m.status} /></td>
                   <td style={{ padding: "10px 14px" }}>
-                    {m.hasBacklink === undefined ? "—" : m.hasBacklink ? <span className="badge badge-good">yes</span> : <span className="badge badge-warn">no</span>}
+                    {m.hasDofollowBacklink ? <span className="badge badge-good">dofollow</span>
+                      : m.hasBacklink ? <span className="badge badge-warn">nofollow</span>
+                      : <span className="badge">none</span>}
                   </td>
-                  <td style={{ padding: "10px 14px" }} className="muted">{new Date(m.addedAt).toLocaleDateString()}</td>
+                  <td style={{ padding: "10px 14px" }} className="muted">{m.contactEmail ?? "—"}</td>
                   <td style={{ padding: "10px 14px" }}>
                     <select
                       className="input"
@@ -440,7 +463,7 @@ function MentionsPanel({ data, onChange }: { data: DataResponse; onChange: () =>
                       value={m.status}
                       onChange={async (e) => { await api.setMentionStatus(m.id, e.target.value as ProspectStatus); onChange(); }}
                     >
-                      {["pending","unlinked","linked","contacted","responded","won","skipped","unreachable"].map((s) => <option key={s} value={s}>{s}</option>)}
+                      {["pending","unlinked","linked","linked-nofollow","contacted","responded","won","skipped","unreachable"].map((s) => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </td>
                 </tr>
@@ -454,9 +477,7 @@ function MentionsPanel({ data, onChange }: { data: DataResponse; onChange: () =>
 }
 
 function RunsList({ data }: { data: DataResponse }) {
-  if (data.runs.length === 0) {
-    return <div className="muted">No scans yet.</div>;
-  }
+  if (data.runs.length === 0) return <div className="muted">No scans yet.</div>;
   return (
     <div className="panel">
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
@@ -465,10 +486,12 @@ function RunsList({ data }: { data: DataResponse }) {
             <th style={{ padding: "10px 14px" }}>Started</th>
             <th style={{ padding: "10px 14px" }}>Status</th>
             <th style={{ padding: "10px 14px" }}>Scanned</th>
-            <th style={{ padding: "10px 14px" }}>Linked</th>
+            <th style={{ padding: "10px 14px" }}>Dofollow</th>
+            <th style={{ padding: "10px 14px" }}>Nofollow</th>
             <th style={{ padding: "10px 14px" }}>Unlinked</th>
-            <th style={{ padding: "10px 14px" }}>Unreachable</th>
             <th style={{ padding: "10px 14px" }}>Drafts</th>
+            <th style={{ padding: "10px 14px" }}>Sent</th>
+            <th style={{ padding: "10px 14px" }}>Failed</th>
           </tr>
         </thead>
         <tbody>
@@ -480,9 +503,11 @@ function RunsList({ data }: { data: DataResponse }) {
               </td>
               <td style={{ padding: "10px 14px" }}>{r.summary.prospectsScanned}</td>
               <td style={{ padding: "10px 14px", color: "var(--good)" }}>{r.summary.prospectsLinked}</td>
+              <td style={{ padding: "10px 14px", color: "var(--warn)" }}>{r.summary.prospectsLinkedNofollow}</td>
               <td style={{ padding: "10px 14px", color: "var(--warn)" }}>{r.summary.prospectsUnlinked}</td>
-              <td style={{ padding: "10px 14px", color: "var(--bad)" }}>{r.summary.prospectsUnreachable}</td>
               <td style={{ padding: "10px 14px", color: "var(--accent)" }}>{r.summary.draftsGenerated}</td>
+              <td style={{ padding: "10px 14px", color: "var(--good)" }}>{r.summary.emailsSent}</td>
+              <td style={{ padding: "10px 14px", color: "var(--bad)" }}>{r.summary.emailsFailed}</td>
             </tr>
           ))}
         </tbody>

@@ -3,27 +3,27 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
+// PORT is required at dev/preview time (Replit assigns it); for production
+// builds (Vercel, Netlify, Cloudflare, etc.) it isn't needed at all.
 const rawPort = process.env.PORT;
+const isBuild = process.argv.includes("build");
 
-if (!rawPort) {
+if (!rawPort && !isBuild) {
   throw new Error(
-    "PORT environment variable is required but was not provided.",
+    "PORT environment variable is required for dev/preview but was not provided.",
   );
 }
 
-const port = Number(rawPort);
+const port = rawPort ? Number(rawPort) : 5173;
 
 if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    "BASE_PATH environment variable is required but was not provided.",
-  );
-}
+// BASE_PATH defaults to "/" so production hosts (Vercel, etc.) don't need
+// to set it. Replit's workspace sets BASE_PATH to the artifact's preview
+// path prefix (e.g. "/artifacts/bravo-mechanical").
+const basePath = process.env.BASE_PATH || "/";
 
 export default defineConfig({
   base: basePath,

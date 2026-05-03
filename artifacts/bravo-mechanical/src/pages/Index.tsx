@@ -30,10 +30,64 @@ import projectGasBoiler from "@/assets/project-gas-boiler.png";
 const Index = () => {
   const featuredReviews = getFeaturedGoogleReviews(3);
 
+  const homepageFaqs = [
+    {
+      q: "What is Bravo Mechanical?",
+      a: "Bravo Mechanical LLC is a licensed and insured HVAC contractor based in Westchester County, NY. The company installs, repairs, and maintains furnaces, boilers, central air conditioning, heat pumps, and ductless mini-splits for homes and light-commercial properties across 30 Westchester towns, with 24/7 emergency dispatch and a 5.0-star Google rating.",
+    },
+    {
+      q: "What areas does Bravo Mechanical serve?",
+      a: "Bravo Mechanical serves all of Westchester County, NY, including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Bronxville, Rye, Harrison, Mamaroneck, Larchmont, Tarrytown, Sleepy Hollow, Ossining, Peekskill, Mount Kisco, Chappaqua, Bedford, Katonah, Armonk, Hastings-on-Hudson, Dobbs Ferry, Irvington, Briarcliff Manor, Croton-on-Hudson, Yorktown, and Somers — 30 municipalities in total.",
+    },
+    {
+      q: "Does Bravo Mechanical offer 24/7 emergency HVAC service?",
+      a: "Yes. Bravo Mechanical offers 24/7 emergency HVAC dispatch in Westchester County, NY for no-heat, no-cool, and gas-leak situations. Call (914) 361-9142 to request emergency service. Response times depend on weather, call volume, technician availability, and location.",
+    },
+    {
+      q: "How much does a new furnace, boiler, or AC system cost in Westchester County, NY?",
+      a: "Installed HVAC pricing in Westchester County typically ranges from about $4,500 to $9,000 for a standard high-efficiency gas furnace, $7,000 to $14,000 for a gas boiler replacement, $6,000 to $12,000 for a central AC system, and $12,000 to $25,000 for a cold-climate heat pump or whole-home ductless mini-split system, depending on home size, ductwork condition, fuel type, and equipment tier. Bravo Mechanical provides a free written estimate before any installation begins.",
+    },
+    {
+      q: "Should I repair or replace an HVAC system?",
+      a: "A common rule of thumb used by Bravo Mechanical is the 50% rule: if the repair cost exceeds 50% of replacement cost, or if the system is older than 12 to 15 years and breaking down repeatedly, replacement is usually more cost-effective. ENERGY STAR guidance recommends replacing furnaces older than 15 years and central AC older than 10 years for meaningful efficiency gains.",
+    },
+    {
+      q: "What HVAC brands does Bravo Mechanical install?",
+      a: "Bravo Mechanical is a brand-agnostic HVAC contractor and installs Carrier, Trane, Rheem, Mitsubishi, Daikin, Bosch, Navien, Bradford White, AO Smith, Weil-McLain, and other major manufacturers. Recommendations are based on home size, ductwork, fuel type, and budget — not on a single-brand contract.",
+    },
+    {
+      q: "What HVAC rebates and tax credits are available in Westchester County, NY?",
+      a: "Westchester homeowners may qualify for NYS Clean Heat heat-pump rebates (administered through Con Edison and other utilities), NYSERDA Comfort Home insulation incentives, Con Edison HVAC rebates, and the federal Inflation Reduction Act 25C tax credit (up to $2,000 for a qualifying heat pump and up to $600 for a high-efficiency furnace or central AC, per IRS guidelines). Eligibility and amounts depend on equipment, utility territory, and current program rules. Bravo Mechanical helps customers identify and apply.",
+    },
+    {
+      q: "Is Bravo Mechanical licensed and insured?",
+      a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor authorized to perform heating, cooling, and gas-fired equipment work in Westchester County, NY. Proof of insurance is provided on request.",
+    },
+    {
+      q: "Does Bravo Mechanical service both residential and commercial properties?",
+      a: "Yes. Bravo Mechanical works with single-family homeowners, multi-family property managers, and light-commercial customers (offices, retail, restaurants, mixed-use buildings) across Westchester County, NY.",
+    },
+    {
+      q: "How do I contact Bravo Mechanical?",
+      a: "Call Bravo Mechanical at (914) 361-9142, email Bravomechanicalllc@gmail.com, or request an estimate at https://bravomechanicalny.com/contact. The company is open 24 hours a day, 7 days a week for emergency dispatch.",
+    },
+  ];
+
   useSeo({
     title: "HVAC Contractor Westchester County, NY | Bravo Mechanical",
-    description: "Bravo Mechanical is a local HVAC contractor in Westchester County, NY for AC repair, AC installation, furnace repair, boiler repair, heat pumps, and maintenance plans.",
+    description: "Bravo Mechanical is a 5-star, licensed and insured HVAC contractor in Westchester County, NY for AC repair, AC installation, furnace and boiler repair, heat pumps, and 24/7 emergency service across 30 towns.",
     canonical: `${SITE.siteUrl}/`,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: homepageFaqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      },
+    ],
   });
 
   // Homepage LocalBusiness + AggregateRating JSON-LD lives in static index.html
@@ -403,25 +457,23 @@ const Index = () => {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* FAQ — answer-first, fact-rich blocks tuned for AI search citation */}
       <section className="container mx-auto px-4 py-16 lg:py-24">
         <div className="max-w-3xl mx-auto">
           <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">FAQ</div>
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-8">Frequently asked questions</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-3">HVAC questions Westchester homeowners ask</h2>
+          <p className="text-muted-foreground mb-8">Direct, factual answers about pricing, brands, rebates, and emergency service in Westchester County, NY.</p>
           <Accordion type="single" collapsible className="w-full">
-            {[
-              { q: "What areas does Bravo Mechanical serve?", a: "We serve all of Westchester County, NY — from Yonkers and New Rochelle north through Tarrytown, White Plains, Mount Kisco, Bedford, Yorktown, and surrounding towns." },
-              { q: "Do you offer free estimates?", a: "Yes. Estimates for installations and project work are free. Call us or request one online." },
-              { q: "Do you provide emergency HVAC service?", a: "Yes — we respond to heating and cooling emergencies. Call our main line and we'll get a tech to you as quickly as possible." },
-              { q: "Are you licensed and insured?", a: "Yes, Bravo Mechanical is a fully licensed and insured HVAC contractor." },
-              { q: "Do you service both residential and commercial properties?", a: "Yes. We work with homeowners, property managers, and commercial customers across Westchester County." },
-            ].map((f, i) => (
+            {homepageFaqs.map((f, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
                 <AccordionTrigger className="text-left font-semibold">{f.q}</AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">{f.a}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
+          <p className="text-xs text-muted-foreground mt-6">
+            Pricing ranges are typical Westchester County installed-equipment estimates and vary by home size, ductwork, fuel type, and equipment tier. Sources: ENERGY STAR (energystar.gov), NYSERDA (nyserda.ny.gov), and IRS Inflation Reduction Act 25C (irs.gov).
+          </p>
         </div>
       </section>
 

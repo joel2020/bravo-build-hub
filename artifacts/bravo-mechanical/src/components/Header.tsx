@@ -67,7 +67,7 @@ export const Header = () => {
               {SITE.phone}
             </a>
             <Button asChild size="sm" className="hidden sm:inline-flex bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-              <Link to="/contact">Request Estimate</Link>
+              <Link to="/contact">Get a Free Estimate</Link>
             </Button>
             <a
               href={SITE.phoneHref}
@@ -107,7 +107,7 @@ export const Header = () => {
                 </NavLink>
               ))}
               <Button asChild className="mt-4 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                <Link to="/contact" onClick={() => setOpen(false)}>Request Estimate</Link>
+                <Link to="/contact" onClick={() => setOpen(false)}>Get a Free Estimate</Link>
               </Button>
             </nav>
           </div>

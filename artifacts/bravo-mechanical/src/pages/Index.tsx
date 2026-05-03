@@ -110,18 +110,40 @@ const Index = () => {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact" onClick={() => trackRequestServiceClick("home_hero")}>Request an Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick("home_hero")}>Get a Free Estimate</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold border-foreground/20">
                 <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
               </Button>
             </div>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Licensed & insured</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Emergency HVAC support</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />5.0 Google rating</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Estimate options available</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-accent" />Local Westchester techs</span>
+            {/* Real trust strip: live Google rating + license + free-estimate price anchor. */}
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <a
+                href={SITE.social.google}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
+              >
+                <span className="font-extrabold text-foreground">{SITE.rating.score.toFixed(1)}</span>
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  {SITE.rating.count}+ reviews on {SITE.rating.source}
+                </span>
+              </a>
+              <span className="hidden sm:inline text-border">|</span>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+                <ShieldCheck className="h-4 w-4 text-accent" />
+                Licensed &amp; insured in NY
+              </span>
+              <span className="hidden sm:inline text-border">|</span>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+                <CheckCircle2 className="h-4 w-4 text-accent" />
+                Free written estimates
+              </span>
             </div>
             <div className="mt-6">
               <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Local HVAC service in</div>
@@ -150,15 +172,6 @@ const Index = () => {
                 </Link>
               </div>
             </div>
-            <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 bg-white dark:bg-card border border-border rounded-full px-4 py-2 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-1">
-                <span className="font-bold text-foreground">5.0</span>
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />)}
-                </div>
-              </div>
-              <span className="text-sm text-muted-foreground">on Google</span>
-            </a>
           </div>
           <div className="aspect-[4/3] rounded-lg overflow-hidden border border-border shadow-lg">
             <img

@@ -66,7 +66,7 @@ const ServiceAreas = () => {
           <h2 className="text-2xl md:text-3xl font-extrabold mb-3">Don't see your town?</h2>
           <p className="text-muted-foreground mb-6">We cover all of Westchester County, NY. If you're not sure whether we service your address, just give us a call — we'll confirm right away.</p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"><Link to="/contact">Request an Estimate</Link></Button>
+            <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"><Link to="/contact">Get a Free Estimate</Link></Button>
             <Button asChild variant="outline" className="font-semibold"><a href={SITE.phoneHref}>Call {SITE.phone}</a></Button>
           </div>
         </div>

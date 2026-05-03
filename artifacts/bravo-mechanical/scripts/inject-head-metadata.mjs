@@ -22,6 +22,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   buildAllRoutes,
+  loadGoogleReviews,
+  relativeDateToIso,
   SITE_URL,
   SITE_NAME,
   SITE_LEGAL,
@@ -31,6 +33,21 @@ import {
   OG_IMAGE,
   BUILD_DATE,
 } from "./route-data.mjs";
+
+// Module-level review cache populated once per build, then read by buildJsonLd.
+let ALL_REVIEWS = [];
+let TOP_REVIEWS = [];
+
+function reviewToSchema(r) {
+  return {
+    "@type": "Review",
+    author: { "@type": "Person", name: r.reviewerName },
+    reviewRating: { "@type": "Rating", ratingValue: String(r.rating), bestRating: "5", worstRating: "1" },
+    reviewBody: r.reviewText,
+    datePublished: relativeDateToIso(r.reviewDate),
+    publisher: { "@type": "Organization", name: "Google" },
+  };
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -60,7 +77,7 @@ function buildJsonLd(route) {
   });
 
   if (route.type === "blog" && route.post) {
-    return [
+    const out = [
       {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -80,6 +97,24 @@ function buildJsonLd(route) {
         { name: route.post.title, url },
       ]),
     ];
+    if (route.howto) {
+      out.push({
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: route.howto.name,
+        description: route.howto.description,
+        totalTime: route.howto.totalTime,
+        image: [OG_IMAGE],
+        step: route.howto.steps.map((s, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: s.name,
+          text: s.text,
+          url: `${url}#step-${i + 1}`,
+        })),
+      });
+    }
+    return out;
   }
 
   if (route.type === "city" && route.city) {
@@ -98,6 +133,7 @@ function buildJsonLd(route) {
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
         openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }],
         aggregateRating: { "@type": "AggregateRating", ratingValue: String(SITE_RATING.score), reviewCount: String(SITE_RATING.count), bestRating: "5", worstRating: "1" },
+        review: TOP_REVIEWS.map(reviewToSchema),
         // Freshness signal — Google rewards recently-updated local-business entities for competitive city queries.
         dateModified: BUILD_DATE,
       },
@@ -244,6 +280,37 @@ function rewriteHead(html, route) {
   return out;
 }
 
+// Splices `review` array into the homepage HVACBusiness JSON-LD inside the
+// built index.html. The hand-authored block lives between
+// "@id":"https://bravomechanicalny.com/#localbusiness" and the closing
+// </script>. We parse, mutate, and re-stringify rather than regex-injecting
+// to guarantee valid JSON.
+async function injectHomepageReviews(html, reviews) {
+  const reviewSchemas = reviews.map((r) => ({
+    "@type": "Review",
+    author: { "@type": "Person", name: r.reviewerName },
+    reviewRating: { "@type": "Rating", ratingValue: String(r.rating), bestRating: "5", worstRating: "1" },
+    reviewBody: r.reviewText,
+    datePublished: relativeDateToIso(r.reviewDate),
+    publisher: { "@type": "Organization", name: "Google" },
+  }));
+
+  // Find every <script type="application/ld+json">...</script> block.
+  return html.replace(
+    /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
+    (full, body) => {
+      let parsed;
+      try { parsed = JSON.parse(body); } catch { return full; }
+      if (parsed && parsed["@type"] === "HVACBusiness" && parsed["@id"] && parsed["@id"].endsWith("#localbusiness")) {
+        parsed.review = reviewSchemas;
+        parsed.dateModified = BUILD_DATE;
+        return `<script type="application/ld+json">${JSON.stringify(parsed).replace(/<\/script/gi, "<\\/script")}</script>`;
+      }
+      return full;
+    }
+  );
+}
+
 async function exists(p) {
   try { await access(p, FS.F_OK); return true; } catch { return false; }
 }
@@ -256,6 +323,19 @@ async function main() {
   }
   const baseHtml = await readFile(indexPath, "utf8");
 
+  // Load Google reviews once and pick the featured top 3 for city pages.
+  ALL_REVIEWS = await loadGoogleReviews();
+  TOP_REVIEWS = ALL_REVIEWS.filter((r) => r.isFeatured).slice(0, 3);
+  console.log(`ℹ️  loaded ${ALL_REVIEWS.length} Google reviews (${TOP_REVIEWS.length} featured for city pages).`);
+
+  // Splice the full review array into the homepage HVACBusiness JSON-LD that
+  // is hand-authored in index.html. We do this here (after the build) instead
+  // of editing index.html directly so the source-of-truth review data lives
+  // in src/lib/googleReviews.ts and any update flows through automatically
+  // on the next build.
+  const homepageHtml = await injectHomepageReviews(baseHtml, ALL_REVIEWS);
+  const baseHtmlWithReviews = homepageHtml;
+
   // Also copy sitemap into dist/public so deployment serves the latest.
   const sitemapSrc = path.join(ROOT, "public", "sitemap.xml");
   if (await exists(sitemapSrc)) {
@@ -265,7 +345,7 @@ async function main() {
   const routes = await buildAllRoutes();
   let written = 0;
   for (const route of routes) {
-    const html = rewriteHead(baseHtml, route);
+    const html = rewriteHead(baseHtmlWithReviews, route);
     const dest =
       route.path === "/"
         ? path.join(DIST, "index.html")

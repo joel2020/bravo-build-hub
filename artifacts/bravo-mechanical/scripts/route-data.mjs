@@ -55,6 +55,138 @@ export const HOMEPAGE_FAQS = [
   },
 ];
 
+// ---- Google reviews (for prerendered Review schema) --------------------
+// Parses src/lib/googleReviews.ts so the prerendered HVACBusiness schema
+// includes real reviewer quotes — Google can show individual review
+// snippets in SERPs alongside the AggregateRating, and AI Overviews
+// quote them as social proof.
+export async function loadGoogleReviews() {
+  const txt = await readSource("lib/googleReviews.ts");
+  const reviews = [];
+  const re = /\{\s*reviewerName:\s*"([^"]+)",\s*rating:\s*(\d)[\s\S]*?reviewText:\s*\n?\s*"((?:[^"\\]|\\.)*)"[\s\S]*?(?:reviewDate:\s*"([^"]*)",[\s\S]*?)?isFeatured:\s*(true|false)/g;
+  let m;
+  while ((m = re.exec(txt)) !== null) {
+    reviews.push({
+      reviewerName: m[1],
+      rating: Number(m[2]),
+      reviewText: m[3].replace(/\\"/g, '"'),
+      reviewDate: m[4] || "",
+      isFeatured: m[5] === "true",
+    });
+  }
+  return reviews;
+}
+
+// Convert "2 months ago" / "a month ago" / "a day ago" to an ISO date
+// (relative to BUILD_DATE) so Review schema has datePublished. Approximate
+// is fine — Google only requires a date, not a precise timestamp.
+export function relativeDateToIso(rel, baseIsoDate = BUILD_DATE) {
+  const base = new Date(baseIsoDate + "T00:00:00Z");
+  const s = (rel || "").toLowerCase().trim();
+  const num = (str) => (/^a\b|^an\b/.test(str) ? 1 : parseInt(str, 10) || 0);
+  const cleaned = s.replace(/^edited\s+/, "");
+  let days = 0;
+  if (/year/.test(cleaned)) days = num(cleaned) * 365;
+  else if (/month/.test(cleaned)) days = num(cleaned) * 30;
+  else if (/week/.test(cleaned)) days = num(cleaned) * 7;
+  else if (/day/.test(cleaned)) days = num(cleaned);
+  else if (/hour|minute/.test(cleaned)) days = 0;
+  else return baseIsoDate;
+  base.setUTCDate(base.getUTCDate() - days);
+  return base.toISOString().slice(0, 10);
+}
+
+// ---- HowTo schema for step-by-step blog posts --------------------------
+// Hand-curated for posts that genuinely follow a numbered procedure.
+// Each entry triggers a HowTo JSON-LD block alongside BlogPosting on
+// /blog/<slug> — eligible for Google rich results and AI Overview
+// step-by-step extraction. Keep step names <60 chars.
+export const BLOG_HOWTOS = {
+  "furnace-not-igniting-mount-vernon": {
+    name: "How to Troubleshoot a Furnace That Won't Ignite",
+    description: "Seven safe checks a Westchester homeowner can perform before calling for furnace repair.",
+    totalTime: "PT15M",
+    steps: [
+      { name: "Check the thermostat batteries", text: "If the thermostat screen is dim, blank, or shows 'low batt,' replace the AA batteries — the most common cause of a no-heat call." },
+      { name: "Confirm the furnace switch is on", text: "Most furnaces have a wall switch that looks like a light switch (often red) near the unit or at the top of the basement stairs. Make sure it is in the ON position." },
+      { name: "Check the breaker", text: "Look for a tripped 15A or 20A breaker labeled 'furnace' or 'boiler' and reset it once. If it trips again, stop and call a technician." },
+      { name: "Inspect the air filter", text: "A clogged filter restricts airflow and can trip the high-limit safety, locking out ignition. Replace any filter that has been in for more than three months." },
+      { name: "Check the condensate drain", text: "On 90%+ AFUE high-efficiency furnaces, water pooling near the unit usually means the condensate trap or pump has failed and the safety switch tripped. Clear or pump out the condensate line." },
+      { name: "Reset the unit", text: "Turn the wall switch off for 60 seconds, then back on. Modern furnaces require a hard reset after three failed ignition attempts." },
+      { name: "Verify gas service", text: "Check that gas appliances like the stove are working. If gas is out, call the utility (Con Edison). If gas is on but the furnace will not fire, the gas valve solenoid or igniter has likely failed — call a licensed HVAC contractor." },
+    ],
+  },
+  "ac-tune-up-checklist-new-rochelle": {
+    name: "How to Perform an Annual AC Tune-Up",
+    description: "An 18-point spring tune-up procedure that protects central AC equipment in coastal Westchester homes.",
+    totalTime: "PT90M",
+    steps: [
+      { name: "Wash the outdoor condenser coil", text: "Use low-pressure water and a no-rinse coil cleaner to remove pollen, debris, and salt deposits from the outdoor unit." },
+      { name: "Straighten bent condenser fins", text: "Use a fin comb to straighten any bent aluminum fins so airflow across the coil is restored." },
+      { name: "Tighten electrical connections", text: "Power off at the disconnect, then check and tighten every electrical lug at the contactor and capacitor terminals." },
+      { name: "Test the run capacitor", text: "Measure capacitance with a multimeter and replace any capacitor reading more than 5% below its rated microfarads." },
+      { name: "Check refrigerant charge", text: "Connect manifold gauges and verify charge using superheat (fixed-orifice systems) or subcool (TXV systems) — adjust only if the system is undercharged and a leak has been ruled out." },
+      { name: "Replace the indoor air filter", text: "Install a properly sized pleated filter — MERV 8 to 11 is the right balance for most Westchester homes." },
+      { name: "Inspect the evaporator coil", text: "Pull the access panel and check the indoor coil for biological growth or restricted airflow. Clean with no-rinse evaporator coil cleaner if needed." },
+      { name: "Flush the condensate drain", text: "Pour a vinegar-and-water solution down the condensate line and verify it drains freely. Test the float switch by lifting the float and confirming the system shuts off." },
+      { name: "Verify supply and return temperature split", text: "After 15 minutes of cooling, the temperature split between return and supply air should be 18 to 22 degrees Fahrenheit. Anything outside this range indicates an airflow or charge issue." },
+    ],
+  },
+  "fall-furnace-tune-up-hartsdale": {
+    name: "How to Prepare a Furnace for Winter",
+    description: "A step-by-step fall tune-up procedure for gas furnaces in Westchester County homes.",
+    totalTime: "PT60M",
+    steps: [
+      { name: "Replace the furnace filter", text: "Install a fresh, properly sized pleated filter before the heating season starts to protect the blower and heat exchanger." },
+      { name: "Inspect and clean the burners", text: "Brush dust and debris off the burners and inspect the flame pattern — flames should be steady and blue, not yellow or lifting." },
+      { name: "Test the flame sensor", text: "Pull and clean the flame sensor with fine steel wool. A dirty flame sensor is the #1 cause of mid-cycle furnace shutdowns." },
+      { name: "Check the inducer motor and venting", text: "Listen for grinding or rattling and inspect the venting for blockages, corrosion, or condensate buildup." },
+      { name: "Verify safety switch operation", text: "Test the high-limit switch, rollout switches, and pressure switches by simulating fault conditions and confirming the furnace shuts down safely." },
+      { name: "Measure combustion efficiency", text: "Use a combustion analyzer to check CO levels, O2, and stack temperature. CO in the flue should be under 100 ppm air-free; CO in the supply air should be 0." },
+      { name: "Check the thermostat and cycle the furnace", text: "Run a complete heat cycle from cold start, verify proper ignition sequence, and confirm the thermostat reaches setpoint." },
+    ],
+  },
+  "spring-hvac-checklist-harrison": {
+    name: "How to Get Your HVAC System Ready for Spring",
+    description: "Spring HVAC startup steps for Harrison, NY homeowners.",
+    totalTime: "PT45M",
+    steps: [
+      { name: "Replace the air filter", text: "Install a fresh pleated filter before switching from heat to cool to avoid carrying winter dust into the cooling coil." },
+      { name: "Clear debris from the outdoor condenser", text: "Remove leaves, twigs, mulch, and any tarp or cover from the outdoor unit. Maintain at least two feet of clearance on all sides." },
+      { name: "Turn on power at the AC disconnect", text: "If you switched off the outdoor disconnect for winter, restore power at least 24 hours before running the system to allow the compressor crankcase heater to warm the oil." },
+      { name: "Run a cooling cycle and check temperature split", text: "Set the thermostat to cool, run for 15 minutes, and confirm a 18 to 22 degree Fahrenheit temperature split between return and supply registers." },
+      { name: "Test the condensate drain and float switch", text: "Pour water into the drain pan and confirm it drains freely. Lift the float switch and confirm the system shuts off." },
+      { name: "Schedule a professional tune-up", text: "Book a licensed HVAC technician for a full refrigerant, electrical, and combustion check before the first heat wave — lead times stretch quickly in May and June." },
+    ],
+  },
+  "winter-furnace-prep-westchester": {
+    name: "How to Prepare a Westchester Home Furnace for Winter",
+    description: "Pre-season furnace preparation steps for Westchester County homeowners.",
+    totalTime: "PT30M",
+    steps: [
+      { name: "Replace the furnace filter", text: "Install a fresh pleated filter before the first cold snap to ensure proper airflow." },
+      { name: "Test the thermostat", text: "Run the furnace through a full heat cycle and confirm it reaches setpoint within a reasonable time." },
+      { name: "Inspect vents and registers", text: "Walk every room, open all supply registers, and confirm return grilles are not blocked by furniture or rugs." },
+      { name: "Test the carbon monoxide detector", text: "Press the test button on every CO detector and replace batteries. CO detectors expire — confirm yours is under seven years old." },
+      { name: "Clear the area around the furnace", text: "Maintain at least three feet of clearance on all sides. Move stored items, paint, and flammable materials away from the unit." },
+      { name: "Schedule a fall tune-up", text: "Book a professional combustion-and-safety check before the first hard freeze to catch issues that homeowners cannot see." },
+    ],
+  },
+  "smart-thermostat-installation-larchmont": {
+    name: "How to Install a Smart Thermostat",
+    description: "Step-by-step smart thermostat installation for a Westchester home.",
+    totalTime: "PT45M",
+    steps: [
+      { name: "Turn off power at the breaker", text: "Switch off the breaker for the furnace or air handler before removing the existing thermostat. Verify with a non-contact voltage tester." },
+      { name: "Photograph the existing wiring", text: "Remove the old thermostat faceplate and take a clear photo of every wire and the terminal it lands on." },
+      { name: "Confirm a C-wire is present", text: "Most smart thermostats require a constant 24V common (C) wire. If none is present, install a C-wire adapter at the air handler before mounting the new thermostat." },
+      { name: "Mount the new thermostat baseplate", text: "Level the baseplate, mark the holes, drill, and anchor the baseplate to the wall." },
+      { name: "Reconnect the wires", text: "Land each wire on the matching terminal of the new thermostat using the photo as reference." },
+      { name: "Restore power and configure", text: "Turn the breaker back on, follow the on-screen setup wizard, connect to Wi-Fi, and run a heat and cool test cycle to confirm operation." },
+    ],
+  },
+};
+
 // ---- FAQ extraction (for prerendered FAQPage schema) -------------------
 // Mirrors the FAQ data declared in src/lib so AI/LLM crawlers that don't
 // execute JS still see structured Q&A. If the source-of-truth FAQ shapes
@@ -359,6 +491,7 @@ export async function buildAllRoutes() {
       description: p.excerpt,
       type: "blog",
       post: p,
+      howto: BLOG_HOWTOS[p.slug] || null,
     });
   }
 

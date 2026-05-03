@@ -7,9 +7,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, '../public');
 const OUTPUT_FILE = path.join(PUBLIC_DIR, 'voiceover.mp3');
 
-const SCRIPT_TEXT = "When your heat or AC fails, you need a partner you can trust. Bravo Mechanical is your five-star HVAC team, serving Yonkers, White Plains, New Rochelle, and thirty towns across Westchester County. We install and repair furnaces, boilers, air conditioners, heat pumps, and ductless mini-splits. Fully licensed, fully insured, and brand-agnostic, so we recommend what's right for your home, not our bottom line. And because emergencies don't wait, neither do we. Twenty-four-seven service keeps your family comfortable, day and night. Call us today at nine-one-four, three-six-one, nine-one-four-two. Or visit bravo mechanical n y dot com. Bravo Mechanical. Your comfort is our commitment.";
+const SCRIPT_TEXT = "When your heat goes out in January, or your AC quits in August, you don't need excuses. You need a partner you can trust. Bravo Mechanical is your five-star HVAC team, born and based in Westchester. We take care of Yonkers, White Plains, New Rochelle, Scarsdale, Bronxville, and thirty towns across the county. From furnaces and boilers to central air, heat pumps, and ductless mini-splits, we install it, we service it, and we stand behind it. Fully licensed, fully insured, and brand-agnostic, so we recommend what's right for your home, not our bottom line. And because emergencies don't wait for business hours, neither do we. Twenty-four-seven service keeps your family comfortable, day and night, all year long. So call us today at nine-one-four, three-six-one, nine-one-four-two. Or visit bravo mechanical n y dot com. Bravo Mechanical. Your comfort is our commitment.";
 
-const VOICE_ID = "pqHfZKP75CvOlQylNhV4"; // Bill - Wise, Mature, Balanced (advertisement)
+const VOICE_ID = "zWoalRDt5TZrmW4ROIA7"; // Brooklyn - African American New Yorker, confident
 
 async function main() {
   if (!fs.existsSync(PUBLIC_DIR)) {

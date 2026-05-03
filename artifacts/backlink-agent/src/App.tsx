@@ -385,19 +385,76 @@ function SentList({ data }: { data: DataResponse }) {
   }
   return (
     <div style={{ display: "grid", gap: 10 }}>
-      {items.map((it, i) => (
-        <div key={i} className="panel" style={{ padding: 14 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 14 }}>{it.name}</div>
-              <div className="muted" style={{ fontSize: 12 }}>{it.cat} · to <strong>{it.sent.to}</strong> · {new Date(it.sent.sentAt).toLocaleString()}</div>
-            </div>
-            <div>{it.sent.error ? <span className="badge badge-bad">failed</span> : <span className="badge badge-good">sent</span>}</div>
-          </div>
-          <div style={{ fontSize: 13, marginTop: 6 }}><strong>Subject:</strong> {it.sent.subject}</div>
-          {it.sent.error && <div style={{ color: "var(--bad)", fontSize: 12, marginTop: 4 }}>Error: {it.sent.error}</div>}
+      {items.map((it, i) => <SentRow key={i} it={it} />)}
+    </div>
+  );
+}
+
+function SentRow({ it }: { it: { name: string; cat: string; sent: NonNullable<Prospect["sent"]>[number] } }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const body = it.sent.body ?? "";
+  const hasDash = /[—–]/.test(body) || /[—–]/.test(it.sent.subject ?? "");
+  return (
+    <div className="panel" style={{ padding: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+        <div>
+          <div style={{ fontWeight: 700, fontSize: 14 }}>{it.name}</div>
+          <div className="muted" style={{ fontSize: 12 }}>{it.cat} · to <strong>{it.sent.to}</strong> · {new Date(it.sent.sentAt).toLocaleString()}</div>
         </div>
-      ))}
+        <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
+          {hasDash && <span className="badge" style={{ background: "rgba(234,179,8,0.18)", color: "#facc15" }} title="Contains em/en dash (sent before the dash filter was added)">— legacy dash</span>}
+          {it.sent.error ? <span className="badge badge-bad">failed</span> : <span className="badge badge-good">sent</span>}
+        </div>
+      </div>
+      <div style={{ fontSize: 13, marginTop: 6 }}><strong>Subject:</strong> {it.sent.subject}</div>
+      {it.sent.error && <div style={{ color: "var(--bad)", fontSize: 12, marginTop: 4 }}>Error: {it.sent.error}</div>}
+      {body && (
+        <div style={{ marginTop: 8 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <button
+              className="btn btn-ghost"
+              style={{ fontSize: 12, padding: "4px 10px" }}
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? "Hide message" : "Show message"}
+            </button>
+            {open && (
+              <button
+                className="btn btn-ghost"
+                style={{ fontSize: 12, padding: "4px 10px" }}
+                onClick={async () => {
+                  await navigator.clipboard.writeText(`Subject: ${it.sent.subject}\n\n${body}`);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 1500);
+                }}
+              >
+                {copied ? "Copied!" : "Copy"}
+              </button>
+            )}
+          </div>
+          {open && (
+            <pre
+              style={{
+                marginTop: 8,
+                padding: 12,
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 8,
+                fontSize: 13,
+                lineHeight: 1.5,
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+                fontFamily: "inherit",
+                margin: 0,
+                marginTop: 6,
+              }}
+            >
+              {body}
+            </pre>
+          )}
+        </div>
+      )}
     </div>
   );
 }

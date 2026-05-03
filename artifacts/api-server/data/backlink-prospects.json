@@ -5,252 +5,734 @@
     "name": "Business Council of Westchester",
     "url": "https://thebcw.org/",
     "notes": "Premier county-wide business chamber; member directory link.",
-    "status": "pending",
+    "status": "unlinked",
     "history": [
       {
         "at": "2026-05-03T03:53:14.218Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:50.178Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:58.450Z",
+        "event": "draft",
+        "detail": "Bravo Mechanical LLC — Westchester HVAC Contractor for Your Member Directory"
       }
     ],
-    "contactUrl": "https://thebcw.org/contact/"
+    "contactUrl": "https://thebcw.org/contact/",
+    "lastCheckedAt": "2026-05-03T04:26:50.178Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "emailDraft": {
+      "subject": "Bravo Mechanical LLC — Westchester HVAC Contractor for Your Member Directory",
+      "body": "Hi BCW Team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving all 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, and ductless mini-splits, with 24/7 emergency dispatch.\n\nAs the premier county-wide chamber, BCW connects local businesses with trusted service providers. We hold a 5.0-star Google rating and work with both residential and commercial clients throughout the county — a natural fit for your member directory.\n\nWe're happy to share our license number, certificate of insurance, and client references whenever helpful.\n\nWould you point us toward the right membership or listing process?\n\nThank you,\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:05.396Z"
+    }
   },
   {
     "id": "ch-yonkers",
     "category": "Westchester chamber",
     "name": "Yonkers Chamber of Commerce",
     "url": "https://www.yonkerschamber.com/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.218Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:49.807Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.yonkerschamber.com/contact"
+    "contactUrl": "https://www.yonkerschamber.com/contact",
+    "lastCheckedAt": "2026-05-03T04:26:49.807Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ch-white-plains",
     "category": "Westchester chamber",
     "name": "White Plains Chamber of Commerce",
     "url": "https://wpchamber.com/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.218Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:50.034Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "info@wpchamber.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.450Z",
+        "event": "draft",
+        "detail": "Local HVAC Contractor for Your Member Directory — Bravo Mechanical LLC"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ info@wpchamber.com"
       }
     ],
-    "contactUrl": "https://wpchamber.com/contact-us/"
+    "contactUrl": "https://wpchamber.com/contact-us/",
+    "lastCheckedAt": "2026-05-03T04:26:50.034Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "info@wpchamber.com",
+    "emailDraft": {
+      "subject": "Local HVAC Contractor for Your Member Directory — Bravo Mechanical LLC",
+      "body": "Hi,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving all 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, ductless mini-splits, and 24/7 emergency service. We hold a 5.0-star Google rating and are based right here in the county.\n\nBecause the White Plains Chamber connects residents and businesses to trusted local services, we'd love to be considered for your member directory or vendor listings. We're happy to share our license number, certificate of insurance, and references from Westchester customers.\n\nOur site: https://bravomechanicalny.com\n\nThank you for supporting local businesses — we'd be glad to answer any questions.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+      "generatedAt": "2026-05-03T04:27:05.095Z"
+    },
+    "sent": [
+      {
+        "to": "info@wpchamber.com",
+        "subject": "Local HVAC Contractor for Your Member Directory — Bravo Mechanical LLC",
+        "body": "Hi,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving all 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, ductless mini-splits, and 24/7 emergency service. We hold a 5.0-star Google rating and are based right here in the county.\n\nBecause the White Plains Chamber connects residents and businesses to trusted local services, we'd love to be considered for your member directory or vendor listings. We're happy to share our license number, certificate of insurance, and references from Westchester customers.\n\nOur site: https://bravomechanicalny.com\n\nThank you for supporting local businesses — we'd be glad to answer any questions.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "3b12c241-58fe-4cf8-b011-f100508c0b16"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-new-rochelle",
     "category": "Westchester chamber",
     "name": "New Rochelle Chamber of Commerce",
     "url": "https://www.newrochellechamber.org/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.218Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:51.407Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "info@newrochamber.org"
+      },
+      {
+        "at": "2026-05-03T04:27:58.450Z",
+        "event": "draft",
+        "detail": "Local HVAC Contractor for Your Member Directory – Bravo Mechanical LLC"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ info@newrochamber.org"
       }
     ],
-    "contactUrl": "https://www.newrochellechamber.org/contact-us"
+    "contactUrl": "https://www.newrochellechamber.org/contact-us",
+    "lastCheckedAt": "2026-05-03T04:26:51.407Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "info@newrochamber.org",
+    "emailDraft": {
+      "subject": "Local HVAC Contractor for Your Member Directory – Bravo Mechanical LLC",
+      "body": "Hi New Rochelle Chamber team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving New Rochelle and 29 other Westchester municipalities. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — plus 24/7 emergency dispatch — and hold a 5.0-star Google rating.\n\nSince the Chamber connects residents and businesses with trusted local pros, we'd love to be considered for your member directory or vendor listing. We're happy to share our license number, insurance certificates, and customer references.\n\nThank you for supporting local businesses like ours.\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:09.145Z"
+    },
+    "sent": [
+      {
+        "to": "info@newrochamber.org",
+        "subject": "Local HVAC Contractor for Your Member Directory – Bravo Mechanical LLC",
+        "body": "Hi New Rochelle Chamber team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving New Rochelle and 29 other Westchester municipalities. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — plus 24/7 emergency dispatch — and hold a 5.0-star Google rating.\n\nSince the Chamber connects residents and businesses with trusted local pros, we'd love to be considered for your member directory or vendor listing. We're happy to share our license number, insurance certificates, and customer references.\n\nThank you for supporting local businesses like ours.\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "f9322c74-1549-4f21-9027-d19359ddac43"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-mount-vernon",
     "category": "Westchester chamber",
     "name": "Mount Vernon Chamber of Commerce",
     "url": "https://mountvernonchamber.org/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.025Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://mountvernonchamber.org/contact/"
+    "contactUrl": "https://mountvernonchamber.org/contact/",
+    "lastCheckedAt": "2026-05-03T04:26:52.025Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ch-bronxville",
     "category": "Westchester chamber",
     "name": "Bronxville Chamber of Commerce",
     "url": "https://www.bronxvillechamber.com/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:50.327Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "director@bronxvillechamber.org"
+      },
+      {
+        "at": "2026-05-03T04:27:58.450Z",
+        "event": "draft",
+        "detail": "Local HVAC Contractor for the Bronxville Chamber Directory"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ director@bronxvillechamber.org"
       }
     ],
-    "contactUrl": "https://www.bronxvillechamber.com/contact"
+    "contactUrl": "https://www.bronxvillechamber.com/contact",
+    "lastCheckedAt": "2026-05-03T04:26:50.327Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "director@bronxvillechamber.org",
+    "emailDraft": {
+      "subject": "Local HVAC Contractor for the Bronxville Chamber Directory",
+      "body": "Hi,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving Bronxville and 29 other Westchester County municipalities. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — plus 24/7 emergency dispatch — and carry a 5.0-star Google rating across our reviews.\n\nWe'd love to be considered for inclusion in the Bronxville Chamber's member directory as a trusted local resource for residents and businesses needing heating or cooling help. We're happy to share our NY contractor license, certificate of insurance, and references at any point.\n\nMore about us: https://bravomechanicalny.com\n\nThank you for your time.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+      "generatedAt": "2026-05-03T04:27:10.792Z"
+    },
+    "sent": [
+      {
+        "to": "director@bronxvillechamber.org",
+        "subject": "Local HVAC Contractor for the Bronxville Chamber Directory",
+        "body": "Hi,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving Bronxville and 29 other Westchester County municipalities. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — plus 24/7 emergency dispatch — and carry a 5.0-star Google rating across our reviews.\n\nWe'd love to be considered for inclusion in the Bronxville Chamber's member directory as a trusted local resource for residents and businesses needing heating or cooling help. We're happy to share our NY contractor license, certificate of insurance, and references at any point.\n\nMore about us: https://bravomechanicalny.com\n\nThank you for your time.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "35f707ef-1357-4cca-a69d-17f25d3b4331"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-tarrytown-sleepy-hollow",
     "category": "Westchester chamber",
     "name": "Sleepy Hollow / Tarrytown Chamber",
     "url": "https://www.sleepyhollowtarrytownchamber.com/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.177Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "info@sleepyhollowtarrytownchamber.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Adding a Local HVAC Contractor to Your Member Directory"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ info@sleepyhollowtarrytownchamber.com"
       }
     ],
-    "contactUrl": "https://www.sleepyhollowtarrytownchamber.com/contact"
+    "contactUrl": "https://www.sleepyhollowtarrytownchamber.com/contact",
+    "lastCheckedAt": "2026-05-03T04:26:52.177Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "info@sleepyhollowtarrytownchamber.com",
+    "emailDraft": {
+      "subject": "Adding a Local HVAC Contractor to Your Member Directory",
+      "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving Sleepy Hollow, Tarrytown, and 28 other Westchester municipalities. We handle furnace and boiler repair, central AC, heat pumps, and ductless mini-splits — with 24/7 emergency dispatch and a 5.0-star Google rating.\n\nBecause the Sleepy Hollow/Tarrytown Chamber connects residents and businesses with trusted local vendors, we'd love to be considered for your member directory or local-pros listing. We're happy to share our NY contractor license, certificate of insurance, and customer references at any time.\n\nWould we be a fit? We'd appreciate the chance to be part of the community you support.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:13.768Z"
+    },
+    "sent": [
+      {
+        "to": "info@sleepyhollowtarrytownchamber.com",
+        "subject": "Adding a Local HVAC Contractor to Your Member Directory",
+        "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving Sleepy Hollow, Tarrytown, and 28 other Westchester municipalities. We handle furnace and boiler repair, central AC, heat pumps, and ductless mini-splits — with 24/7 emergency dispatch and a 5.0-star Google rating.\n\nBecause the Sleepy Hollow/Tarrytown Chamber connects residents and businesses with trusted local vendors, we'd love to be considered for your member directory or local-pros listing. We're happy to share our NY contractor license, certificate of insurance, and customer references at any time.\n\nWould we be a fit? We'd appreciate the chance to be part of the community you support.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "9cd1c8cb-12c3-49b9-9188-7f0f06a9b4f4"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-mount-kisco",
     "category": "Westchester chamber",
     "name": "Mount Kisco Chamber of Commerce",
     "url": "https://www.mountkiscochamber.com/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:50.273Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.mountkiscochamber.com/contact-us"
+    "contactUrl": "https://www.mountkiscochamber.com/contact-us",
+    "lastCheckedAt": "2026-05-03T04:26:50.273Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ch-katonah",
     "category": "Westchester chamber",
     "name": "Katonah Chamber of Commerce",
     "url": "https://www.katonahchamber.org/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:50.805Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "info@katonahchamber.org"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Adding a Licensed Westchester HVAC Contractor to Your Member Directory"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ info@katonahchamber.org"
       }
     ],
-    "contactUrl": "https://www.katonahchamber.org/contact-us/"
+    "contactUrl": "https://www.katonahchamber.org/contact-us/",
+    "lastCheckedAt": "2026-05-03T04:26:50.805Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "info@katonahchamber.org",
+    "emailDraft": {
+      "subject": "Adding a Licensed Westchester HVAC Contractor to Your Member Directory",
+      "body": "Hi Katonah Chamber Team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving 30 Westchester County municipalities — including Katonah — covering furnace, boiler, central AC, heat pump, and ductless mini-split work, plus 24/7 emergency dispatch.\n\nWe hold a 5.0-star Google rating and think we'd be a solid fit for your member directory as a dependable local trade resource for Katonah-area residents and businesses.\n\nWe're happy to share our license number, certificate of insurance, and customer references anytime.\n\nWould you point us toward the right membership or listing process?\n\nThank you,\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:15.822Z"
+    },
+    "sent": [
+      {
+        "to": "info@katonahchamber.org",
+        "subject": "Adding a Licensed Westchester HVAC Contractor to Your Member Directory",
+        "body": "Hi Katonah Chamber Team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving 30 Westchester County municipalities — including Katonah — covering furnace, boiler, central AC, heat pump, and ductless mini-split work, plus 24/7 emergency dispatch.\n\nWe hold a 5.0-star Google rating and think we'd be a solid fit for your member directory as a dependable local trade resource for Katonah-area residents and businesses.\n\nWe're happy to share our license number, certificate of insurance, and customer references anytime.\n\nWould you point us toward the right membership or listing process?\n\nThank you,\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "3024026f-13c7-4e91-9fe7-b053361268ab"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-ossining",
     "category": "Westchester chamber",
     "name": "Ossining Chamber of Commerce",
     "url": "https://www.ossiningchamber.org/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:50.900Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.ossiningchamber.org/contact"
+    "contactUrl": "https://www.ossiningchamber.org/contact",
+    "lastCheckedAt": "2026-05-03T04:26:50.900Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ch-peekskill",
     "category": "Westchester chamber",
     "name": "Peekskill Chamber of Commerce",
     "url": "https://www.peekskillchamber.com/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:50.866Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.peekskillchamber.com/contact"
+    "contactUrl": "https://www.peekskillchamber.com/contact",
+    "lastCheckedAt": "2026-05-03T04:26:50.866Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ch-pleasantville",
     "category": "Westchester chamber",
     "name": "Pleasantville Chamber of Commerce",
     "url": "https://www.pleasantvillechamber.com/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.516Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "info@pleasantvillechamber.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Westchester HVAC Contractor for Pleasantville Chamber Directory"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ info@pleasantvillechamber.com"
       }
     ],
-    "contactUrl": "https://www.pleasantvillechamber.com/contact"
+    "contactUrl": "https://www.pleasantvillechamber.com/contact",
+    "lastCheckedAt": "2026-05-03T04:26:52.516Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "info@pleasantvillechamber.com",
+    "emailDraft": {
+      "subject": "Westchester HVAC Contractor for Pleasantville Chamber Directory",
+      "body": "Hi,\n\nWe're Bravo Mechanical LLC, a licensed and insured HVAC contractor serving Pleasantville and 29 other Westchester County municipalities. We handle furnace and boiler work, central AC, heat pumps, and ductless mini-splits — plus 24/7 emergency dispatch.\n\nWe hold a 5.0-star Google rating and think Pleasantville residents and businesses searching your member directory deserve a vetted local HVAC option they can trust.\n\nWe'd love to be considered for your member or vendor listing. Happy to provide our license number, certificate of insurance, and customer references at any point.\n\nThank you for supporting local businesses in Pleasantville.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:18.524Z"
+    },
+    "sent": [
+      {
+        "to": "info@pleasantvillechamber.com",
+        "subject": "Westchester HVAC Contractor for Pleasantville Chamber Directory",
+        "body": "Hi,\n\nWe're Bravo Mechanical LLC, a licensed and insured HVAC contractor serving Pleasantville and 29 other Westchester County municipalities. We handle furnace and boiler work, central AC, heat pumps, and ductless mini-splits — plus 24/7 emergency dispatch.\n\nWe hold a 5.0-star Google rating and think Pleasantville residents and businesses searching your member directory deserve a vetted local HVAC option they can trust.\n\nWe'd love to be considered for your member or vendor listing. Happy to provide our license number, certificate of insurance, and customer references at any point.\n\nThank you for supporting local businesses in Pleasantville.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "ffbd0e75-c49b-4eec-bfc1-7c988e288cc7"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-rye",
     "category": "Westchester chamber",
     "name": "Rye Chamber of Commerce",
     "url": "https://www.ryechamberofcommerce.com/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:51.245Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "user@domain.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Licensed Westchester HVAC Contractor — Membership Inquiry for Bravo Mechanical"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ user@domain.com"
       }
     ],
-    "contactUrl": "https://www.ryechamberofcommerce.com/contact"
+    "contactUrl": "https://www.ryechamberofcommerce.com/contact",
+    "lastCheckedAt": "2026-05-03T04:26:51.245Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "user@domain.com",
+    "emailDraft": {
+      "subject": "Licensed Westchester HVAC Contractor — Membership Inquiry for Bravo Mechanical",
+      "body": "Hi,\n\nI'm reaching out because the Rye Chamber connects local residents and businesses with trusted service providers — and we think Bravo Mechanical LLC is a strong fit for your member directory.\n\nWe're a licensed and insured HVAC contractor serving 30 Westchester County municipalities, including Rye. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work, with 24/7 emergency dispatch. We currently hold a 5.0-star Google rating.\n\nHaving a vetted local HVAC option in your directory gives Rye-area members a resource they'll actually use year-round. We're happy to share our license, insurance certificate, and customer references at any point.\n\nWould Bravo Mechanical be a good candidate for membership?\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:21.345Z"
+    },
+    "sent": [
+      {
+        "to": "user@domain.com",
+        "subject": "Licensed Westchester HVAC Contractor — Membership Inquiry for Bravo Mechanical",
+        "body": "Hi,\n\nI'm reaching out because the Rye Chamber connects local residents and businesses with trusted service providers — and we think Bravo Mechanical LLC is a strong fit for your member directory.\n\nWe're a licensed and insured HVAC contractor serving 30 Westchester County municipalities, including Rye. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work, with 24/7 emergency dispatch. We currently hold a 5.0-star Google rating.\n\nHaving a vetted local HVAC option in your directory gives Rye-area members a resource they'll actually use year-round. We're happy to share our license, insurance certificate, and customer references at any point.\n\nWould Bravo Mechanical be a good candidate for membership?\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "eeaefa0a-447a-4d4d-88a7-a90f9985c7d6"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-mamaroneck",
     "category": "Westchester chamber",
     "name": "Mamaroneck Chamber of Commerce",
     "url": "https://www.mamaroneckchamberofcommerce.org/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:51.839Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "info@mamaroneckchamberofcommerce.org"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Local HVAC Contractor for Your Member Directory — Bravo Mechanical LLC"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ info@mamaroneckchamberofcommerce.org"
       }
     ],
-    "contactUrl": "https://www.mamaroneckchamberofcommerce.org/contact"
+    "contactUrl": "https://www.mamaroneckchamberofcommerce.org/contact",
+    "lastCheckedAt": "2026-05-03T04:26:51.839Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "info@mamaroneckchamberofcommerce.org",
+    "emailDraft": {
+      "subject": "Local HVAC Contractor for Your Member Directory — Bravo Mechanical LLC",
+      "body": "Hi,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving Mamaroneck and 29 other Westchester County municipalities. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — plus 24/7 emergency dispatch — and hold a 5.0-star Google rating across our reviews.\n\nWe'd love to be considered for the Mamaroneck Chamber's member directory so local residents and businesses have a vetted HVAC option close to home. We're happy to share our license number, certificate of insurance, and customer references at any point.\n\nWould listing Bravo Mechanical be a fit? We appreciate whatever guidance you can offer.\n\nBravo Mechanical Team\nhttps://bravomechanicalny.com\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+      "generatedAt": "2026-05-03T04:27:23.505Z"
+    },
+    "sent": [
+      {
+        "to": "info@mamaroneckchamberofcommerce.org",
+        "subject": "Local HVAC Contractor for Your Member Directory — Bravo Mechanical LLC",
+        "body": "Hi,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving Mamaroneck and 29 other Westchester County municipalities. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — plus 24/7 emergency dispatch — and hold a 5.0-star Google rating across our reviews.\n\nWe'd love to be considered for the Mamaroneck Chamber's member directory so local residents and businesses have a vetted HVAC option close to home. We're happy to share our license number, certificate of insurance, and customer references at any point.\n\nWould listing Bravo Mechanical be a fit? We appreciate whatever guidance you can offer.\n\nBravo Mechanical Team\nhttps://bravomechanicalny.com\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "d1e012d6-4376-4a91-9dad-32a59557ccc7"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-larchmont",
     "category": "Westchester chamber",
     "name": "Larchmont Chamber of Commerce",
     "url": "https://www.larchmontchamber.org/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:51.558Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.larchmontchamber.org/contact"
+    "contactUrl": "https://www.larchmontchamber.org/contact",
+    "lastCheckedAt": "2026-05-03T04:26:51.558Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ch-armonk",
     "category": "Westchester chamber",
     "name": "Armonk Chamber of Commerce",
     "url": "https://www.armonkchamberofcommerce.org/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.632Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "president@armonkchamberofcommerce.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Adding a Licensed Westchester HVAC Contractor to Your Member Directory"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ president@armonkchamberofcommerce.com"
       }
     ],
-    "contactUrl": "https://www.armonkchamberofcommerce.org/contact"
+    "contactUrl": "https://www.armonkchamberofcommerce.org/contact",
+    "lastCheckedAt": "2026-05-03T04:26:52.632Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "president@armonkchamberofcommerce.com",
+    "emailDraft": {
+      "subject": "Adding a Licensed Westchester HVAC Contractor to Your Member Directory",
+      "body": "Hi Armonk Chamber Team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering all 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, ductless mini-splits, and 24/7 emergency service. We hold a 5.0-star Google rating.\n\nSince the Armonk Chamber connects local residents and businesses with trusted service providers, we think we'd be a solid fit for your member directory. Armonk homeowners searching for reliable HVAC help deserve a local option they can count on.\n\nWe're happy to share our license number, certificate of insurance, and references anytime.\n\nThank you for your time.\n\nBravo Mechanical Team\nBravo Mechanical LLC\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:27.338Z"
+    },
+    "sent": [
+      {
+        "to": "president@armonkchamberofcommerce.com",
+        "subject": "Adding a Licensed Westchester HVAC Contractor to Your Member Directory",
+        "body": "Hi Armonk Chamber Team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering all 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, ductless mini-splits, and 24/7 emergency service. We hold a 5.0-star Google rating.\n\nSince the Armonk Chamber connects local residents and businesses with trusted service providers, we think we'd be a solid fit for your member directory. Armonk homeowners searching for reliable HVAC help deserve a local option they can count on.\n\nWe're happy to share our license number, certificate of insurance, and references anytime.\n\nThank you for your time.\n\nBravo Mechanical Team\nBravo Mechanical LLC\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "faf8a920-2255-438f-9d6e-8e4daaff7b3a"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ch-yorktown",
     "category": "Westchester chamber",
     "name": "Yorktown Chamber of Commerce",
     "url": "https://www.yorktownchamber.org/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.154Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.yorktownchamber.org/contact-us"
+    "contactUrl": "https://www.yorktownchamber.org/contact-us",
+    "lastCheckedAt": "2026-05-03T04:26:52.154Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ch-rivertowns",
     "category": "Westchester chamber",
     "name": "Rivertowns Chamber of Commerce",
     "url": "https://www.rivertownschamber.com/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.255Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "info@rivertownschamber.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Bravo Mechanical – Local HVAC Contractor for Your Member Directory"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ info@rivertownschamber.com"
       }
     ],
-    "contactUrl": "https://www.rivertownschamber.com/contact"
+    "contactUrl": "https://www.rivertownschamber.com/contact",
+    "lastCheckedAt": "2026-05-03T04:26:52.255Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "info@rivertownschamber.com",
+    "emailDraft": {
+      "subject": "Bravo Mechanical – Local HVAC Contractor for Your Member Directory",
+      "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving all 30 municipalities in Westchester County — furnace and boiler work, central AC, heat pumps, and 24/7 emergency dispatch.\n\nSince the Rivertowns Chamber connects residents and businesses with trusted local professionals, we'd love to be considered for your member directory or vendor listings. We hold a 5.0-star Google rating and are happy to share our license, insurance certificates, and references anytime.\n\nWe're proud to work in the Rivertowns communities and think we'd be a genuinely useful resource for your members heading into heating and cooling season.\n\nWould you be open to discussing membership or a listing?\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:28.157Z"
+    },
+    "sent": [
+      {
+        "to": "info@rivertownschamber.com",
+        "subject": "Bravo Mechanical – Local HVAC Contractor for Your Member Directory",
+        "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving all 30 municipalities in Westchester County — furnace and boiler work, central AC, heat pumps, and 24/7 emergency dispatch.\n\nSince the Rivertowns Chamber connects residents and businesses with trusted local professionals, we'd love to be considered for your member directory or vendor listings. We hold a 5.0-star Google rating and are happy to share our license, insurance certificates, and references anytime.\n\nWe're proud to work in the Rivertowns communities and think we'd be a genuinely useful resource for your members heading into heating and cooling season.\n\nWould you be open to discussing membership or a listing?\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "db397629-2886-4d72-a6f2-5039f5e90643"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "pr-westchester-magazine",
@@ -258,14 +740,54 @@
     "name": "Westchester Magazine",
     "url": "https://westchestermagazine.com/",
     "notes": "Pitch a 'Best of Westchester HVAC' or 'how to prep your home for winter' tip column.",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.473Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "lfears@todaymediainc.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Local HVAC Expert for Westchester Magazine — Best of Westchester or Winter Prep Tips"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ lfears@todaymediainc.com"
       }
     ],
-    "contactUrl": "https://westchestermagazine.com/contact-us/"
+    "contactUrl": "https://westchestermagazine.com/contact-us/",
+    "lastCheckedAt": "2026-05-03T04:26:52.473Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "lfears@todaymediainc.com",
+    "emailDraft": {
+      "subject": "Local HVAC Expert for Westchester Magazine — Best of Westchester or Winter Prep Tips",
+      "body": "Hi Westchester Magazine team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving 30 Westchester County municipalities with a 5.0-star Google rating. We handle furnaces, boilers, central AC, heat pumps, and ductless mini-splits — plus 24/7 emergency dispatch.\n\nGiven your \"Best of Westchester\" franchise and seasonal home coverage, we'd love to be considered for a \"Best of Westchester HVAC\" feature or contribute practical winter-prep tips from a contractor actually working in your readers' neighborhoods.\n\nWe're happy to share our license, insurance certificates, and customer references anytime.\n\nThank you for considering us.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:33.422Z"
+    },
+    "sent": [
+      {
+        "to": "lfears@todaymediainc.com",
+        "subject": "Local HVAC Expert for Westchester Magazine — Best of Westchester or Winter Prep Tips",
+        "body": "Hi Westchester Magazine team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor serving 30 Westchester County municipalities with a 5.0-star Google rating. We handle furnaces, boilers, central AC, heat pumps, and ductless mini-splits — plus 24/7 emergency dispatch.\n\nGiven your \"Best of Westchester\" franchise and seasonal home coverage, we'd love to be considered for a \"Best of Westchester HVAC\" feature or contribute practical winter-prep tips from a contractor actually working in your readers' neighborhoods.\n\nWe're happy to share our license, insurance certificates, and customer references anytime.\n\nThank you for considering us.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "8c062152-9a21-401d-86b2-a06a5cd5acc6"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "pr-lohud",
@@ -273,69 +795,165 @@
     "name": "lohud.com (Journal News)",
     "url": "https://www.lohud.com/",
     "notes": "Westchester-region daily; pitch as expert source for seasonal home stories.",
-    "status": "pending",
+    "status": "unlinked",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.228Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Local HVAC source for Westchester seasonal stories — Bravo Mechanical"
       }
-    ]
+    ],
+    "lastCheckedAt": "2026-05-03T04:26:52.228Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "emailDraft": {
+      "subject": "Local HVAC source for Westchester seasonal stories — Bravo Mechanical",
+      "body": "Hi lohud/Journal News team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, and ductless mini-splits, with 24/7 emergency dispatch and a 5.0-star Google rating.\n\nWhen you're working on seasonal pieces — winter heating prep, summer cooling tips, energy-efficiency upgrades — we're happy to serve as a knowledgeable local source. We can speak to what Westchester homeowners are actually dealing with, not generic advice.\n\nIf you maintain any local-pros or vendor listings, we'd welcome consideration there too. License, insurance certificates, and references available on request.\n\nThanks for covering our community.\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:34.098Z"
+    }
   },
   {
     "id": "pr-river-journal",
     "category": "Westchester press",
     "name": "River Journal Online",
     "url": "https://riverjournalonline.com/",
-    "status": "pending",
+    "status": "unlinked",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.493Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Local HVAC contractor for your Westchester resource listings"
       }
     ],
-    "contactUrl": "https://riverjournalonline.com/contact-us/"
+    "contactUrl": "https://riverjournalonline.com/contact-us/",
+    "lastCheckedAt": "2026-05-03T04:26:52.493Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "emailDraft": {
+      "subject": "Local HVAC contractor for your Westchester resource listings",
+      "body": "Hi River Journal team,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, and ductless mini-splits, with 24/7 emergency dispatch and a 5.0-star Google rating.\n\nSince River Journal Online covers local Westchester communities directly, we think our business would be a practical addition if you maintain any local-pros or vendor listings for readers who need reliable home services.\n\nWe're happy to share our license number, proof of insurance, and references whenever helpful.\n\nThank you for considering us.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:38.748Z"
+    }
   },
   {
     "id": "pr-examiner-news",
     "category": "Westchester press",
     "name": "The Examiner News (Northern Westchester)",
     "url": "https://www.theexaminernews.com/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.610Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "astone@theexaminernews.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Local HVAC Contractor for Your Northern Westchester Readers"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ astone@theexaminernews.com"
       }
     ],
-    "contactUrl": "https://www.theexaminernews.com/contact-us/"
+    "contactUrl": "https://www.theexaminernews.com/contact-us/",
+    "lastCheckedAt": "2026-05-03T04:26:52.610Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "astone@theexaminernews.com",
+    "emailDraft": {
+      "subject": "Local HVAC Contractor for Your Northern Westchester Readers",
+      "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, ductless mini-splits, and 24/7 emergency service. We hold a 5.0-star Google rating across verified customer reviews.\n\nThe Examiner News serves exactly the Northern Westchester communities we work in every day. If you maintain any local-business or service-provider resource for readers, we'd love to be considered.\n\nWe're happy to share our license number, certificate of insurance, and customer references at your request.\n\nThank you for covering this community so thoroughly.\n\nBravo Mechanical Team\nBravo Mechanical LLC\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:39.298Z"
+    },
+    "sent": [
+      {
+        "to": "astone@theexaminernews.com",
+        "subject": "Local HVAC Contractor for Your Northern Westchester Readers",
+        "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering 30 Westchester County municipalities — furnaces, boilers, central AC, heat pumps, ductless mini-splits, and 24/7 emergency service. We hold a 5.0-star Google rating across verified customer reviews.\n\nThe Examiner News serves exactly the Northern Westchester communities we work in every day. If you maintain any local-business or service-provider resource for readers, we'd love to be considered.\n\nWe're happy to share our license number, certificate of insurance, and customer references at your request.\n\nThank you for covering this community so thoroughly.\n\nBravo Mechanical Team\nBravo Mechanical LLC\n(914) 361-9142\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "89f201d7-8efd-4346-b129-fa222d293a0e"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "pr-westmore-news",
     "category": "Westchester press",
     "name": "Westmore News (Port Chester / Rye Brook)",
     "url": "https://westmorenews.com/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.796Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://westmorenews.com/contact-us/"
+    "contactUrl": "https://westmorenews.com/contact-us/",
+    "lastCheckedAt": "2026-05-03T04:26:52.796Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "pr-rising-westchester",
     "category": "Westchester press",
     "name": "The Rising — Westchester",
     "url": "https://therising.co/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.533Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://therising.co/contact"
+    "contactUrl": "https://therising.co/contact",
+    "lastCheckedAt": "2026-05-03T04:26:52.533Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "tr-acca",
@@ -343,14 +961,33 @@
     "name": "Air Conditioning Contractors of America (ACCA)",
     "url": "https://www.acca.org/",
     "notes": "National HVAC contractor association; member directory link.",
-    "status": "pending",
+    "status": "unlinked",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.322Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "ACCA Membership Inquiry – Licensed Westchester County HVAC Contractor"
       }
     ],
-    "contactUrl": "https://www.acca.org/about/contact"
+    "contactUrl": "https://www.acca.org/about/contact",
+    "lastCheckedAt": "2026-05-03T04:26:53.322Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "emailDraft": {
+      "subject": "ACCA Membership Inquiry – Licensed Westchester County HVAC Contractor",
+      "body": "Hi ACCA Team,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving 30 municipalities across Westchester County, NY. We handle furnace, boiler, central AC, heat pump, and ductless mini-split installation, repair, and 24/7 emergency calls — and we carry a 5.0-star Google rating.\n\nWe'd like to explore joining ACCA and being listed in your member directory. As a trade association setting the standard for quality HVAC contractors nationwide, ACCA feels like the right professional home for a contractor we've built around those same values.\n\nWe're happy to share our NY license, liability and workers' comp certificates, and references anytime.\n\nThank you for your time.\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:43.506Z"
+    }
   },
   {
     "id": "tr-ashrae",
@@ -358,42 +995,110 @@
     "name": "ASHRAE",
     "url": "https://www.ashrae.org/",
     "notes": "Standards body; chapter membership earns a profile link.",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.125Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "membership@ashrae.org"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "ASHRAE Membership Inquiry — Licensed Westchester HVAC Contractor"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ membership@ashrae.org"
       }
     ],
-    "contactUrl": "https://www.ashrae.org/about/contact-us"
+    "contactUrl": "https://www.ashrae.org/about/contact-us",
+    "lastCheckedAt": "2026-05-03T04:26:53.125Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "membership@ashrae.org",
+    "emailDraft": {
+      "subject": "ASHRAE Membership Inquiry — Licensed Westchester HVAC Contractor",
+      "body": "Hi,\n\nWe're Bravo Mechanical LLC, a licensed and insured HVAC contractor serving 30 municipalities across Westchester County, NY. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — installation through 24/7 emergency service — and hold a 5.0-star Google rating.\n\nASHRAE's standards directly shape how we do our work, and we'd value joining our local chapter as a member. We understand chapter membership can include a directory profile, which would help Westchester residents find a vetted local contractor.\n\nWe're happy to provide our license number, certificate of insurance, and references for any vetting process.\n\nThank you for your time.\n\nBravo Mechanical Team\nBravo Mechanical LLC\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:44.124Z"
+    },
+    "sent": [
+      {
+        "to": "membership@ashrae.org",
+        "subject": "ASHRAE Membership Inquiry — Licensed Westchester HVAC Contractor",
+        "body": "Hi,\n\nWe're Bravo Mechanical LLC, a licensed and insured HVAC contractor serving 30 municipalities across Westchester County, NY. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — installation through 24/7 emergency service — and hold a 5.0-star Google rating.\n\nASHRAE's standards directly shape how we do our work, and we'd value joining our local chapter as a member. We understand chapter membership can include a directory profile, which would help Westchester residents find a vetted local contractor.\n\nWe're happy to provide our license number, certificate of insurance, and references for any vetting process.\n\nThank you for your time.\n\nBravo Mechanical Team\nBravo Mechanical LLC\n(914) 361-9142\nBravomechanicalllc@gmail.com\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "c02b6bc4-48a3-42e6-9c96-2d399aa726b5"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "tr-phcc-ny",
     "category": "HVAC trade association",
     "name": "PHCC New York State",
     "url": "https://www.phccny.org/",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:52.723Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.phccny.org/contact"
+    "contactUrl": "https://www.phccny.org/contact",
+    "lastCheckedAt": "2026-05-03T04:26:52.723Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "tr-mcaa",
     "category": "HVAC trade association",
     "name": "Mechanical Contractors Association of America (MCAA)",
     "url": "https://www.mcaa.org/",
-    "status": "pending",
+    "status": "unlinked",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.038Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "MCAA Membership Inquiry – Licensed Westchester County HVAC Contractor"
       }
     ],
-    "contactUrl": "https://www.mcaa.org/contact-us/"
+    "contactUrl": "https://www.mcaa.org/contact-us/",
+    "lastCheckedAt": "2026-05-03T04:26:53.038Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "emailDraft": {
+      "subject": "MCAA Membership Inquiry – Licensed Westchester County HVAC Contractor",
+      "body": "Hi MCAA Team,\n\nBravo Mechanical LLC is a licensed and insured HVAC contractor serving 30 municipalities across Westchester County, NY. We handle furnace, boiler, central AC, heat pump, and ductless mini-split installation, repair, and 24/7 emergency dispatch — and carry a 5.0-star Google rating.\n\nWe'd love to be considered for MCAA membership. Your association's standards align closely with how we operate, and being listed among vetted mechanical contractors would help local homeowners and commercial clients find a credible, verified option in Westchester.\n\nWe're happy to share our license number, certificates of insurance, and references at your request.\n\nhttps://bravomechanicalny.com\n\nThank you for your time.\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+      "generatedAt": "2026-05-03T04:27:48.112Z"
+    }
   },
   {
     "id": "tr-nate",
@@ -401,14 +1106,54 @@
     "name": "NATE — North American Technician Excellence",
     "url": "https://www.natex.org/",
     "notes": "Get techs NATE-certified, then claim contractor profile link.",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:54.688Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "asknate@natex.org"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Listing Bravo Mechanical in the NATE Contractor Directory"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ asknate@natex.org"
       }
     ],
-    "contactUrl": "https://www.natex.org/contact-nate/"
+    "contactUrl": "https://www.natex.org/contact-nate/",
+    "lastCheckedAt": "2026-05-03T04:26:54.688Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "asknate@natex.org",
+    "emailDraft": {
+      "subject": "Listing Bravo Mechanical in the NATE Contractor Directory",
+      "body": "Hi NATE Team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering 30 municipalities across Westchester County, NY. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — installation, repair, and 24/7 emergency dispatch — and hold a 5.0-star Google rating.\n\nWe're actively pursuing NATE certification for our technicians and would love to be listed in NATE's contractor directory once that milestone is reached. In the meantime, we wanted to introduce ourselves and understand the process.\n\nWe're happy to share our NY contractor license, certificate of insurance, and customer references at any point.\n\nThank you for the work NATE does to raise industry standards.\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:49.121Z"
+    },
+    "sent": [
+      {
+        "to": "asknate@natex.org",
+        "subject": "Listing Bravo Mechanical in the NATE Contractor Directory",
+        "body": "Hi NATE Team,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering 30 municipalities across Westchester County, NY. We handle furnace, boiler, central AC, heat pump, and ductless mini-split work — installation, repair, and 24/7 emergency dispatch — and hold a 5.0-star Google rating.\n\nWe're actively pursuing NATE certification for our technicians and would love to be listed in NATE's contractor directory once that milestone is reached. In the meantime, we wanted to introduce ourselves and understand the process.\n\nWe're happy to share our NY contractor license, certificate of insurance, and customer references at any point.\n\nThank you for the work NATE does to raise industry standards.\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "f3c42f84-6040-46f3-882f-3d6929645512"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "tr-bpi",
@@ -416,14 +1161,23 @@
     "name": "Building Performance Institute (BPI)",
     "url": "https://www.bpi.org/",
     "notes": "Energy-audit certification; useful for whole-home heat-pump work.",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.059Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.bpi.org/contact"
+    "contactUrl": "https://www.bpi.org/contact",
+    "lastCheckedAt": "2026-05-03T04:26:53.059Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ny-cleanheat",
@@ -431,14 +1185,54 @@
     "name": "NYS Clean Heat Contractor Network",
     "url": "https://cleanheat.ny.gov/",
     "notes": "Apply to be a NYS Clean Heat participating contractor — gets you on the official heat-pump installer locator.",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.335Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "info@nyserda.ny.gov"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Bravo Mechanical – Westchester Heat Pump Contractor Application"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ info@nyserda.ny.gov"
       }
     ],
-    "contactUrl": "https://cleanheat.ny.gov/contact"
+    "contactUrl": "https://cleanheat.ny.gov/contact",
+    "lastCheckedAt": "2026-05-03T04:26:53.335Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "info@nyserda.ny.gov",
+    "emailDraft": {
+      "subject": "Bravo Mechanical – Westchester Heat Pump Contractor Application",
+      "body": "Hi NYS Clean Heat Team,\n\nI'd like to apply to join the Clean Heat participating contractor network. Bravo Mechanical LLC is a licensed and insured HVAC contractor serving 30 municipalities across Westchester County, specializing in heat pump and ductless mini-split installation and service — exactly the technology your locator helps homeowners find.\n\nWe carry a 5.0-star Google rating and offer 24/7 emergency dispatch throughout Westchester. Being listed on the official NYS Clean Heat installer locator would connect us with local residents actively looking for qualified heat-pump contractors through a trusted state program.\n\nHappy to submit our contractor license, certificate of insurance, and references at your request.\n\nThank you for considering us.\n\nBravo Mechanical Team\nBravo Mechanical LLC\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:53.383Z"
+    },
+    "sent": [
+      {
+        "to": "info@nyserda.ny.gov",
+        "subject": "Bravo Mechanical – Westchester Heat Pump Contractor Application",
+        "body": "Hi NYS Clean Heat Team,\n\nI'd like to apply to join the Clean Heat participating contractor network. Bravo Mechanical LLC is a licensed and insured HVAC contractor serving 30 municipalities across Westchester County, specializing in heat pump and ductless mini-split installation and service — exactly the technology your locator helps homeowners find.\n\nWe carry a 5.0-star Google rating and offer 24/7 emergency dispatch throughout Westchester. Being listed on the official NYS Clean Heat installer locator would connect us with local residents actively looking for qualified heat-pump contractors through a trusted state program.\n\nHappy to submit our contractor license, certificate of insurance, and references at your request.\n\nThank you for considering us.\n\nBravo Mechanical Team\nBravo Mechanical LLC\n(914) 361-9142\nhttps://bravomechanicalny.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "65a998e5-5a95-43b6-abdd-480b0460f714"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ny-nyserda-cn",
@@ -446,42 +1240,100 @@
     "name": "NYSERDA Comfort Home / Contractor Network",
     "url": "https://www.nyserda.ny.gov/All-Programs/Comfort-Home-Program",
     "notes": "NYSERDA participating contractor listing.",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.187Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.nyserda.ny.gov/About/Contact-Us"
+    "contactUrl": "https://www.nyserda.ny.gov/About/Contact-Us",
+    "lastCheckedAt": "2026-05-03T04:26:53.187Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "ny-energystar-locator",
     "category": "NY clean-energy program",
     "name": "ENERGY STAR Find a Contractor",
     "url": "https://www.energystar.gov/findacontractor",
-    "status": "pending",
+    "status": "unreachable",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.459Z",
+        "event": "scan",
+        "detail": "unreachable"
       }
     ],
-    "contactUrl": "https://www.energystar.gov/about/contact_us"
+    "contactUrl": "https://www.energystar.gov/about/contact_us",
+    "lastCheckedAt": "2026-05-03T04:26:53.459Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false
   },
   {
     "id": "loc-westchester-mag-resources",
     "category": "Local home-improvement directory",
     "name": "Westchester Mag Home-Improvement Directory",
     "url": "https://westchestermagazine.com/home/",
-    "status": "pending",
+    "status": "contacted",
     "history": [
       {
         "at": "2026-05-03T03:53:14.219Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.276Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:00.634Z",
+        "event": "email-discovered",
+        "detail": "lfears@todaymediainc.com"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Westchester HVAC Contractor for Your Home-Improvement Directory"
+      },
+      {
+        "at": "2026-05-03T04:28:10.590Z",
+        "event": "sent",
+        "detail": "→ lfears@todaymediainc.com"
       }
     ],
-    "contactUrl": "https://westchestermagazine.com/contact-us/"
+    "contactUrl": "https://westchestermagazine.com/contact-us/",
+    "lastCheckedAt": "2026-05-03T04:26:53.276Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "contactEmail": "lfears@todaymediainc.com",
+    "emailDraft": {
+      "subject": "Westchester HVAC Contractor for Your Home-Improvement Directory",
+      "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering all 30 Westchester County municipalities — furnace and boiler service, central AC, heat pumps, ductless mini-splits, and 24/7 emergency dispatch.\n\nWestchester Magazine's home-improvement directory is a go-to resource for local homeowners, and we think a verified, 5.0-star-rated Westchester HVAC company would be a solid addition for readers searching for reliable heating and cooling help.\n\nWe're happy to share our NY contractor license, certificate of insurance, and customer references to meet any listing requirements.\n\nWould you consider adding us?\n\nhttps://bravomechanicalny.com\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+      "generatedAt": "2026-05-03T04:27:53.664Z"
+    },
+    "sent": [
+      {
+        "to": "lfears@todaymediainc.com",
+        "subject": "Westchester HVAC Contractor for Your Home-Improvement Directory",
+        "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering all 30 Westchester County municipalities — furnace and boiler service, central AC, heat pumps, ductless mini-splits, and 24/7 emergency dispatch.\n\nWestchester Magazine's home-improvement directory is a go-to resource for local homeowners, and we think a verified, 5.0-star-rated Westchester HVAC company would be a solid addition for readers searching for reliable heating and cooling help.\n\nWe're happy to share our NY contractor license, certificate of insurance, and customer references to meet any listing requirements.\n\nWould you consider adding us?\n\nhttps://bravomechanicalny.com\n\nBravo Mechanical Team\n(914) 361-9142\nBravomechanicalllc@gmail.com",
+        "sentAt": "2026-05-03T04:28:10.590Z",
+        "resendId": "98c8a9fa-74c9-45fa-8a61-91e487687817"
+      }
+    ],
+    "contactedAt": "2026-05-03T04:28:10.590Z"
   },
   {
     "id": "ny-ase",
@@ -489,12 +1341,31 @@
     "name": "Alliance to Save Energy",
     "url": "https://www.ase.org/",
     "contactUrl": "https://www.ase.org/contact",
-    "status": "pending",
+    "status": "unlinked",
     "history": [
       {
         "at": "2026-05-03T04:19:04.194Z",
         "event": "seeded"
+      },
+      {
+        "at": "2026-05-03T04:26:53.515Z",
+        "event": "scan",
+        "detail": "no link"
+      },
+      {
+        "at": "2026-05-03T04:27:58.451Z",
+        "event": "draft",
+        "detail": "Westchester HVAC Contractor for Your NY Clean-Energy Resources"
       }
-    ]
+    ],
+    "lastCheckedAt": "2026-05-03T04:26:53.515Z",
+    "hasBacklink": false,
+    "hasDofollowBacklink": false,
+    "brandMentioned": false,
+    "emailDraft": {
+      "subject": "Westchester HVAC Contractor for Your NY Clean-Energy Resources",
+      "body": "Hi,\n\nBravo Mechanical LLC is a licensed, insured HVAC contractor covering 30 municipalities across Westchester County — including heat pump and ductless mini-split installations that align directly with the efficiency upgrades Alliance to Save Energy promotes for New York homeowners.\n\nWith a 5.0-star Google rating and 24/7 emergency dispatch, we're the kind of local, vetted contractor your audience searches for when acting on clean-energy guidance. If you maintain any directory or local-pros listing for NY residents, we'd love to be considered.\n\nWe're happy to provide our NYS license, certificate of insurance, and customer references on request.\n\nThank you for the work ASE does — it genuinely moves the needle.\n\nBravo Mechanical Team\n(914) 361-9142\nhttps://bravomechanicalny.com",
+      "generatedAt": "2026-05-03T04:27:58.450Z"
+    }
   }
 ]

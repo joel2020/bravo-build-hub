@@ -151,11 +151,22 @@ const TEXT_EMAIL_RE = /\b([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})\b/gi;
 
 const EMAIL_BLOCKLIST = [
   "@example.com",
+  "@example.org",
+  "@example.net",
+  "@domain.com",
+  "@yourdomain.com",
+  "@email.com",
+  "@test.com",
   "@sentry.io",
   "@wixpress.com",
   "@2x.png",
   ".png@",
   ".jpg@",
+  "user@",
+  "name@",
+  "youremail@",
+  "your.email@",
+  "email@example",
 ];
 const EMAIL_PREFERRED_PREFIXES = [
   "info@",

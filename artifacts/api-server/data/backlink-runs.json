@@ -1,0 +1,20 @@
+[
+  {
+    "id": "run-1777782409474",
+    "startedAt": "2026-05-03T04:26:49.474Z",
+    "status": "completed",
+    "summary": {
+      "prospectsScanned": 35,
+      "prospectsUnlinked": 22,
+      "prospectsLinked": 0,
+      "prospectsLinkedNofollow": 0,
+      "prospectsUnreachable": 13,
+      "mentionsScanned": 1,
+      "draftsGenerated": 22,
+      "emailsDiscovered": 16,
+      "emailsSent": 16,
+      "emailsFailed": 0
+    },
+    "finishedAt": "2026-05-03T04:28:10.593Z"
+  }
+]

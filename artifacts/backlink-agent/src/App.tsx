@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { api, type DataResponse, type Prospect, type Mention, type ProspectStatus, type CitationsResponse, type CitationSite, type CitationStatus, type NapPackage } from "./lib/api";
+import { api, type DataResponse, type Prospect, type Mention, type ProspectStatus, type CitationsResponse, type CitationSite, type CitationStatus, type NapPackage, type SocialDataResponse, type SocialPost, type PlatformInfo } from "./lib/api";
 
-type TabId = "overview" | "prospects" | "mentions" | "drafts" | "sent" | "citations" | "runs";
+type TabId = "overview" | "prospects" | "mentions" | "drafts" | "sent" | "citations" | "social" | "runs";
 
 function StatusBadge({ status }: { status: ProspectStatus }) {
   const cls =
@@ -107,6 +107,7 @@ export default function App() {
           ["sent", `Sent (${stats?.sent ?? 0})`],
           ["mentions", `Mentions (${data?.mentions.length ?? 0})`],
           ["citations", "Citations"],
+          ["social", "Social"],
           ["runs", "Scan history"],
         ] as Array<[TabId, string]>).map(([id, label]) => (
           <div key={id} className={`tab ${tab === id ? "active" : ""}`} onClick={() => setTab(id)}>{label}</div>
@@ -120,6 +121,7 @@ export default function App() {
         : tab === "sent" ? <SentList data={data} />
         : tab === "mentions" ? <MentionsPanel data={data} onChange={refresh} />
         : tab === "citations" ? <CitationsPanel />
+        : tab === "social" ? <SocialPanel />
         : <RunsList data={data} />}
     </div>
   );
@@ -696,6 +698,275 @@ function buildNapText(nap: NapPackage): string {
     ``,
     `Keywords: ${nap.keywords.join(", ")}`,
   ].join("\n");
+}
+
+function SocialPanel() {
+  const [data, setData] = useState<SocialDataResponse | null>(null);
+  const [topic, setTopic] = useState("");
+  const [notes, setNotes] = useState("");
+  const [cta, setCta] = useState("Call us at (914) 555-0100");
+  const [imageUrl, setImageUrl] = useState("");
+  const [generating, setGenerating] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function refresh() {
+    try { setData(await api.getSocial()); setErr(null); }
+    catch (e) { setErr((e as Error).message); }
+  }
+  useEffect(() => { refresh(); }, []);
+
+  async function generate() {
+    if (topic.trim().length < 5) { setErr("Topic must be at least 5 characters"); return; }
+    setGenerating(true); setErr(null);
+    try {
+      await api.generateSocial({ topic, notes, cta, imageUrl: imageUrl || undefined });
+      setTopic(""); setNotes("");
+      await refresh();
+    } catch (e) { setErr((e as Error).message); }
+    finally { setGenerating(false); }
+  }
+
+  if (!data) return <div className="muted">Loading…</div>;
+
+  // Group posts by briefId, newest brief first.
+  const briefs = new Map<string, SocialPost[]>();
+  for (const p of data.posts) {
+    const arr = briefs.get(p.briefId) ?? [];
+    arr.push(p);
+    briefs.set(p.briefId, arr);
+  }
+  const platformById = new Map(data.platforms.map((p) => [p.id, p]));
+
+  return (
+    <div style={{ display: "grid", gap: 16 }}>
+      <MetaConfigBanner meta={data.meta} />
+
+      <div className="panel" style={{ padding: 16 }}>
+        <h2 style={{ margin: 0, fontSize: 16, marginBottom: 4 }}>Generate this week's posts</h2>
+        <div className="muted" style={{ fontSize: 12, marginBottom: 12 }}>
+          One topic in → 9 platform-tailored posts out (different copy per platform — Facebook gets the long form, X gets the punchy version, Nextdoor gets the neighborly local-tip framing). Auto-publishes to Facebook + Instagram if Meta is configured. Other platforms get one-click composer deep-links.
+        </div>
+        <div style={{ display: "grid", gap: 8 }}>
+          <input className="input" placeholder="Weekly topic — e.g. 'Why Westchester boilers fail in February and how to spot it early'"
+            value={topic} onChange={(e) => setTopic(e.target.value)} />
+          <textarea className="input" placeholder="Optional notes / context (specifics, customer story, season, etc.)"
+            value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <input className="input" placeholder="Call to action"
+              value={cta} onChange={(e) => setCta(e.target.value)} />
+            <input className="input" placeholder="Image URL (required for Instagram + Pinterest auto-post)"
+              value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+          </div>
+          <div>
+            <button className="btn btn-primary" onClick={generate} disabled={generating}>
+              {generating ? "Generating…" : "✨ Generate posts"}
+            </button>
+          </div>
+          {err && <div style={{ color: "var(--bad)", fontSize: 12 }}>{err}</div>}
+        </div>
+      </div>
+
+      {[...briefs.entries()].map(([briefId, posts]) => (
+        <BriefCard key={briefId} briefId={briefId} posts={posts} platformById={platformById} meta={data.meta} onChange={refresh} />
+      ))}
+
+      {briefs.size === 0 && <div className="muted" style={{ fontSize: 13, padding: 16 }}>No posts yet. Add a topic above and generate.</div>}
+    </div>
+  );
+}
+
+function MetaConfigBanner({ meta }: { meta: SocialDataResponse["meta"] }) {
+  if (meta.facebookConfigured && meta.instagramConfigured) {
+    return (
+      <div className="panel" style={{ padding: 12, borderColor: "var(--good)" }}>
+        <div style={{ fontSize: 13 }}>
+          ✅ Meta connected: <strong>{meta.pageName}</strong> (Facebook) + <strong>@{meta.igUsername}</strong> (Instagram). Posts will auto-publish.
+        </div>
+      </div>
+    );
+  }
+  if (meta.facebookConfigured) {
+    return (
+      <div className="panel" style={{ padding: 12, borderColor: "var(--warn)" }}>
+        <div style={{ fontSize: 13 }}>
+          ✅ Facebook connected: <strong>{meta.pageName}</strong>. Instagram not linked — set <code>META_IG_USER_ID</code> to enable IG auto-post.
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="panel" style={{ padding: 14, borderColor: "var(--warn)" }}>
+      <div style={{ fontSize: 13, marginBottom: 8 }}>
+        ⚠️ <strong>Meta not configured.</strong> The agent will still generate posts for every platform, but Facebook + Instagram won't auto-publish until you connect Meta. {meta.error && <span className="muted">({meta.error})</span>}
+      </div>
+      <details style={{ fontSize: 12, marginTop: 8 }}>
+        <summary style={{ cursor: "pointer", fontWeight: 600 }}>Setup guide (~30 minutes, one time)</summary>
+        <ol className="muted" style={{ marginTop: 8, paddingLeft: 18, lineHeight: 1.6 }}>
+          <li>Go to <a href="https://developers.facebook.com/apps" target="_blank" rel="noopener noreferrer">developers.facebook.com/apps</a> → Create App → Business type.</li>
+          <li>In your new app, add the <strong>Facebook Login for Business</strong> and <strong>Instagram Graph API</strong> products.</li>
+          <li>Open <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer">Graph API Explorer</a>, select your app, and request these permissions: <code>pages_manage_posts</code>, <code>pages_read_engagement</code>, <code>pages_show_list</code>, <code>instagram_basic</code>, <code>instagram_content_publish</code>.</li>
+          <li>Generate a User Access Token, then exchange it for a <strong>long-lived Page Access Token</strong> using the <code>/me/accounts</code> endpoint (60-day expiry — refresh quarterly).</li>
+          <li>Find your Page ID in Page Settings → About. Find your Instagram Business Account ID by querying <code>/{`{page-id}`}?fields=instagram_business_account</code> in the Graph Explorer.</li>
+          <li>Set these as Replit Secrets on this project: <code>META_PAGE_ACCESS_TOKEN</code>, <code>META_PAGE_ID</code>, and (optional) <code>META_IG_USER_ID</code>. Then restart the API server workflow.</li>
+        </ol>
+      </details>
+    </div>
+  );
+}
+
+function BriefCard({ briefId, posts, platformById, meta, onChange }: {
+  briefId: string;
+  posts: SocialPost[];
+  platformById: Map<string, PlatformInfo>;
+  meta: SocialDataResponse["meta"];
+  onChange: () => void;
+}) {
+  const topic = posts[0]?.topic ?? "";
+  const created = posts[0]?.createdAt ?? "";
+  const draftAutoPostable = posts.filter((p) => {
+    const pl = platformById.get(p.platform);
+    return p.status === "draft" && pl?.autoPost
+      && (p.platform === "facebook" ? meta.facebookConfigured : meta.instagramConfigured);
+  });
+  return (
+    <div className="panel">
+      <div style={{ padding: 12, borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
+          <div style={{ fontWeight: 700, fontSize: 13 }}>{topic}</div>
+          <div className="muted" style={{ fontSize: 11, marginTop: 2 }}>{new Date(created).toLocaleString()} · {posts.length} platforms</div>
+        </div>
+        {draftAutoPostable.length > 0 && (
+          <button className="btn btn-good" onClick={async () => {
+            await api.publishBrief(briefId);
+            setTimeout(onChange, 3000);
+          }}>
+            🚀 Publish all to Meta ({draftAutoPostable.length})
+          </button>
+        )}
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: 12, padding: 12 }}>
+        {posts.map((p) => (
+          <SocialPostCard key={p.id} post={p} platform={platformById.get(p.platform)} meta={meta} onChange={onChange} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SocialPostCard({ post, platform, meta, onChange }: {
+  post: SocialPost;
+  platform: PlatformInfo | undefined;
+  meta: SocialDataResponse["meta"];
+  onChange: () => void;
+}) {
+  const [text, setText] = useState(post.text);
+  const [hashtagsStr, setHashtagsStr] = useState(post.hashtags.join(" "));
+  const [imageUrl, setImageUrl] = useState(post.imageUrl ?? "");
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => { setText(post.text); }, [post.text]);
+  useEffect(() => { setHashtagsStr(post.hashtags.join(" ")); }, [post.hashtags]);
+  useEffect(() => { setImageUrl(post.imageUrl ?? ""); }, [post.imageUrl]);
+
+  const fullText = useMemo(() => {
+    const tags = hashtagsStr.trim().split(/\s+/).filter(Boolean).map((h) => h.startsWith("#") ? h : `#${h}`).join(" ");
+    return tags ? `${text}\n\n${tags}` : text;
+  }, [text, hashtagsStr]);
+
+  const charCount = fullText.length;
+  const overLimit = platform && charCount > platform.charLimit;
+
+  async function save() {
+    const hashtags = hashtagsStr.trim().split(/\s+/).filter(Boolean).map((h) => h.replace(/^#/, ""));
+    await api.patchSocialPost(post.id, { text, hashtags, imageUrl });
+    onChange();
+  }
+
+  async function publish() {
+    setBusy(true);
+    try {
+      await save();
+      const r = await api.publishSocialPost(post.id);
+      if (!r.ok) alert(`Publish failed: ${r.error}`);
+      await onChange();
+    } finally { setBusy(false); }
+  }
+
+  const composerUrl = platform?.prefillsText
+    ? composerUrlFor(post.platform, fullText)
+    : composerUrlFor(post.platform, "");
+
+  const canAutoPost = platform?.autoPost && (
+    post.platform === "facebook" ? meta.facebookConfigured
+      : post.platform === "instagram" ? meta.instagramConfigured && Boolean(imageUrl)
+      : false
+  );
+
+  const statusBadge =
+    post.status === "posted" ? <span className="badge badge-good">posted ✓</span>
+    : post.status === "failed" ? <span className="badge badge-bad">failed</span>
+    : post.status === "posting" ? <span className="badge badge-info">posting…</span>
+    : <span className="badge">{post.status}</span>;
+
+  return (
+    <div className="panel-2" style={{ padding: 12, display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <strong style={{ fontSize: 13 }}>{platform?.label ?? post.platform}</strong>
+          {platform?.autoPost && <span className="badge badge-good">auto-post</span>}
+        </div>
+        {statusBadge}
+      </div>
+      <textarea className="input" rows={6} value={text} onChange={(e) => setText(e.target.value)} style={{ fontSize: 12 }} />
+      {(platform?.hashtagBudget ?? 0) > 0 && (
+        <input className="input" placeholder="Hashtags (space-separated)" value={hashtagsStr} onChange={(e) => setHashtagsStr(e.target.value)} style={{ fontSize: 12 }} />
+      )}
+      {(platform?.requiresImage || imageUrl) && (
+        <input className="input" placeholder="Image URL (required for IG)" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} style={{ fontSize: 11 }} />
+      )}
+      <div className="muted" style={{ fontSize: 11, display: "flex", justifyContent: "space-between" }}>
+        <span style={{ color: overLimit ? "var(--bad)" : undefined }}>{charCount} / {platform?.charLimit ?? "?"} chars</span>
+        {post.publicUrl && <a href={post.publicUrl} target="_blank" rel="noopener noreferrer">View live ↗</a>}
+        {post.error && <span style={{ color: "var(--bad)" }} title={post.error}>error</span>}
+      </div>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        <button className="btn" style={{ padding: "4px 10px", fontSize: 11 }} onClick={() => copyToClipboard(fullText)}>📋 Copy</button>
+        <button className="btn" style={{ padding: "4px 10px", fontSize: 11 }} onClick={save}>💾 Save edits</button>
+        {canAutoPost ? (
+          <button className="btn btn-good" style={{ padding: "4px 10px", fontSize: 11 }} onClick={publish} disabled={busy || post.status === "posted"}>
+            🚀 {post.status === "posted" ? "Posted" : "Auto-post now"}
+          </button>
+        ) : (
+          <a className="btn btn-primary" style={{ padding: "4px 10px", fontSize: 11 }} href={composerUrl} target="_blank" rel="noopener noreferrer"
+            onClick={async () => {
+              if (platform?.prefillsText) return; // already in URL
+              await navigator.clipboard.writeText(fullText).catch(() => undefined);
+            }}>
+            {platform?.prefillsText ? "Open with text ↗" : "Copy + open ↗"}
+          </a>
+        )}
+        <button className="btn" style={{ padding: "4px 10px", fontSize: 11 }} onClick={async () => {
+          if (!confirm("Delete this post?")) return;
+          await api.deleteSocialPost(post.id); onChange();
+        }}>🗑</button>
+      </div>
+    </div>
+  );
+}
+
+function composerUrlFor(platformId: string, text: string): string {
+  switch (platformId) {
+    case "linkedin": return `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(text)}`;
+    case "x": return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    case "threads": return `https://www.threads.net/intent/post?text=${encodeURIComponent(text)}`;
+    case "facebook": return "https://www.facebook.com/?sk=composer";
+    case "instagram": return "https://www.instagram.com/";
+    case "nextdoor": return "https://nextdoor.com/news_feed/";
+    case "google-business": return "https://business.google.com/posts";
+    case "pinterest": return "https://www.pinterest.com/pin-creation-tool/";
+    case "youtube-community": return "https://studio.youtube.com/";
+    default: return "#";
+  }
 }
 
 function RunsList({ data }: { data: DataResponse }) {

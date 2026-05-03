@@ -169,4 +169,61 @@ export const api = {
     jsonFetch<CitationSite["record"]>(`${CITATIONS_API}/${id}/status`, { method: "POST", body: JSON.stringify(body) }),
   scanCitations: () =>
     jsonFetch<{ message: string }>(`${CITATIONS_API}/scan`, { method: "POST" }),
+
+  // Social
+  getSocial: () => jsonFetch<SocialDataResponse>(`/api/social/data`),
+  generateSocial: (body: { topic: string; notes?: string; cta?: string; imageUrl?: string; platforms?: string[] }) =>
+    jsonFetch<{ briefId: string; posts: SocialPost[] }>(`/api/social/generate`, { method: "POST", body: JSON.stringify(body) }),
+  patchSocialPost: (id: string, body: Partial<Pick<SocialPost, "text"|"hashtags"|"imageUrl"|"status">>) =>
+    jsonFetch<SocialPost>(`/api/social/posts/${id}`, { method: "PATCH", body: JSON.stringify(body) }),
+  deleteSocialPost: (id: string) =>
+    jsonFetch<{ ok: boolean }>(`/api/social/posts/${id}`, { method: "DELETE" }),
+  publishSocialPost: (id: string) =>
+    jsonFetch<{ ok: boolean; publicUrl?: string; error?: string }>(`/api/social/posts/${id}/publish`, { method: "POST" }),
+  publishBrief: (briefId: string) =>
+    jsonFetch<{ message: string }>(`/api/social/briefs/${briefId}/publish`, { method: "POST" }),
 };
+
+// ===== Social =====
+export type SocialPostStatus = "draft" | "scheduled" | "posting" | "posted" | "failed" | "skipped";
+
+export interface SocialPost {
+  id: string;
+  briefId: string;
+  topic: string;
+  platform: string;
+  text: string;
+  hashtags: string[];
+  imageUrl?: string;
+  status: SocialPostStatus;
+  postedAt?: string;
+  publicUrl?: string;
+  postId?: string;
+  error?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PlatformInfo {
+  id: string;
+  label: string;
+  autoPost: boolean;
+  charLimit: number;
+  hashtagBudget: number;
+  requiresImage: boolean;
+  prefillsText: boolean;
+}
+
+export interface MetaConfigInfo {
+  facebookConfigured: boolean;
+  instagramConfigured: boolean;
+  pageName?: string;
+  igUsername?: string;
+  error?: string;
+}
+
+export interface SocialDataResponse {
+  posts: SocialPost[];
+  platforms: PlatformInfo[];
+  meta: MetaConfigInfo;
+}

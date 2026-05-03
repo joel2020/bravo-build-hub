@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "D4xbzFtxxL-J45sDOdBgv"
@@ -24,3 +23,9 @@ id = "aWdP_txfKNiNTeu0YddxO"
 uri = "file://artifacts/bravo-mechanical-deck/public/westchester.png"
 type = "image"
 title = "westchester aerial"
+
+[[outputs]]
+id = "YCMmN520-WfRmkCvdm_JH"
+uri = "file://.local/bravo-mechanical-sales-plan.md"
+type = "text"
+title = "Bravo Mechanical — 90-Day Sales Growth Plan"

@@ -17,6 +17,7 @@ const schema = z.object({
   email: z.string().email("Please enter a valid email"),
   service: z.string().min(1, "Please select a service"),
   message: z.string().min(5, "Please add a short message"),
+  consent: z.literal(true, { errorMap: () => ({ message: "Please agree to be contacted before submitting" }) }),
 });
 
 type Errors = Partial<Record<keyof z.infer<typeof schema>, string>>;
@@ -68,7 +69,7 @@ export const LeadForm = ({
   urgency,
 }: LeadFormProps) => {
   const { toast } = useToast();
-  const [values, setValues] = useState({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage });
+  const [values, setValues] = useState({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage, consent: false });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -104,7 +105,8 @@ export const LeadForm = ({
     };
   }, []);
 
-  const update = (k: keyof typeof values, v: string) => setValues((p) => ({ ...p, [k]: v }));
+  const update = <K extends keyof typeof values>(k: K, v: (typeof values)[K]) =>
+    setValues((p) => ({ ...p, [k]: v }));
 
   const findRecentDuplicateLeadId = async (phone: string, email: string) => {
     const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -171,7 +173,8 @@ export const LeadForm = ({
       fbclid: tracking.fbclid,
     };
 
-    const newNotes = buildLeadNotes(result.data.service, result.data.message, city, urgency);
+    const consentStamp = `[Consent] SMS/email contact agreed at ${new Date().toISOString()} (form: ${source})`;
+  const newNotes = `${buildLeadNotes(result.data.service, result.data.message, city, urgency)} | ${consentStamp}`;
     const duplicateLeadId = await findRecentDuplicateLeadId(result.data.phone, result.data.email);
 
     let leadId: string | undefined;
@@ -281,6 +284,24 @@ export const LeadForm = ({
         <Label htmlFor="message">How can we help?</Label>
         <Textarea id="message" rows={5} value={values.message} onChange={(e) => update("message", e.target.value)} className="mt-1.5" />
         {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
+      </div>
+      <div className="rounded-md border border-border bg-secondary/40 p-3">
+        <label className="flex items-start gap-3 text-xs leading-relaxed text-muted-foreground cursor-pointer">
+          <input
+            type="checkbox"
+            checked={values.consent}
+            onChange={(e) => update("consent", e.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-border accent-accent"
+            aria-describedby="consent-help"
+          />
+          <span id="consent-help">
+            I agree that Bravo Mechanical LLC may contact me by phone, text message, and email about my service request, including via automated messages. Consent is not a condition of service. Message and data rates may apply. Reply STOP to opt out, HELP for help. See our{" "}
+            <a href="/privacy-policy" className="font-semibold text-foreground underline hover:text-accent">Privacy Policy</a>
+            {" "}and{" "}
+            <a href="/terms-and-conditions" className="font-semibold text-foreground underline hover:text-accent">SMS Terms</a>.
+          </span>
+        </label>
+        {errors.consent && <p className="text-destructive text-xs mt-2">{errors.consent}</p>}
       </div>
       <Button type="submit" size="lg" disabled={submitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
         {submitting ? "Submitting..." : "Request My Estimate"}

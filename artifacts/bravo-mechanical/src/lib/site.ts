@@ -19,6 +19,11 @@ export const SITE = {
   hours: [
     { day: "Mon – Sun", time: "Open 24 hours" },
   ],
+  // TODO: replace with the actual NY HVAC / Westchester Home Improvement Contractor license number(s).
+  // Required in advertising for residential work over $200 in many Westchester municipalities.
+  licenseNumbers: [] as string[],
+  // Effective date of the latest legal-page revision. Update both when policies change.
+  legalLastUpdated: "May 3, 2026",
 };
 
 export const SERVICES = [

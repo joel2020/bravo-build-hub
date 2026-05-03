@@ -202,6 +202,7 @@ export const RebateEstimator = () => {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [lead, setLead] = useState({ name: "", email: "", phone: "", zip: "" });
+  const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const sysDef = system ? SYSTEMS[system] : null;
@@ -251,6 +252,10 @@ export const RebateEstimator = () => {
       setErrors(fieldErrors);
       return;
     }
+    if (!consent) {
+      setErrors({ consent: "Please agree to be contacted before submitting" });
+      return;
+    }
     setErrors({});
     setSubmitting(true);
 
@@ -295,6 +300,7 @@ export const RebateEstimator = () => {
         `ZIP: ${result.data.zip}`,
         `Home type: ${homeType}`,
         currentHeating ? `Current heating: ${currentHeating}` : null,
+        `[Consent] SMS/email contact agreed at ${new Date().toISOString()} (form: rebate_estimator)`,
       ].filter(Boolean).join(" | "),
     });
 
@@ -469,6 +475,23 @@ export const RebateEstimator = () => {
             <Label htmlFor="lead-zip">ZIP code</Label>
             <Input id="lead-zip" value={lead.zip} onChange={(e) => setLead({ ...lead, zip: e.target.value })} maxLength={10} className="mt-1.5" />
             {errors.zip && <p className="text-xs text-destructive mt-1">{errors.zip}</p>}
+          </div>
+          <div className="sm:col-span-2 rounded-md border border-border bg-secondary/40 p-3">
+            <label className="flex items-start gap-3 text-xs leading-relaxed text-muted-foreground cursor-pointer">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-border accent-accent"
+              />
+              <span>
+                I agree that Bravo Mechanical LLC may contact me by phone, text, and email about my rebate estimate and project, including via automated messages. Consent is not a condition of service. Message and data rates may apply. Reply STOP to opt out. See our{" "}
+                <a href="/privacy-policy" className="font-semibold text-foreground underline hover:text-accent">Privacy Policy</a>
+                {" "}and{" "}
+                <a href="/terms-and-conditions" className="font-semibold text-foreground underline hover:text-accent">SMS Terms</a>.
+              </span>
+            </label>
+            {errors.consent && <p className="text-xs text-destructive mt-2">{errors.consent}</p>}
           </div>
           <div className="sm:col-span-2">
             <Button type="submit" disabled={submitting} className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-bold">

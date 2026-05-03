@@ -1,0 +1,31 @@
+kind = "video"
+previewPath = "/bravo-mechanical-promo/"
+title = "Bravo Mechanical Promo Video"
+version = "1.0.0"
+id = "artifacts/bravo-mechanical-promo"
+router = "path"
+
+[[integratedSkills]]
+name = "video-js"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/bravo-mechanical-promo/" ]
+localPort = 25608
+
+[services.development]
+run = "pnpm --filter @workspace/bravo-mechanical-promo run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/bravo-mechanical-promo", "run", "build" ]
+publicDir = "artifacts/bravo-mechanical-promo/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25608"
+BASE_PATH = "/bravo-mechanical-promo/"

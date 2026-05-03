@@ -29,3 +29,21 @@ id = "YCMmN520-WfRmkCvdm_JH"
 uri = "file://.local/bravo-mechanical-sales-plan.md"
 type = "text"
 title = "Bravo Mechanical — 90-Day Sales Growth Plan"
+
+[[generated]]
+id = "UtnSrES6w_z2bQ8YWoLf6"
+uri = "file://artifacts/bravo-mechanical-promo/public/hvac-tech.png"
+type = "image"
+title = "HVAC technician working"
+
+[[generated]]
+id = "U2XZefVJtC7qkp5QfpdA3"
+uri = "file://artifacts/bravo-mechanical-promo/public/hvac-unit.png"
+type = "image"
+title = "Modern HVAC unit"
+
+[[generated]]
+id = "DruTFEp3cPKuVzkHXnU9O"
+uri = "file://artifacts/bravo-mechanical-promo/public/hvac-tools.png"
+type = "image"
+title = "HVAC tools"

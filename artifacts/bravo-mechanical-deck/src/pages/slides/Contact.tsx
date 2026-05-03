@@ -44,10 +44,10 @@ export default function Contact() {
               Email
             </div>
             <a
-              href="mailto:Bravomechanicalllc@gmail.com"
+              href="mailto:info@bravomechanicalny.com"
               className="mt-[1vh] block font-display font-bold text-[1.5vw] leading-tight text-cream break-all"
             >
-              Bravomechanicalllc@gmail.com
+              info@bravomechanicalny.com
             </a>
           </div>
           <div>

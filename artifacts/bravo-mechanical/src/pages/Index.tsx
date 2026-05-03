@@ -69,7 +69,7 @@ const Index = () => {
     },
     {
       q: "How do I contact Bravo Mechanical?",
-      a: "Call Bravo Mechanical at (914) 361-9142, email Bravomechanicalllc@gmail.com, or request an estimate at https://bravomechanicalny.com/contact. The company is open 24 hours a day, 7 days a week for emergency dispatch.",
+      a: "Call Bravo Mechanical at (914) 361-9142, email info@bravomechanicalny.com, or request an estimate at https://bravomechanicalny.com/contact. The company is open 24 hours a day, 7 days a week for emergency dispatch.",
     },
   ];
 

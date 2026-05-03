@@ -10,7 +10,7 @@ export const BRAVO = {
   siteUrl: "https://bravomechanicalny.com",
   altDomains: ["www.bravomechanicalny.com", "bravomechanicalny.com"],
   phone: "(914) 361-9142",
-  email: "Bravomechanicalllc@gmail.com",
+  email: "info@bravomechanicalny.com",
   contactPage: "https://bravomechanicalny.com/contact",
   area: "Westchester County, NY",
   oneLiner:

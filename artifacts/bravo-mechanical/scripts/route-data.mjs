@@ -15,7 +15,7 @@ export const SITE_URL = "https://bravomechanicalny.com";
 export const SITE_NAME = "Bravo Mechanical";
 export const SITE_LEGAL = "Bravo Mechanical LLC";
 export const SITE_PHONE = "(914) 361-9142";
-export const SITE_EMAIL = "Bravomechanicalllc@gmail.com";
+export const SITE_EMAIL = "info@bravomechanicalny.com";
 export const SITE_RATING = { score: 5.0, count: 7 };
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 

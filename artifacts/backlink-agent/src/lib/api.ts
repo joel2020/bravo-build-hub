@@ -80,6 +80,57 @@ export interface DataResponse {
 }
 
 const API = "/api/backlinks";
+const CITATIONS_API = "/api/citations";
+
+// ===== Citations =====
+export type CitationStatus =
+  | "not-started" | "in-progress" | "claimed" | "verified" | "live" | "skipped" | "needs-update";
+
+export interface CitationSite {
+  id: string;
+  name: string;
+  category: string;
+  signupUrl: string;
+  searchUrlTemplate: string;
+  notes: string;
+  priority: number;
+  record: {
+    id: string;
+    status: CitationStatus;
+    publicUrl?: string;
+    notes?: string;
+    detected?: boolean;
+    lastCheckedAt?: string;
+    claimedAt?: string;
+    verifiedAt?: string;
+    liveAt?: string;
+  };
+}
+
+export interface NapPackage {
+  businessName: string;
+  legalName: string;
+  phone: string;
+  email: string;
+  website: string;
+  serviceArea: string;
+  serviceAreaList: string[];
+  addressType: string;
+  hours: Record<string, string>;
+  categories: string[];
+  services: string[];
+  shortDescription: string;
+  longDescription: string;
+  paymentMethods: string[];
+  licenses: string[];
+  keywords: string[];
+  logoSuggestion: string;
+}
+
+export interface CitationsResponse {
+  sites: CitationSite[];
+  nap: NapPackage;
+}
 
 async function jsonFetch<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, {
@@ -111,4 +162,11 @@ export const api = {
   sendNow: (id: string) =>
     jsonFetch<{ id?: string; error?: string }>(`${API}/prospects/${id}/send`, { method: "POST" }),
   digestUrl: () => `${API}/digest`,
+
+  // Citations
+  getCitations: () => jsonFetch<CitationsResponse>(`${CITATIONS_API}/data`),
+  setCitationStatus: (id: string, body: { status: CitationStatus; publicUrl?: string; notes?: string }) =>
+    jsonFetch<CitationSite["record"]>(`${CITATIONS_API}/${id}/status`, { method: "POST", body: JSON.stringify(body) }),
+  scanCitations: () =>
+    jsonFetch<{ message: string }>(`${CITATIONS_API}/scan`, { method: "POST" }),
 };

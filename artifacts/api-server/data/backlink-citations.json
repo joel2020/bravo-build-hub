@@ -1,0 +1,146 @@
+[
+  {
+    "id": "google-business",
+    "status": "claimed",
+    "detected": true,
+    "lastCheckedAt": "2026-05-03T04:39:24.677Z"
+  },
+  {
+    "id": "bing-places",
+    "status": "claimed",
+    "detected": true,
+    "lastCheckedAt": "2026-05-03T04:39:24.656Z"
+  },
+  {
+    "id": "apple-business",
+    "status": "claimed",
+    "detected": true,
+    "lastCheckedAt": "2026-05-03T04:39:24.724Z"
+  },
+  {
+    "id": "facebook-business",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:24.757Z"
+  },
+  {
+    "id": "yelp",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:24.699Z"
+  },
+  {
+    "id": "bbb",
+    "status": "claimed",
+    "detected": true,
+    "lastCheckedAt": "2026-05-03T04:39:24.998Z"
+  },
+  {
+    "id": "yellowpages",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:25.835Z"
+  },
+  {
+    "id": "manta",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:24.783Z"
+  },
+  {
+    "id": "foursquare",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:25.459Z"
+  },
+  {
+    "id": "merchantcircle",
+    "status": "claimed",
+    "detected": true,
+    "lastCheckedAt": "2026-05-03T04:39:25.084Z"
+  },
+  {
+    "id": "hotfrog",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:25.602Z"
+  },
+  {
+    "id": "brownbook",
+    "status": "claimed",
+    "detected": true,
+    "lastCheckedAt": "2026-05-03T04:39:25.347Z"
+  },
+  {
+    "id": "cylex",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:25.392Z"
+  },
+  {
+    "id": "citysearch",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:25.574Z"
+  },
+  {
+    "id": "ezlocal",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:26.224Z"
+  },
+  {
+    "id": "angi",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:25.620Z"
+  },
+  {
+    "id": "houzz",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:26.481Z"
+  },
+  {
+    "id": "thumbtack",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:25.839Z"
+  },
+  {
+    "id": "porch",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:25.911Z"
+  },
+  {
+    "id": "buildzoom",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:26.137Z"
+  },
+  {
+    "id": "nextdoor-business",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:26.049Z"
+  },
+  {
+    "id": "alignable",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:26.485Z"
+  },
+  {
+    "id": "neustar-localeze",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:26.222Z"
+  },
+  {
+    "id": "data-axle",
+    "status": "not-started",
+    "detected": false,
+    "lastCheckedAt": "2026-05-03T04:39:26.744Z"
+  }
+]

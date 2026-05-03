@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { api, type DataResponse, type Prospect, type Mention, type ProspectStatus } from "./lib/api";
+import { api, type DataResponse, type Prospect, type Mention, type ProspectStatus, type CitationsResponse, type CitationSite, type CitationStatus, type NapPackage } from "./lib/api";
 
-type TabId = "overview" | "prospects" | "mentions" | "drafts" | "sent" | "runs";
+type TabId = "overview" | "prospects" | "mentions" | "drafts" | "sent" | "citations" | "runs";
 
 function StatusBadge({ status }: { status: ProspectStatus }) {
   const cls =
@@ -106,6 +106,7 @@ export default function App() {
           ["drafts", `Drafts (${stats?.drafts ?? 0})`],
           ["sent", `Sent (${stats?.sent ?? 0})`],
           ["mentions", `Mentions (${data?.mentions.length ?? 0})`],
+          ["citations", "Citations"],
           ["runs", "Scan history"],
         ] as Array<[TabId, string]>).map(([id, label]) => (
           <div key={id} className={`tab ${tab === id ? "active" : ""}`} onClick={() => setTab(id)}>{label}</div>
@@ -118,6 +119,7 @@ export default function App() {
         : tab === "drafts" ? <DraftsList data={data} onChange={refresh} />
         : tab === "sent" ? <SentList data={data} />
         : tab === "mentions" ? <MentionsPanel data={data} onChange={refresh} />
+        : tab === "citations" ? <CitationsPanel />
         : <RunsList data={data} />}
     </div>
   );
@@ -474,6 +476,226 @@ function MentionsPanel({ data, onChange }: { data: DataResponse; onChange: () =>
       </div>
     </div>
   );
+}
+
+function CitationsPanel() {
+  const [data, setData] = useState<CitationsResponse | null>(null);
+  const [scanning, setScanning] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function refresh() {
+    try { setData(await api.getCitations()); setErr(null); }
+    catch (e) { setErr((e as Error).message); }
+  }
+  useEffect(() => { refresh(); }, []);
+  useEffect(() => {
+    if (!scanning) return;
+    const t = setInterval(refresh, 5000);
+    const stop = setTimeout(() => setScanning(false), 60000);
+    return () => { clearInterval(t); clearTimeout(stop); };
+  }, [scanning]);
+
+  if (!data) return <div className="muted">Loading citations…</div>;
+
+  const stats = {
+    total: data.sites.length,
+    notStarted: data.sites.filter((s) => s.record.status === "not-started").length,
+    claimed: data.sites.filter((s) => s.record.status === "claimed" || s.record.status === "in-progress").length,
+    live: data.sites.filter((s) => s.record.status === "live" || s.record.status === "verified").length,
+    detected: data.sites.filter((s) => s.record.detected).length,
+  };
+
+  const grouped: Record<string, CitationSite[]> = {};
+  for (const s of data.sites) (grouped[s.category] ??= []).push(s);
+
+  return (
+    <div style={{ display: "grid", gap: 16 }}>
+      <div className="panel" style={{ padding: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <h2 style={{ margin: 0, fontSize: 16 }}>Business-profile citations</h2>
+            <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+              These sites need real human signups (CAPTCHA, phone/postcard verification — auto-creating accounts violates their ToS and gets you banned). The agent prepares the consistent NAP package below, deep-links each claim page, and tracks status. A VA can knock all of these out in ~2 hours, one time.
+            </div>
+          </div>
+          <button className="btn btn-primary" onClick={async () => { setScanning(true); await api.scanCitations(); }} disabled={scanning}>
+            {scanning ? "Scanning…" : "Detect existing listings"}
+          </button>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10, marginTop: 14 }}>
+          <Stat label="Total" value={stats.total} />
+          <Stat label="Not started" value={stats.notStarted} accent="warn" />
+          <Stat label="Claimed" value={stats.claimed} accent="info" />
+          <Stat label="Live / verified" value={stats.live} accent="good" />
+          <Stat label="Detected on web" value={stats.detected} accent="good" />
+        </div>
+        {err && <div style={{ color: "var(--bad)", fontSize: 12, marginTop: 8 }}>{err}</div>}
+      </div>
+
+      <NapPanel nap={data.nap} />
+
+      {Object.entries(grouped).map(([cat, sites]) => (
+        <div key={cat} className="panel">
+          <div style={{ padding: 12, borderBottom: "1px solid var(--border)", fontWeight: 700, fontSize: 13 }}>{cat}</div>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase" }}>
+                <th style={{ padding: "10px 14px" }}>Site</th>
+                <th style={{ padding: "10px 14px" }}>Status</th>
+                <th style={{ padding: "10px 14px" }}>Detected</th>
+                <th style={{ padding: "10px 14px" }}>Public URL</th>
+                <th style={{ padding: "10px 14px" }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sites.map((s) => <CitationRow key={s.id} site={s} onChange={refresh} />)}
+            </tbody>
+          </table>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CitationRow({ site, onChange }: { site: CitationSite; onChange: () => void }) {
+  const [publicUrl, setPublicUrl] = useState(site.record.publicUrl ?? "");
+  useEffect(() => { setPublicUrl(site.record.publicUrl ?? ""); }, [site.record.publicUrl]);
+  const searchUrl = site.searchUrlTemplate.replace("{q}", encodeURIComponent("Bravo Mechanical"));
+
+  return (
+    <tr style={{ borderTop: "1px solid var(--border)" }}>
+      <td style={{ padding: "10px 14px" }}>
+        <div style={{ fontWeight: 600 }}>{site.name}</div>
+        <div className="muted" style={{ fontSize: 11, marginTop: 2 }}>{site.notes}</div>
+      </td>
+      <td style={{ padding: "10px 14px" }}>
+        <select
+          className="input"
+          style={{ width: 140, padding: "4px 8px", fontSize: 12 }}
+          value={site.record.status}
+          onChange={async (e) => {
+            await api.setCitationStatus(site.id, { status: e.target.value as CitationStatus });
+            onChange();
+          }}
+        >
+          {(["not-started","in-progress","claimed","verified","live","needs-update","skipped"] as CitationStatus[]).map((s) =>
+            <option key={s} value={s}>{s}</option>
+          )}
+        </select>
+        {site.record.lastCheckedAt && (
+          <div className="muted" style={{ fontSize: 10, marginTop: 4 }}>
+            Checked {new Date(site.record.lastCheckedAt).toLocaleDateString()}
+          </div>
+        )}
+      </td>
+      <td style={{ padding: "10px 14px" }}>
+        {site.record.detected ? <span className="badge badge-good">found</span> : <span className="badge">not seen</span>}
+      </td>
+      <td style={{ padding: "10px 14px" }}>
+        <input
+          className="input"
+          style={{ width: 200, padding: "4px 8px", fontSize: 11 }}
+          placeholder="https://…"
+          value={publicUrl}
+          onChange={(e) => setPublicUrl(e.target.value)}
+          onBlur={async () => {
+            if (publicUrl !== (site.record.publicUrl ?? "")) {
+              await api.setCitationStatus(site.id, { status: site.record.status, publicUrl });
+              onChange();
+            }
+          }}
+        />
+      </td>
+      <td style={{ padding: "10px 14px", display: "flex", gap: 6, flexWrap: "wrap" }}>
+        <a className="btn btn-primary" style={{ padding: "4px 10px", fontSize: 11 }} href={site.signupUrl} target="_blank" rel="noopener noreferrer">
+          Open claim page ↗
+        </a>
+        <a className="btn" style={{ padding: "4px 10px", fontSize: 11 }} href={searchUrl} target="_blank" rel="noopener noreferrer">
+          Search site ↗
+        </a>
+      </td>
+    </tr>
+  );
+}
+
+function NapPanel({ nap }: { nap: NapPackage }) {
+  const napText = useMemo(() => buildNapText(nap), [nap]);
+  return (
+    <div className="panel" style={{ padding: 16 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, marginBottom: 8 }}>
+        <h3 style={{ margin: 0, fontSize: 14 }}>NAP + business package (paste this into every signup form)</h3>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button className="btn" onClick={() => copyToClipboard(napText)}>📋 Copy all</button>
+          <button className="btn" onClick={() => copyToClipboard(nap.shortDescription)}>📋 Short desc</button>
+          <button className="btn" onClick={() => copyToClipboard(nap.longDescription)}>📋 Long desc</button>
+        </div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, fontSize: 12 }}>
+        <Field label="Business name" value={nap.businessName} />
+        <Field label="Legal name" value={nap.legalName} />
+        <Field label="Phone" value={nap.phone} />
+        <Field label="Email" value={nap.email} />
+        <Field label="Website" value={nap.website} />
+        <Field label="Service area" value={nap.serviceArea} />
+        <Field label="Address type" value="Service-area business (no public storefront address)" />
+        <Field label="Hours" value="24/7 (emergency dispatch)" />
+      </div>
+      <div className="panel-2" style={{ padding: 10, marginTop: 10, fontSize: 12 }}>
+        <strong>Categories:</strong> {nap.categories.join(" · ")}
+      </div>
+      <div className="panel-2" style={{ padding: 10, marginTop: 6, fontSize: 12 }}>
+        <strong>Services:</strong> {nap.services.join(" · ")}
+      </div>
+      <div className="panel-2" style={{ padding: 10, marginTop: 6, fontSize: 12 }}>
+        <strong>Service area cities:</strong> {nap.serviceAreaList.join(", ")}
+      </div>
+      <div className="panel-2" style={{ padding: 10, marginTop: 6, fontSize: 12 }}>
+        <strong>Short description (≤200 chars):</strong> <span className="muted">{nap.shortDescription}</span>
+      </div>
+      <div className="panel-2" style={{ padding: 10, marginTop: 6, fontSize: 12 }}>
+        <strong>Long description:</strong> <span className="muted">{nap.longDescription}</span>
+      </div>
+      <div className="panel-2" style={{ padding: 10, marginTop: 6, fontSize: 12 }}>
+        <strong>Keywords:</strong> {nap.keywords.join(" · ")}
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{ display: "flex", gap: 6, alignItems: "baseline" }}>
+      <span className="muted" style={{ fontSize: 11, minWidth: 100 }}>{label}:</span>
+      <span style={{ fontWeight: 600 }}>{value}</span>
+      <button className="btn" style={{ padding: "1px 6px", fontSize: 10 }} onClick={() => copyToClipboard(value)}>copy</button>
+    </div>
+  );
+}
+
+function buildNapText(nap: NapPackage): string {
+  return [
+    `Business name: ${nap.businessName}`,
+    `Legal name: ${nap.legalName}`,
+    `Phone: ${nap.phone}`,
+    `Email: ${nap.email}`,
+    `Website: ${nap.website}`,
+    `Service area: ${nap.serviceArea}`,
+    `Address: Service-area business (no public storefront)`,
+    `Hours: 24/7 — emergency dispatch`,
+    `Categories: ${nap.categories.join(", ")}`,
+    `Services: ${nap.services.join(", ")}`,
+    `Service area cities: ${nap.serviceAreaList.join(", ")}`,
+    `Payment methods: ${nap.paymentMethods.join(", ")}`,
+    `Licenses: ${nap.licenses.join(", ")}`,
+    ``,
+    `Short description:`,
+    nap.shortDescription,
+    ``,
+    `Long description:`,
+    nap.longDescription,
+    ``,
+    `Keywords: ${nap.keywords.join(", ")}`,
+  ].join("\n");
 }
 
 function RunsList({ data }: { data: DataResponse }) {

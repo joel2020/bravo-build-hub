@@ -29,6 +29,7 @@ import {
   SITE_EMAIL,
   SITE_RATING,
   OG_IMAGE,
+  BUILD_DATE,
 } from "./route-data.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -82,7 +83,7 @@ function buildJsonLd(route) {
   }
 
   if (route.type === "city" && route.city) {
-    return [
+    const out = [
       {
         "@context": "https://schema.org",
         "@type": "HVACBusiness",
@@ -97,6 +98,8 @@ function buildJsonLd(route) {
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
         openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }],
         aggregateRating: { "@type": "AggregateRating", ratingValue: String(SITE_RATING.score), reviewCount: String(SITE_RATING.count), bestRating: "5", worstRating: "1" },
+        // Freshness signal — Google rewards recently-updated local-business entities for competitive city queries.
+        dateModified: BUILD_DATE,
       },
       breadcrumbs([
         { name: "Home", url: `${SITE_URL}/` },
@@ -104,18 +107,22 @@ function buildJsonLd(route) {
         { name: route.city.name, url },
       ]),
     ];
+    if (route.faqs && route.faqs.length) out.push(buildFaqPage(route.faqs, url));
+    return out;
   }
 
   if (route.type === "service" && route.service) {
-    return [
+    const out = [
       {
         "@context": "https://schema.org",
         "@type": "Service",
         name: route.service.seoTitle,
         description: route.service.metaDescription,
         url,
+        serviceType: route.service.seoTitle,
         areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
-        provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL },
+        provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL, aggregateRating: { "@type": "AggregateRating", ratingValue: String(SITE_RATING.score), reviewCount: String(SITE_RATING.count) } },
+        dateModified: BUILD_DATE,
       },
       breadcrumbs([
         { name: "Home", url: `${SITE_URL}/` },
@@ -123,10 +130,12 @@ function buildJsonLd(route) {
         { name: route.service.seoTitle, url },
       ]),
     ];
+    if (route.faqs && route.faqs.length) out.push(buildFaqPage(route.faqs, url));
+    return out;
   }
 
   if (route.type === "service-city" && route.city && route.service) {
-    return [
+    const out = [
       {
         "@context": "https://schema.org",
         "@type": "Service",
@@ -136,6 +145,7 @@ function buildJsonLd(route) {
         url,
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
         provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL, aggregateRating: { "@type": "AggregateRating", ratingValue: String(SITE_RATING.score), reviewCount: String(SITE_RATING.count) } },
+        dateModified: BUILD_DATE,
       },
       breadcrumbs([
         { name: "Home", url: `${SITE_URL}/` },
@@ -144,8 +154,15 @@ function buildJsonLd(route) {
         { name: `${route.service.title} in ${route.city.name}`, url },
       ]),
     ];
+    if (route.faqs && route.faqs.length) out.push(buildFaqPage(route.faqs, url));
+    return out;
   }
 
+  if (route.path === "/") {
+    const out = [breadcrumbs([{ name: "Home", url }])];
+    if (route.faqs && route.faqs.length) out.push(buildFaqPage(route.faqs, url));
+    return out;
+  }
   if (route.path === "/services") {
     return [breadcrumbs([{ name: "Home", url: `${SITE_URL}/` }, { name: "Services", url }])];
   }
@@ -157,6 +174,22 @@ function buildJsonLd(route) {
   }
 
   return [];
+}
+
+// FAQPage with Speakable — Google AI Overviews and voice assistants can both
+// extract from this. Speakable indicates which fields are TTS-friendly.
+function buildFaqPage(faqs, pageUrl) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    speakable: { "@type": "SpeakableSpecification", cssSelector: ["[data-faq-question]", "[data-faq-answer]"] },
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
 }
 
 function buildHeadInsert(route) {

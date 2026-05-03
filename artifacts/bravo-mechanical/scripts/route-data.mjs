@@ -18,6 +18,112 @@ export const SITE_PHONE = "(914) 361-9142";
 export const SITE_EMAIL = "info@bravomechanicalny.com";
 export const SITE_RATING = { score: 5.0, count: 7 };
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+export const BUILD_DATE = new Date().toISOString().slice(0, 10);
+
+// Curated homepage FAQ — kept in sync with public/llms.txt. Surfaced as
+// FAQPage schema in dist/public/index.html so Google AI Overviews and
+// LLM crawlers (which often skip JS-rendered FAQ blocks) can cite us
+// directly without rendering the React tree.
+export const HOMEPAGE_FAQS = [
+  {
+    q: "What areas does Bravo Mechanical serve?",
+    a: "Bravo Mechanical serves all of Westchester County, New York — 30 municipalities including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Bronxville, Rye, Tarrytown, Mount Kisco, Bedford, and Yorktown.",
+  },
+  {
+    q: "Is Bravo Mechanical licensed and insured?",
+    a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor in Westchester County, NY.",
+  },
+  {
+    q: "Does Bravo Mechanical offer 24/7 emergency HVAC service?",
+    a: "Yes. Bravo Mechanical provides 24/7 emergency HVAC dispatch in Westchester County for no-heat, no-cool, and gas-leak situations. Call (914) 361-9142.",
+  },
+  {
+    q: "How much does HVAC installation cost in Westchester County?",
+    a: "Typical installed pricing in Westchester is roughly $4,500 to $9,000 for a high-efficiency gas furnace, $7,000 to $14,000 for a gas boiler, $6,000 to $12,000 for central AC, and $12,000 to $25,000 for a cold-climate heat pump or whole-home ductless mini-split. Final cost depends on home size, ductwork, fuel type, and equipment tier. Bravo Mechanical provides a free written estimate before any work begins.",
+  },
+  {
+    q: "What HVAC brands does Bravo Mechanical install?",
+    a: "Bravo Mechanical is brand-agnostic and installs Carrier, Trane, Rheem, Mitsubishi Electric, Daikin, Bosch, Navien, Bradford White, AO Smith, and Weil-McLain.",
+  },
+  {
+    q: "Should I repair or replace my HVAC system?",
+    a: "A common rule of thumb is the 50% rule: if the repair cost exceeds 50% of replacement cost, or if the system is older than 12 to 15 years and breaking down repeatedly, replacement is usually more cost-effective. ENERGY STAR recommends replacing furnaces older than 15 years and central AC older than 10 years for meaningful efficiency gains.",
+  },
+  {
+    q: "What rebates and tax credits are available for HVAC upgrades in Westchester?",
+    a: "Westchester homeowners may qualify for NYS Clean Heat heat-pump rebates, NYSERDA Comfort Home incentives, Con Edison rebates, and the federal IRA 25C tax credit (up to $2,000 for a qualifying heat pump and up to $600 for high-efficiency furnaces or central AC). Eligibility depends on equipment, utility territory, and current program rules.",
+  },
+];
+
+// ---- FAQ extraction (for prerendered FAQPage schema) -------------------
+// Mirrors the FAQ data declared in src/lib so AI/LLM crawlers that don't
+// execute JS still see structured Q&A. If the source-of-truth FAQ shapes
+// in cities.ts / serviceContent.ts / highIntentServices.ts change, the
+// regexes below may need to be updated.
+
+function extractTemplateFaqs(body, cityVar) {
+  const re = /\{\s*q:\s*`([^`]+)`,\s*a:\s*`([^`]+)`\s*,?\s*\}/g;
+  const out = [];
+  let m;
+  while ((m = re.exec(body)) !== null) out.push({ q: m[1], a: m[2] });
+  const token = "${" + cityVar + "}";
+  return (city) =>
+    out.map((f) => ({
+      q: f.q.split(token).join(city),
+      a: f.a.split(token).join(city),
+    }));
+}
+
+function extractStringFaqs(body) {
+  const re = /\{\s*q:\s*"((?:[^"\\]|\\.)*)",\s*a:\s*"((?:[^"\\]|\\.)*)"\s*,?\s*\}/g;
+  const out = [];
+  let m;
+  while ((m = re.exec(body)) !== null) {
+    out.push({
+      q: m[1].replace(/\\"/g, '"').replace(/\\\\/g, "\\"),
+      a: m[2].replace(/\\"/g, '"').replace(/\\\\/g, "\\"),
+    });
+  }
+  return out;
+}
+
+// City pages share a single baseFaqs(name) template in cities.ts.
+async function loadCityFaqsBuilder() {
+  const txt = await readSource("lib/cities.ts");
+  const m = txt.match(/const\s+baseFaqs\s*=\s*\([^)]*\)\s*=>\s*\[([\s\S]*?)\];/);
+  if (!m) return () => [];
+  return extractTemplateFaqs(m[1], "name");
+}
+
+// Service-city combo pages: each service has `faqs: (c) => [ ... ],`.
+async function loadServiceCityFaqBuildersBySlug() {
+  const txt = await readSource("lib/serviceContent.ts");
+  const map = new Map();
+  // Walk each top-level service block.
+  const slugRe = /^\s*"([a-z][a-z0-9-]*)":\s*\{([\s\S]*?)\n  \},/gm;
+  let m;
+  while ((m = slugRe.exec(txt)) !== null) {
+    const slug = m[1];
+    const block = m[2];
+    const faqMatch = block.match(/faqs:\s*\(c\)\s*=>\s*\[([\s\S]*?)\],/);
+    if (!faqMatch) continue;
+    map.set(slug, extractTemplateFaqs(faqMatch[1], "c"));
+  }
+  return map;
+}
+
+// High-intent service pages: faqs is a static array of double-quoted strings.
+async function loadHighIntentFaqsBySlug() {
+  const txt = await readSource("lib/highIntentServices.ts");
+  const map = new Map();
+  // Match each `mk({ ... slug: "x" ... faqs: [ ... ] ... })` block.
+  const blockRe = /slug:\s*"([a-z0-9-]+)"[\s\S]*?faqs:\s*\[([\s\S]*?)\],/g;
+  let m;
+  while ((m = blockRe.exec(txt)) !== null) {
+    map.set(m[1], extractStringFaqs(m[2]));
+  }
+  return map;
+}
 
 // Static (non-templated) routes with hand-tuned titles/descriptions.
 // Mirrors useSeo() calls in the corresponding page components.
@@ -169,13 +275,17 @@ export async function loadBlogPosts() {
 
 // ---- Build the full URL catalog ----------------------------------------
 export async function buildAllRoutes() {
-  const [cities, topCities, serviceSlugs, hiServices, posts] = await Promise.all([
-    loadCities(),
-    loadTopCitySlugs(),
-    loadServiceContentSlugs(),
-    loadHighIntentServices(),
-    loadBlogPosts(),
-  ]);
+  const [cities, topCities, serviceSlugs, hiServices, posts, cityFaqs, serviceCityFaqs, hiServiceFaqs] =
+    await Promise.all([
+      loadCities(),
+      loadTopCitySlugs(),
+      loadServiceContentSlugs(),
+      loadHighIntentServices(),
+      loadBlogPosts(),
+      loadCityFaqsBuilder(),
+      loadServiceCityFaqBuildersBySlug(),
+      loadHighIntentFaqsBySlug(),
+    ]);
 
   const services = await loadServiceContent();
   const cityByslug = new Map(cities.map((c) => [c.slug, c]));
@@ -183,7 +293,9 @@ export async function buildAllRoutes() {
   const routes = [];
 
   for (const r of STATIC_ROUTES) {
-    routes.push({ ...r, type: "static" });
+    const enriched = { ...r, type: "static" };
+    if (r.path === "/") enriched.faqs = HOMEPAGE_FAQS;
+    routes.push(enriched);
   }
 
   // City pages
@@ -196,6 +308,7 @@ export async function buildAllRoutes() {
       description: `Local HVAC service in ${c.name}, NY. Heating, cooling, repair, and installation by licensed Westchester County technicians. 24/7 emergency service. Call ${SITE_PHONE}.`,
       type: "city",
       city: c,
+      faqs: cityFaqs(c.name),
     });
   }
 
@@ -209,6 +322,7 @@ export async function buildAllRoutes() {
       description: s.metaDescription,
       type: "service",
       service: s,
+      faqs: hiServiceFaqs.get(s.slug) || [],
     });
   }
 
@@ -219,6 +333,7 @@ export async function buildAllRoutes() {
     for (const sSlug of serviceSlugs) {
       const sc = services.find((s) => s.slug === sSlug);
       if (!sc) continue;
+      const faqBuilder = serviceCityFaqs.get(sSlug);
       routes.push({
         path: `/services/${sSlug}/${citySlug}`,
         changefreq: "monthly",
@@ -228,6 +343,7 @@ export async function buildAllRoutes() {
         type: "service-city",
         city: c,
         service: sc,
+        faqs: faqBuilder ? faqBuilder(c.name) : [],
       });
     }
   }

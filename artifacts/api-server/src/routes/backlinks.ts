@@ -25,6 +25,11 @@ import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
+// Global kill switch — set to false to re-enable the backlink agent.
+// While disabled, the scan endpoint, manual send endpoint, and auto-send
+// inside scans all return immediately without contacting Resend.
+const BACKLINK_AGENT_ENABLED = false;
+
 function nowIso(): string { return new Date().toISOString(); }
 
 async function ensureSeeded(): Promise<Prospect[]> {
@@ -92,6 +97,10 @@ router.post("/backlinks/settings", async (req, res) => {
 });
 
 router.post("/backlinks/scan", async (_req, res) => {
+  if (!BACKLINK_AGENT_ENABLED) {
+    res.status(503).json({ error: "Backlink agent is disabled" });
+    return;
+  }
   const existing = await getRuns();
   const active = existing.find((r) => r.status === "running");
   if (active) {
@@ -338,7 +347,7 @@ async function runScan(run: Run): Promise<void> {
   });
 
   // === 5. Auto-send emails (if enabled and Resend configured) ===
-  if (settings.autoSend && (await isResendConfigured())) {
+  if (BACKLINK_AGENT_ENABLED && settings.autoSend && (await isResendConfigured())) {
     const sendableProspects = (await getProspects()).filter(
       (p) =>
         (p.status === "unlinked" || p.status === "linked-nofollow") &&
@@ -557,6 +566,10 @@ router.post("/backlinks/prospects/:id/redraft", async (req, res) => {
 });
 
 router.post("/backlinks/prospects/:id/send", async (req, res) => {
+  if (!BACKLINK_AGENT_ENABLED) {
+    res.status(503).json({ error: "Backlink agent is disabled" });
+    return;
+  }
   const { id } = req.params;
   const list = await getProspects();
   const p = list.find((x) => x.id === id);

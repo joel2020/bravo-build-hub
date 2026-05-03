@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --config vite.config.ts --host 0.0.0.0",
+    "dev": "node -e \"console.log('[backlink-agent] disabled — set BACKLINK_AGENT_ENABLED=true in artifacts/api-server/src/routes/backlinks.ts and restore the dev script in artifacts/backlink-agent/package.json to re-enable.')\"",
     "build": "vite build --config vite.config.ts",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"

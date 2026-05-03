@@ -63,6 +63,29 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        // Split heavy third-party deps into their own long-cacheable chunks
+        // so visitors don't re-download everything on every release.
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return undefined;
+          if (id.includes("react-router")) return "vendor-router";
+          if (id.includes("@supabase")) return "vendor-supabase";
+          if (id.includes("@tanstack")) return "vendor-query";
+          if (id.includes("@radix-ui")) return "vendor-radix";
+          if (id.includes("recharts") || id.includes("d3-")) return "vendor-charts";
+          if (id.includes("lucide-react")) return "vendor-icons";
+          if (id.includes("framer-motion")) return "vendor-motion";
+          if (id.includes("react-hook-form") || id.includes("@hookform") || id.includes("zod"))
+            return "vendor-forms";
+          if (id.includes("date-fns") || id.includes("react-day-picker")) return "vendor-dates";
+          if (id.includes("/react/") || id.includes("/react-dom/") || id.includes("scheduler"))
+            return "vendor-react";
+          return "vendor";
+        },
+      },
+    },
   },
   server: {
     port,

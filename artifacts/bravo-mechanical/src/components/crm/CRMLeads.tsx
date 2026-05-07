@@ -41,15 +41,17 @@ export const CRMLeads = () => {
   const dueDateFromTiming = ()=>{ if(form.follow_up_timing==="custom"&&form.follow_up_custom) return new Date(form.follow_up_custom).toISOString(); const d=new Date(); d.setDate(d.getDate()+(reminderMap[form.follow_up_timing]??1)); return d.toISOString(); };
 
   const save = async()=>{
-    if(!form.name?.trim()) return toast({title:"Customer name required",variant:"destructive"});
+    if(!form.name?.trim()){ toast({title:"Customer name required",variant:"destructive"}); return; }
     setSaving(true);
-    const {data:lead,error:leadErr} = await supabase.from("leads" as any).insert({name:form.name.trim(),phone:form.phone||null,email:form.email||null,address:form.address||null,city:form.city||null,service_type:form.service_type||null,message:form.message||null,status:"new",source:"other"}).select("id").single();
-    if(leadErr||!lead){ setSaving(false); return toast({title:"Failed to create customer",description:leadErr?.message,variant:"destructive"}); }
+    const {data:leadRaw,error:leadErr} = await supabase.from("leads" as any).insert({name:form.name.trim(),phone:form.phone||null,email:form.email||null,address:form.address||null,city:form.city||null,service_type:form.service_type||null,message:form.message||null,status:"new",source:"other"}).select("id").single();
+    const lead = leadRaw as { id: string } | null;
+    if(leadErr||!lead){ setSaving(false); toast({title:"Failed to create customer",description:leadErr?.message,variant:"destructive"}); return; }
     await createActivity("Customer created from text intake",{leadId:lead.id,details:form.name});
     let jobId:string|undefined;
     if(form.create_job){ const techId=form.technician_id==="unassigned"?null:form.technician_id; const amount=Number(form.amount||0); const title=form.job_title?.trim()||`${form.service_type||"HVAC Service"} - ${form.name}`;
-      const {data:job,error:jobErr}=await supabase.from("jobs" as any).insert({lead_id:lead.id,title,status:form.job_status,scheduled_date:form.scheduled_date||null,scheduled_at:form.scheduled_date||null,amount,total_amount:amount,technician_id:techId,customer_name:form.name,customer_phone:form.phone||null,customer_email:form.email||null,address:form.address||null,notes:form.message||null,dispatch_notes:form.message||null}).select("id").single();
-      if(jobErr){ setSaving(false); return toast({title:"Customer created, job failed",description:jobErr.message,variant:"destructive"}); }
+      const {data:jobRaw,error:jobErr}=await supabase.from("jobs" as any).insert({lead_id:lead.id,title,status:form.job_status,scheduled_date:form.scheduled_date||null,scheduled_at:form.scheduled_date||null,amount,total_amount:amount,technician_id:techId,customer_name:form.name,customer_phone:form.phone||null,customer_email:form.email||null,address:form.address||null,notes:form.message||null,dispatch_notes:form.message||null}).select("id").single();
+      const job = jobRaw as { id: string } | null;
+      if(jobErr){ setSaving(false); toast({title:"Customer created, job failed",description:jobErr.message,variant:"destructive"}); return; }
       jobId=job?.id; await createActivity("Job created from intake",{leadId:lead.id,jobId,details:title});
       if(techId&&jobId){ const techName=technicians.find(t=>t.id===techId)?.name||"technician"; await supabase.from("crm_notifications" as any).insert({type:"job_assigned",title:"Job assigned",message:`${title} assigned to ${techName}`,lead_id:lead.id,job_id:jobId}); }
     }

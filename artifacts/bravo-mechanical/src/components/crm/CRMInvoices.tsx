@@ -65,7 +65,7 @@ export const CRMInvoices = () => {
         .order("created_at", { ascending: false }),
       supabase.from("jobs").select("id,title,amount").order("title"),
     ]);
-    setItems((a as Invoice[]) || []);
+    setItems((a as unknown as Invoice[]) || []);
     setJobs((j as Job[]) || []);
   };
 

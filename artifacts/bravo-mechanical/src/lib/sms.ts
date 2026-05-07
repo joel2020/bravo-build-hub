@@ -56,7 +56,7 @@ export async function sendSmsWithFallback(
 
   if (!result.success) {
     openSmsFallback(to, body);
-    return { ...result, fallback: true };
+    return { success: true, fallback: true, to };
   }
 
   if (result.fallback) {

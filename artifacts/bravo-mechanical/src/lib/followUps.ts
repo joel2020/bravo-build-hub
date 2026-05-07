@@ -25,11 +25,12 @@ export const ensureFollowUp = async ({ leadId = null, jobId = null, dueAt, reaso
   query = jobId ? query.eq("job_id", jobId) : query.is("job_id", null);
   query = leadId ? query.eq("lead_id", leadId) : query.is("lead_id", null);
 
-  const { data: existing, error: duplicateError } = await query.maybeSingle();
+  const { data: existingRaw, error: duplicateError } = await query.maybeSingle();
   if (duplicateError) return { created: false, error: duplicateError };
+  const existing = existingRaw as { id: string } | null;
   if (existing?.id) return { created: false, duplicateId: existing.id };
 
-  const { data, error } = await supabase
+  const { data: createdRaw, error } = await supabase
     .from("follow_ups" as any)
     .insert({
       lead_id: leadId,
@@ -41,5 +42,6 @@ export const ensureFollowUp = async ({ leadId = null, jobId = null, dueAt, reaso
     .select("id")
     .single();
 
-  return { created: !error, id: data?.id, error };
+  const created = createdRaw as { id: string } | null;
+  return { created: !error, id: created?.id, error };
 };

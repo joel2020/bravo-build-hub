@@ -21,6 +21,7 @@ export type Database = {
           created_by: string | null
           details: string | null
           id: string
+          invoice_id: string | null
           job_id: string | null
           lead_id: string | null
         }
@@ -30,6 +31,7 @@ export type Database = {
           created_by?: string | null
           details?: string | null
           id?: string
+          invoice_id?: string | null
           job_id?: string | null
           lead_id?: string | null
         }
@@ -39,6 +41,7 @@ export type Database = {
           created_by?: string | null
           details?: string | null
           id?: string
+          invoice_id?: string | null
           job_id?: string | null
           lead_id?: string | null
         }
@@ -228,37 +231,46 @@ export type Database = {
         Row: {
           amount: number
           created_at: string
+          due_at: string | null
           due_date: string | null
           id: string
           invoice_number: string
           job_id: string
+          lead_id: string | null
           notes: string | null
           paid_date: string | null
           status: Database["public"]["Enums"]["invoice_status"]
+          total: number
           updated_at: string
         }
         Insert: {
           amount?: number
           created_at?: string
+          due_at?: string | null
           due_date?: string | null
           id?: string
           invoice_number: string
           job_id: string
+          lead_id?: string | null
           notes?: string | null
           paid_date?: string | null
           status?: Database["public"]["Enums"]["invoice_status"]
+          total?: number
           updated_at?: string
         }
         Update: {
           amount?: number
           created_at?: string
+          due_at?: string | null
           due_date?: string | null
           id?: string
           invoice_number?: string
           job_id?: string
+          lead_id?: string | null
           notes?: string | null
           paid_date?: string | null
           status?: Database["public"]["Enums"]["invoice_status"]
+          total?: number
           updated_at?: string
         }
         Relationships: [
@@ -269,6 +281,13 @@ export type Database = {
             referencedRelation: "jobs"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "invoices_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
         ]
       }
       jobs: {
@@ -276,45 +295,78 @@ export type Database = {
           address: string | null
           amount: number | null
           assigned_to: string | null
+          completed_at: string | null
           completed_date: string | null
+          completion_summary: string | null
           created_at: string
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
           description: string | null
+          dispatch_notes: string | null
           id: string
+          job_type: string | null
           lead_id: string
           notes: string | null
+          scheduled_at: string | null
           scheduled_date: string | null
+          started_at: string | null
           status: Database["public"]["Enums"]["job_status"]
+          technician_id: string | null
           title: string
+          total_amount: number | null
           updated_at: string
         }
         Insert: {
           address?: string | null
           amount?: number | null
           assigned_to?: string | null
+          completed_at?: string | null
           completed_date?: string | null
+          completion_summary?: string | null
           created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
           description?: string | null
+          dispatch_notes?: string | null
           id?: string
+          job_type?: string | null
           lead_id: string
           notes?: string | null
+          scheduled_at?: string | null
           scheduled_date?: string | null
+          started_at?: string | null
           status?: Database["public"]["Enums"]["job_status"]
+          technician_id?: string | null
           title: string
+          total_amount?: number | null
           updated_at?: string
         }
         Update: {
           address?: string | null
           amount?: number | null
           assigned_to?: string | null
+          completed_at?: string | null
           completed_date?: string | null
+          completion_summary?: string | null
           created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
           description?: string | null
+          dispatch_notes?: string | null
           id?: string
+          job_type?: string | null
           lead_id?: string
           notes?: string | null
+          scheduled_at?: string | null
           scheduled_date?: string | null
+          started_at?: string | null
           status?: Database["public"]["Enums"]["job_status"]
+          technician_id?: string | null
           title?: string
+          total_amount?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -325,29 +377,42 @@ export type Database = {
             referencedRelation: "leads"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "jobs_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
         ]
       }
       job_photos: {
         Row: {
+          caption: string | null
           created_at: string
           id: string
           job_id: string
+          lead_id: string | null
           public_url: string | null
           storage_path: string
           uploaded_by: string | null
         }
         Insert: {
+          caption?: string | null
           created_at?: string
           id?: string
           job_id: string
+          lead_id?: string | null
           public_url?: string | null
           storage_path: string
           uploaded_by?: string | null
         }
         Update: {
+          caption?: string | null
           created_at?: string
           id?: string
           job_id?: string
+          lead_id?: string | null
           public_url?: string | null
           storage_path?: string
           uploaded_by?: string | null
@@ -358,6 +423,13 @@ export type Database = {
             columns: ["job_id"]
             isOneToOne: false
             referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_photos_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
             referencedColumns: ["id"]
           },
         ]
@@ -508,6 +580,117 @@ export type Database = {
           reason?: string
         }
         Relationships: []
+      }
+      technicians: {
+        Row: {
+          active: boolean
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      crm_notifications: {
+        Row: {
+          created_at: string
+          follow_up_id: string | null
+          id: string
+          invoice_id: string | null
+          job_id: string | null
+          lead_id: string | null
+          message: string | null
+          read_at: string | null
+          technician_id: string | null
+          title: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          follow_up_id?: string | null
+          id?: string
+          invoice_id?: string | null
+          job_id?: string | null
+          lead_id?: string | null
+          message?: string | null
+          read_at?: string | null
+          technician_id?: string | null
+          title: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          follow_up_id?: string | null
+          id?: string
+          invoice_id?: string | null
+          job_id?: string | null
+          lead_id?: string | null
+          message?: string | null
+          read_at?: string | null
+          technician_id?: string | null
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_notifications_follow_up_id_fkey"
+            columns: ["follow_up_id"]
+            isOneToOne: false
+            referencedRelation: "follow_ups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_notifications_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_notifications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_notifications_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_notifications_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {

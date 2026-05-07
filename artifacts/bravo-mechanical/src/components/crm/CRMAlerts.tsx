@@ -42,7 +42,7 @@ export const CRMAlerts = () => {
       .order("created_at", { ascending: false })
       .limit(100);
 
-    setAlerts((data as CRMNotification[]) || []);
+    setAlerts((data as unknown as CRMNotification[]) || []);
     setLoading(false);
   };
 

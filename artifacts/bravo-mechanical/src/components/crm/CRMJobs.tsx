@@ -136,12 +136,12 @@ export const CRMJobs = () => {
       lead_id: form.lead_id,
       title: form.title.trim(),
       description: form.description || null,
-      status: form.status,
+      status: form.status as "quoted" | "scheduled" | "in_progress" | "completed" | "cancelled",
       address: form.address || null,
       scheduled_date: form.scheduled_date || null,
       amount: form.amount ? Number(form.amount) : null,
       notes: form.notes || null,
-      job_type: form.job_type || detectJobType(`${form.title} ${form.description} ${form.notes}`),
+      job_type: form.job_type || detectJobType(`${form.title} ${form.description} ${form.notes}`) || null,
     };
 
     if (editId) {
@@ -158,10 +158,12 @@ export const CRMJobs = () => {
         toast({ title: "Create failed", description: error.message, variant: "destructive" });
         return;
       }
-      await createActivity("Job created", { jobId: data.id, leadId: form.lead_id, details: form.title });
+      await createActivity("Job created", { jobId: data?.id, leadId: form.lead_id, details: form.title });
       const due = new Date();
       due.setDate(due.getDate() + 1);
-      await ensureFollowUp({ leadId: form.lead_id, jobId: data.id, dueAt: due, reason: `1-day follow-up for ${form.title}`, windowHours: 24 });
+      if (data?.id) {
+        await ensureFollowUp({ leadId: form.lead_id, jobId: data.id, dueAt: due, reason: `1-day follow-up for ${form.title}`, windowHours: 24 });
+      }
       toast({ title: "Job created" });
     }
 
@@ -188,7 +190,10 @@ export const CRMJobs = () => {
 
   const updateStatus = async (job: Job, status: string) => {
     if (job.status === status) return;
-    const { error } = await supabase.from("jobs").update({ status }).eq("id", job.id);
+    const { error } = await supabase
+      .from("jobs")
+      .update({ status: status as "quoted" | "scheduled" | "in_progress" | "completed" | "cancelled" })
+      .eq("id", job.id);
     if (error) {
       toast({ title: "Status update failed", description: error.message, variant: "destructive" });
       return;

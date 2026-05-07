@@ -24,12 +24,6 @@ uri = "file://artifacts/bravo-mechanical-deck/public/westchester.png"
 type = "image"
 title = "westchester aerial"
 
-[[outputs]]
-id = "YCMmN520-WfRmkCvdm_JH"
-uri = "file://.local/bravo-mechanical-sales-plan.md"
-type = "text"
-title = "Bravo Mechanical — 90-Day Sales Growth Plan"
-
 [[generated]]
 id = "UtnSrES6w_z2bQ8YWoLf6"
 uri = "file://artifacts/bravo-mechanical-promo/public/hvac-tech.png"
@@ -47,3 +41,33 @@ id = "DruTFEp3cPKuVzkHXnU9O"
 uri = "file://artifacts/bravo-mechanical-promo/public/hvac-tools.png"
 type = "image"
 title = "HVAC tools"
+
+[[generated]]
+id = "1mccYXC5tveMIB306HCej"
+uri = "file://artifacts/bravo-mechanical/src/assets/hero-technician-new.png"
+type = "image"
+title = "hvac technician hero"
+
+[[outputs]]
+id = "YCMmN520-WfRmkCvdm_JH"
+uri = "file://.local/bravo-mechanical-sales-plan.md"
+type = "text"
+title = "Bravo Mechanical — 90-Day Sales Growth Plan"
+
+[[outputs]]
+id = "pXl9iqXDUGgoldb63yKi3"
+uri = "file://attached_assets/stock_images/hvac_technician_1.jpg"
+type = "image"
+title = "HVAC technician working on furnace"
+
+[[outputs]]
+id = "FJPT7OKf2iilpIqkcHMlA"
+uri = "file://attached_assets/stock_images/hvac_technician_2.jpg"
+type = "image"
+title = "HVAC technician working on furnace"
+
+[[outputs]]
+id = "-Wc2goVGbhEE41Qd5jUHq"
+uri = "file://attached_assets/stock_images/hvac_technician_3.jpg"
+type = "image"
+title = "HVAC technician working on furnace"

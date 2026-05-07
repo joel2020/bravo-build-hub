@@ -87,9 +87,9 @@ export const CRMFollowUps = () => {
     if (leadError) toast({ title: "Failed to load customers", description: leadError.message, variant: "destructive" });
     if (jobError) toast({ title: "Failed to load jobs", description: jobError.message, variant: "destructive" });
 
-    setItems((followData as FollowUp[]) || []);
-    setLeads((leadData as LeadLite[]) || []);
-    setJobs((jobData as JobLite[]) || []);
+    setItems((followData as unknown as FollowUp[]) || []);
+    setLeads((leadData as unknown as LeadLite[]) || []);
+    setJobs((jobData as unknown as JobLite[]) || []);
   };
 
   useEffect(() => {
@@ -221,8 +221,9 @@ export const CRMFollowUps = () => {
       return;
     }
 
-    await supabase.from("follow_ups" as any).update({ job_id: data?.id || null }).eq("id", followUp.id);
-    await createActivity("Job created from follow-up", { leadId, jobId: data?.id || null, details: followUp.note });
+    const newJobId = (data as { id?: string } | null)?.id || null;
+    await supabase.from("follow_ups" as any).update({ job_id: newJobId }).eq("id", followUp.id);
+    await createActivity("Job created from follow-up", { leadId, jobId: newJobId, details: followUp.note });
     toast({ title: "Job created from follow-up" });
     await load();
   };
@@ -254,7 +255,7 @@ export const CRMFollowUps = () => {
       return;
     }
 
-    await createActivity("Job created from no-follow-up customer", { leadId: lead.id, jobId: data?.id || null, details: lead.name });
+    await createActivity("Job created from no-follow-up customer", { leadId: lead.id, jobId: (data as { id?: string } | null)?.id || null, details: lead.name });
     toast({ title: "Job created" });
     await load();
   };
@@ -356,7 +357,7 @@ export const CRMFollowUps = () => {
     );
   };
 
-  const renderSection = (title: string, subtitle: string, icon: JSX.Element, count: number, children: React.ReactNode, tone: "default" | "danger" = "default") => (
+  const renderSection = (title: string, subtitle: string, icon: React.ReactNode, count: number, children: React.ReactNode, tone: "default" | "danger" = "default") => (
     <Card className={tone === "danger" ? "border-red-200" : undefined}>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between gap-3 text-base">

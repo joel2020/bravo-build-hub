@@ -229,11 +229,16 @@ export const LeadForm = ({
       return;
     }
 
+    // GA4 EventParams disallows `null`. Coerce nullable tracking fields to undefined
+    // so they're omitted from the analytics payload rather than sent as the string "null".
+    const trackingForGa = Object.fromEntries(
+      Object.entries(tracking).map(([k, v]) => [k, v ?? undefined])
+    );
     trackLeadSubmit("contact_lead_form", {
       service: result.data.service,
       source,
       duplicate,
-      ...tracking,
+      ...trackingForGa,
     });
     await queueOwnerNotification(leadId);
     await queueCustomerAutoReply(result.data.email);

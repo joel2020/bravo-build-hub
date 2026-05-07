@@ -25,11 +25,9 @@ export const sendInvoiceFollowUp = async (
   jobId: string | null,
   invoiceNo: string
 ) => {
-  const lead = await supabase
-    .from("leads")
-    .select("name, phone, email")
-    .eq("id", leadId)
-    .maybeSingle();
+  const lead = leadId
+    ? await supabase.from("leads").select("name, phone, email").eq("id", leadId).maybeSingle()
+    : { data: null as { name: string | null; phone: string | null; email: string | null } | null };
 
   return sendUnpaidInvoiceFollowUp(
     invoiceId,

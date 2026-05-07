@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { MapPin, Phone, Play, CheckCircle2, UserRound } from "lucide-react";
 import { asCurrency, asDate, createActivity, ensureRevenueLoopForCompletedJob, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
+import type { Database } from "@/integrations/supabase/types";
 
 const STATUSES = ["scheduled", "in_progress", "completed", "cancelled"];
 
@@ -52,24 +53,39 @@ export const CRMDispatch = () => {
 
   useEffect(() => { load(); }, []);
 
-  const updateStatus = async (job: Job, status: string) => {
-    const patch: Record<string, string | null> = { status };
+  const updateStatus = async (job: Job, status: string): Promise<void> => {
+    const patch: Database["public"]["Tables"]["jobs"]["Update"] = { status: status as Database["public"]["Enums"]["job_status"] };
     if (status === "in_progress" && !job.started_at) patch.started_at = new Date().toISOString();
     if (status === "completed" && !job.completed_at) patch.completed_at = new Date().toISOString();
     const { error } = await supabase.from("jobs").update(patch).eq("id", job.id);
-    if (error) return toast({ title: "Status update failed", description: error.message, variant: "destructive" });
+    if (error) {
+      toast({ title: "Status update failed", description: error.message, variant: "destructive" });
+      return;
+    }
     await createActivity("Dispatch status updated", { jobId: job.id, leadId: job.lead_id || undefined, details: `${job.status} -> ${status}` });
     if (status === "completed") {
-      await ensureRevenueLoopForCompletedJob({ ...job, customer_name: job.leads?.name || null, customer_phone: job.leads?.phone || null, customer_email: job.leads?.email || null });
+      await ensureRevenueLoopForCompletedJob({
+        id: job.id,
+        lead_id: job.lead_id,
+        title: job.title,
+        amount: job.amount,
+        customer_name: job.leads?.name || null,
+        customer_phone: job.leads?.phone || null,
+        customer_email: job.leads?.email || null,
+        leads: job.leads ? { name: job.leads.name, phone: job.leads.phone || null, email: job.leads.email || null } : null,
+      });
     }
     toast({ title: `Job marked ${JOB_STATUS_LABELS[status] || status}` });
     load();
   };
 
-  const assignTech = async (job: Job, technicianId: string) => {
+  const assignTech = async (job: Job, technicianId: string): Promise<void> => {
     const value = technicianId === "unassigned" ? null : technicianId;
     const { error } = await supabase.from("jobs").update({ technician_id: value }).eq("id", job.id);
-    if (error) return toast({ title: "Assignment failed", description: error.message, variant: "destructive" });
+    if (error) {
+      toast({ title: "Assignment failed", description: error.message, variant: "destructive" });
+      return;
+    }
     const techName = technicians.find((tech) => tech.id === value)?.name || "Unassigned";
     await createActivity("Technician assigned", { jobId: job.id, leadId: job.lead_id || undefined, details: techName });
     await supabase.from("crm_notifications").insert({ type: "job_assigned", title: "Job assigned", message: `${job.title || "Job"} assigned to ${techName}`, job_id: job.id, lead_id: job.lead_id });
@@ -80,7 +96,7 @@ export const CRMDispatch = () => {
   const filteredJobs = useMemo(() => jobs.filter((job) => techFilter === "all" || (techFilter === "unassigned" ? !job.technician_id : job.technician_id === techFilter)), [jobs, techFilter]);
   const buckets = {
     today: filteredJobs.filter((job) => job.scheduled_date?.slice(0, 10) === dateFilter && job.status !== "completed"),
-    upcoming: filteredJobs.filter((job) => job.scheduled_date?.slice(0, 10) > dateFilter && job.status !== "completed"),
+    upcoming: filteredJobs.filter((job) => (job.scheduled_date?.slice(0, 10) ?? "") > dateFilter && job.status !== "completed"),
     unscheduled: filteredJobs.filter((job) => !job.scheduled_date && job.status !== "completed"),
     completed: filteredJobs.filter((job) => job.status === "completed"),
   };

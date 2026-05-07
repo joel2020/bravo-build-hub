@@ -85,7 +85,7 @@ export const CRMMyJobs = () => {
       return;
     }
 
-    const grouped = ((data as JobPhoto[]) || []).reduce<Record<string, JobPhoto[]>>((acc, photo) => {
+    const grouped = ((data as unknown as JobPhoto[]) || []).reduce<Record<string, JobPhoto[]>>((acc, photo) => {
       if (!acc[photo.job_id]) acc[photo.job_id] = [];
       acc[photo.job_id].push(photo);
       return acc;
@@ -133,7 +133,7 @@ export const CRMMyJobs = () => {
       return;
     }
 
-    const nextJobs = ((data as Job[]) || []).sort((a, b) => {
+    const nextJobs = ((data as unknown as Job[]) || []).sort((a, b) => {
       const aTime = getSchedule(a) ? new Date(getSchedule(a) as string).getTime() : Number.MAX_SAFE_INTEGER;
       const bTime = getSchedule(b) ? new Date(getSchedule(b) as string).getTime() : Number.MAX_SAFE_INTEGER;
       return aTime - bTime;
@@ -184,7 +184,17 @@ export const CRMMyJobs = () => {
     }
 
     await createActivity("Technician completed job", { jobId: job.id, leadId: job.lead_id || undefined, details: summary || job.title || "Job completed" });
-    await ensureRevenueLoopForCompletedJob(job);
+    await ensureRevenueLoopForCompletedJob({
+      id: job.id,
+      lead_id: job.lead_id,
+      title: job.title,
+      amount: job.amount,
+      total_amount: job.total_amount,
+      customer_name: job.customer_name,
+      customer_phone: job.customer_phone,
+      customer_email: job.customer_email,
+      leads: job.leads ? { name: job.leads.name, phone: job.leads.phone || null, email: job.leads.email || null } : null,
+    });
     toast({ title: "Job completed" });
     await load();
   };

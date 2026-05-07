@@ -60,7 +60,7 @@ export const createActivity = async (action: string, opts?: { leadId?: string | 
     job_id: opts?.jobId || null,
     invoice_id: opts?.invoiceId || null,
     details: opts?.details || null,
-    actor_id: auth.user?.id || null,
+    created_by: auth.user?.id || null,
   });
 };
 
@@ -68,23 +68,36 @@ const APP_URL = "https://app.bravomechanicalny.com";
 
 const invoiceNumber = () => `INV-${new Date().toISOString().slice(2, 10).replace(/-/g, "")}-${Date.now().toString().slice(-5)}`;
 
+export type CompletedJobInput = {
+  id: string;
+  lead_id?: string | null;
+  title?: string | null;
+  amount?: number | null;
+  total_amount?: number | null;
+  customer_name?: string | null;
+  customer_phone?: string | null;
+  customer_email?: string | null;
+  leads?: { name: string | null; phone: string | null; email: string | null } | null;
+};
+
 export const ensureRevenueLoopForCompletedJob = async (job: CompletedJobInput) => {
   const amount = Number(job.total_amount ?? job.amount ?? 0);
   const due = new Date();
   due.setDate(due.getDate() + 7);
 
-  const { data: existingInvoice } = await supabase
+  const { data: existingInvoiceRaw } = await supabase
     .from("invoices" as any)
     .select("id,invoice_number")
     .eq("job_id", job.id)
     .maybeSingle();
 
-  let invoiceId = existingInvoice?.id as string | undefined;
-  let invoiceNo = existingInvoice?.invoice_number as string | undefined;
+  const existingInvoice = existingInvoiceRaw as { id: string; invoice_number: string } | null;
+  let invoiceId = existingInvoice?.id;
+  let invoiceNo = existingInvoice?.invoice_number;
 
   if (!existingInvoice) {
     invoiceNo = invoiceNumber();
-    const { data: createdInvoice, error: invoiceError } = await supabase
+    const { data: createdInvoiceRaw, error: invoiceError } = await supabase
       .from("invoices" as any)
       .insert({
         job_id: job.id,
@@ -99,6 +112,7 @@ export const ensureRevenueLoopForCompletedJob = async (job: CompletedJobInput) =
       .select("id,invoice_number")
       .single();
 
+    const createdInvoice = createdInvoiceRaw as { id: string; invoice_number: string } | null;
     if (!invoiceError) {
       invoiceId = createdInvoice?.id;
       await createActivity("Invoice auto-created from completed job", { jobId: job.id, leadId: job.lead_id, invoiceId, details: invoiceNo });
@@ -122,9 +136,11 @@ export const ensureRevenueLoopForCompletedJob = async (job: CompletedJobInput) =
     });
   }
 
-  const { data: existingInvoiceAlert } = invoiceId
+  const { data: existingInvoiceAlertRaw } = invoiceId
     ? await supabase.from("crm_notifications" as any).select("id").eq("invoice_id", invoiceId).eq("type", "unpaid_invoice").maybeSingle()
     : { data: null };
+
+  const existingInvoiceAlert = existingInvoiceAlertRaw as { id: string } | null;
 
   if (invoiceId && !existingInvoiceAlert) {
     await supabase.from("crm_notifications" as any).insert({

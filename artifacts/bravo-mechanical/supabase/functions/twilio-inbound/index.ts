@@ -10,7 +10,7 @@ function normalizePhone(value: string | null | undefined): string {
   if (!digits) return "";
   if (digits.length === 10) return `+1${digits}`;
   if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
-  return trimmed.startsWith("+") ? `+${digits}` : `+${digits}`;
+  return `+${digits}`;
 }
 
 function requireEnv(name: string): string {
@@ -52,6 +52,9 @@ async function hmacSha1Base64(authToken: string, data: string): Promise<string> 
 }
 
 function canonicalWebhookUrl(req: Request): string {
+  const configuredUrl = Deno.env.get("TWILIO_WEBHOOK_URL")?.trim();
+  if (configuredUrl) return configuredUrl;
+
   const url = new URL(req.url);
   const proto = req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
   const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || url.host;

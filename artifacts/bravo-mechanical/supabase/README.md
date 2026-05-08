@@ -79,5 +79,5 @@ someone to assign to:
 
 ```sql
 insert into public.technicians (name, email, phone, active)
-values ('Bravo Tech 1', 'tech1@bravomechanicalny.com', '914-555-0100', true);
+values ('Bravo Tech 1', 'tech1@bravomechanicalny.com', '9143619142', true);
 ```

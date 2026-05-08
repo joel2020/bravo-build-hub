@@ -436,7 +436,6 @@ function SentRow({ it }: { it: { name: string; cat: string; sent: NonNullable<Pr
           {open && (
             <pre
               style={{
-                marginTop: 8,
                 padding: 12,
                 background: "rgba(255,255,255,0.04)",
                 border: "1px solid rgba(255,255,255,0.08)",

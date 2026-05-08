@@ -6,6 +6,15 @@ interface ResendCreds {
   fromEmail: string;
 }
 
+interface ReplitConnectorResponse {
+  items?: Array<{
+    settings?: {
+      api_key?: string;
+      from_email?: string;
+    };
+  }>;
+}
+
 let cachedFromEmail: string | null = null;
 
 async function getCredentials(): Promise<ResendCreds | null> {
@@ -18,13 +27,13 @@ async function getCredentials(): Promise<ResendCreds | null> {
   if (!hostname || !xReplitToken) return null;
 
   try {
-    const data = await fetch(
+    const data = (await fetch(
       `https://${hostname}/api/v2/connection?include_secrets=true&connector_names=resend`,
       { headers: { Accept: "application/json", "X-Replit-Token": xReplitToken } },
-    ).then((r) => r.json());
+    ).then((r) => r.json())) as ReplitConnectorResponse;
     const settings = data?.items?.[0]?.settings;
-    if (!settings?.api_key) return null;
-    cachedFromEmail = settings.from_email ?? null;
+    if (!settings?.api_key || !settings.from_email) return null;
+    cachedFromEmail = settings.from_email;
     return { apiKey: settings.api_key, fromEmail: settings.from_email };
   } catch (err) {
     logger.error({ err }, "Failed to load Resend credentials");

@@ -1,44 +1,25 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const EXPECTED_SUPABASE_URL = 'https://vqygaqrderxvumczpfnu.supabase.co';
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined;
 
-function requireClientEnv(name: string, value: string | undefined): string {
-  if (!value || !value.trim()) {
-    throw new Error(
-      `${name} is required for Bravo Mechanical Supabase features. ` +
-        `Set ${name} in Vercel and local .env files; do not use placeholder credentials.`,
-    );
-  }
-  return value.trim();
-}
+// Supabase is only required for /admin routes (CRM).
+// If env vars are missing the public marketing site still loads normally.
+export const isSupabaseConfigured =
+  !!SUPABASE_URL?.trim() && !!SUPABASE_PUBLISHABLE_KEY?.trim();
 
-const supabaseUrl = requireClientEnv('VITE_SUPABASE_URL', SUPABASE_URL);
-const supabasePublishableKey = requireClientEnv(
-  'VITE_SUPABASE_PUBLISHABLE_KEY',
-  SUPABASE_PUBLISHABLE_KEY,
-);
+const FALLBACK_URL = 'https://vqygaqrderxvumczpfnu.supabase.co';
+const FALLBACK_KEY = 'placeholder-key-set-vite-supabase-publishable-key';
 
-if (supabaseUrl !== EXPECTED_SUPABASE_URL) {
-  throw new Error(
-    `VITE_SUPABASE_URL must point to the Bravo Mechanical Supabase project (${EXPECTED_SUPABASE_URL}).`,
-  );
-}
-
-if ('SUPABASE_SERVICE_ROLE_KEY' in import.meta.env) {
-  throw new Error(
-    'SUPABASE_SERVICE_ROLE_KEY must never be exposed to the browser. Remove any VITE/client-side service-role configuration.',
-  );
-}
-
-export const supabase = createClient<Database>(supabaseUrl, supabasePublishableKey, {
-  auth: {
-    storage: localStorage,
-    persistSession: true,
-    autoRefreshToken: true,
+export const supabase = createClient<Database>(
+  SUPABASE_URL?.trim() || FALLBACK_URL,
+  SUPABASE_PUBLISHABLE_KEY?.trim() || FALLBACK_KEY,
+  {
+    auth: {
+      storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+      persistSession: true,
+      autoRefreshToken: true,
+    },
   },
-});
-
-export const isSupabaseConfigured = true;
+);

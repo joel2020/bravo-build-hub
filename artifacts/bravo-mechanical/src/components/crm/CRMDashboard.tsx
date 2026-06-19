@@ -322,15 +322,42 @@ export const TopBar = ({
   onSignOut,
   onNewJob,
   onMenuClick,
+  onSelect,
   searchQuery = "",
   onSearchChange,
 }: {
   onSignOut?: () => void;
   onNewJob?: () => void;
   onMenuClick?: () => void;
+  onSelect?: (id: string) => void;
   searchQuery?: string;
   onSearchChange?: (query: string) => void;
-}) => (
+}) => {
+  const [notifCount, setNotifCount] = useState(0);
+  const [notifs, setNotifs] = useState<{id:string;title:string;message:string;read:boolean;created_at:string}[]>([]);
+  const [notifOpen, setNotifOpen] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("crm_notifications" as any)
+        .select("id,title,message,read,created_at")
+        .order("created_at", { ascending: false })
+        .limit(10);
+      if (data) {
+        setNotifs(data as any[]);
+        setNotifCount((data as any[]).filter((n: any) => !n.read).length);
+      }
+    })();
+  }, [notifOpen]);
+
+  const markAllRead = async () => {
+    await supabase.from("crm_notifications" as any).update({ read: true } as any).eq("read", false);
+    setNotifCount(0);
+    setNotifs(n => n.map(x => ({ ...x, read: true })));
+  };
+
+  return (
   <header className="sticky top-0 z-20 border-b border-transparent bg-slate-50/90 px-4 py-3 backdrop-blur-xl lg:px-5 xl:px-6">
     <div className="flex h-11 items-center gap-3">
       <button type="button" onClick={onMenuClick} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-slate-600 hover:bg-white lg:hidden">
@@ -339,30 +366,61 @@ export const TopBar = ({
       <div className="relative mx-auto hidden h-10 max-w-[640px] flex-1 md:block">
         <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
         <input
-          className="h-full w-full rounded-md border border-slate-200 bg-white pl-10 pr-14 text-sm font-medium text-slate-700 shadow-[0_8px_25px_rgba(15,23,42,0.06)] outline-none placeholder:text-slate-400 focus:border-blue-300 focus:ring-4 focus:ring-blue-100"
+          className="h-full w-full rounded-md border border-slate-200 bg-white pl-10 pr-14 text-sm font-medium text-slate-700 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Search customers, jobs, invoices, or phone numbers..."
           value={searchQuery}
           onChange={(event) => onSearchChange?.(event.target.value)}
         />
         {searchQuery ? (
-          <button type="button" onClick={() => onSearchChange?.("")} className="absolute right-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md bg-slate-100 text-slate-500 hover:text-slate-900">
+          <button type="button" onClick={() => onSearchChange?.("")} className="absolute right-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100">
             <X className="h-3.5 w-3.5" />
           </button>
         ) : (
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">Ctrl K</span>
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-400">⌘K</span>
         )}
       </div>
-      <button type="button" onClick={onNewJob} className="ml-auto inline-flex h-10 items-center gap-2 rounded-md bg-blue-600 px-5 text-sm font-bold text-white shadow-[0_14px_30px_rgba(37,99,235,0.22)] transition hover:bg-blue-700">
+      <button type="button" onClick={onNewJob} className="ml-auto inline-flex h-10 items-center gap-2 rounded-md bg-blue-600 px-5 text-sm font-bold text-white shadow-md hover:bg-blue-700 md:ml-0">
         <Plus className="h-4 w-4" /> New Job
       </button>
-      <button type="button" className="relative hidden h-9 w-9 items-center justify-center rounded-md bg-white text-slate-800 shadow-sm md:flex">
+
+      {/* Inbox button → navigates to SMS inbox */}
+      <button type="button" onClick={() => onSelect?.("messages")} className="relative hidden h-9 w-9 items-center justify-center rounded-md bg-white text-slate-800 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 md:flex">
         <Inbox className="h-4 w-4" />
-        <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">12</span>
       </button>
-      <button type="button" className="relative hidden h-9 w-9 items-center justify-center rounded-md bg-white text-slate-800 shadow-sm md:flex">
-        <Bell className="h-4 w-4" />
-        <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">3</span>
-      </button>
+
+      {/* Notification bell */}
+      <DropdownMenu open={notifOpen} onOpenChange={setNotifOpen}>
+        <DropdownMenuTrigger asChild>
+          <button type="button" className="relative hidden h-9 w-9 items-center justify-center rounded-md bg-white text-slate-800 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 md:flex">
+            <Bell className="h-4 w-4" />
+            {notifCount > 0 && (
+              <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">{notifCount}</span>
+            )}
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-80">
+          <div className="flex items-center justify-between px-3 py-2">
+            <p className="text-sm font-semibold text-slate-900">Notifications</p>
+            {notifCount > 0 && (
+              <button onClick={markAllRead} className="text-xs text-blue-600 hover:underline">Mark all read</button>
+            )}
+          </div>
+          <DropdownMenuSeparator />
+          {notifs.length === 0 ? (
+            <p className="px-3 py-4 text-center text-sm text-slate-400">No notifications</p>
+          ) : (
+            notifs.slice(0,8).map(n => (
+              <DropdownMenuItem key={n.id} className={`cursor-default px-3 py-2 ${!n.read ? "bg-blue-50/60" : ""}`}>
+                <div>
+                  <p className="text-xs font-semibold text-slate-800">{n.title}</p>
+                  <p className="text-xs text-slate-500">{n.message}</p>
+                </div>
+              </DropdownMenuItem>
+            ))
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button type="button" className="hidden items-center gap-2 rounded-md px-2 py-1.5 hover:bg-white focus:outline-none md:flex">
@@ -385,7 +443,9 @@ export const TopBar = ({
       </DropdownMenu>
     </div>
   </header>
-);
+  );
+};
+
 
 export const KPIStatCard = ({ stat }: { stat: KPIStat }) => {
   const Icon = stat.icon;
@@ -852,9 +912,9 @@ export const CRMSettingsPanel = () => {
   const [notifs, setNotifs] = useState({ new_lead: true, job_update: true, invoice_sent: true, job_complete: true });
   const [savingNotifs, setSavingNotifs] = useState(false);
   const [templates, setTemplates] = useState({
-    day_1: "Hi {name}, your {service} appointment is confirmed. Questions? Call (214) 555-0100. — Bravo Mechanical",
-    follow_up: "Hi {name}, this is Bravo Mechanical following up on your recent service. How is everything working? — Bravo Mech",
-    invoice: "Hi {name}, your invoice is ready. Please call (214) 555-0100 to pay or for questions. — Bravo Mechanical",
+    day_1: "Hi {name}, your {service} appointment is confirmed. Questions? Call (214) 555-0100. â Bravo Mechanical",
+    follow_up: "Hi {name}, this is Bravo Mechanical following up on your recent service. How is everything working? â Bravo Mech",
+    invoice: "Hi {name}, your invoice is ready. Please call (214) 555-0100 to pay or for questions. â Bravo Mechanical",
   });
   const [editingTpl, setEditingTpl] = useState<string|null>(null);
   const [savingTpl, setSavingTpl] = useState(false);

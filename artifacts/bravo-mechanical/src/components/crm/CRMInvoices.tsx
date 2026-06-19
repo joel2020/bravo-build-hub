@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Send, MessageSquare } from "lucide-react";
+import { Plus, PlusCircle, Send, MessageSquare, Trash2 } from "lucide-react";
 import {
   asCurrency,
   asDate,
@@ -318,7 +318,7 @@ export const CRMInvoices = () => {
                         <tr key={idx} className="border-t border-slate-100">
                           <td className="px-1 py-1">
                             <input className="w-full border-0 bg-transparent px-1 text-sm outline-none focus:ring-1 focus:ring-blue-500 rounded"
-                              value={it.description} placeholder="Labor, parts…"
+                              value={it.description} placeholder="Labor, partsâ¦"
                               onChange={(e) => { const n=[...lineItems]; n[idx]={...n[idx],description:e.target.value}; setLineItems(n); }} />
                           </td>
                           <td className="px-1 py-1">
@@ -385,7 +385,7 @@ export const CRMInvoices = () => {
           >
             <div className="flex justify-between">
               <p className="font-medium">
-                {i.invoice_number} — {i.jobs?.title}
+                {i.invoice_number} â {i.jobs?.title}
               </p>
               <span
                 className={`px-2 py-1 rounded text-xs ${
@@ -396,7 +396,7 @@ export const CRMInvoices = () => {
               </span>
             </div>
             <p className="text-sm">
-              {asCurrency(i.amount)} · Due {asDate(i.due_date)}{" "}
+              {asCurrency(i.amount)} Â· Due {asDate(i.due_date)}{" "}
               {isOverdue(i) ? "(Overdue)" : ""}
             </p>
             <div className="flex gap-1 mt-2 flex-wrap">

@@ -20,7 +20,9 @@ import {
   Plus,
   Search,
   Send,
+  Save,
   Settings,
+  Shield,
   Smile,
   X,
   User,
@@ -376,14 +378,14 @@ export const TopBar = ({
             <X className="h-3.5 w-3.5" />
           </button>
         ) : (
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-400">⌘K</span>
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-400">âK</span>
         )}
       </div>
       <button type="button" onClick={onNewJob} className="ml-auto inline-flex h-10 items-center gap-2 rounded-md bg-blue-600 px-5 text-sm font-bold text-white shadow-md hover:bg-blue-700 md:ml-0">
         <Plus className="h-4 w-4" /> New Job
       </button>
 
-      {/* Inbox button → navigates to SMS inbox */}
+      {/* Inbox button â navigates to SMS inbox */}
       <button type="button" onClick={() => onSelect?.("messages")} className="relative hidden h-9 w-9 items-center justify-center rounded-md bg-white text-slate-800 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 md:flex">
         <Inbox className="h-4 w-4" />
       </button>
@@ -912,9 +914,9 @@ export const CRMSettingsPanel = () => {
   const [notifs, setNotifs] = useState({ new_lead: true, job_update: true, invoice_sent: true, job_complete: true });
   const [savingNotifs, setSavingNotifs] = useState(false);
   const [templates, setTemplates] = useState({
-    day_1: "Hi {name}, your {service} appointment is confirmed. Questions? Call (214) 555-0100. â Bravo Mechanical",
-    follow_up: "Hi {name}, this is Bravo Mechanical following up on your recent service. How is everything working? â Bravo Mech",
-    invoice: "Hi {name}, your invoice is ready. Please call (214) 555-0100 to pay or for questions. â Bravo Mechanical",
+    day_1: "Hi {name}, your {service} appointment is confirmed. Questions? Call (214) 555-0100. Ã¢ÂÂ Bravo Mechanical",
+    follow_up: "Hi {name}, this is Bravo Mechanical following up on your recent service. How is everything working? Ã¢ÂÂ Bravo Mech",
+    invoice: "Hi {name}, your invoice is ready. Please call (214) 555-0100 to pay or for questions. Ã¢ÂÂ Bravo Mechanical",
   });
   const [editingTpl, setEditingTpl] = useState<string|null>(null);
   const [savingTpl, setSavingTpl] = useState(false);

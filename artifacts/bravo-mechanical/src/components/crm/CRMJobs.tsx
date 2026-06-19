@@ -72,8 +72,8 @@ export const CRMJobs = () => {
 
   const loadJobsAndLeads = async () => {
     const [{ data: jobData, error: jobError }, { data: leadData, error: leadError }] = await Promise.all([
-      supabase.from("jobs").select("id, lead_id, title, description, status, address, scheduled_date, amount, notes, created_at, leads(name)").order("created_at", { ascending: false }),
-      supabase.from("leads").select("id,name").order("name"),
+      supabase.from("jobs").select("id, lead_id, title, description, status, address, scheduled_date, amount, notes, created_at, leads(name,first_name,last_name)").order("created_at", { ascending: false }),
+      supabase.from("leads").select("id,name,first_name,last_name").order("created_at", { ascending: false }),
     ]);
 
     if (jobError) {
@@ -210,7 +210,7 @@ export const CRMJobs = () => {
   const completeAndSendInvoice = async (job: Job) => {
     await updateStatus(job, "completed");
     const result = await ensureRevenueLoopForCompletedJob(job as any);
-    const sms = getSmsTemplate("day_1", job.leads?.name, `https://pay.bravomechanical.com/invoice/${result.invoiceId}`);
+    const sms = getSmsTemplate("day_1", (job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown'), `https://pay.bravomechanical.com/invoice/${result.invoiceId}`);
     window.open(`sms:?&body=${encodeURIComponent(sms)}`, "_self");
   };
 
@@ -330,7 +330,7 @@ export const CRMJobs = () => {
       if (filterStatus !== "all" && job.status !== filterStatus) return false;
       if (filterDate && (job.scheduled_date || "").slice(0, 10) !== filterDate) return false;
       if (!q) return true;
-      return [job.title, job.leads?.name || "", job.address || "", job.notes || ""].join(" ").toLowerCase().includes(q);
+      return [job.title, (job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown') || "", job.address || "", job.notes || ""].join(" ").toLowerCase().includes(q);
     });
   }, [jobs, search, filterStatus, filterDate]);
 
@@ -358,7 +358,7 @@ export const CRMJobs = () => {
                 <Label>Lead</Label>
                 <Select value={form.lead_id} onValueChange={(value) => setForm({ ...form, lead_id: value })}>
                   <SelectTrigger><SelectValue placeholder="Select lead" /></SelectTrigger>
-                  <SelectContent>{leads.map((lead) => <SelectItem key={lead.id} value={lead.id}>{lead.name}</SelectItem>)}</SelectContent>
+                  <SelectContent>{leads.map((lead) => <SelectItem key={lead.id} value={lead.id}>{lead.name || [lead.first_name, lead.last_name].filter(Boolean).join(' ') || lead.id}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div><Label>Title</Label><Input value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} /></div>
@@ -394,8 +394,8 @@ export const CRMJobs = () => {
                 <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div>
                     <p className="text-base font-semibold">{job.title}</p>
-                    <p className="text-xs text-muted-foreground">{job.leads?.name || "No lead"} • {job.address || "No address"}</p>
-                    <p className="mt-1 text-sm">{asDate(job.scheduled_date)} • {asCurrency(job.amount)}</p>
+                    <p className="text-xs text-muted-foreground">{(job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown') || "No lead"} â¢ {job.address || "No address"}</p>
+                    <p className="mt-1 text-sm">{asDate(job.scheduled_date)} â¢ {asCurrency(job.amount)}</p>
                   </div>
                   <span className={`w-fit rounded px-2 py-1 text-xs font-medium ${STATUS_BADGE_CLASS[job.status] || "bg-secondary"}`}>
                     {JOB_STATUS_LABELS[job.status] || job.status}
@@ -422,7 +422,7 @@ export const CRMJobs = () => {
                       rows={3}
                     />
                     <Button className="mt-2" size="sm" onClick={() => addTechnicianNote(job)} disabled={savingNoteJobId === job.id}>
-                      {savingNoteJobId === job.id ? "Saving…" : "Add note"}
+                      {savingNoteJobId === job.id ? "Savingâ¦" : "Add note"}
                     </Button>
                   </div>
 

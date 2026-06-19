@@ -952,19 +952,19 @@ export const CRMSettingsPanel = () => {
     setSavingRole(userId);
     // user_roles is unique on (user_id, role) — not on user_id alone — so an
     // upsert with onConflict:"user_id" errors. Replace the user's role rows instead.
-    const { error: delError } = await supabase.from("user_roles").delete().eq("user_id", userId);
+    const { error: delError } = await supabase.from("user_roles" as any).delete().eq("user_id", userId);
     if (delError) {
       setSavingRole(null);
       toast({ title: "Failed to update role", description: delError.message, variant: "destructive" });
       return;
     }
-    const { error: insError } = await supabase.from("user_roles").insert({ user_id: userId, role });
+    const { error: insError } = await supabase.from("user_roles" as any).insert({ user_id: userId, role });
     if (insError) {
       setSavingRole(null);
       toast({ title: "Failed to update role", description: insError.message, variant: "destructive" });
       return;
     }
-    const { data: roles } = await supabase.from("user_roles").select("user_id,role");
+    const { data: roles } = await supabase.from("user_roles" as any).select("user_id,role");
     if (roles) setUsers(roles as any[]);
     setSavingRole(null);
     toast({ title: "Role updated" });
@@ -973,10 +973,10 @@ export const CRMSettingsPanel = () => {
   const saveNotifs = async () => {
     setSavingNotifs(true);
     const results = await Promise.all([
-      supabase.from("settings").upsert({ key:"notif_new_lead", value: notifs.new_lead }, { onConflict:"key" }),
-      supabase.from("settings").upsert({ key:"notif_job_update", value: notifs.job_update }, { onConflict:"key" }),
-      supabase.from("settings").upsert({ key:"notif_invoice_sent", value: notifs.invoice_sent }, { onConflict:"key" }),
-      supabase.from("settings").upsert({ key:"notif_job_complete", value: notifs.job_complete }, { onConflict:"key" }),
+      supabase.from("settings" as any).upsert({ key:"notif_new_lead", value: notifs.new_lead }, { onConflict:"key" }),
+      supabase.from("settings" as any).upsert({ key:"notif_job_update", value: notifs.job_update }, { onConflict:"key" }),
+      supabase.from("settings" as any).upsert({ key:"notif_invoice_sent", value: notifs.invoice_sent }, { onConflict:"key" }),
+      supabase.from("settings" as any).upsert({ key:"notif_job_complete", value: notifs.job_complete }, { onConflict:"key" }),
     ]);
     setSavingNotifs(false);
     const err = results.find((r) => r.error)?.error;
@@ -987,7 +987,7 @@ export const CRMSettingsPanel = () => {
 
   const saveTemplate = async (key: string) => {
     setSavingTpl(true);
-    const { error } = await supabase.from("settings").upsert({ key: "sms_" + key, value: (templates as any)[key] }, { onConflict: "key" });
+    const { error } = await supabase.from("settings" as any).upsert({ key: "sms_" + key, value: (templates as any)[key] }, { onConflict: "key" });
     setSavingTpl(false);
     setEditingTpl(null);
     if (error) {

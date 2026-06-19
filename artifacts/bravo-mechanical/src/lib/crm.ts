@@ -57,7 +57,7 @@ export const createActivity = async (action: string, opts?: { leadId?: string | 
   // activity_logs requires a (record_type, record_id) and a non-null activity_type/title.
   const recordType = opts?.invoiceId ? "invoice" : opts?.jobId ? "job" : opts?.leadId ? "lead" : "system";
   const recordId = opts?.invoiceId || opts?.jobId || opts?.leadId || crypto.randomUUID();
-  const { error } = await supabase.from("activity_logs").insert({
+  const { error } = await supabase.from("activity_logs" as any).insert({
     activity_type: "note",
     title: action,
     description: opts?.details || null,

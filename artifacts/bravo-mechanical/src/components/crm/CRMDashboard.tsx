@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   LineChart,
   Mail,
+  Menu,
   MessageSquare,
   MoreHorizontal,
   Phone,
@@ -261,8 +262,8 @@ const Avatar = ({ label, size = "md", className }: { label: string; size?: "sm" 
   </div>
 );
 
-export const Sidebar = ({ activeView = "dashboard", onSelect }: { activeView?: string; onSelect?: (id: string) => void }) => (
-  <aside className="fixed inset-y-0 left-0 z-30 hidden w-[244px] border-r border-slate-200 bg-white/95 px-3.5 py-5 shadow-[18px_0_45px_rgba(15,23,42,0.04)] backdrop-blur-xl lg:flex lg:flex-col">
+export const Sidebar = ({ activeView = "dashboard", onSelect, mobile = false }: { activeView?: string; onSelect?: (id: string) => void; mobile?: boolean }) => (
+  <aside className={mobile ? "flex h-full w-full flex-col bg-white/95 px-3.5 py-5" : "fixed inset-y-0 left-0 z-30 hidden w-[244px] border-r border-slate-200 bg-white/95 px-3.5 py-5 shadow-[18px_0_45px_rgba(15,23,42,0.04)] backdrop-blur-xl lg:flex lg:flex-col"}>
     <div className="mb-6 flex items-center gap-2.5 px-2">
       <img src={logo} alt="Bravo Mechanical" className="h-11 w-11 object-contain" />
       <div className="leading-tight">
@@ -318,16 +319,21 @@ export const Sidebar = ({ activeView = "dashboard", onSelect }: { activeView?: s
 export const TopBar = ({
   onSignOut,
   onNewJob,
+  onMenuClick,
   searchQuery = "",
   onSearchChange,
 }: {
   onSignOut?: () => void;
   onNewJob?: () => void;
+  onMenuClick?: () => void;
   searchQuery?: string;
   onSearchChange?: (query: string) => void;
 }) => (
   <header className="sticky top-0 z-20 border-b border-transparent bg-slate-50/90 px-4 py-3 backdrop-blur-xl lg:px-5 xl:px-6">
     <div className="flex h-11 items-center gap-3">
+      <button type="button" onClick={onMenuClick} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-slate-600 hover:bg-white lg:hidden">
+        <Menu className="h-5 w-5" />
+      </button>
       <div className="relative mx-auto hidden h-10 max-w-[640px] flex-1 md:block">
         <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
         <input

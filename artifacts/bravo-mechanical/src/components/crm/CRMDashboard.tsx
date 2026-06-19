@@ -11,6 +11,7 @@ import {
   Inbox,
   LayoutDashboard,
   LineChart,
+  LogOut,
   Mail,
   Menu,
   MessageSquare,
@@ -30,6 +31,7 @@ import type { ComponentType } from "react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import logo from "@/assets/logo-bravo.webp";
 import hvacUnit from "@/assets/job-mini-split-exterior.webp";
 import technicianImage from "@/assets/hero-technician.webp";
@@ -361,11 +363,26 @@ export const TopBar = ({
         <Bell className="h-4 w-4" />
         <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">3</span>
       </button>
-      <button type="button" onClick={onSignOut} className="hidden items-center gap-2 rounded-md px-2 py-1.5 hover:bg-white md:flex">
-        <Avatar label="MJ" size="md" className="bg-slate-800" />
-        <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white" />
-        <ChevronDown className="h-4 w-4 text-slate-600" />
-      </button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button type="button" className="hidden items-center gap-2 rounded-md px-2 py-1.5 hover:bg-white focus:outline-none md:flex">
+            <Avatar label="MJ" size="md" className="bg-slate-800" />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white" />
+            <ChevronDown className="h-4 w-4 text-slate-600" />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-52">
+          <div className="px-3 py-2">
+            <p className="text-sm font-semibold text-slate-900">Mike Johnson</p>
+            <p className="text-xs text-slate-500">Administrator</p>
+          </div>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={onSignOut} className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700">
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   </header>
 );

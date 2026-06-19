@@ -317,9 +317,8 @@ export const Sidebar = ({ activeView = "dashboard", onSelect, mobile = false }: 
         </div>
         <ChevronDown className="h-4 w-4 text-slate-500" />
       </div>
-      <button type="button" className="flex h-10 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 shadow-sm">
+      <button type="button" onClick={() => onSelect?.("activity")} className="flex h-10 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50">
         <span className="flex items-center gap-3"><Bell className="h-4 w-4" />Notifications</span>
-        <span className="rounded-full bg-red-500 px-2 py-0.5 text-[11px] font-bold text-white">3</span>
       </button>
     </div>
   </aside>

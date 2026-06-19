@@ -108,7 +108,28 @@ export const CRMDispatch = () => {
           <div className="truncate text-base font-bold text-slate-950">{job.title || "Untitled job"}</div>
           <div className="mt-1 text-xs font-medium text-slate-500">{job.leads?.name || "No customer"}</div>
         </div>
-        <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${STATUS_BADGE_CLASS[job.status] || "bg-slate-100 text-slate-700"}`}>{JOB_STATUS_LABELS[job.status] || job.status}</span>
+        <div className="flex shrink-0 items-center gap-1.5">
+          <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${STATUS_BADGE_CLASS[job.status] || "bg-slate-100 text-slate-700"}`}>{JOB_STATUS_LABELS[job.status] || job.status}</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button type="button" className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+                <MoreHorizontal className="h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <p className="px-2 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wide">Change Status</p>
+              {["scheduled", "in_progress", "completed", "cancelled"].map(s => (
+                <DropdownMenuItem key={s} onClick={() => updateStatus(job, s)} className="cursor-pointer capitalize">
+                  {JOB_STATUS_LABELS[s] || s}
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700" onClick={() => updateStatus(job, "cancelled")}>
+                Cancel Job
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <div className="space-y-2 rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
         <div className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5" /> <span className="truncate">{job.address || "No address"}</span></div>
@@ -159,7 +180,7 @@ export const CRMDispatch = () => {
           </div>
         </div>
       </div>
-      {loading ? <div className="rounded-2xl border p-6 text-sm text-slate-500">Loading dispatch…</div> : (
+      {loading ? <div className="rounded-2xl border p-6 text-sm text-slate-500">Loading dispatchâ¦</div> : (
         <div className="flex gap-4 overflow-x-auto pb-3"><Column title="Today" items={buckets.today} accent="bg-blue-500" /><Column title="Upcoming" items={buckets.upcoming} accent="bg-violet-500" /><Column title="Unscheduled" items={buckets.unscheduled} accent="bg-amber-500" /><Column title="Completed" items={buckets.completed} accent="bg-emerald-500" /></div>
       )}
     </div>

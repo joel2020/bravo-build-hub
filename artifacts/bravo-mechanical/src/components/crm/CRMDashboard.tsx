@@ -108,7 +108,7 @@ const kpis: KPIStat[] = [
   { label: "Today's Jobs", value: "14", detail: "vs yesterday", delta: "27%", trend: "up", icon: CalendarDays, color: "from-blue-500 to-blue-600" },
   { label: "Revenue (Today)", value: "$5,680", detail: "vs yesterday", delta: "18%", trend: "up", icon: DollarSign, color: "from-green-500 to-green-600" },
   { label: "Open Jobs", value: "32", detail: "vs yesterday", delta: "8%", trend: "down", icon: ClipboardList, color: "from-orange-400 to-orange-500" },
-  { label: "Unread Messages", value: "12", detail: "vs yesterday", delta: "33%", trend: "up", icon: MessageSquare, color: "from-indigo-500 to-violet-600" },
+  { label: "Unread Messages", value: String(liveStats.unread || "—"), detail: "vs yesterday", delta: "33%", trend: "up", icon: MessageSquare, color: "from-indigo-500 to-violet-600" },
   { label: "Conversion Rate", value: "26%", detail: "vs last 7 days", delta: "12%", trend: "up", icon: LineChart, color: "from-teal-500 to-cyan-500" },
 ];
 

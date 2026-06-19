@@ -105,6 +105,7 @@ const CRM = () => {
           onSignOut={signOut}
           onNewJob={() => setActiveView("jobs")}
           onMenuClick={() => setMobileNavOpen(true)}
+          onSelect={setActiveView}
           searchQuery={dashboardSearch}
           onSearchChange={(query) => {
             setDashboardSearch(query);

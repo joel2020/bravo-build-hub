@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { MapPin, Phone, Play, CheckCircle2, UserRound } from "lucide-react";
+import { MapPin, MoreHorizontal, Phone, Play, CheckCircle2, UserRound } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { asCurrency, asDate, createActivity, ensureRevenueLoopForCompletedJob, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -180,7 +181,7 @@ export const CRMDispatch = () => {
           </div>
         </div>
       </div>
-      {loading ? <div className="rounded-2xl border p-6 text-sm text-slate-500">Loading dispatchâ¦</div> : (
+      {loading ? <div className="rounded-2xl border p-6 text-sm text-slate-500">Loading dispatchÃ¢ÂÂ¦</div> : (
         <div className="flex gap-4 overflow-x-auto pb-3"><Column title="Today" items={buckets.today} accent="bg-blue-500" /><Column title="Upcoming" items={buckets.upcoming} accent="bg-violet-500" /><Column title="Unscheduled" items={buckets.unscheduled} accent="bg-amber-500" /><Column title="Completed" items={buckets.completed} accent="bg-emerald-500" /></div>
       )}
     </div>

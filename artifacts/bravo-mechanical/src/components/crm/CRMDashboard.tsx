@@ -846,22 +846,163 @@ export const CRMDashboard = ({ searchQuery = "", onNavigate }: DashboardProps) =
   );
 };
 
-export const CRMSettingsPanel = () => (
-  <div className="space-y-4">
-    <PlaceholderPanel title="Settings" />
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-      <h2 className="text-lg font-black text-slate-950">CRM Settings</h2>
-      <p className="mt-2 max-w-2xl text-sm text-slate-600">
-        Settings controls are not wired yet. This panel is intentionally separate from Activity Log so CRM navigation lands in the expected place.
-      </p>
-      <div className="mt-4 grid gap-3 md:grid-cols-3">
-        {["Team permissions", "Notification rules", "SMS templates"].map((item) => (
-          <div key={item} className="rounded-md border border-dashed border-slate-200 bg-slate-50 p-4 text-sm font-bold text-slate-700">{item}</div>
-        ))}
-      </div>
-    </section>
-  </div>
-);
+export const CRMSettingsPanel = () => {
+  const [users, setUsers] = useState<{user_id:string;role:string}[]>([]);
+  const [savingRole, setSavingRole] = useState<string|null>(null);
+  const [notifs, setNotifs] = useState({ new_lead: true, job_update: true, invoice_sent: true, job_complete: true });
+  const [savingNotifs, setSavingNotifs] = useState(false);
+  const [templates, setTemplates] = useState({
+    day_1: "Hi {name}, your {service} appointment is confirmed. Questions? Call (214) 555-0100. — Bravo Mechanical",
+    follow_up: "Hi {name}, this is Bravo Mechanical following up on your recent service. How is everything working? — Bravo Mech",
+    invoice: "Hi {name}, your invoice is ready. Please call (214) 555-0100 to pay or for questions. — Bravo Mechanical",
+  });
+  const [editingTpl, setEditingTpl] = useState<string|null>(null);
+  const [savingTpl, setSavingTpl] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { data: roles } = await supabase.from("user_roles" as any).select("user_id,role");
+      if (roles) setUsers(roles as any[]);
+      const { data: s } = await supabase.from("settings" as any).select("key,value").in("key",["notif_new_lead","notif_job_update","notif_invoice_sent","notif_job_complete","sms_day_1","sms_follow_up","sms_invoice"]);
+      if (s) {
+        const m: Record<string,any> = {};
+        (s as any[]).forEach(r => { m[r.key] = r.value; });
+        setNotifs(n => ({
+          new_lead: m.notif_new_lead !== undefined ? !!m.notif_new_lead : n.new_lead,
+          job_update: m.notif_job_update !== undefined ? !!m.notif_job_update : n.job_update,
+          invoice_sent: m.notif_invoice_sent !== undefined ? !!m.notif_invoice_sent : n.invoice_sent,
+          job_complete: m.notif_job_complete !== undefined ? !!m.notif_job_complete : n.job_complete,
+        }));
+        setTemplates(t => ({
+          day_1: m.sms_day_1 || t.day_1,
+          follow_up: m.sms_follow_up || t.follow_up,
+          invoice: m.sms_invoice || t.invoice,
+        }));
+      }
+    })();
+  }, []);
+
+  const changeRole = async (userId: string, role: string) => {
+    setSavingRole(userId);
+    await supabase.from("user_roles" as any).upsert({ user_id: userId, role }, { onConflict: "user_id" });
+    const { data: roles } = await supabase.from("user_roles" as any).select("user_id,role");
+    if (roles) setUsers(roles as any[]);
+    setSavingRole(null);
+    toast({ title: "Role updated" });
+  };
+
+  const saveNotifs = async () => {
+    setSavingNotifs(true);
+    await Promise.all([
+      supabase.from("settings" as any).upsert({ key:"notif_new_lead", value: notifs.new_lead }, { onConflict:"key" }),
+      supabase.from("settings" as any).upsert({ key:"notif_job_update", value: notifs.job_update }, { onConflict:"key" }),
+      supabase.from("settings" as any).upsert({ key:"notif_invoice_sent", value: notifs.invoice_sent }, { onConflict:"key" }),
+      supabase.from("settings" as any).upsert({ key:"notif_job_complete", value: notifs.job_complete }, { onConflict:"key" }),
+    ]);
+    setSavingNotifs(false);
+    toast({ title: "Notification rules saved" });
+  };
+
+  const saveTemplate = async (key: string) => {
+    setSavingTpl(true);
+    await supabase.from("settings" as any).upsert({ key: "sms_" + key, value: (templates as any)[key] }, { onConflict: "key" });
+    setSavingTpl(false);
+    setEditingTpl(null);
+    toast({ title: "Template saved" });
+  };
+
+  return (
+    <div className="space-y-4">
+      <PlaceholderPanel title="Settings" />
+
+      {/* Team & Permissions */}
+      <section className="rounded-md border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+        <div className="mb-4 flex items-center gap-2">
+          <Shield className="h-5 w-5 text-blue-600" />
+          <h2 className="text-lg font-black text-slate-950">Team & Permissions</h2>
+        </div>
+        {users.length === 0 ? (
+          <p className="text-sm text-slate-500">No users found. Add users in Supabase Auth.</p>
+        ) : (
+          <div className="divide-y divide-slate-100 rounded-md border border-slate-200">
+            {users.map(u => (
+              <div key={u.user_id} className="flex items-center justify-between px-4 py-3">
+                <span className="font-mono text-xs text-slate-600">{u.user_id.substring(0,16)}...</span>
+                <Select value={u.role} onValueChange={v => changeRole(u.user_id, v)} disabled={savingRole === u.user_id}>
+                  <SelectTrigger className="h-8 w-36 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="user">User</SelectItem>
+                    <SelectItem value="technician">Technician</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Notification Rules */}
+      <section className="rounded-md border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+        <div className="mb-4 flex items-center gap-2">
+          <Bell className="h-5 w-5 text-blue-600" />
+          <h2 className="text-lg font-black text-slate-950">Notification Rules</h2>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {([
+            { key: "new_lead", label: "New lead submitted" },
+            { key: "job_update", label: "Job status changed" },
+            { key: "invoice_sent", label: "Invoice sent" },
+            { key: "job_complete", label: "Job completed" },
+          ] as {key: keyof typeof notifs, label: string}[]).map(({ key, label }) => (
+            <label key={key} className="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 p-3 hover:bg-slate-50">
+              <input type="checkbox" className="h-4 w-4 rounded accent-blue-600" checked={notifs[key]} onChange={e => setNotifs(n => ({...n, [key]: e.target.checked}))} />
+              <span className="text-sm text-slate-700">{label}</span>
+            </label>
+          ))}
+        </div>
+        <Button className="mt-4" onClick={saveNotifs} disabled={savingNotifs}>
+          <Save className="mr-2 h-4 w-4" />{savingNotifs ? "Saving..." : "Save rules"}
+        </Button>
+      </section>
+
+      {/* SMS Templates */}
+      <section className="rounded-md border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+        <div className="mb-4 flex items-center gap-2">
+          <MessageSquare className="h-5 w-5 text-blue-600" />
+          <h2 className="text-lg font-black text-slate-950">SMS Templates</h2>
+        </div>
+        <div className="grid gap-3">
+          {([
+            { key: "day_1", label: "Day-1 Confirmation" },
+            { key: "follow_up", label: "Follow-Up" },
+            { key: "invoice", label: "Invoice Ready" },
+          ] as {key: keyof typeof templates, label: string}[]).map(({ key, label }) => (
+            <div key={key} className="rounded-md border border-slate-200 p-4">
+              <div className="mb-2 flex items-center justify-between">
+                <Label className="font-semibold">{label}</Label>
+                <button className="text-xs text-blue-600 hover:underline" onClick={() => setEditingTpl(editingTpl === key ? null : key)}>
+                  {editingTpl === key ? "Cancel" : "Edit"}
+                </button>
+              </div>
+              {editingTpl === key ? (
+                <div className="space-y-2">
+                  <textarea className="w-full rounded-md border border-slate-200 p-2 text-sm" rows={3} value={(templates as any)[key]} onChange={e => setTemplates(t => ({...t, [key]: e.target.value}))} />
+                  <Button size="sm" onClick={() => saveTemplate(key)} disabled={savingTpl}>
+                    <Save className="mr-1 h-3 w-3" />{savingTpl ? "Saving..." : "Save"}
+                  </Button>
+                </div>
+              ) : (
+                <p className="text-sm text-slate-600">{(templates as any)[key]}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
+
 
 export const PlaceholderPanel = ({ title }: { title: string }) => (
   <div className="rounded-md border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">

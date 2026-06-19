@@ -27,6 +27,79 @@ type Job = {
   technicians?: { name: string | null } | null;
 };
 
+const JobCard = ({ job, technicians, onUpdateStatus, onAssignTech }: {
+job: Job;
+technicians: Technician[];
+onUpdateStatus: (job: Job, status: string) => void;
+onAssignTech: (job: Job, technicianId: string) => void;
+}) => (
+  <div className="group rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-xl">
+    <div className="mb-3 flex items-start justify-between gap-3">
+      <div className="min-w-0">
+        <div className="truncate text-base font-bold text-slate-950">{job.title || "Untitled job"}</div>
+        <div className="mt-1 text-xs font-medium text-slate-500">{job.leads?.name || "No customer"}</div>
+      </div>
+      <div className="flex shrink-0 items-center gap-1.5">
+        <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${STATUS_BADGE_CLASS[job.status] || "bg-slate-100 text-slate-700"}`}>{JOB_STATUS_LABELS[job.status] || job.status}</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button type="button" className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <MoreHorizontal className="h-4 w-4" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <p className="px-2 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wide">Change Status</p>
+            {["scheduled", "in_progress", "completed", "cancelled"].map(s => (
+              <DropdownMenuItem key={s} onClick={() => onUpdateStatus(job, s)} className="cursor-pointer capitalize">
+                {JOB_STATUS_LABELS[s] || s}
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700" onClick={() => onUpdateStatus(job, "cancelled")}>
+              Cancel Job
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+    <div className="space-y-2 rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
+      <div className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5" /> <span className="truncate">{job.address || "No address"}</span></div>
+      <div className="flex items-center justify-between"><span>{asDate(job.scheduled_date)}</span><span className="font-bold text-slate-950">{asCurrency(job.amount)}</span></div>
+      {job.leads?.phone && <a className="flex items-center gap-2 font-semibold text-blue-700" href={`tel:${job.leads.phone}`}><Phone className="h-3.5 w-3.5" />Call customer</a>}
+    </div>
+    <div className="mt-3">
+      <Select value={job.technician_id || "unassigned"} onValueChange={(value) => onAssignTech(job, value)}>
+        <SelectTrigger className="rounded-xl"><SelectValue placeholder="Assign tech" /></SelectTrigger>
+        <SelectContent>
+          <SelectItem value="unassigned">Unassigned</SelectItem>
+          {technicians.map((tech) => <SelectItem key={tech.id} value={tech.id}>{tech.name}</SelectItem>)}
+        </SelectContent>
+      </Select>
+    </div>
+    <div className="mt-3 grid grid-cols-2 gap-2">
+      <Button size="sm" className="rounded-xl" onClick={() => onUpdateStatus(job, "in_progress")}><Play className="mr-1 h-3.5 w-3.5" />Start</Button>
+      <Button size="sm" className="rounded-xl bg-emerald-600 hover:bg-emerald-700" onClick={() => onUpdateStatus(job, "completed")}><CheckCircle2 className="mr-1 h-3.5 w-3.5" />Complete</Button>
+    </div>
+  </div>
+);
+
+const Column = ({ title, items, accent, technicians, onUpdateStatus, onAssignTech }: {
+title: string;
+items: Job[];
+accent: string;
+technicians: Technician[];
+onUpdateStatus: (job: Job, status: string) => void;
+onAssignTech: (job: Job, technicianId: string) => void;
+}) => (
+  <div className="min-w-[310px] flex-1 rounded-3xl border border-slate-200 bg-slate-50/80 p-4 shadow-inner">
+    <div className="mb-4 flex items-center justify-between">
+      <div className="flex items-center gap-2"><span className={`h-2.5 w-2.5 rounded-full ${accent}`} /><h3 className="font-black text-slate-950">{title}</h3></div>
+      <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-600 shadow-sm">{items.length}</span>
+    </div>
+    <div className="space-y-3">{items.length === 0 ? <p className="rounded-2xl border border-dashed bg-white p-4 text-sm text-slate-400">No jobs here.</p> : items.map((job) => <JobCard key={job.id} job={job} technicians={technicians} onUpdateStatus={onUpdateStatus} onAssignTech={onAssignTech} />)}</div>
+  </div>
+);
+
 export const CRMDispatch = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [technicians, setTechnicians] = useState<Technician[]>([]);
@@ -102,67 +175,6 @@ export const CRMDispatch = () => {
     completed: filteredJobs.filter((job) => job.status === "completed"),
   };
 
-  const JobCard = ({ job }: { job: Job }) => (
-    <div className="group rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-xl">
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <div className="truncate text-base font-bold text-slate-950">{job.title || "Untitled job"}</div>
-          <div className="mt-1 text-xs font-medium text-slate-500">{job.leads?.name || "No customer"}</div>
-        </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${STATUS_BADGE_CLASS[job.status] || "bg-slate-100 text-slate-700"}`}>{JOB_STATUS_LABELS[job.status] || job.status}</span>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button type="button" className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700">
-                <MoreHorizontal className="h-4 w-4" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <p className="px-2 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wide">Change Status</p>
-              {["scheduled", "in_progress", "completed", "cancelled"].map(s => (
-                <DropdownMenuItem key={s} onClick={() => updateStatus(job, s)} className="cursor-pointer capitalize">
-                  {JOB_STATUS_LABELS[s] || s}
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700" onClick={() => updateStatus(job, "cancelled")}>
-                Cancel Job
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-      <div className="space-y-2 rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
-        <div className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5" /> <span className="truncate">{job.address || "No address"}</span></div>
-        <div className="flex items-center justify-between"><span>{asDate(job.scheduled_date)}</span><span className="font-bold text-slate-950">{asCurrency(job.amount)}</span></div>
-        {job.leads?.phone && <a className="flex items-center gap-2 font-semibold text-blue-700" href={`tel:${job.leads.phone}`}><Phone className="h-3.5 w-3.5" />Call customer</a>}
-      </div>
-      <div className="mt-3">
-        <Select value={job.technician_id || "unassigned"} onValueChange={(value) => assignTech(job, value)}>
-          <SelectTrigger className="rounded-xl"><SelectValue placeholder="Assign tech" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="unassigned">Unassigned</SelectItem>
-            {technicians.map((tech) => <SelectItem key={tech.id} value={tech.id}>{tech.name}</SelectItem>)}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="mt-3 grid grid-cols-2 gap-2">
-        <Button size="sm" className="rounded-xl" onClick={() => updateStatus(job, "in_progress")}><Play className="mr-1 h-3.5 w-3.5" />Start</Button>
-        <Button size="sm" className="rounded-xl bg-emerald-600 hover:bg-emerald-700" onClick={() => updateStatus(job, "completed")}><CheckCircle2 className="mr-1 h-3.5 w-3.5" />Complete</Button>
-      </div>
-    </div>
-  );
-
-  const Column = ({ title, items, accent }: { title: string; items: Job[]; accent: string }) => (
-    <div className="min-w-[310px] flex-1 rounded-3xl border border-slate-200 bg-slate-50/80 p-4 shadow-inner">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2"><span className={`h-2.5 w-2.5 rounded-full ${accent}`} /><h3 className="font-black text-slate-950">{title}</h3></div>
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-600 shadow-sm">{items.length}</span>
-      </div>
-      <div className="space-y-3">{items.length === 0 ? <p className="rounded-2xl border border-dashed bg-white p-4 text-sm text-slate-400">No jobs here.</p> : items.map((job) => <JobCard key={job.id} job={job} />)}</div>
-    </div>
-  );
-
   return (
     <div className="space-y-5">
       <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-950 to-blue-950 p-5 text-white shadow-xl">
@@ -181,8 +193,8 @@ export const CRMDispatch = () => {
           </div>
         </div>
       </div>
-      {loading ? <div className="rounded-2xl border p-6 text-sm text-slate-500">Loading dispatchÃ¢ÂÂ¦</div> : (
-        <div className="flex gap-4 overflow-x-auto pb-3"><Column title="Today" items={buckets.today} accent="bg-blue-500" /><Column title="Upcoming" items={buckets.upcoming} accent="bg-violet-500" /><Column title="Unscheduled" items={buckets.unscheduled} accent="bg-amber-500" /><Column title="Completed" items={buckets.completed} accent="bg-emerald-500" /></div>
+      {loading ? <div className="rounded-2xl border p-6 text-sm text-slate-500">Loading dispatch…</div> : (
+        <div className="flex gap-4 overflow-x-auto pb-3"><Column technicians={technicians} onUpdateStatus={updateStatus} onAssignTech={assignTech} title="Today" items={buckets.today} accent="bg-blue-500" /><Column technicians={technicians} onUpdateStatus={updateStatus} onAssignTech={assignTech} title="Upcoming" items={buckets.upcoming} accent="bg-violet-500" /><Column technicians={technicians} onUpdateStatus={updateStatus} onAssignTech={assignTech} title="Unscheduled" items={buckets.unscheduled} accent="bg-amber-500" /><Column technicians={technicians} onUpdateStatus={updateStatus} onAssignTech={assignTech} title="Completed" items={buckets.completed} accent="bg-emerald-500" /></div>
       )}
     </div>
   );

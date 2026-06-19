@@ -19,6 +19,8 @@ import {
 
 const STATUSES = ["draft", "sent", "paid", "overdue", "cancelled"] as const;
 
+type LineItem = { description: string; qty: number; unitPrice: number };
+
 type Invoice = {
   id: string;
   job_id: string;
@@ -86,10 +88,10 @@ export const CRMInvoices = () => {
       paid_date: i.paid_date || "",
       notes: i.notes || "",
     });
-    const items = Array.isArray((i as any).line_items) && (i as any).line_items.length
-      ? (i as any).line_items
+    const nextLineItems = Array.isArray((i as any).line_items) && (i as any).line_items.length
+      ? ((i as any).line_items as LineItem[])
       : [{ description: i.jobs?.title || "", qty: 1, unitPrice: i.amount }];
-    setLineItems(items);
+    setLineItems(nextLineItems);
     setTaxRate(Number((i as any).tax_rate) || 8.875);
     setOpen(true);
   };
@@ -245,9 +247,9 @@ export const CRMInvoices = () => {
             ))}
           </SelectContent>
         </Select>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) resetForm(); }}>
           <DialogTrigger asChild>
-            <Button>
+            <Button onClick={() => resetForm()}>
               <Plus className="h-4 w-4 mr-1" />
               Add Invoice
             </Button>
@@ -318,7 +320,7 @@ export const CRMInvoices = () => {
                         <tr key={idx} className="border-t border-slate-100">
                           <td className="px-1 py-1">
                             <input className="w-full border-0 bg-transparent px-1 text-sm outline-none focus:ring-1 focus:ring-blue-500 rounded"
-                              value={it.description} placeholder="Labor, partsâ¦"
+                              value={it.description} placeholder="Labor, parts…"
                               onChange={(e) => { const n=[...lineItems]; n[idx]={...n[idx],description:e.target.value}; setLineItems(n); }} />
                           </td>
                           <td className="px-1 py-1">
@@ -385,7 +387,7 @@ export const CRMInvoices = () => {
           >
             <div className="flex justify-between">
               <p className="font-medium">
-                {i.invoice_number} â {i.jobs?.title}
+                {i.invoice_number} — {i.jobs?.title}
               </p>
               <span
                 className={`px-2 py-1 rounded text-xs ${
@@ -396,7 +398,7 @@ export const CRMInvoices = () => {
               </span>
             </div>
             <p className="text-sm">
-              {asCurrency(i.amount)} Â· Due {asDate(i.due_date)}{" "}
+              {asCurrency(i.amount)} · Due {asDate(i.due_date)}{" "}
               {isOverdue(i) ? "(Overdue)" : ""}
             </p>
             <div className="flex gap-1 mt-2 flex-wrap">

@@ -39,7 +39,7 @@ type Job = {
   completion_summary: string | null;
   technician_id: string | null;
   created_at: string;
-  leads?: { name: string; phone?: string | null; email?: string | null } | null;
+  leads?: { name: string | null; first_name?: string | null; last_name?: string | null; phone?: string | null; email?: string | null } | null;
 };
 
 type JobPhoto = {

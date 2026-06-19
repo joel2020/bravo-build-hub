@@ -40,10 +40,10 @@ type Job = {
   notes: string | null;
   job_type?: string | null;
   created_at: string;
-  leads?: { name: string } | null;
+  leads?: { name: string | null; first_name?: string | null; last_name?: string | null } | null;
 };
 
-type Lead = { id: string; name: string };
+type Lead = { id: string; name: string | null; first_name?: string | null; last_name?: string | null };
 type JobPhoto = {
   id: string;
   job_id: string;
@@ -85,9 +85,9 @@ export const CRMJobs = () => {
       return;
     }
 
-    const nextJobs = (jobData || []) as Job[];
+    const nextJobs = (jobData || []) as unknown as Job[];
     setJobs(nextJobs);
-    setLeads((leadData || []) as Lead[]);
+    setLeads((leadData || []) as unknown as Lead[]);
 
     if (nextJobs.length > 0) {
       await loadPhotos(nextJobs.map((job) => job.id));
@@ -118,7 +118,7 @@ export const CRMJobs = () => {
   };
 
   useEffect(() => {
-  const handler = () => setShowAdd(true);
+  const handler = () => setOpen(true);
   window.addEventListener('crm:open-new-job', handler);
   return () => window.removeEventListener('crm:open-new-job', handler);
 }, []);

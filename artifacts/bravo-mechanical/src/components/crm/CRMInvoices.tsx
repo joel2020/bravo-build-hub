@@ -118,13 +118,13 @@ export const CRMInvoices = () => {
       status: form.status as any,
     };
     if (editId) {
-      await supabase.from("invoices").update(payload).eq("id", editId);
+      await supabase.from("invoices").update(payload as any).eq("id", editId);
       await createActivity("Invoice updated", {
         jobId: form.job_id,
         details: form.invoice_number,
       });
     } else {
-      await supabase.from("invoices").insert(payload);
+      await supabase.from("invoices").insert(payload as any);
       await createActivity("Invoice created", {
         jobId: form.job_id,
         details: form.invoice_number,

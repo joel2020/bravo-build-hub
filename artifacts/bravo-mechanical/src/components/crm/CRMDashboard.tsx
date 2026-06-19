@@ -108,7 +108,7 @@ const kpis: KPIStat[] = [
   { label: "Today's Jobs", value: "14", detail: "vs yesterday", delta: "27%", trend: "up", icon: CalendarDays, color: "from-blue-500 to-blue-600" },
   { label: "Revenue (Today)", value: "$5,680", detail: "vs yesterday", delta: "18%", trend: "up", icon: DollarSign, color: "from-green-500 to-green-600" },
   { label: "Open Jobs", value: "32", detail: "vs yesterday", delta: "8%", trend: "down", icon: ClipboardList, color: "from-orange-400 to-orange-500" },
-  { label: "Unread Messages", value: "—", detail: "vs yesterday", delta: "33%", trend: "up", icon: MessageSquare, color: "from-indigo-500 to-violet-600" },
+  { label: "Unread Messages", value: "â", detail: "vs yesterday", delta: "33%", trend: "up", icon: MessageSquare, color: "from-indigo-500 to-violet-600" },
   { label: "Conversion Rate", value: "26%", detail: "vs last 7 days", delta: "12%", trend: "up", icon: LineChart, color: "from-teal-500 to-cyan-500" },
 ];
 
@@ -789,9 +789,9 @@ export const CRMDashboard = ({ searchQuery = "", onNavigate }: DashboardProps) =
         ]);
         const totalRevenue = (revenue.data || []).reduce((s: number, i: { amount: number }) => s + (i.amount || 0), 0);
         setLiveKpis(prev => prev.map(k => {
-          if (k.label === "Today's Jobs") return { ...k, value: String(jobsToday.count ?? '—'), detail: 'scheduled today', delta: '' };
+          if (k.label === "Today's Jobs") return { ...k, value: String(jobsToday.count ?? 'â'), detail: 'scheduled today', delta: '' };
           if (k.label === 'Revenue (Today)') return { ...k, value: totalRevenue ? '
-  const filteredKpis = useMemo(() => kpis.filter((stat) => includesQuery([stat.label, stat.value, stat.detail], searchQuery)), [searchQuery]);
+  const filteredKpis = useMemo(() => liveKpis.filter((stat) => includesQuery([stat.label, stat.value, stat.detail], searchQuery)), [searchQuery]);
 
   return (
   <div className="min-w-0 space-y-3">
@@ -843,9 +843,9 @@ export const PlaceholderPanel = ({ title }: { title: string }) => (
     </p>
   </div>
 );
- + totalRevenue.toLocaleString() : '—', detail: 'paid invoices', delta: '' };
-          if (k.label === 'Open Jobs') return { ...k, value: String(openJobs.count ?? '—'), detail: 'active jobs', delta: '' };
-          if (k.label === 'Unread Messages') return { ...k, value: String(newLeads.count ?? '—'), detail: 'new leads', delta: '' };
+ + totalRevenue.toLocaleString() : 'â', detail: 'paid invoices', delta: '' };
+          if (k.label === 'Open Jobs') return { ...k, value: String(openJobs.count ?? 'â'), detail: 'active jobs', delta: '' };
+          if (k.label === 'Unread Messages') return { ...k, value: String(newLeads.count ?? 'â'), detail: 'new leads', delta: '' };
           return k;
         }));
       } catch (_) {}

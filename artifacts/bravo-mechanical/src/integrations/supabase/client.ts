@@ -9,7 +9,7 @@ const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY a
 export const isSupabaseConfigured =
   !!SUPABASE_URL?.trim() && !!SUPABASE_PUBLISHABLE_KEY?.trim();
 
-const FALLBACK_URL = 'https://vqygaqrderxvumczpfnu.supabase.co';
+const FALLBACK_URL = 'https://tzczkcvavudoyuuetwcr.supabase.co';
 const FALLBACK_KEY = 'placeholder-key-set-vite-supabase-publishable-key';
 
 export const supabase = createClient<Database>(

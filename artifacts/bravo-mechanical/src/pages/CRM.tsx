@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
 import { CRMAlerts } from "@/components/crm/CRMAlerts";
 import { CRMDashboard, CRMSettingsPanel, PlaceholderPanel, Sidebar, SMSInbox, TopBar } from "@/components/crm/CRMDashboard";
@@ -19,6 +20,7 @@ const CRM = () => {
   const [authorized, setAuthorized] = useState(false);
   const [activeView, setActiveView] = useState("dashboard");
   const [dashboardSearch, setDashboardSearch] = useState("");
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const navigate = useNavigate();
 
   useSeo({ title: "CRM | Bravo Mechanical", description: "Internal CRM dashboard.", canonical: `${SITE.siteUrl}/admin/crm`, noindex: true });
@@ -93,10 +95,16 @@ const CRM = () => {
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-50 text-slate-950">
       <Sidebar activeView={activeView} onSelect={setActiveView} />
+      <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
+        <SheetContent side="left" className="w-[244px] p-0 [&>button]:hidden">
+          <Sidebar activeView={activeView} onSelect={(id) => { setActiveView(id); setMobileNavOpen(false); }} mobile />
+        </SheetContent>
+      </Sheet>
       <div className="min-w-0 lg:pl-[244px]">
         <TopBar
           onSignOut={signOut}
           onNewJob={() => setActiveView("jobs")}
+          onMenuClick={() => setMobileNavOpen(true)}
           searchQuery={dashboardSearch}
           onSearchChange={(query) => {
             setDashboardSearch(query);

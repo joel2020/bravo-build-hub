@@ -56,6 +56,8 @@ export const CRMInvoices = () => {
     paid_date: "",
     notes: "",
   });
+  const [lineItems, setLineItems] = useState<LineItem[]>([{ description: "", qty: 1, unitPrice: 0 }]);
+  const [taxRate, setTaxRate] = useState<number>(8.875);
 
   const load = async () => {
     const [{ data: a }, { data: j }] = await Promise.all([
@@ -73,10 +75,41 @@ export const CRMInvoices = () => {
     load();
   }, []);
 
+  const openEdit = (i: Invoice) => {
+    setEditId(i.id);
+    setForm({
+      job_id: i.job_id,
+      invoice_number: i.invoice_number,
+      amount: String(i.amount),
+      status: i.status,
+      due_date: i.due_date || "",
+      paid_date: i.paid_date || "",
+      notes: i.notes || "",
+    });
+    const items = Array.isArray((i as any).line_items) && (i as any).line_items.length
+      ? (i as any).line_items
+      : [{ description: i.jobs?.title || "", qty: 1, unitPrice: i.amount }];
+    setLineItems(items);
+    setTaxRate(Number((i as any).tax_rate) || 8.875);
+    setOpen(true);
+  };
+
+    const subtotal = () => lineItems.reduce((s, it) => s + it.qty * it.unitPrice, 0);
+  const total = () => subtotal() * (1 + taxRate / 100);
+
+  const resetForm = () => {
+    setForm({ job_id: "", invoice_number: "", amount: "", status: "draft", due_date: "", paid_date: "", notes: "" });
+    setLineItems([{ description: "", qty: 1, unitPrice: 0 }]);
+    setTaxRate(8.875);
+    setEditId(null);
+  };
+
   const save = async () => {
     const payload = {
       ...form,
-      amount: Number(form.amount || 0),
+      amount: total(),
+      line_items: lineItems as any,
+      tax_rate: taxRate,
       due_date: form.due_date || null,
       paid_date: form.paid_date || null,
       notes: form.notes || null,
@@ -96,6 +129,7 @@ export const CRMInvoices = () => {
       });
     }
     setOpen(false);
+    resetForm();
     load();
   };
 
@@ -218,81 +252,125 @@ export const CRMInvoices = () => {
               Add Invoice
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-h-[90vh] overflow-y-auto max-w-2xl">
             <DialogHeader>
               <DialogTitle>{editId ? "Edit" : "New"} Invoice</DialogTitle>
             </DialogHeader>
-            <div className="grid gap-2">
-              <Label>Job</Label>
-              <Select
-                value={form.job_id}
-                onValueChange={(v) => {
-                  const job = jobs.find((j) => j.id === v);
-                  setForm({
-                    ...form,
-                    job_id: v,
-                    amount: form.amount || String(job?.amount || 0),
-                  });
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {jobs.map((j) => (
-                    <SelectItem key={j.id} value={j.id}>
-                      {j.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Label>Invoice #</Label>
-              <Input
-                value={form.invoice_number}
-                onChange={(e) =>
-                  setForm({ ...form, invoice_number: e.target.value })
-                }
-              />
-              <Label>Amount</Label>
-              <Input
-                type="number"
-                value={form.amount}
-                onChange={(e) =>
-                  setForm({ ...form, amount: e.target.value })
-                }
-              />
-              <Label>Due date</Label>
-              <Input
-                type="date"
-                value={form.due_date}
-                onChange={(e) =>
-                  setForm({ ...form, due_date: e.target.value })
-                }
-              />
-              <Label>Status</Label>
-              <Select
-                value={form.status}
-                onValueChange={(v) => setForm({ ...form, status: v })}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {STATUSES.map((s) => (
-                    <SelectItem key={s} value={s}>
-                      {INVOICE_STATUS_LABELS[s]}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Label>Notes</Label>
-              <Textarea
-                value={form.notes}
-                onChange={(e) =>
-                  setForm({ ...form, notes: e.target.value })
-                }
-              />
-              <Button onClick={save}>Save</Button>
+            <div className="grid gap-3">
+              {/* Job + Invoice # + Status row */}
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <Label className="mb-1 block">Job</Label>
+                  <Select value={form.job_id} onValueChange={(v) => setForm({ ...form, job_id: v })}>
+                    <SelectTrigger><SelectValue placeholder="Select job" /></SelectTrigger>
+                    <SelectContent>
+                      {jobs.map((j) => (<SelectItem key={j.id} value={j.id}>{j.title}</SelectItem>))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="mb-1 block">Invoice #</Label>
+                  <Input value={form.invoice_number} onChange={(e) => setForm({ ...form, invoice_number: e.target.value })} placeholder="INV-001" />
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                <div>
+                  <Label className="mb-1 block">Status</Label>
+                  <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {STATUSES.map((s) => (<SelectItem key={s} value={s}>{INVOICE_STATUS_LABELS[s]}</SelectItem>))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="mb-1 block">Due date</Label>
+                  <Input type="date" value={form.due_date} onChange={(e) => setForm({ ...form, due_date: e.target.value })} />
+                </div>
+                <div>
+                  <Label className="mb-1 block">Tax rate %</Label>
+                  <Input type="number" step="0.001" value={taxRate} onChange={(e) => setTaxRate(Number(e.target.value))} />
+                </div>
+              </div>
+
+              {/* Line items */}
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <Label>Line Items</Label>
+                  <button type="button" className="flex items-center gap-1 text-xs text-blue-600 hover:underline"
+                    onClick={() => setLineItems([...lineItems, { description: "", qty: 1, unitPrice: 0 }])}>
+                    <PlusCircle className="h-3 w-3" /> Add row
+                  </button>
+                </div>
+                <div className="rounded-md border border-slate-200 overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-50 text-xs text-slate-500">
+                      <tr>
+                        <th className="px-2 py-1.5 text-left w-1/2">Description</th>
+                        <th className="px-2 py-1.5 text-right w-16">Qty</th>
+                        <th className="px-2 py-1.5 text-right w-24">Unit Price</th>
+                        <th className="px-2 py-1.5 text-right w-24">Subtotal</th>
+                        <th className="px-2 py-1.5 w-8"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {lineItems.map((it, idx) => (
+                        <tr key={idx} className="border-t border-slate-100">
+                          <td className="px-1 py-1">
+                            <input className="w-full border-0 bg-transparent px-1 text-sm outline-none focus:ring-1 focus:ring-blue-500 rounded"
+                              value={it.description} placeholder="Labor, parts…"
+                              onChange={(e) => { const n=[...lineItems]; n[idx]={...n[idx],description:e.target.value}; setLineItems(n); }} />
+                          </td>
+                          <td className="px-1 py-1">
+                            <input className="w-full border-0 bg-transparent px-1 text-right text-sm outline-none focus:ring-1 focus:ring-blue-500 rounded"
+                              type="number" min="1" value={it.qty}
+                              onChange={(e) => { const n=[...lineItems]; n[idx]={...n[idx],qty:Number(e.target.value)}; setLineItems(n); }} />
+                          </td>
+                          <td className="px-1 py-1">
+                            <input className="w-full border-0 bg-transparent px-1 text-right text-sm outline-none focus:ring-1 focus:ring-blue-500 rounded"
+                              type="number" min="0" step="0.01" value={it.unitPrice}
+                              onChange={(e) => { const n=[...lineItems]; n[idx]={...n[idx],unitPrice:Number(e.target.value)}; setLineItems(n); }} />
+                          </td>
+                          <td className="px-2 py-1 text-right font-medium">{asCurrency(it.qty * it.unitPrice)}</td>
+                          <td className="px-1 py-1 text-center">
+                            {lineItems.length > 1 && (
+                              <button type="button" onClick={() => setLineItems(lineItems.filter((_,i)=>i!==idx))}
+                                className="text-slate-400 hover:text-red-500">
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot className="bg-slate-50 text-sm">
+                      <tr className="border-t border-slate-200">
+                        <td colSpan={3} className="px-2 py-1 text-right text-slate-500">Subtotal</td>
+                        <td className="px-2 py-1 text-right font-medium">{asCurrency(subtotal())}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3} className="px-2 py-1 text-right text-slate-500">Tax ({taxRate}%)</td>
+                        <td className="px-2 py-1 text-right font-medium">{asCurrency(subtotal() * taxRate / 100)}</td>
+                        <td></td>
+                      </tr>
+                      <tr className="border-t border-slate-200">
+                        <td colSpan={3} className="px-2 py-1.5 text-right font-bold text-slate-900">Total</td>
+                        <td className="px-2 py-1.5 text-right font-bold text-blue-700">{asCurrency(total())}</td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+
+              <div>
+                <Label className="mb-1 block">Notes</Label>
+                <Textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2} />
+              </div>
+              <Button onClick={save} disabled={!form.job_id || !form.invoice_number.trim()}>
+                Save Invoice
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -318,10 +396,11 @@ export const CRMInvoices = () => {
               </span>
             </div>
             <p className="text-sm">
-              {asCurrency(i.amount)} • Due {asDate(i.due_date)}{" "}
+              {asCurrency(i.amount)} · Due {asDate(i.due_date)}{" "}
               {isOverdue(i) ? "(Overdue)" : ""}
             </p>
             <div className="flex gap-1 mt-2 flex-wrap">
+              <Button size="sm" variant="outline" onClick={() => openEdit(i)}>Edit</Button>
               {["sent", "paid", "overdue"].map((s) => (
                 <Button
                   key={s}

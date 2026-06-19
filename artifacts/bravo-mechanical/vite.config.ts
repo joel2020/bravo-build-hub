@@ -82,7 +82,8 @@ export default defineConfig({
           if (id.includes("date-fns") || id.includes("react-day-picker")) return "vendor-dates";
           if (id.includes("/react/") || id.includes("/react-dom/") || id.includes("scheduler"))
             return "vendor-react";
-          return "vendor";
+          // No catch-all "vendor" chunk: let Rollup auto-group remaining
+            // node_modules to avoid circular chunk initialization ordering bugs.
         },
       },
     },

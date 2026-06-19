@@ -53,7 +53,7 @@ type JobPhoto = {
 
 const getSchedule = (job: Job) => job.scheduled_at || job.scheduled_date;
 const getAmount = (job: Job) => Number(job.total_amount ?? job.amount ?? 0);
-const getCustomerName = (job: Job) => job.customer_name || job.leads?.name || "Customer";
+const getCustomerName = (job: Job) => job.customer_name || (job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown') || "Customer";
 const getPhone = (job: Job) => job.customer_phone || job.leads?.phone || "";
 const getEmail = (job: Job) => job.customer_email || job.leads?.email || "";
 
@@ -289,7 +289,7 @@ export const CRMMyJobs = () => {
       </div>
 
       {loading ? (
-        <div className="rounded-3xl border bg-white p-8 text-center text-sm text-slate-500">Loading technician jobs…</div>
+        <div className="rounded-3xl border bg-white p-8 text-center text-sm text-slate-500">Loading technician jobsâ¦</div>
       ) : visibleJobs.length === 0 ? (
         <div className="rounded-3xl border bg-white p-8 text-center">
           <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600"><UserRound className="h-6 w-6" /></div>

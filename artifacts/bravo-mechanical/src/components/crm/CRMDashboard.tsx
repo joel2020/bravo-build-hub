@@ -108,7 +108,7 @@ const kpis: KPIStat[] = [
   { label: "Today's Jobs", value: "14", detail: "vs yesterday", delta: "27%", trend: "up", icon: CalendarDays, color: "from-blue-500 to-blue-600" },
   { label: "Revenue (Today)", value: "$5,680", detail: "vs yesterday", delta: "18%", trend: "up", icon: DollarSign, color: "from-green-500 to-green-600" },
   { label: "Open Jobs", value: "32", detail: "vs yesterday", delta: "8%", trend: "down", icon: ClipboardList, color: "from-orange-400 to-orange-500" },
-  { label: "Unread Messages", value: String(liveStats.unread || "â"), detail: "vs yesterday", delta: "33%", trend: "up", icon: MessageSquare, color: "from-indigo-500 to-violet-600" },
+  { label: "Unread Messages", value: "—", detail: "vs yesterday", delta: "33%", trend: "up", icon: MessageSquare, color: "from-indigo-500 to-violet-600" },
   { label: "Conversion Rate", value: "26%", detail: "vs last 7 days", delta: "12%", trend: "up", icon: LineChart, color: "from-teal-500 to-cyan-500" },
 ];
 
@@ -776,6 +776,82 @@ export const ActivityFeed = ({ searchQuery = "", onNavigate }: DashboardProps) =
 };
 
 export const CRMDashboard = ({ searchQuery = "", onNavigate }: DashboardProps) => {
+  const [liveKpis, setLiveKpis] = useState<KPIStat[]>(kpis);
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const today = new Date().toISOString().split('T')[0];
+        const [jobsToday, openJobs, revenue, newLeads] = await Promise.all([
+          supabase.from('jobs').select('id', { count: 'exact', head: true }).gte('scheduled_date', today + 'T00:00:00').lte('scheduled_date', today + 'T23:59:59'),
+          supabase.from('jobs').select('id', { count: 'exact', head: true }).not('status', 'in', '("completed","cancelled")'),
+          supabase.from('invoices').select('amount').eq('status', 'paid').gte('created_at', today + 'T00:00:00'),
+          supabase.from('leads').select('id', { count: 'exact', head: true }).eq('status', 'new'),
+        ]);
+        const totalRevenue = (revenue.data || []).reduce((s: number, i: { amount: number }) => s + (i.amount || 0), 0);
+        setLiveKpis(prev => prev.map(k => {
+          if (k.label === "Today's Jobs") return { ...k, value: String(jobsToday.count ?? '—'), detail: 'scheduled today', delta: '' };
+          if (k.label === 'Revenue (Today)') return { ...k, value: totalRevenue ? '
+  const filteredKpis = useMemo(() => kpis.filter((stat) => includesQuery([stat.label, stat.value, stat.detail], searchQuery)), [searchQuery]);
+
+  return (
+  <div className="min-w-0 space-y-3">
+    <div className="grid min-w-0 grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
+      {filteredKpis.length === 0 ? (
+        <div className="rounded-md border border-dashed border-slate-200 bg-white p-4 text-sm font-medium text-slate-400 md:col-span-2 xl:col-span-5">No matching dashboard metrics.</div>
+      ) : filteredKpis.map((stat) => <KPIStatCard key={stat.label} stat={stat} />)}
+    </div>
+
+    <div className="grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)] 2xl:grid-cols-[minmax(0,1.15fr)_minmax(380px,0.85fr)]">
+      <DispatchBoard searchQuery={searchQuery} onNavigate={onNavigate} />
+      <SMSInbox searchQuery={searchQuery} />
+    </div>
+
+    <div className="grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
+      <ScheduleTimeline searchQuery={searchQuery} onNavigate={onNavigate} />
+      <ActivityFeed searchQuery={searchQuery} onNavigate={onNavigate} />
+    </div>
+  </div>
+  );
+};
+
+export const CRMSettingsPanel = () => (
+  <div className="space-y-4">
+    <PlaceholderPanel title="Settings" />
+    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+      <h2 className="text-lg font-black text-slate-950">CRM Settings</h2>
+      <p className="mt-2 max-w-2xl text-sm text-slate-600">
+        Settings controls are not wired yet. This panel is intentionally separate from Activity Log so CRM navigation lands in the expected place.
+      </p>
+      <div className="mt-4 grid gap-3 md:grid-cols-3">
+        {["Team permissions", "Notification rules", "SMS templates"].map((item) => (
+          <div key={item} className="rounded-md border border-dashed border-slate-200 bg-slate-50 p-4 text-sm font-bold text-slate-700">{item}</div>
+        ))}
+      </div>
+    </section>
+  </div>
+);
+
+export const PlaceholderPanel = ({ title }: { title: string }) => (
+  <div className="rounded-md border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+    <div className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
+      <LayoutDashboard className="h-4 w-4" />
+      Bravo Mechanical CRM
+    </div>
+    <h1 className="text-2xl font-black text-slate-950">{title}</h1>
+    <p className="mt-2 max-w-2xl text-sm text-slate-600">
+      This section keeps the existing CRM workflow available from the redesigned app shell.
+    </p>
+  </div>
+);
+ + totalRevenue.toLocaleString() : '—', detail: 'paid invoices', delta: '' };
+          if (k.label === 'Open Jobs') return { ...k, value: String(openJobs.count ?? '—'), detail: 'active jobs', delta: '' };
+          if (k.label === 'Unread Messages') return { ...k, value: String(newLeads.count ?? '—'), detail: 'new leads', delta: '' };
+          return k;
+        }));
+      } catch (_) {}
+    };
+    fetchStats();
+  }, []);
   const filteredKpis = useMemo(() => kpis.filter((stat) => includesQuery([stat.label, stat.value, stat.detail], searchQuery)), [searchQuery]);
 
   return (

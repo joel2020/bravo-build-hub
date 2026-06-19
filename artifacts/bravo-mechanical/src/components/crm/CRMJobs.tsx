@@ -118,6 +118,12 @@ export const CRMJobs = () => {
   };
 
   useEffect(() => {
+  const handler = () => setShowAdd(true);
+  window.addEventListener('crm:open-new-job', handler);
+  return () => window.removeEventListener('crm:open-new-job', handler);
+}, []);
+
+useEffect(() => {
     loadJobsAndLeads();
   }, []);
 
@@ -394,8 +400,8 @@ export const CRMJobs = () => {
                 <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div>
                     <p className="text-base font-semibold">{job.title}</p>
-                    <p className="text-xs text-muted-foreground">{(job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown') || "No lead"} Ã¢ÂÂ¢ {job.address || "No address"}</p>
-                    <p className="mt-1 text-sm">{asDate(job.scheduled_date)} Ã¢ÂÂ¢ {asCurrency(job.amount)}</p>
+                    <p className="text-xs text-muted-foreground">{(job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown') || "No lead"} ÃÂ¢ÃÂÃÂ¢ {job.address || "No address"}</p>
+                    <p className="mt-1 text-sm">{asDate(job.scheduled_date)} ÃÂ¢ÃÂÃÂ¢ {asCurrency(job.amount)}</p>
                   </div>
                   <span className={`w-fit rounded px-2 py-1 text-xs font-medium ${STATUS_BADGE_CLASS[job.status] || "bg-secondary"}`}>
                     {JOB_STATUS_LABELS[job.status] || job.status}
@@ -422,7 +428,7 @@ export const CRMJobs = () => {
                       rows={3}
                     />
                     <Button className="mt-2" size="sm" onClick={() => addTechnicianNote(job)} disabled={savingNoteJobId === job.id}>
-                      {savingNoteJobId === job.id ? "SavingÃ¢ÂÂ¦" : "Add note"}
+                      {savingNoteJobId === job.id ? "SavingÃÂ¢ÃÂÃÂ¦" : "Add note"}
                     </Button>
                   </div>
 

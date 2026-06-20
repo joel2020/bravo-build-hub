@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Central AC Replacement Cost in Westchester — Bravo Mechanical">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00396f"/>
+      <stop offset="1" stop-color="#005cb3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1050" cy="120" r="240" fill="#ffffff" opacity="0.05"/>
+  <circle cx="1140" cy="560" r="160" fill="#ffffff" opacity="0.05"/>
+  <!-- condenser unit glyph -->
+  <g transform="translate(870,230)" opacity="0.18" fill="none" stroke="#ffffff" stroke-width="9">
+    <rect x="0" y="0" width="230" height="190" rx="16"/>
+    <circle cx="115" cy="95" r="62"/>
+    <circle cx="115" cy="95" r="14" fill="#ffffff" stroke="none"/>
+    <line x1="115" y1="33" x2="115" y2="157" stroke-width="6"/>
+    <line x1="53" y1="95" x2="177" y2="95" stroke-width="6"/>
+  </g>
+  <text x="80" y="110" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="3" fill="#9ec8ee">BRAVO MECHANICAL · HVAC</text>
+  <text font-family="Inter, Arial, sans-serif" font-weight="800" fill="#ffffff">
+    <tspan x="80" y="290" font-size="82">Central AC</tspan>
+    <tspan x="80" y="376" font-size="82">Replacement Cost</tspan>
+  </text>
+  <rect x="82" y="414" width="120" height="8" rx="4" fill="#db2516"/>
+  <text x="80" y="476" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="600" fill="#d6e7f7">Westchester County · 2026 installed pricing</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="What Size Central AC Do I Need — Bravo Mechanical">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00396f"/>
+      <stop offset="1" stop-color="#005cb3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1050" cy="120" r="240" fill="#ffffff" opacity="0.05"/>
+  <circle cx="1140" cy="560" r="160" fill="#ffffff" opacity="0.05"/>
+  <!-- gauge glyph -->
+  <g transform="translate(975,330)" opacity="0.18" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round">
+    <path d="M -130 40 A 130 130 0 1 1 130 40"/>
+    <line x1="0" y1="40" x2="78" y2="-70" stroke-width="12"/>
+    <circle cx="0" cy="40" r="16" fill="#ffffff" stroke="none"/>
+    <line x1="-110" y1="40" x2="-90" y2="40"/><line x1="110" y1="40" x2="90" y2="40"/>
+    <line x1="0" y1="-90" x2="0" y2="-70"/>
+  </g>
+  <text x="80" y="110" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="3" fill="#9ec8ee">BRAVO MECHANICAL · HVAC</text>
+  <text font-family="Inter, Arial, sans-serif" font-weight="800" fill="#ffffff">
+    <tspan x="80" y="290" font-size="82">What Size Central</tspan>
+    <tspan x="80" y="376" font-size="82">AC Do I Need?</tspan>
+  </text>
+  <rect x="82" y="414" width="120" height="8" rx="4" fill="#db2516"/>
+  <text x="80" y="476" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="600" fill="#d6e7f7">A Westchester homeowner's sizing guide</text>
+</svg>

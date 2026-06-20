@@ -4,12 +4,22 @@ import winterFurnacePrep from "@/assets/blog/winter-furnace-prep.jpg";
 import nyHeatPumpRebates from "@/assets/blog/ny-heat-pump-rebates.jpg";
 import boilerShortCycling from "@/assets/blog/boiler-short-cycling.jpg";
 import hvacPermitsYonkers from "@/assets/blog/hvac-permits-yonkers.jpg";
+import r410aPhaseOut from "@/assets/blog/r410a-phase-out.svg";
+import centralAcCost from "@/assets/blog/central-ac-cost.svg";
+import acSizing from "@/assets/blog/ac-sizing.svg";
+import highAcBill from "@/assets/blog/high-ac-bill.svg";
 
 export const BLOG_COVERS: Record<string, string> = {
   "winter-furnace-prep-westchester": winterFurnacePrep,
   "ny-heat-pump-rebates-2025": nyHeatPumpRebates,
   "why-is-my-boiler-short-cycling": boilerShortCycling,
   "hvac-permits-yonkers-guide": hvacPermitsYonkers,
+  // New 2026 AC-season posts
+  "ny-heat-pump-rebates-2026": nyHeatPumpRebates,
+  "r410a-phase-out-2026-westchester": r410aPhaseOut,
+  "central-ac-replacement-cost-westchester": centralAcCost,
+  "what-size-central-ac-westchester": acSizing,
+  "why-is-my-ac-bill-so-high-westchester": highAcBill,
 };
 
 export const getCoverForSlug = (slug: string): string | undefined => BLOG_COVERS[slug];

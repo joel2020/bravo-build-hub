@@ -69,7 +69,13 @@ These point to refrigerant, airflow, or component problems that won't fix themse
 
 On Con Edison's summer rates, AC efficiency is money. Handle the filter, coil, thermostat, and airflow basics yourself, and bring in a tech for refrigerant, ducts, or an aging system. A single tune-up plus duct sealing often pays for itself within a cooling season.
 
-Bravo Mechanical does same-day AC diagnostics and efficiency checks across Westchester County, and can tell you exactly where your cooling dollars are leaking.
+Bravo Mechanical does same-day [AC repair](/services/ac-repair-westchester-county-ny) and efficiency checks across Westchester County, and a seasonal [HVAC maintenance plan](/services/hvac-maintenance-westchester-county-ny) keeps your system running efficiently all summer.
+
+## Related guides
+
+- [Why is my AC not cooling?](/blog/why-is-my-ac-not-cooling-westchester)
+- [NY heat pump rebates in 2026 (lower long-term running costs)](/blog/ny-heat-pump-rebates-2026)
+- [Central AC replacement cost in Westchester (2026)](/blog/central-ac-replacement-cost-westchester)
 
 [Book an AC efficiency check →](/contact) or call **(914) 361-9142**.
 

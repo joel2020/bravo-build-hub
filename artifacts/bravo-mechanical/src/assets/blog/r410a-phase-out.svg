@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="The R-410A Refrigerant Phase-Out — Bravo Mechanical">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00396f"/>
+      <stop offset="1" stop-color="#005cb3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1050" cy="120" r="240" fill="#ffffff" opacity="0.05"/>
+  <circle cx="1140" cy="560" r="160" fill="#ffffff" opacity="0.05"/>
+  <!-- snowflake glyph -->
+  <g transform="translate(965,315)" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity="0.18">
+    <g>
+      <line x1="0" y1="-150" x2="0" y2="150"/>
+      <line x1="-130" y1="-75" x2="130" y2="75"/>
+      <line x1="-130" y1="75" x2="130" y2="-75"/>
+      <line x1="0" y1="-150" x2="-35" y2="-110"/><line x1="0" y1="-150" x2="35" y2="-110"/>
+      <line x1="0" y1="150" x2="-35" y2="110"/><line x1="0" y1="150" x2="35" y2="110"/>
+    </g>
+  </g>
+  <text x="80" y="110" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="3" fill="#9ec8ee">BRAVO MECHANICAL · HVAC</text>
+  <text font-family="Inter, Arial, sans-serif" font-weight="800" fill="#ffffff">
+    <tspan x="80" y="290" font-size="78">The R-410A</tspan>
+    <tspan x="80" y="372" font-size="78">Refrigerant Phase-Out</tspan>
+  </text>
+  <rect x="82" y="408" width="120" height="8" rx="4" fill="#db2516"/>
+  <text x="80" y="470" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="600" fill="#d6e7f7">What Westchester homeowners need to know · 2026</text>
+</svg>

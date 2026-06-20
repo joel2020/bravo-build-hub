@@ -68,7 +68,13 @@ An income-eligible household on the same project could push the net materially l
 3. **Check income eligibility** for EmPower+ even if you assume you won't qualify — thresholds are higher than most people expect.
 4. **Keep the AHRI certificate** for your 25C tax filing.
 
-Bravo Mechanical is a participating cold-climate heat pump installer across Westchester County and handles the Clean Heat paperwork for you, so the rebate shows up as a discount on your quote.
+Bravo Mechanical is a participating [cold-climate heat pump installer](/services/heat-pump-installation-westchester-county-ny) across Westchester County and handles the Clean Heat paperwork for you, so the rebate shows up as a discount on your quote.
+
+## Related guides
+
+- [How much does a heat pump cost in Westchester County?](/blog/how-much-does-heat-pump-cost-westchester)
+- [Heat pump vs. furnace: which is right for your home?](/blog/heat-pump-vs-furnace-westchester)
+- [Heat pump installation in Westchester County](/services/heat-pump-installation-westchester-county-ny)
 
 [Get a heat pump rebate estimate →](/contact) or call **(914) 361-9142**.
 

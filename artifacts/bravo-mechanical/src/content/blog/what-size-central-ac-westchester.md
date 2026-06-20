@@ -67,7 +67,13 @@ Two identical-square-footage homes — say a tight, well-insulated New Construct
 
 Use the square-footage rule to ballpark tonnage and budget, then insist on a **Manual J load calculation** before anyone installs equipment. Right-sizing is the single biggest factor in whether your new AC is comfortable, efficient, and long-lived.
 
-Bravo Mechanical includes a load-calculation-based sizing check with every Westchester AC quote, so your system is matched to your actual home — not a guess.
+Bravo Mechanical includes a load-calculation-based sizing check with every Westchester [AC installation](/services/ac-installation-westchester-county-ny) quote, so your system is matched to your actual home — not a guess.
+
+## Related guides
+
+- [How much does central AC replacement cost in Westchester? (2026)](/blog/central-ac-replacement-cost-westchester)
+- [Why is my AC bill so high?](/blog/why-is-my-ac-bill-so-high-westchester)
+- [Ductless mini-split installation](/services/mini-split-installation-westchester-county-ny)
 
 [Schedule a sizing assessment →](/contact) or call **(914) 361-9142**.
 

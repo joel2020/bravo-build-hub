@@ -72,7 +72,13 @@ A 1,900 sq ft Central Westchester colonial replacing a 14-year-old 3-ton R-410A 
 
 Most Westchester central AC replacements land between **$8,500 and $14,000** in 2026, with ductwork and efficiency level being the main swing factors. The most expensive mistake is oversizing or mismatching equipment — both waste money up front and on every summer bill after.
 
-Bravo Mechanical provides flat, on-site AC replacement quotes across Westchester County, including a Manual J sizing check so you don't pay for more (or less) system than your home needs.
+Bravo Mechanical provides flat, on-site [AC installation](/services/ac-installation-westchester-county-ny) quotes across Westchester County, including a [Manual J sizing check](/blog/what-size-central-ac-westchester) so you don't pay for more (or less) system than your home needs.
+
+## Related guides
+
+- [What size central AC do I need? (sizing guide)](/blog/what-size-central-ac-westchester)
+- [The R-410A phase-out and new A2L refrigerants in 2026](/blog/r410a-phase-out-2026-westchester)
+- [When is the best time to replace your AC?](/blog/best-time-replace-ac-scarsdale)
 
 [Get a central AC replacement quote →](/contact) or call **(914) 361-9142**.
 

@@ -2,13 +2,13 @@
 title: NY Heat Pump Rebates in 2026 — What Westchester Homeowners Actually Get
 slug: ny-heat-pump-rebates-2026
 date: 2026-06-18
-excerpt: Updated 2026 breakdown of NYS Clean Heat, Con Edison incentives, federal 25C tax credits, and EmPower+ — including the new January 2026 rule changes and how the money stacks for a Westchester install.
+excerpt: Updated 2026 breakdown of NYS Clean Heat, Con Edison incentives, and EmPower+ — including the new January 2026 rule changes, the expiration of the federal 25C tax credit, and how the money stacks for a Westchester install.
 tags: Cost, Rebates, Heat Pump, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
 ---
 
-**Quick answer:** In 2026, a Westchester homeowner replacing oil or gas heat with a cold-climate heat pump can typically stack **$5,000–$12,000** from NYS Clean Heat (paid through Con Edison) with the **30% federal 25C tax credit (capped at $2,000/year)**. Income-eligible households can access far more through **EmPower+ / HEAR — up to $24,000**. Net cost after incentives commonly lands in the **$9,000–$18,000** range for a whole-home system.
+**Quick answer:** In 2026, a Westchester homeowner replacing oil or gas heat with a cold-climate heat pump can typically get **$5,000–$12,000** from NYS Clean Heat (paid through Con Edison), and income-eligible households can access far more through **EmPower+ / HEAR — up to $24,000**. Note the **federal 25C tax credit expired at the end of 2025**, so it no longer applies to 2026 installs. Net cost after the state/utility incentives commonly lands in the **$10,000–$19,000** range for a whole-home system.
 
 The programs changed at the start of 2026, so older "2025 rebate" articles are now partly out of date. Here's how the money actually works this year.
 
@@ -32,9 +32,9 @@ Administered by your utility — **Con Edison** for most of Westchester. The reb
 
 Rebate size depends on heating capacity, whether you fully decommission fossil-fuel heat, and whether your address is in a Disadvantaged Community (DAC), which can qualify for adders.
 
-## Federal 25C tax credit
+## Federal 25C tax credit — expired for 2026 installs
 
-A **30% federal tax credit** on qualifying heat pumps, capped at **$2,000 per year**. The equipment must meet the CEE highest-tier efficiency for the Northern region. Most cold-climate units we install qualify — confirm on the AHRI certificate. This is a tax credit, not a rebate, so you claim it when you file.
+**Important update:** the federal **25C Energy Efficient Home Improvement Credit** (30% of cost, capped at $2,000 for a qualifying heat pump) **was terminated for equipment placed in service after December 31, 2025** under the 2025 federal budget law. If your heat pump was installed and running by the end of 2025, you can still claim it on that tax year's return — but **installs completed in 2026 no longer qualify for the federal credit.** The good news: the New York State and utility programs below are separate and remain available in 2026.
 
 ## EmPower+ / HEAR (income-eligible)
 
@@ -56,8 +56,8 @@ A 2,200 sq ft Rivertowns home converting from an aging oil furnace to a ducted c
 |---|---|
 | Installed price (before incentives) | ~$22,000 |
 | NYS Clean Heat rebate | −$8,000 |
-| Federal 25C tax credit | −$2,000 |
-| **Net cost (non-income-qualified)** | **~$12,000** |
+| Federal 25C tax credit (expired end of 2025) | $0 |
+| **Net cost (non-income-qualified)** | **~$14,000** |
 
 An income-eligible household on the same project could push the net materially lower through EmPower+/HEAR.
 
@@ -66,7 +66,7 @@ An income-eligible household on the same project could push the net materially l
 1. **Confirm your utility territory** (Con Edison vs. NYSEG) — it sets which rebate schedule applies.
 2. **Ask for the rebate on the quote**, not "after." A participating contractor applies Clean Heat as a discount.
 3. **Check income eligibility** for EmPower+ even if you assume you won't qualify — thresholds are higher than most people expect.
-4. **Keep the AHRI certificate** for your 25C tax filing.
+4. **Keep the AHRI certificate** — it documents that your equipment qualifies for the Clean Heat rebate tier.
 
 Bravo Mechanical is a participating [cold-climate heat pump installer](/services/heat-pump-installation-westchester-county-ny) across Westchester County and handles the Clean Heat paperwork for you, so the rebate shows up as a discount on your quote.
 
@@ -78,4 +78,4 @@ Bravo Mechanical is a participating [cold-climate heat pump installer](/services
 
 [Get a heat pump rebate estimate →](/contact) or call **(914) 361-9142**.
 
-Sources: NYS Clean Heat / NYSERDA program manuals (2026), Con Edison rebate programs (2026), IRS 25C Energy Efficient Home Improvement Credit.
+Sources: NYS Clean Heat / NYSERDA program manuals (2026), Con Edison rebate programs (2026), IRS 25C Energy Efficient Home Improvement Credit (terminated for property placed in service after December 31, 2025 under the 2025 federal budget law).

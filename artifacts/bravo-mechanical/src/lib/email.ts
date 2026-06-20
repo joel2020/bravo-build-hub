@@ -1,8 +1,6 @@
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, supabaseFunctionsUrl } from "@/integrations/supabase/client";
 
-const FUNCTION_URL = `${
-  (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim() || "https://tzczkcvavudoyuuetwcr.supabase.co"
-}/functions/v1/send-email`;
+const FUNCTION_URL = supabaseFunctionsUrl ? `${supabaseFunctionsUrl}/send-email` : null;
 
 export type SendEmailOptions = {
   to: string | string[];
@@ -32,6 +30,10 @@ export async function sendEmail(
 
   if (session?.access_token) {
     headers["Authorization"] = `Bearer ${session.access_token}`;
+  }
+
+  if (!FUNCTION_URL) {
+    return { success: false, error: "Email is not configured" };
   }
 
   try {

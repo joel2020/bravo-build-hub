@@ -9,6 +9,14 @@ const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY a
 export const isSupabaseConfigured =
   !!SUPABASE_URL?.trim() && !!SUPABASE_PUBLISHABLE_KEY?.trim();
 
+// Base URL for Supabase Edge Functions, derived from the configured project.
+// `null` when Supabase isn't configured so callers can fall back gracefully
+// (e.g. SMS opens the device sms: composer) instead of hitting a stale,
+// hardcoded project ref.
+export const supabaseFunctionsUrl = isSupabaseConfigured
+  ? `${SUPABASE_URL!.trim()}/functions/v1`
+  : null;
+
 const FALLBACK_URL = 'https://tzczkcvavudoyuuetwcr.supabase.co';
 const FALLBACK_KEY = 'placeholder-key-set-vite-supabase-publishable-key';
 

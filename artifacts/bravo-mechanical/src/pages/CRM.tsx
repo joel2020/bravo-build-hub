@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { LogOut, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
@@ -48,6 +49,22 @@ const CRM = () => {
     await supabase.auth.signOut();
   };
 
+  // First-run onboarding: lets the very first signed-in user claim the admin
+  // role. The bootstrap_first_admin() DB function refuses once any admin
+  // exists, so this cannot be used for privilege escalation afterwards.
+  const claimAdmin = async () => {
+    const { error } = await supabase.rpc("bootstrap_first_admin" as never);
+    if (error) {
+      toast({ title: "Couldn't grant access", description: error.message, variant: "destructive" });
+      return;
+    }
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", session.user.id);
+      setAuthorized((roles || []).some((role) => role.role === "admin" || role.role === "user"));
+    }
+  };
+
   const activeTitle = {
     dashboard: "Dashboard",
     jobs: "Jobs",
@@ -82,11 +99,19 @@ const CRM = () => {
       <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-slate-100 px-4 py-16 text-slate-950">
         <div className="mx-auto max-w-md rounded-md border border-slate-200 bg-white/90 p-8 shadow-2xl backdrop-blur">
           <h1 className="mb-3 text-2xl font-bold">Not authorized</h1>
-          <p className="mb-6 text-slate-600">You don't have CRM access.</p>
-          <Button onClick={signOut} variant="outline">
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign out
-          </Button>
+          <p className="mb-6 text-slate-600">
+            You don't have CRM access. Ask an existing admin to grant your account a role.
+          </p>
+          <div className="flex flex-col gap-3">
+            <Button onClick={claimAdmin} variant="default">
+              <ShieldCheck className="mr-2 h-4 w-4" />
+              Claim admin access (first-time setup)
+            </Button>
+            <Button onClick={signOut} variant="outline">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign out
+            </Button>
+          </div>
         </div>
       </div>
     );

@@ -1,8 +1,6 @@
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, supabaseFunctionsUrl } from "@/integrations/supabase/client";
 
-const FUNCTION_URL = `${
-  (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim() || "https://tzczkcvavudoyuuetwcr.supabase.co"
-}/functions/v1/send-sms`;
+const FUNCTION_URL = supabaseFunctionsUrl ? `${supabaseFunctionsUrl}/send-sms` : null;
 
 export type SendSmsResult =
   | { success: true; sid: string; to: string; fallback?: false }
@@ -20,6 +18,11 @@ export async function sendSms(to: string, body: string): Promise<SendSmsResult> 
 
   if (session?.access_token) {
     headers["Authorization"] = `Bearer ${session.access_token}`;
+  }
+
+  // Supabase not configured — fall back to the device SMS composer.
+  if (!FUNCTION_URL) {
+    return { success: true, fallback: true, to };
   }
 
   try {

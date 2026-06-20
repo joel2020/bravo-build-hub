@@ -54,14 +54,20 @@ export const isSameDay = (a: Date, b: Date) => a.toDateString() === b.toDateStri
 
 export const createActivity = async (action: string, opts?: { leadId?: string | null; jobId?: string | null; invoiceId?: string | null; details?: string | null }) => {
   const { data: auth } = await supabase.auth.getUser();
-  await supabase.from("activity_log" as any).insert({
-    action,
+  // activity_logs requires a (record_type, record_id) and a non-null activity_type/title.
+  const recordType = opts?.invoiceId ? "invoice" : opts?.jobId ? "job" : opts?.leadId ? "lead" : "system";
+  const recordId = opts?.invoiceId || opts?.jobId || opts?.leadId || crypto.randomUUID();
+  const { error } = await supabase.from("activity_logs" as any).insert({
+    activity_type: "note",
+    title: action,
+    description: opts?.details || null,
+    record_type: recordType,
+    record_id: recordId,
     lead_id: opts?.leadId || null,
     job_id: opts?.jobId || null,
-    invoice_id: opts?.invoiceId || null,
-    details: opts?.details || null,
     created_by: auth.user?.id || null,
   });
+  if (error) console.warn("createActivity failed:", error.message);
 };
 
 const APP_URL = "https://app.bravomechanicalny.com";

@@ -39,7 +39,7 @@ type Job = {
   completion_summary: string | null;
   technician_id: string | null;
   created_at: string;
-  leads?: { name: string; phone?: string | null; email?: string | null } | null;
+  leads?: { name: string | null; first_name?: string | null; last_name?: string | null; phone?: string | null; email?: string | null } | null;
 };
 
 type JobPhoto = {
@@ -174,7 +174,7 @@ export const CRMMyJobs = () => {
     const now = new Date().toISOString();
     const { error } = await supabase
       .from("jobs" as any)
-      .update({ status: "completed", completed_at: now, completed_date: now, completion_summary: summary || null })
+      .update({ status: "completed", completed_at: now, completion_summary: summary || null })
       .eq("id", job.id);
     setSavingJobId(null);
 
@@ -289,7 +289,7 @@ export const CRMMyJobs = () => {
       </div>
 
       {loading ? (
-        <div className="rounded-3xl border bg-white p-8 text-center text-sm text-slate-500">Loading technician jobsâ¦</div>
+        <div className="rounded-3xl border bg-white p-8 text-center text-sm text-slate-500">Loading technician jobs…</div>
       ) : visibleJobs.length === 0 ? (
         <div className="rounded-3xl border bg-white p-8 text-center">
           <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600"><UserRound className="h-6 w-6" /></div>

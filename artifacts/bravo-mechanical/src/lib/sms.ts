@@ -1,7 +1,8 @@
 import { supabase } from "@/integrations/supabase/client";
 
-const FUNCTION_URL =
-  "https://vqygaqrderxvumczpfnu.supabase.co/functions/v1/send-sms";
+const FUNCTION_URL = `${
+  (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim() || "https://tzczkcvavudoyuuetwcr.supabase.co"
+}/functions/v1/send-sms`;
 
 export type SendSmsResult =
   | { success: true; sid: string; to: string; fallback?: false }

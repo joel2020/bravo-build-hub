@@ -1,0 +1,4 @@
+
+ALTER TABLE jobs ADD COLUMN IF NOT EXISTS address text;
+ALTER TABLE jobs ADD COLUMN IF NOT EXISTS amount numeric(10,2);
+ALTER TABLE jobs ADD COLUMN IF NOT EXISTS notes text;

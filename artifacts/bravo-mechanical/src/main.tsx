@@ -40,7 +40,7 @@ class AppErrorBoundary extends Component<{ children: ReactNode }, { error: Error
             <div style={{ marginTop: "18px", padding: "16px", borderRadius: "12px", background: "#eff6ff", border: "1px solid #bfdbfe" }}>
               <strong>Fix in Vercel Production Environment Variables:</strong>
               <ul style={{ margin: "10px 0 0", paddingLeft: "20px", lineHeight: 1.7 }}>
-                <li><code>VITE_SUPABASE_URL=https://vqygaqrderxvumczpfnu.supabase.co</code></li>
+                <li><code>VITE_SUPABASE_URL=https://tzczkcvavudoyuuetwcr.supabase.co</code></li>
                 <li><code>VITE_SUPABASE_PUBLISHABLE_KEY=&lt;Bravo Supabase publishable key&gt;</code></li>
               </ul>
               <p style={{ margin: "10px 0 0", color: "#334155" }}>After saving the variables, redeploy the Vercel production deployment.</p>

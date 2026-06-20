@@ -102,6 +102,32 @@ export function relativeDateToIso(rel, baseIsoDate = BUILD_DATE) {
 // /blog/<slug> — eligible for Google rich results and AI Overview
 // step-by-step extraction. Keep step names <60 chars.
 export const BLOG_HOWTOS = {
+  "why-is-my-ac-bill-so-high-westchester": {
+    name: "How to Lower a High Summer AC Bill",
+    description: "Six homeowner steps to cut cooling costs before calling for an efficiency check in Westchester.",
+    totalTime: "PT30M",
+    steps: [
+      { name: "Replace the air filter", text: "Install a fresh, properly sized pleated filter. A clogged filter chokes airflow and is the cheapest efficiency loss to fix." },
+      { name: "Wash the outdoor condenser coil", text: "Power off at the disconnect, then gently rinse pollen, grass, and salt off the outdoor unit with a garden hose." },
+      { name: "Clear space around the outdoor unit", text: "Keep at least two feet of clearance on all sides so the system can reject heat efficiently." },
+      { name: "Raise and schedule the thermostat", text: "Set 76 to 78 degrees when home and a few degrees higher when away. A smart thermostat automates this and may qualify for a Con Edison rebate." },
+      { name: "Block midday sun", text: "Close blinds on west- and south-facing windows during peak sun to reduce the cooling load." },
+      { name: "Clear blocked vents and returns", text: "Make sure furniture and rugs are not covering supply registers or return grilles so air can circulate freely." },
+    ],
+  },
+  "what-size-central-ac-westchester": {
+    name: "How to Size a Central Air Conditioner for Your Home",
+    description: "Six steps to right-size a central AC for a Westchester home and avoid the cost of oversizing.",
+    totalTime: "PT20M",
+    steps: [
+      { name: "Estimate tonnage from square footage", text: "Use roughly one ton of cooling per 500 to 600 sq ft as a starting point to set budget and expectations." },
+      { name: "Do not reuse the old size by default", text: "Many existing Westchester systems were oversized years ago. Replacing like-for-like repeats the mistake." },
+      { name: "Account for home changes", text: "Added insulation, new windows, or a finished attic or basement all change the cooling load." },
+      { name: "Get a Manual J load calculation", text: "Have a licensed contractor run a Manual J that accounts for insulation, windows, ceiling height, and sun exposure." },
+      { name: "Match the indoor coil to the outdoor unit", text: "A correctly sized condenser paired with a mismatched coil will not deliver rated capacity or efficiency." },
+      { name: "Confirm the ductwork can carry the airflow", text: "Even a perfectly sized unit underperforms on undersized or leaky ducts, so verify duct capacity before installing." },
+    ],
+  },
   "furnace-not-igniting-mount-vernon": {
     name: "How to Troubleshoot a Furnace That Won't Ignite",
     description: "Seven safe checks a Westchester homeowner can perform before calling for furnace repair.",

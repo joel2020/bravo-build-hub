@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Lock } from "lucide-react";
 import { SITE, SERVICES } from "@/lib/site";
 import logo from "@/assets/logo-bravo.webp";
 
@@ -91,6 +91,9 @@ export const Footer = () => {
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
             <Link to="/privacy-policy" className="hover:text-primary-foreground hover:underline">Privacy Policy</Link>
             <Link to="/terms-and-conditions" className="hover:text-primary-foreground hover:underline">Terms & Conditions</Link>
+            <Link to="/auth" rel="nofollow" className="inline-flex items-center gap-1 hover:text-primary-foreground hover:underline">
+              <Lock className="h-3 w-3" /> CRM Login
+            </Link>
             <span>Licensed & insured HVAC contractor serving Westchester County, NY.</span>
           </div>
         </div>

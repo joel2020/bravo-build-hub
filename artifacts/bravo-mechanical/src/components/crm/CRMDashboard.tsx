@@ -39,9 +39,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { asCurrency, asDate, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
 import logo from "@/assets/logo-bravo.webp";
 import hvacUnit from "@/assets/job-mini-split-exterior.webp";
-import technicianImage from "@/assets/hero-technician.webp";
 
 type NavItem = {
   id: string;
@@ -115,53 +115,14 @@ const navItems: NavItem[] = [
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-const kpis: KPIStat[] = [
-  { label: "Today's Jobs", value: "14", detail: "vs yesterday", delta: "27%", trend: "up", icon: CalendarDays, color: "from-blue-500 to-blue-600" },
-  { label: "Revenue (Today)", value: "$5,680", detail: "vs yesterday", delta: "18%", trend: "up", icon: DollarSign, color: "from-green-500 to-green-600" },
-  { label: "Open Jobs", value: "32", detail: "vs yesterday", delta: "8%", trend: "down", icon: ClipboardList, color: "from-orange-400 to-orange-500" },
-  { label: "New Leads", value: "0", detail: "vs yesterday", delta: "33%", trend: "up", icon: MessageSquare, color: "from-indigo-500 to-violet-600" },
-  { label: "Conversion Rate", value: "26%", detail: "vs last 7 days", delta: "12%", trend: "up", icon: LineChart, color: "from-teal-500 to-cyan-500" },
-];
-
-const dispatchColumns: DispatchColumnData[] = [
-  {
-    title: "New Leads",
-    count: 5,
-    jobs: [
-      { customer: "Sarah Thompson", service: "AC Not Cooling", urgency: "High", detail: "2m ago", timeAgo: "2m ago", address: "123 Main St, Dallas, TX", phone: "2145550198", avatar: "ST", image: hvacUnit },
-      { customer: "James Wilson", service: "Furnace Repair", urgency: "Medium", detail: "15m ago", timeAgo: "15m ago", address: "456 Oak Ave, Dallas, TX", phone: "2145550124", avatar: "JW", image: technicianImage },
-      { customer: "Emily Carter", service: "AC Maintenance", urgency: "Low", detail: "1h ago", timeAgo: "1h ago", address: "789 Pine Rd, Dallas, TX", phone: "2145550160", avatar: "EC", image: hvacUnit },
-      { customer: "Robert Martinez", service: "Heat Pump Issue", urgency: "High", detail: "2h ago", timeAgo: "2h ago", address: "321 Maple Dr, Dallas, TX", phone: "2145550137", avatar: "RM", image: technicianImage },
-    ],
-  },
-  {
-    title: "Scheduled",
-    count: 8,
-    jobs: [
-      { customer: "Michael Johnson", service: "AC Installation", urgency: "Medium", detail: "Today, 10:00 AM", address: "1234 Cedar Ln, Dallas, TX", phone: "2145550140", avatar: "MJ" },
-      { customer: "Brian Davis", service: "Heating Tune-Up", urgency: "Low", detail: "Today, 1:00 PM", address: "567 Birch St, Dallas, TX", phone: "2145550152", avatar: "BD" },
-      { customer: "Amanda Lee", service: "AC Repair", urgency: "High", detail: "Today, 3:30 PM", address: "890 Spruce Dr, Dallas, TX", phone: "2145550185", avatar: "AL" },
-      { customer: "Kevin White", service: "Duct Cleaning", urgency: "Low", detail: "Tomorrow, 9:00 AM", address: "432 Walnut St, Dallas, TX", phone: "2145550171", avatar: "KW" },
-    ],
-  },
-  {
-    title: "In Progress",
-    count: 6,
-    jobs: [
-      { customer: "Daniel Anderson", service: "AC Repair", urgency: "High", detail: "Started 9:15 AM", address: "222 Park Ave, Dallas, TX", phone: "2145550182", avatar: "DA" },
-      { customer: "Tyler Garcia", service: "Furnace Repair", urgency: "Medium", detail: "Started 10:30 AM", address: "333 Lakeview Dr, Dallas, TX", phone: "2145550133", avatar: "TG" },
-      { customer: "Chris Martinez", service: "Heat Pump Repair", urgency: "Medium", detail: "Started 11:00 AM", address: "444 Hillcrest Rd, Dallas, TX", phone: "2145550190", avatar: "CM" },
-    ],
-  },
-  {
-    title: "Completed",
-    count: 12,
-    jobs: [
-      { customer: "Steven Clark", service: "AC Maintenance", urgency: "Low", detail: "Completed 8:30 AM", address: "111 Forest Ln, Dallas, TX", phone: "2145550195", avatar: "SC" },
-      { customer: "Justin Thomas", service: "Furnace Tune-Up", urgency: "Low", detail: "Completed 9:45 AM", address: "555 Brookside Dr, Dallas, TX", phone: "2145550157", avatar: "JT" },
-      { customer: "Brandon Lee", service: "AC Repair", urgency: "Low", detail: "Completed 10:15 AM", address: "666 Meadow Ln, Dallas, TX", phone: "2145550168", avatar: "BL" },
-    ],
-  },
+// Presentation template for the five headline metrics. Values are filled in
+// from live Supabase data in CRMDashboard — never hardcoded.
+const KPI_META: Array<Pick<KPIStat, "label" | "icon" | "color"> & { key: string }> = [
+  { key: "todayJobs", label: "Today's Jobs", icon: CalendarDays, color: "from-blue-500 to-blue-600" },
+  { key: "openJobs", label: "Open Jobs", icon: ClipboardList, color: "from-orange-400 to-orange-500" },
+  { key: "newLeads", label: "New Leads", icon: MessageSquare, color: "from-indigo-500 to-violet-600" },
+  { key: "revenueMonth", label: "Revenue (This Month)", icon: DollarSign, color: "from-green-500 to-green-600" },
+  { key: "outstanding", label: "Outstanding", icon: DollarSign, color: "from-rose-500 to-rose-600" },
 ];
 
 const conversations: Conversation[] = [
@@ -235,25 +196,6 @@ const conversations: Conversation[] = [
   },
 ];
 
-const schedule = [
-  { tech: "Daniel Anderson", items: [["8:00 AM", "AC Maintenance", "111 Forest Ln", "green"], ["10:00 AM", "AC Repair", "222 Park Ave", "red"], ["1:00 PM", "Furnace Repair", "333 Lakeview Dr", "amber"]] },
-  { tech: "Tyler Garcia", items: [["8:30 AM", "Duct Cleaning", "444 Hillcrest Rd", "blue"], ["11:00 AM", "Heat Pump Repair", "555 Brookside Dr", "red"], ["2:00 PM", "AC Installation", "666 Meadow Ln", "green"]] },
-  { tech: "Chris Martinez", items: [["9:00 AM", "AC Repair", "777 Sunset Blvd", "red"], ["12:00 PM", "Maintenance", "888 Riverside Dr", "green"], ["3:00 PM", "Furnace Tune-Up", "999 Valley View Ln", "amber"]] },
-];
-
-const activities = [
-  ["New lead from Sarah Thompson", "AC Not Cooling - 123 Main St, Dallas, TX", "2m ago", "red"],
-  ["Job completed by Steven Clark", "AC Maintenance - 111 Forest Ln", "8m ago", "green"],
-  ["Payment received from Michael Johnson", "$450.00 - Invoice #INV-1001", "25m ago", "amber"],
-  ["New message from James Wilson", "Furnace Repair - 456 Oak Ave", "30m ago", "blue"],
-  ["Job completed by Justin Thomas", "Furnace Tune-Up - 555 Brookside Dr", "1h ago", "green"],
-];
-
-const badgeClass = {
-  High: "bg-rose-50 text-rose-600",
-  Medium: "bg-amber-50 text-amber-600",
-  Low: "bg-emerald-50 text-emerald-600",
-};
 
 const avatarColors = ["bg-slate-900", "bg-blue-600", "bg-emerald-600", "bg-orange-500", "bg-indigo-600", "bg-rose-500"];
 
@@ -464,7 +406,7 @@ export const KPIStatCard = ({ stat }: { stat: KPIStat }) => {
         <div className="truncate text-[13px] font-semibold text-slate-700">{stat.label}</div>
         <div className="mt-1 flex items-end gap-1.5">
           <div className="text-[25px] font-black leading-none tracking-tight text-slate-950">{stat.value}</div>
-          <div className={cn("text-xs font-bold", stat.trend === "up" ? "text-emerald-600" : "text-rose-600")}>{stat.trend === "up" ? "+" : "-"} {stat.delta}</div>
+          {stat.delta && <div className={cn("text-xs font-bold", stat.trend === "up" ? "text-emerald-600" : "text-rose-600")}>{stat.trend === "up" ? "+" : "-"} {stat.delta}</div>}
         </div>
         <div className="mt-1 text-xs text-slate-500">{stat.detail}</div>
       </div>
@@ -474,131 +416,10 @@ export const KPIStatCard = ({ stat }: { stat: KPIStat }) => {
 
 const formatPhone = (phone: string) => `(${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6)}`;
 
-const includesQuery = (values: Array<string | undefined>, query: string) => {
+const includesQuery = (values: Array<string | null | undefined>, query: string) => {
   const normalized = query.trim().toLowerCase();
   if (!normalized) return true;
   return values.join(" ").toLowerCase().includes(normalized);
-};
-
-export const JobCard = ({ job, index, onSelect }: { job: Job; index: number; onSelect?: (job: Job) => void }) => (
-  <article
-    role="button"
-    tabIndex={0}
-    onClick={() => onSelect?.(job)}
-    onKeyDown={(event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        onSelect?.(job);
-      }
-    }}
-    className="rounded-md border border-slate-100 bg-white p-2 text-left shadow-[0_8px_20px_rgba(15,23,42,0.045)] transition hover:border-blue-200 hover:shadow-[0_10px_24px_rgba(37,99,235,0.1)]"
-  >
-    <div className="flex gap-2">
-      {job.image ? <img src={job.image} alt="" className="h-9 w-9 rounded-sm object-cover" /> : <Avatar label={job.avatar} size="sm" className={avatarColors[index % avatarColors.length]} />}
-      <div className="min-w-0 flex-1">
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <h4 className="truncate text-xs font-black text-slate-950">{job.customer}</h4>
-            <p className="truncate text-[11px] font-medium text-slate-500">{job.service}</p>
-          </div>
-          {job.timeAgo && <span className="shrink-0 text-[10px] font-semibold text-slate-400">{job.timeAgo}</span>}
-        </div>
-        <span className={cn("mt-1 inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold", badgeClass[job.urgency])}>{job.urgency}</span>
-      </div>
-    </div>
-    <div className="mt-1.5 text-[11px] font-medium text-slate-500">{job.detail}</div>
-    <div className="mt-0.5 truncate text-[11px] text-slate-600">{job.address}</div>
-    <div className="mt-1.5 flex items-center gap-1.5">
-      <a href={`tel:${job.phone}`} onClick={(event) => event.stopPropagation()} className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-600">
-        <Phone className="h-3.5 w-3.5" />
-      </a>
-      <a href={`sms:${job.phone}`} onClick={(event) => event.stopPropagation()} className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-600">
-        <MessageSquare className="h-3.5 w-3.5" />
-      </a>
-      <button type="button" onClick={(event) => { event.stopPropagation(); onSelect?.(job); }} className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-600">
-        <MoreHorizontal className="h-3.5 w-3.5" />
-      </button>
-    </div>
-  </article>
-);
-
-export const DispatchColumn = ({ column, onSelectJob }: { column: DispatchColumnData; onSelectJob?: (job: Job) => void }) => (
-  <section className="min-w-0 rounded-md bg-slate-50 p-2">
-    <div className="mb-2 flex items-center justify-between px-1">
-      <h3 className="text-[13px] font-black text-slate-950">{column.title}</h3>
-      <span className="text-xs font-bold text-slate-500">{column.count}</span>
-    </div>
-    <div className="space-y-2">
-      {column.jobs.length === 0 ? (
-        <p className="rounded-md border border-dashed border-slate-200 bg-white p-3 text-xs font-medium text-slate-400">No matching jobs.</p>
-      ) : (
-        column.jobs.map((job, index) => <JobCard key={`${column.title}-${job.customer}`} job={job} index={index} onSelect={onSelectJob} />)
-      )}
-    </div>
-  </section>
-);
-
-const JobDetailsSheet = ({ job, onOpenChange }: { job: Job | null; onOpenChange: (open: boolean) => void }) => (
-  <Sheet open={!!job} onOpenChange={onOpenChange}>
-    <SheetContent className="w-full overflow-y-auto sm:max-w-md">
-      <SheetHeader>
-        <SheetTitle>{job?.customer || "Job Details"}</SheetTitle>
-      </SheetHeader>
-      {job && (
-        <div className="mt-5 space-y-4">
-          <div className="flex items-center gap-3 rounded-md bg-slate-50 p-3">
-            <Avatar label={job.avatar} size="lg" />
-            <div className="min-w-0">
-              <div className="truncate text-lg font-black text-slate-950">{job.customer}</div>
-              <div className="text-sm font-medium text-slate-500">{formatPhone(job.phone)}</div>
-            </div>
-          </div>
-          {[
-            ["Service Type", job.service],
-            ["Urgency", job.urgency],
-            ["Address", job.address],
-            ["Time / Status", `${job.detail}${job.status ? ` - ${job.status}` : ""}`],
-          ].map(([label, value]) => (
-            <div key={label} className="rounded-md border border-slate-200 p-3">
-              <div className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">{label}</div>
-              <div className="mt-1 text-sm font-bold text-slate-900">{value}</div>
-            </div>
-          ))}
-          <div className="grid grid-cols-2 gap-2">
-            <a href={`tel:${job.phone}`} className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-blue-600 text-sm font-bold text-white hover:bg-blue-700">
-              <Phone className="h-4 w-4" /> Call
-            </a>
-            <a href={`sms:${job.phone}`} className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-slate-200 bg-white text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700">
-              <MessageSquare className="h-4 w-4" /> SMS
-            </a>
-          </div>
-        </div>
-      )}
-    </SheetContent>
-  </Sheet>
-);
-
-export const DispatchBoard = ({ searchQuery = "", onNavigate }: DashboardProps) => {
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const filteredColumns = useMemo(() => dispatchColumns.map((column) => ({
-    ...column,
-    jobs: column.jobs
-      .map((job) => ({ ...job, status: column.title }))
-      .filter((job) => includesQuery([job.customer, job.service, job.urgency, job.detail, job.address, job.status, job.phone], searchQuery)),
-  })), [searchQuery]);
-
-  return (
-  <section className="min-w-0 overflow-hidden rounded-md border border-slate-200 bg-white p-3.5 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-    <div className="mb-2.5 flex items-center justify-between">
-      <h2 className="text-lg font-black tracking-tight text-slate-950">Dispatch Board</h2>
-      <button type="button" onClick={() => onNavigate?.("jobs")} className="inline-flex items-center gap-1 text-sm font-bold text-blue-600">View All Jobs <ChevronRight className="h-4 w-4" /></button>
-    </div>
-    <div className="grid min-w-0 grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
-      {filteredColumns.map((column) => <DispatchColumn key={column.title} column={column} onSelectJob={setSelectedJob} />)}
-    </div>
-    <JobDetailsSheet job={selectedJob} onOpenChange={(open) => !open && setSelectedJob(null)} />
-  </section>
-  );
 };
 
 export const ConversationList = ({
@@ -771,144 +592,281 @@ export const SMSInbox = ({ searchQuery = "" }: { searchQuery?: string }) => {
   );
 };
 
-export const ScheduleTimeline = ({ searchQuery = "", onNavigate }: DashboardProps) => {
-  const filteredSchedule = useMemo(() => schedule.map((column) => ({
-    ...column,
-    items: column.items.filter(([time, title, address]) => includesQuery([column.tech, time, title, address], searchQuery)),
-  })), [searchQuery]);
+// ----- Live dashboard data model (everything below is real Supabase data) -----
+type DashJob = {
+  id: string;
+  title: string | null;
+  status: string;
+  scheduled_date: string | null;
+  amount: number | null;
+  address: string | null;
+  technician_id: string | null;
+  leads: { name: string | null; phone: string | null } | null;
+  technicians: { name: string | null } | null;
+};
+type DashLead = { id: string; name: string | null; service: string | null; phone: string | null; status: string; created_at: string };
+type DashInvoice = { id: string; invoice_number: string | null; amount: number | null; status: string; due_date: string | null; paid_date: string | null; leads: { name: string | null } | null };
+type DashActivity = { id: string; title: string | null; description: string | null; created_at: string };
+
+const localDate = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const dayOf = (value: string | null | undefined) => (value ? value.slice(0, 10) : "");
+const CLOSED_JOB = new Set(["completed", "cancelled"]);
+const NON_OWED_INVOICE = new Set(["paid", "cancelled", "draft"]);
+const relativeTime = (iso: string) => {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.round(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.round(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.round(hrs / 24)}d ago`;
+};
+
+const jobBadge = (status: string) => STATUS_BADGE_CLASS[status] || "bg-slate-100 text-slate-700";
+
+const DashJobCard = ({ job, onOpen }: { job: DashJob; onOpen?: () => void }) => (
+  <button type="button" onClick={onOpen} className="w-full rounded-md border border-slate-100 bg-white p-2.5 text-left shadow-[0_8px_20px_rgba(15,23,42,0.045)] transition hover:border-blue-200 hover:shadow-[0_10px_24px_rgba(37,99,235,0.1)]">
+    <div className="flex items-start justify-between gap-2">
+      <div className="min-w-0">
+        <div className="truncate text-xs font-black text-slate-950">{job.leads?.name || job.title || "Job"}</div>
+        <div className="truncate text-[11px] font-medium text-slate-500">{job.title || "Untitled job"}</div>
+      </div>
+      <span className={cn("shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold", jobBadge(job.status))}>{JOB_STATUS_LABELS[job.status] || job.status}</span>
+    </div>
+    {job.address && <div className="mt-1 truncate text-[11px] text-slate-500">{job.address}</div>}
+    <div className="mt-1.5 flex items-center justify-between">
+      <span className="text-[11px] font-semibold text-slate-500">{job.technicians?.name || "Unassigned"}</span>
+      <span className="text-[11px] font-bold text-slate-900">{asCurrency(job.amount)}</span>
+    </div>
+  </button>
+);
+
+const SnapshotColumn = ({ title, accent, jobs, onOpen }: { title: string; accent: string; jobs: DashJob[]; onOpen?: () => void }) => (
+  <section className="min-w-0 rounded-md bg-slate-50 p-2">
+    <div className="mb-2 flex items-center justify-between px-1">
+      <div className="flex items-center gap-1.5"><span className={cn("h-2 w-2 rounded-full", accent)} /><h3 className="text-[13px] font-black text-slate-950">{title}</h3></div>
+      <span className="text-xs font-bold text-slate-500">{jobs.length}</span>
+    </div>
+    <div className="space-y-2">
+      {jobs.length === 0 ? (
+        <p className="rounded-md border border-dashed border-slate-200 bg-white p-3 text-xs font-medium text-slate-400">Nothing here.</p>
+      ) : jobs.map((job) => <DashJobCard key={job.id} job={job} onOpen={onOpen} />)}
+    </div>
+  </section>
+);
+
+export const CRMDashboard = ({ searchQuery = "", onNavigate }: DashboardProps) => {
+  const [jobs, setJobs] = useState<DashJob[]>([]);
+  const [leads, setLeads] = useState<DashLead[]>([]);
+  const [invoices, setInvoices] = useState<DashInvoice[]>([]);
+  const [activity, setActivity] = useState<DashActivity[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      const [jobRes, leadRes, invRes, actRes] = await Promise.all([
+        supabase.from("jobs").select("id, title, status, scheduled_date, amount, address, technician_id, leads(name, phone), technicians(name)").order("scheduled_date", { ascending: true }),
+        supabase.from("leads").select("id, name, service, phone, status, created_at").order("created_at", { ascending: false }).limit(100),
+        supabase.from("invoices").select("id, invoice_number, amount, status, due_date, paid_date, leads(name)").order("created_at", { ascending: false }).limit(200),
+        // activity_logs is written by createActivity() but isn't in the generated
+        // Supabase types yet, so cast like the rest of the codebase does.
+        supabase.from("activity_logs" as any).select("id, title, description, created_at").order("created_at", { ascending: false }).limit(8),
+      ]);
+      if (cancelled) return;
+      setJobs((jobRes.data as DashJob[]) || []);
+      setLeads((leadRes.data as DashLead[]) || []);
+      setInvoices((invRes.data as DashInvoice[]) || []);
+      setActivity((actRes.data as unknown as DashActivity[]) || []);
+      setLoading(false);
+    };
+    load().catch(() => setLoading(false));
+    return () => { cancelled = true; };
+  }, []);
+
+  const today = localDate(new Date());
+  const month = today.slice(0, 7);
+
+  const stats = useMemo(() => {
+    const openJobs = jobs.filter((job) => !CLOSED_JOB.has(job.status));
+    const revenueMonth = invoices.filter((inv) => inv.status === "paid" && dayOf(inv.paid_date).startsWith(month)).reduce((sum, inv) => sum + (inv.amount || 0), 0);
+    const outstanding = invoices.filter((inv) => !NON_OWED_INVOICE.has(inv.status)).reduce((sum, inv) => sum + (inv.amount || 0), 0);
+    return {
+      todayJobs: openJobs.filter((job) => dayOf(job.scheduled_date) === today).length,
+      openJobs: openJobs.length,
+      newLeads: leads.filter((lead) => lead.status === "new").length,
+      revenueMonth: asCurrency(revenueMonth),
+      outstanding: asCurrency(outstanding),
+    } as Record<string, string | number>;
+  }, [jobs, leads, invoices, today, month]);
+
+  const kpis: KPIStat[] = useMemo(() => KPI_META.map((meta) => ({
+    label: meta.label,
+    icon: meta.icon,
+    color: meta.color,
+    value: String(stats[meta.key] ?? 0),
+    detail: {
+      todayJobs: "scheduled today",
+      openJobs: "active jobs",
+      newLeads: "awaiting response",
+      revenueMonth: "paid this month",
+      outstanding: "unpaid invoices",
+    }[meta.key] || "",
+    delta: "",
+    trend: "up" as const,
+  })), [stats]);
+  const filteredKpis = useMemo(() => kpis.filter((stat) => includesQuery([stat.label, stat.value, stat.detail], searchQuery)), [kpis, searchQuery]);
+
+  const openJobs = useMemo(() => jobs.filter((job) => !CLOSED_JOB.has(job.status) && includesQuery([job.title, job.leads?.name, job.address, job.technicians?.name], searchQuery)), [jobs, searchQuery]);
+  const snapshot = useMemo(() => ({
+    today: openJobs.filter((job) => dayOf(job.scheduled_date) === today),
+    upcoming: openJobs.filter((job) => dayOf(job.scheduled_date) > today),
+    unscheduled: openJobs.filter((job) => !job.scheduled_date),
+  }), [openJobs, today]);
+
+  const newLeads = useMemo(() => leads.filter((lead) => lead.status === "new" && includesQuery([lead.name, lead.service, lead.phone], searchQuery)), [leads, searchQuery]);
+  const overdueInvoices = useMemo(() => invoices.filter((inv) => !NON_OWED_INVOICE.has(inv.status) && !!inv.due_date && dayOf(inv.due_date) < today && includesQuery([inv.invoice_number, inv.leads?.name], searchQuery)), [invoices, today, searchQuery]);
+
+  const schedule = useMemo(() => {
+    const groups = new Map<string, DashJob[]>();
+    snapshot.today.forEach((job) => {
+      const tech = job.technicians?.name || "Unassigned";
+      if (!groups.has(tech)) groups.set(tech, []);
+      groups.get(tech)!.push(job);
+    });
+    return Array.from(groups.entries());
+  }, [snapshot.today]);
+
+  const filteredActivity = useMemo(() => activity.filter((row) => includesQuery([row.title, row.description], searchQuery)), [activity, searchQuery]);
+
+  if (loading) {
+    return <div className="rounded-md border border-slate-200 bg-white p-6 text-sm font-medium text-slate-500">Loading your dashboard…</div>;
+  }
 
   return (
-  <section className="min-w-0 overflow-hidden rounded-md border border-slate-200 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-    <div className="mb-3 flex items-center justify-between">
-      <h2 className="text-lg font-black text-slate-950">Today's Schedule</h2>
-      <button type="button" onClick={() => onNavigate?.("dispatch")} className="inline-flex items-center gap-1 text-xs font-bold text-blue-600">View Full Schedule <ChevronRight className="h-4 w-4" /></button>
-    </div>
-    <div className="grid grid-cols-[46px_1fr] gap-2.5">
-      <div className="pt-10 text-xs font-medium text-slate-500">
-        {["8 AM", "10 AM", "12 PM", "2 PM", "4 PM"].map((time) => <div key={time} className="h-[45px]">{time}</div>)}
+    <div className="min-w-0 space-y-3">
+      <div className="grid min-w-0 grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
+        {filteredKpis.length === 0 ? (
+          <div className="rounded-md border border-dashed border-slate-200 bg-white p-4 text-sm font-medium text-slate-400 md:col-span-2 xl:col-span-5">No matching metrics.</div>
+        ) : filteredKpis.map((stat) => <KPIStatCard key={stat.label} stat={stat} />)}
       </div>
-      <div className="grid grid-cols-3 gap-3">
-        {filteredSchedule.map((column, index) => (
-          <div key={column.tech} className="border-l border-slate-200 pl-2.5">
-            <div className="mb-2 flex items-center gap-2">
-              <Avatar label={column.tech.split(" ").map((part) => part[0]).join("")} size="sm" className={avatarColors[index]} />
-              <div className="truncate text-sm font-black text-slate-800">{column.tech}</div>
+
+      <div className="grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.15fr)_minmax(340px,0.85fr)]">
+        <section className="min-w-0 overflow-hidden rounded-md border border-slate-200 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-black text-slate-950">Jobs</h2>
+            <button type="button" onClick={() => onNavigate?.("dispatch")} className="inline-flex items-center gap-1 text-xs font-bold text-blue-600">Open dispatch <ChevronRight className="h-4 w-4" /></button>
+          </div>
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+            <SnapshotColumn title="Today" accent="bg-blue-500" jobs={snapshot.today} onOpen={() => onNavigate?.("dispatch")} />
+            <SnapshotColumn title="Upcoming" accent="bg-violet-500" jobs={snapshot.upcoming} onOpen={() => onNavigate?.("dispatch")} />
+            <SnapshotColumn title="Unscheduled" accent="bg-amber-500" jobs={snapshot.unscheduled} onOpen={() => onNavigate?.("dispatch")} />
+          </div>
+        </section>
+
+        <section className="min-w-0 overflow-hidden rounded-md border border-slate-200 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+          <h2 className="mb-3 text-lg font-black text-slate-950">Needs attention</h2>
+          <div className="space-y-4">
+            <div>
+              <div className="mb-2 flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-[0.14em] text-slate-500"><Users className="h-3.5 w-3.5" /> New leads</div>
+                <button type="button" onClick={() => onNavigate?.("leads")} className="text-xs font-bold text-blue-600">View all</button>
+              </div>
+              {newLeads.length === 0 ? (
+                <p className="rounded-md border border-dashed border-slate-200 p-3 text-xs font-medium text-slate-400">No new leads. You're all caught up.</p>
+              ) : (
+                <div className="space-y-1.5">
+                  {newLeads.slice(0, 4).map((lead) => (
+                    <div key={lead.id} className="flex items-center gap-2 rounded-md border border-slate-100 bg-slate-50 p-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate text-xs font-black text-slate-950">{lead.name || "New lead"}</div>
+                        <div className="truncate text-[11px] font-medium text-slate-500">{lead.service || "General inquiry"} · {relativeTime(lead.created_at)}</div>
+                      </div>
+                      {lead.phone && <a href={`tel:${lead.phone}`} onClick={(event) => event.stopPropagation()} className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-slate-600 hover:bg-blue-50 hover:text-blue-600"><Phone className="h-3.5 w-3.5" /></a>}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            <div className="space-y-1.5">
-              {column.items.length === 0 ? (
-                <p className="rounded-md border border-dashed border-slate-200 p-2 text-xs text-slate-400">No matching visits.</p>
-              ) : column.items.map(([time, title, address, color]) => (
-                <div
-                  key={`${column.tech}-${time}`}
-                  className={cn(
-                    "rounded-md border px-2.5 py-1.5 text-xs",
-                    color === "green" && "border-emerald-200 bg-emerald-50 text-emerald-900",
-                    color === "red" && "border-rose-200 bg-rose-50 text-rose-900",
-                    color === "amber" && "border-amber-200 bg-amber-50 text-amber-900",
-                    color === "blue" && "border-blue-200 bg-blue-50 text-blue-900",
-                  )}
-                >
-                  <div className="font-black">{time}</div>
-                  <div className="font-semibold">{title}</div>
-                  <div className="truncate opacity-80">{address}</div>
+            <div>
+              <div className="mb-2 flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-[0.14em] text-slate-500"><DollarSign className="h-3.5 w-3.5" /> Overdue invoices</div>
+                <button type="button" onClick={() => onNavigate?.("invoices")} className="text-xs font-bold text-blue-600">View all</button>
+              </div>
+              {overdueInvoices.length === 0 ? (
+                <p className="rounded-md border border-dashed border-slate-200 p-3 text-xs font-medium text-slate-400">No overdue invoices.</p>
+              ) : (
+                <div className="space-y-1.5">
+                  {overdueInvoices.slice(0, 4).map((inv) => (
+                    <button key={inv.id} type="button" onClick={() => onNavigate?.("invoices")} className="flex w-full items-center gap-2 rounded-md border border-rose-100 bg-rose-50 p-2 text-left">
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate text-xs font-black text-slate-950">{inv.leads?.name || inv.invoice_number || "Invoice"}</div>
+                        <div className="truncate text-[11px] font-medium text-rose-600">Due {asDate(inv.due_date)}</div>
+                      </div>
+                      <span className="shrink-0 text-xs font-black text-rose-700">{asCurrency(inv.amount)}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div className="grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
+        <section className="min-w-0 overflow-hidden rounded-md border border-slate-200 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-black text-slate-950">Today's Schedule</h2>
+            <button type="button" onClick={() => onNavigate?.("dispatch")} className="inline-flex items-center gap-1 text-xs font-bold text-blue-600">Full schedule <ChevronRight className="h-4 w-4" /></button>
+          </div>
+          {schedule.length === 0 ? (
+            <p className="rounded-md border border-dashed border-slate-200 p-4 text-sm font-medium text-slate-400">No jobs scheduled for today.</p>
+          ) : (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {schedule.map(([tech, techJobs], index) => (
+                <div key={tech} className="border-l border-slate-200 pl-2.5">
+                  <div className="mb-2 flex items-center gap-2">
+                    <Avatar label={tech.split(" ").map((part) => part[0]).join("").slice(0, 2)} size="sm" className={avatarColors[index % avatarColors.length]} />
+                    <div className="truncate text-sm font-black text-slate-800">{tech}</div>
+                  </div>
+                  <div className="space-y-1.5">
+                    {techJobs.map((job) => (
+                      <div key={job.id} className="rounded-md border border-blue-100 bg-blue-50 px-2.5 py-1.5 text-xs text-blue-900">
+                        <div className="font-black">{job.title || "Job"}</div>
+                        <div className="truncate opacity-80">{job.leads?.name || job.address || ""}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
+          )}
+        </section>
+
+        <section className="min-w-0 overflow-hidden rounded-md border border-slate-200 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-black text-slate-950">Recent Activity</h2>
+            <button type="button" onClick={() => onNavigate?.("activity")} className="inline-flex items-center gap-1 text-xs font-bold text-blue-600">View all <ChevronRight className="h-4 w-4" /></button>
           </div>
-        ))}
+          {filteredActivity.length === 0 ? (
+            <p className="rounded-md border border-dashed border-slate-200 p-4 text-sm font-medium text-slate-400">No activity yet.</p>
+          ) : (
+            <div className="space-y-2.5">
+              {filteredActivity.map((row) => (
+                <div key={row.id} className="flex items-start gap-2.5 border-b border-slate-100 pb-2.5 last:border-0">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600"><Bell className="h-4 w-4" /></div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-black text-slate-950">{row.title || "Activity"}</div>
+                    {row.description && <div className="truncate text-xs font-medium text-slate-500">{row.description}</div>}
+                  </div>
+                  <div className="shrink-0 text-xs font-medium text-slate-500">{relativeTime(row.created_at)}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       </div>
     </div>
-  </section>
-  );
-};
-
-export const ActivityFeed = ({ searchQuery = "", onNavigate }: DashboardProps) => {
-  const filteredActivities = useMemo(
-    () => activities.filter(([title, description, time, color]) => includesQuery([title, description, time, color], searchQuery)),
-    [searchQuery],
-  );
-
-  return (
-  <section className="min-w-0 overflow-hidden rounded-md border border-slate-200 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
-    <div className="mb-3 flex items-center justify-between">
-      <h2 className="text-lg font-black text-slate-950">Recent Activity</h2>
-      <button type="button" onClick={() => onNavigate?.("activity")} className="inline-flex items-center gap-1 text-xs font-bold text-blue-600">View All Activity <ChevronRight className="h-4 w-4" /></button>
-    </div>
-    <div className="grid grid-cols-[1fr_210px] gap-4">
-      <div className="space-y-2.5">
-        {filteredActivities.length === 0 ? (
-          <p className="rounded-md border border-dashed border-slate-200 p-4 text-sm text-slate-400">No matching activity.</p>
-        ) : filteredActivities.map(([title, description, time, color]) => (
-          <div key={title} className="flex items-start gap-2.5 border-b border-slate-100 pb-2.5 last:border-0">
-            <div
-              className={cn(
-                "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-                color === "red" && "bg-rose-50 text-rose-600",
-                color === "green" && "bg-emerald-50 text-emerald-600",
-                color === "amber" && "bg-amber-50 text-amber-600",
-                color === "blue" && "bg-blue-50 text-blue-600",
-              )}
-            >
-              {color === "green" ? <CheckCircle2 className="h-4 w-4" /> : color === "blue" ? <MessageSquare className="h-4 w-4" /> : color === "amber" ? <BriefcaseBusiness className="h-4 w-4" /> : <Bell className="h-4 w-4" />}
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-sm font-black text-slate-950">{title}</div>
-              <div className="truncate text-xs font-medium text-slate-500">{description}</div>
-            </div>
-            <div className="text-xs font-medium text-slate-500">{time}</div>
-          </div>
-        ))}
-      </div>
-      <img src={technicianImage} alt="Bravo technician servicing HVAC equipment" className="h-full max-h-[230px] min-h-[190px] w-full rounded-md object-cover" />
-    </div>
-  </section>
-  );
-};
-
-export const CRMDashboard = ({ searchQuery = "", onNavigate }: DashboardProps) => {
-  const [liveKpis, setLiveKpis] = useState<KPIStat[]>(kpis);
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const today = new Date().toISOString().split('T')[0];
-        const [j0, j1, inv, newLeads] = await Promise.all([
-          supabase.from('jobs').select('id', { count: 'exact', head: true }).gte('scheduled_date', today + 'T00:00:00').lte('scheduled_date', today + 'T23:59:59'),
-          supabase.from('jobs').select('id', { count: 'exact', head: true }).not('status', 'in', '("completed","cancelled")'),
-          supabase.from('invoices').select('amount').eq('status', 'paid').gte('created_at', today + 'T00:00:00'),
-          supabase.from('leads').select('id', { count: 'exact', head: true }).eq('status', 'new'),
-        ]);
-        const rev = (inv.data || []).reduce((s: number, i: {amount: number}) => s + (i.amount || 0), 0);
-        setLiveKpis(prev => prev.map((k: KPIStat) => {
-          if (k.label === "Today's Jobs") return { ...k, value: String(j0.count ?? 0), detail: 'scheduled today', delta: '' };
-          if (k.label === 'Revenue (Today)') return { ...k, value: rev > 0 ? String(rev.toLocaleString()) : '0', detail: 'paid invoices', delta: '' };
-          if (k.label === 'Open Jobs') return { ...k, value: String(j1.count ?? 0), detail: 'active jobs', delta: '' };
-          if (k.label === 'New Leads') return { ...k, value: String(newLeads.count ?? 0), detail: 'new leads', delta: '' };
-          return k;
-        }));
-      } catch (_) {}
-    };
-    fetchStats();
-  }, []);
-  const filteredKpis = useMemo(() => liveKpis.filter((stat) => includesQuery([stat.label, stat.value, stat.detail], searchQuery)), [searchQuery, liveKpis]);
-
-  return (
-  <div className="min-w-0 space-y-3">
-    <div className="grid min-w-0 grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
-      {filteredKpis.length === 0 ? (
-        <div className="rounded-md border border-dashed border-slate-200 bg-white p-4 text-sm font-medium text-slate-400 md:col-span-2 xl:col-span-5">No matching dashboard metrics.</div>
-      ) : filteredKpis.map((stat) => <KPIStatCard key={stat.label} stat={stat} />)}
-    </div>
-
-    <div className="grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)] 2xl:grid-cols-[minmax(0,1.15fr)_minmax(380px,0.85fr)]">
-      <DispatchBoard searchQuery={searchQuery} onNavigate={onNavigate} />
-      <SMSInbox searchQuery={searchQuery} />
-    </div>
-
-    <div className="grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-      <ScheduleTimeline searchQuery={searchQuery} onNavigate={onNavigate} />
-      <ActivityFeed searchQuery={searchQuery} onNavigate={onNavigate} />
-    </div>
-  </div>
   );
 };
 

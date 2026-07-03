@@ -10,6 +10,7 @@ import { CRMActivityLog } from "@/components/crm/CRMActivityLog";
 import { CRMAlerts } from "@/components/crm/CRMAlerts";
 import { CRMDashboard, CRMSettingsPanel, PlaceholderPanel, Sidebar, SMSInbox, TopBar } from "@/components/crm/CRMDashboard";
 import { CRMDispatch } from "@/components/crm/CRMDispatch";
+import { CRMFollowUps } from "@/components/crm/CRMFollowUps";
 import { CRMInvoices } from "@/components/crm/CRMInvoices";
 import { CRMJobs } from "@/components/crm/CRMJobs";
 import { CRMLeads } from "@/components/crm/CRMLeads";
@@ -53,6 +54,8 @@ const CRM = () => {
     jobs: "Jobs",
     dispatch: "Dispatch Board",
     leads: "Customers (CRM)",
+    followups: "Follow-Ups",
+    alerts: "Alerts",
     messages: "Messages",
     myjobs: "Technicians",
     invoices: "Invoices",
@@ -65,6 +68,7 @@ const CRM = () => {
     if (activeView === "jobs") return <CRMJobs />;
     if (activeView === "dispatch") return <CRMDispatch />;
     if (activeView === "leads") return <CRMLeads />;
+    if (activeView === "followups") return <CRMFollowUps />;
     if (activeView === "messages") return <SMSInbox searchQuery={dashboardSearch} />;
     if (activeView === "myjobs") return <CRMMyJobs />;
     if (activeView === "invoices") return <CRMInvoices />;

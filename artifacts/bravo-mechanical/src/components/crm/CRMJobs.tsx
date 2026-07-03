@@ -215,8 +215,9 @@ useEffect(() => {
   };
   const completeAndSendInvoice = async (job: Job) => {
     await updateStatus(job, "completed");
-    const result = await ensureRevenueLoopForCompletedJob(job as any);
-    const sms = getSmsTemplate("day_1", (job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown'), `https://pay.bravomechanical.com/invoice/${result.invoiceId}`);
+    await ensureRevenueLoopForCompletedJob(job as any);
+    // No online payment page exists yet — the template routes the customer to reply/call.
+    const sms = getSmsTemplate("day_1", (job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown'));
     window.open(`sms:?&body=${encodeURIComponent(sms)}`, "_self");
   };
 

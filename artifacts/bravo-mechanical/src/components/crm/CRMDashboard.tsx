@@ -1,6 +1,7 @@
 import {
   Bell,
   BriefcaseBusiness,
+  CalendarClock,
   CalendarDays,
   CheckCircle2,
   ChevronDown,
@@ -96,7 +97,7 @@ type ThreadMessage = {
   direction: "inbound" | "outbound";
 };
 
-type DashboardSection = "dashboard" | "jobs" | "dispatch" | "leads" | "messages" | "myjobs" | "invoices" | "activity" | "settings";
+type DashboardSection = "dashboard" | "jobs" | "dispatch" | "leads" | "followups" | "alerts" | "messages" | "myjobs" | "invoices" | "activity" | "settings";
 
 type DashboardProps = {
   searchQuery?: string;
@@ -108,7 +109,8 @@ const navItems: NavItem[] = [
   { id: "jobs", label: "Jobs", icon: CalendarDays },
   { id: "dispatch", label: "Dispatch Board", icon: MessageSquare },
   { id: "leads", label: "Customers (CRM)", icon: Users },
-  { id: "messages", label: "Messages", icon: Mail },
+  { id: "followups", label: "Follow-Ups", icon: CalendarClock },
+  { id: "alerts", label: "Alerts", icon: Bell },
   { id: "myjobs", label: "Technicians", icon: User },
   { id: "invoices", label: "Invoices", icon: ClipboardList },
   { id: "activity", label: "Activity Log", icon: LineChart },
@@ -284,6 +286,7 @@ export const TopBar = ({
   const [notifCount, setNotifCount] = useState(0);
   const [notifs, setNotifs] = useState<{id:string;title:string;message:string;read:boolean;created_at:string}[]>([]);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -299,11 +302,18 @@ export const TopBar = ({
     })();
   }, [notifOpen]);
 
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUserEmail(data.user?.email || ""));
+  }, []);
+
   const markAllRead = async () => {
-    await supabase.from("crm_notifications" as any).update({ read: true } as any).eq("read", false);
+    // Keep both read flags in sync — the Alerts screen tracks read_at.
+    await supabase.from("crm_notifications" as any).update({ read: true, read_at: new Date().toISOString() } as any).eq("read", false);
     setNotifCount(0);
     setNotifs(n => n.map(x => ({ ...x, read: true })));
   };
+
+  const userInitials = (userEmail.split("@")[0] || "BM").slice(0, 2).toUpperCase();
 
   return (
   <header className="sticky top-0 z-20 border-b border-transparent bg-slate-50/90 px-4 py-3 backdrop-blur-xl lg:px-5 xl:px-6">
@@ -329,11 +339,6 @@ export const TopBar = ({
       </div>
       <button type="button" onClick={onNewJob} className="ml-auto inline-flex h-10 items-center gap-2 rounded-md bg-blue-600 px-5 text-sm font-bold text-white shadow-md hover:bg-blue-700 md:ml-0">
         <Plus className="h-4 w-4" /> New Job
-      </button>
-
-      {/* Inbox button — navigates to SMS inbox */}
-      <button type="button" onClick={() => onSelect?.("messages")} className="relative hidden h-9 w-9 items-center justify-center rounded-md bg-white text-slate-800 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 md:flex">
-        <Inbox className="h-4 w-4" />
       </button>
 
       {/* Notification bell */}
@@ -372,15 +377,15 @@ export const TopBar = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button type="button" className="hidden items-center gap-2 rounded-md px-2 py-1.5 hover:bg-white focus:outline-none md:flex">
-            <Avatar label="MJ" size="md" className="bg-slate-800" />
+            <Avatar label={userInitials} size="md" className="bg-slate-800" />
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white" />
             <ChevronDown className="h-4 w-4 text-slate-600" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-52">
           <div className="px-3 py-2">
-            <p className="text-sm font-semibold text-slate-900">Mike Johnson</p>
-            <p className="text-xs text-slate-500">Administrator</p>
+            <p className="truncate text-sm font-semibold text-slate-900">{userEmail || "Signed in"}</p>
+            <p className="text-xs text-slate-500">Bravo Mechanical</p>
           </div>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={onSignOut} className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700">

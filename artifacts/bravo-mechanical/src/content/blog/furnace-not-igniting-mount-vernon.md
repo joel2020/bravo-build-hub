@@ -46,4 +46,4 @@ If you've tried all 7 and you're still cold:
 - Failed igniter or flame sensor (most common, $150–$350 fix)
 - Failed gas valve ($350–$650)
 
-Mount Vernon same-day service is usually available — call (914) 318-7368 or [book online](/contact). 24/7 emergency dispatch for no-heat in winter.
+Mount Vernon same-day service is usually available — call (914) 361-9142 or [book online](/contact). 24/7 emergency dispatch for no-heat in winter.

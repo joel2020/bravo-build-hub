@@ -47,4 +47,4 @@ Rye (10580) has a mix of historic colonials, mid-century waterfront homes, and c
 
 A typical 5-zone Rye install runs **$19,500 before rebates, $13,000–$15,000 after.**
 
-[Book a Rye mini-split consultation](/contact) or call (914) 318-7368.
+[Book a Rye mini-split consultation](/contact) or call (914) 361-9142.

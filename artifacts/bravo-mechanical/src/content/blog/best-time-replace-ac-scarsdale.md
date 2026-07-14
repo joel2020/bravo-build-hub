@@ -41,4 +41,4 @@ Replace if your Scarsdale system is:
 
 ## Lock in 2026 pricing now
 
-We offer pre-season scheduling for Scarsdale homeowners — equipment ordered, install date locked, payment due at completion. [Request a quote](/contact) or call (914) 318-7368.
+We offer pre-season scheduling for Scarsdale homeowners — equipment ordered, install date locked, payment due at completion. [Request a quote](/contact) or call (914) 361-9142.

@@ -55,4 +55,4 @@ Most "my heat pump can't keep up in cold weather" complaints we troubleshoot in 
 
 ## Free Katonah cold-weather assessment
 
-We do site visits in Katonah, Bedford, North Salem, and Pound Ridge to honestly assess whether your home is heat-pump ready or whether dual fuel is smarter. [Book one](/contact) or call (914) 318-7368.
+We do site visits in Katonah, Bedford, North Salem, and Pound Ridge to honestly assess whether your home is heat-pump ready or whether dual fuel is smarter. [Book one](/contact) or call (914) 361-9142.

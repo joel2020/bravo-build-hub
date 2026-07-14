@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { sendSmsWithFallback, openSmsFallback } from "./sms";
 import { sendEmail, openMailtoFallback } from "./email";
+import { SITE } from "./site";
 
 export const LEAD_STATUS_LABELS: Record<string, string> = {
   new: "New",
@@ -69,8 +70,6 @@ export const createActivity = async (action: string, opts?: { leadId?: string | 
   });
   if (error) console.warn("createActivity failed:", error.message);
 };
-
-const APP_URL = "https://app.bravomechanicalny.com";
 
 const invoiceNumber = () => `INV-${new Date().toISOString().slice(2, 10).replace(/-/g, "")}-${Date.now().toString().slice(-5)}`;
 
@@ -183,12 +182,14 @@ export async function sendInvoiceMessage(job: CompletedJobInput, invoiceNo: stri
   const customerPhone = job.customer_phone || job.leads?.phone;
   const customerEmail = job.customer_email || job.leads?.email;
   const customerName = job.customer_name || job.leads?.name || "there";
-  const paymentLink = `${APP_URL}/invoices`;
+  // No customer-facing payment page exists yet (settings.integrations.stripe = false),
+  // so payment instructions route to a reply or the office phone — never a dead link.
+  const payCta = `Reply to this message or call ${SITE.phone} to arrange payment.`;
 
   const results = { sms: false, email: false, errors: [] as string[] };
 
   if (customerPhone) {
-    const smsBody = `Hi ${customerName}, your Bravo Mechanical invoice is ready: ${invoiceNo}. View and pay here: ${paymentLink}`;
+    const smsBody = `Hi ${customerName}, your Bravo Mechanical invoice ${invoiceNo} is ready. ${payCta}`;
     try {
       const smsResult = await sendSmsWithFallback(customerPhone, smsBody);
       results.sms = smsResult.success;
@@ -208,7 +209,7 @@ export async function sendInvoiceMessage(job: CompletedJobInput, invoiceNo: stri
         <h2 style="color:#1a1a1a;">Bravo Mechanical</h2>
         <p>Hi ${customerName},</p>
         <p>Your invoice <strong>${invoiceNo}</strong> is ready.</p>
-        <p><a href="${paymentLink}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;">View Invoice</a></p>
+        <p>To pay or ask a question, reply to this email or call us at <a href="${SITE.phoneHref}">${SITE.phone}</a>.</p>
         <p style="color:#666;font-size:14px;">Thank you for choosing Bravo Mechanical.</p>
       </body></html>
     `;
@@ -236,7 +237,8 @@ export async function sendReviewRequest(job: CompletedJobInput) {
   const customerPhone = job.customer_phone || job.leads?.phone;
   const customerEmail = job.customer_email || job.leads?.email;
   const customerName = job.customer_name || job.leads?.name || "there";
-  const reviewLink = "https://g.page/r/bravo-mechanical/review";
+  // Real Google Business Profile listing (same link the public site uses).
+  const reviewLink = SITE.social.google;
 
   const results = { sms: false, email: false, errors: [] as string[] };
 
@@ -288,10 +290,10 @@ export async function sendReviewRequest(job: CompletedJobInput) {
 
 export async function sendUnpaidInvoiceFollowUp(invoiceId: string, leadId: string | null, jobId: string | null, customerPhone: string | null, customerEmail: string | null, customerName: string | null, invoiceNo: string) {
   const results = { sms: false, email: false, errors: [] as string[] };
-  const paymentLink = `${APP_URL}/invoices`;
+  const payCta = `Reply to this message or call ${SITE.phone} to arrange payment.`;
 
   if (customerPhone) {
-    const smsBody = `Hi ${customerName || "there"}, this is a friendly reminder that your Bravo Mechanical invoice ${invoiceNo} is still unpaid. Please view and pay here: ${paymentLink}`;
+    const smsBody = `Hi ${customerName || "there"}, this is a friendly reminder that your Bravo Mechanical invoice ${invoiceNo} is still unpaid. ${payCta}`;
     try {
       const smsResult = await sendSmsWithFallback(customerPhone, smsBody);
       results.sms = smsResult.success;
@@ -301,7 +303,7 @@ export async function sendUnpaidInvoiceFollowUp(invoiceId: string, leadId: strin
 
   if (customerEmail) {
     const subject = `Reminder: Invoice ${invoiceNo} - Bravo Mechanical`;
-    const html = `<html><body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px;"><h2>Bravo Mechanical</h2><p>Hi ${customerName || "there"},</p><p>This is a friendly reminder that invoice <strong>${invoiceNo}</strong> is still outstanding.</p><p><a href="${paymentLink}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;">Pay Now</a></p></body></html>`;
+    const html = `<html><body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px;"><h2>Bravo Mechanical</h2><p>Hi ${customerName || "there"},</p><p>This is a friendly reminder that invoice <strong>${invoiceNo}</strong> is still outstanding.</p><p>To pay or ask a question, reply to this email or call us at <a href="${SITE.phoneHref}">${SITE.phone}</a>.</p></body></html>`;
     try {
       const emailResult = await sendEmail({ to: customerEmail, subject, html });
       results.email = emailResult.success;

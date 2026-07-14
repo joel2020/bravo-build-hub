@@ -285,7 +285,7 @@ export const CRMFollowUps = () => {
     const textBody = `Hi ${customer?.name || "there"}, following up from Bravo Mechanical.`;
     const quickText = getSmsTemplate(followUp.job_id ? "quote" : "general", customer?.name);
     const paymentType = followUp.note.includes("invoice_7") ? "day_7" : followUp.note.includes("invoice_3") ? "day_3" : "day_1";
-    const payText = getSmsTemplate(paymentType as any, customer?.name, "https://pay.bravomechanical.com");
+    const payText = getSmsTemplate(paymentType as any, customer?.name);
 
     return (
       <div key={followUp.id} className={`rounded-3xl border bg-white p-4 shadow-sm ${urgent ? "border-red-200 bg-red-50/70" : ""}`}>

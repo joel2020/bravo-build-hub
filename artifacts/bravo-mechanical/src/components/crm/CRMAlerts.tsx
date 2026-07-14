@@ -52,11 +52,12 @@ export const CRMAlerts = () => {
 
   const unreadCount = useMemo(() => alerts.filter((alert) => !alert.read_at).length, [alerts]);
 
+  // Set both read flags — the top-bar bell tracks the boolean `read` column.
   const markRead = async (id: string) => {
     setSavingId(id);
     await supabase
       .from("crm_notifications" as any)
-      .update({ read_at: new Date().toISOString() })
+      .update({ read: true, read_at: new Date().toISOString() } as any)
       .eq("id", id);
     await fetchAlerts();
     setSavingId(null);
@@ -66,7 +67,7 @@ export const CRMAlerts = () => {
     setSavingId("all");
     await supabase
       .from("crm_notifications" as any)
-      .update({ read_at: new Date().toISOString() })
+      .update({ read: true, read_at: new Date().toISOString() } as any)
       .is("read_at", null);
     await fetchAlerts();
     setSavingId(null);

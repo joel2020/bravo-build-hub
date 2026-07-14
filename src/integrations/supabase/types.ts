@@ -461,6 +461,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_list_blog_comments: {
+        Args: never
+        Returns: {
+          approved: boolean
+          author_email: string
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          post_slug: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "blog_comments"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean

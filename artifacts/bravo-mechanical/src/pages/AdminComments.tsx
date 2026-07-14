@@ -55,12 +55,9 @@ const AdminComments = () => {
   }, [navigate]);
 
   const loadComments = async () => {
-    const { data, error } = await supabase
-      .from("blog_comments")
-      .select("*")
-      .order("created_at", { ascending: false });
+    const { data, error } = await supabase.rpc("admin_list_blog_comments");
     if (error) toast({ title: "Load failed", description: error.message, variant: "destructive" });
-    else setComments(data || []);
+    else setComments((data as AdminComment[]) || []);
   };
 
   const approve = async (id: string) => {

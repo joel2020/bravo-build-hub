@@ -12,7 +12,7 @@ import { toast } from "@/hooks/use-toast";
 import { AlertTriangle, CalendarClock, Check, Clock3, MessageSquare, Phone, Plus, RefreshCcw, Wrench } from "lucide-react";
 import { asDateTime, createActivity } from "@/lib/crm";
 import { ensureFollowUp } from "@/lib/followUps";
-import { getSmsTemplate } from "@/lib/smsTemplates";
+import { fetchSmsTemplateOverrides, getSmsTemplate, SmsTemplateOverrides } from "@/lib/smsTemplates";
 
 type LeadLite = {
   id: string;
@@ -72,6 +72,9 @@ export const CRMFollowUps = () => {
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
+  const [smsTemplates, setSmsTemplates] = useState<SmsTemplateOverrides>({});
+
+  useEffect(() => { fetchSmsTemplateOverrides().then(setSmsTemplates); }, []);
 
   const load = async () => {
     const [{ data: followData, error: followError }, { data: leadData, error: leadError }, { data: jobData, error: jobError }] = await Promise.all([
@@ -283,9 +286,9 @@ export const CRMFollowUps = () => {
     const customer = followUp.leads;
     const phone = customer?.phone;
     const textBody = `Hi ${customer?.name || "there"}, following up from Bravo Mechanical.`;
-    const quickText = getSmsTemplate(followUp.job_id ? "quote" : "general", customer?.name);
+    const quickText = getSmsTemplate(followUp.job_id ? "quote" : "general", customer?.name, undefined, smsTemplates);
     const paymentType = followUp.note.includes("invoice_7") ? "day_7" : followUp.note.includes("invoice_3") ? "day_3" : "day_1";
-    const payText = getSmsTemplate(paymentType as any, customer?.name);
+    const payText = getSmsTemplate(paymentType as any, customer?.name, undefined, smsTemplates);
 
     return (
       <div key={followUp.id} className={`rounded-3xl border bg-white p-4 shadow-sm ${urgent ? "border-red-200 bg-red-50/70" : ""}`}>

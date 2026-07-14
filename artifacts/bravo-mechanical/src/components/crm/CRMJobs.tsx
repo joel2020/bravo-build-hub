@@ -11,7 +11,7 @@ import { Camera, ClipboardList, Plus, Search } from "lucide-react";
 import { asCurrency, asDate, createActivity, ensureRevenueLoopForCompletedJob, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
 import { ensureFollowUp } from "@/lib/followUps";
 import { detectJobType } from "@/lib/jobType";
-import { getSmsTemplate } from "@/lib/smsTemplates";
+import { fetchSmsTemplateOverrides, getSmsTemplate, SmsTemplateOverrides } from "@/lib/smsTemplates";
 
 const STATUSES = ["quoted", "scheduled", "in_progress", "completed", "cancelled"] as const;
 const PHOTO_BUCKET = "job-photos";
@@ -69,6 +69,9 @@ export const CRMJobs = () => {
   const [noteDraftByJobId, setNoteDraftByJobId] = useState<Record<string, string>>({});
   const [savingNoteJobId, setSavingNoteJobId] = useState<string | null>(null);
   const [uploadingJobId, setUploadingJobId] = useState<string | null>(null);
+  const [smsTemplates, setSmsTemplates] = useState<SmsTemplateOverrides>({});
+
+  useEffect(() => { fetchSmsTemplateOverrides().then(setSmsTemplates); }, []);
 
   const loadJobsAndLeads = async () => {
     const [{ data: jobData, error: jobError }, { data: leadData, error: leadError }] = await Promise.all([
@@ -216,8 +219,8 @@ useEffect(() => {
   const completeAndSendInvoice = async (job: Job) => {
     await updateStatus(job, "completed");
     await ensureRevenueLoopForCompletedJob(job as any);
-    // No online payment page exists yet — the template routes the customer to reply/call.
-    const sms = getSmsTemplate("day_1", (job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown'));
+    // Uses the owner-edited "Invoice Ready" template from Settings when set.
+    const sms = getSmsTemplate("day_1", (job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown'), undefined, smsTemplates);
     window.open(`sms:?&body=${encodeURIComponent(sms)}`, "_self");
   };
 

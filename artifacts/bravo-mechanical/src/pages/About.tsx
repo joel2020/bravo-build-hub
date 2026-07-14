@@ -26,8 +26,8 @@ const customerExpectations = [
 
 const About = () => {
   useSeo({
-    title: "About Bravo Mechanical | Westchester County HVAC Contractor",
-    description: "Bravo Mechanical LLC is a licensed Westchester County HVAC contractor with 30+ years of combined experience, serving homeowners, property managers, and light commercial customers with heating, cooling, boiler, furnace, heat pump, and mini-split service.",
+    title: "About Bravo Mechanical | HVAC in Westchester NY",
+    description: "Licensed Westchester County HVAC contractor with 30+ years combined experience — heating, cooling, boiler, furnace, heat pump & mini-split service.",
     canonical: `${SITE.siteUrl}/about`,
   });
 

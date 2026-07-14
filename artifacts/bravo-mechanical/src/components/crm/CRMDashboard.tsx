@@ -41,6 +41,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { asCurrency, asDate, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
+import { SITE } from "@/lib/site";
 import logo from "@/assets/logo-bravo.webp";
 import hvacUnit from "@/assets/job-mini-split-exterior.webp";
 
@@ -251,22 +252,30 @@ export const Sidebar = ({ activeView = "dashboard", onSelect, mobile = false }: 
       <div className="overflow-hidden rounded-md">
         <img src={hvacUnit} alt="Outdoor HVAC unit" className="h-40 w-full object-cover" />
       </div>
-      <div className="flex items-center justify-between rounded-md border border-slate-200 bg-white p-2.5 shadow-sm">
-        <div className="flex items-center gap-2.5">
-          <Avatar label="MJ" size="sm" className="bg-slate-800" />
-          <div>
-            <div className="text-sm font-bold text-slate-950">Mike Johnson</div>
-            <div className="text-xs text-slate-500">Admin</div>
-          </div>
-        </div>
-        <ChevronDown className="h-4 w-4 text-slate-500" />
-      </div>
-      <button type="button" onClick={() => onSelect?.("activity")} className="flex h-10 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50">
+      <SidebarUserCard />
+      <button type="button" onClick={() => onSelect?.("alerts")} className="flex h-10 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50">
         <span className="flex items-center gap-3"><Bell className="h-4 w-4" />Notifications</span>
       </button>
     </div>
   </aside>
 );
+
+const SidebarUserCard = () => {
+  const [email, setEmail] = useState("");
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email || ""));
+  }, []);
+  const initials = (email.split("@")[0] || "BM").slice(0, 2).toUpperCase();
+  return (
+    <div className="flex items-center gap-2.5 rounded-md border border-slate-200 bg-white p-2.5 shadow-sm">
+      <Avatar label={initials} size="sm" className="bg-slate-800" />
+      <div className="min-w-0">
+        <div className="truncate text-sm font-bold text-slate-950">{email || "Signed in"}</div>
+        <div className="text-xs text-slate-500">Bravo Mechanical</div>
+      </div>
+    </div>
+  );
+};
 
 export const TopBar = ({
   onSignOut,
@@ -877,13 +886,14 @@ export const CRMDashboard = ({ searchQuery = "", onNavigate }: DashboardProps) =
 
 export const CRMSettingsPanel = () => {
   const [users, setUsers] = useState<{user_id:string;role:string}[]>([]);
+  const [emailsById, setEmailsById] = useState<Record<string,string>>({});
   const [savingRole, setSavingRole] = useState<string|null>(null);
   const [notifs, setNotifs] = useState({ new_lead: true, job_update: true, invoice_sent: true, job_complete: true });
   const [savingNotifs, setSavingNotifs] = useState(false);
   const [templates, setTemplates] = useState({
-    day_1: "Hi {name}, your {service} appointment is confirmed. Questions? Call (214) 555-0100. — Bravo Mechanical",
-    follow_up: "Hi {name}, this is Bravo Mechanical following up on your recent service. How is everything working? — Bravo Mech",
-    invoice: "Hi {name}, your invoice is ready. Please call (214) 555-0100 to pay or for questions. — Bravo Mechanical",
+    day_1: `Hi {name}, your {service} appointment is confirmed. Questions? Call ${SITE.phone}. — Bravo Mechanical`,
+    follow_up: "Hi {name}, this is Bravo Mechanical following up on your recent service. How is everything working? — Bravo Mechanical",
+    invoice: `Hi {name}, your invoice is ready. Please call ${SITE.phone} to pay or for questions. — Bravo Mechanical`,
   });
   const [editingTpl, setEditingTpl] = useState<string|null>(null);
   const [savingTpl, setSavingTpl] = useState(false);
@@ -892,6 +902,8 @@ export const CRMSettingsPanel = () => {
     (async () => {
       const { data: roles } = await supabase.from("user_roles" as any).select("user_id,role");
       if (roles) setUsers(roles as any[]);
+      const { data: profiles } = await supabase.from("user_profiles" as any).select("id,email");
+      if (profiles) setEmailsById(Object.fromEntries((profiles as any[]).map(p => [p.id, p.email])));
       const { data: s } = await supabase.from("settings" as any).select("key,value").in("key",["notif_new_lead","notif_job_update","notif_invoice_sent","notif_job_complete","sms_day_1","sms_follow_up","sms_invoice"]);
       if (s) {
         const m: Record<string,any> = {};
@@ -974,7 +986,7 @@ export const CRMSettingsPanel = () => {
           <div className="divide-y divide-slate-100 rounded-md border border-slate-200">
             {users.map(u => (
               <div key={u.user_id} className="flex items-center justify-between px-4 py-3">
-                <span className="font-mono text-xs text-slate-600">{u.user_id.substring(0,16)}...</span>
+                <span className="min-w-0 truncate pr-3 text-xs font-semibold text-slate-700">{emailsById[u.user_id] || `${u.user_id.substring(0,16)}…`}</span>
                 <Select value={u.role} onValueChange={v => changeRole(u.user_id, v)} disabled={savingRole === u.user_id}>
                   <SelectTrigger className="h-8 w-36 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>

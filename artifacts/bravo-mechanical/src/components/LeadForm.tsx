@@ -209,13 +209,15 @@ export const LeadForm = ({
         leadId = duplicateLeadId;
       }
     } else {
-      const { data: insertedLead, error: insertError } = await supabase
+      // Insert WITHOUT .select(): anon can insert leads but has no SELECT policy,
+      // so a RETURNING clause makes RLS reject the whole insert. Generate the id
+      // client-side instead of reading it back.
+      const newLeadId = crypto.randomUUID();
+      const { error: insertError } = await supabase
         .from("leads")
-        .insert({ ...leadPayload, notes: newNotes })
-        .select("id")
-        .single();
+        .insert({ ...leadPayload, id: newLeadId, notes: newNotes });
       error = insertError;
-      leadId = insertedLead?.id;
+      leadId = newLeadId;
     }
 
     setSubmitting(false);

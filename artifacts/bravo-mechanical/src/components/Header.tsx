@@ -14,6 +14,7 @@ const nav = [
   { to: "/service-areas", label: "Service Areas" },
   { to: "/reviews", label: "Reviews" },
   { to: "/blog", label: "Blog" },
+  { to: "/book", label: "Book Online" },
   { to: "/contact", label: "Contact" },
 ];
 

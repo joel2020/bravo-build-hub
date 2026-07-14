@@ -7,6 +7,11 @@ export const SITE = {
   tagline: "Reliable HVAC Service You Can Count On",
   phone: "(914) 361-9142",
   phoneHref: "tel:+19143619142",
+  // Textable business line (Twilio). Inbound texts flow into the CRM,
+  // auto-create leads, and alert the owner — send ALL "text us" links here,
+  // not to the voice line.
+  smsPhone: "(914) 888-2384",
+  smsHref: "sms:+19148882384",
   email: "info@bravomechanicalny.com",
   emailHref: "mailto:info@bravomechanicalny.com",
   area: "Westchester County, NY",

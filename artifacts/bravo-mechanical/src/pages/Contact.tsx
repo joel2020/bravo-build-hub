@@ -1,4 +1,5 @@
-import { Phone, Mail, MapPin, Clock, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Phone, Mail, MapPin, Clock, AlertTriangle, CheckCircle2, MessageSquare } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { LeadForm } from "@/components/LeadForm";
@@ -66,6 +67,14 @@ const Contact = () => {
               </div>
             </div>
             <div className="flex items-start gap-3">
+              <MessageSquare className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+              <div>
+                <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Text us — fastest for photos</div>
+                <a href={SITE.smsHref} className="font-bold text-lg hover:text-accent">{SITE.smsPhone}</a>
+                <div className="text-sm text-muted-foreground">Snap a photo of the unit or the problem and text it — we'll reply fast.</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
               <Mail className="h-5 w-5 text-accent mt-0.5 shrink-0" />
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Email</div>
@@ -116,6 +125,13 @@ const Contact = () => {
         </div>
 
         <div className="order-1 lg:order-none lg:col-span-2">
+          <div className="mb-6 rounded-lg border border-accent/30 bg-accent/10 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <div className="font-bold">Prefer to skip the phone tag?</div>
+              <div className="text-sm text-muted-foreground">Pick a day and time window online — we confirm by text.</div>
+            </div>
+            <Link to="/book" className="inline-flex items-center justify-center rounded-md bg-accent px-4 py-2 text-sm font-bold text-accent-foreground hover:bg-accent/90 shrink-0">Book Online →</Link>
+          </div>
           <h2 className="text-2xl font-extrabold mb-2">Request service or an estimate</h2>
           <p className="text-muted-foreground mb-4">
             Tell us what is happening with your heating or cooling system and we will follow up with the next available service window. After you submit the form, our team reviews your request, confirms the property location, asks any needed follow-up questions, and helps schedule the appropriate service or estimate visit.

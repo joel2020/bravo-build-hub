@@ -8,7 +8,9 @@ export const StickyMobileCTA = () => {
   const { pathname } = useLocation();
   const isEmergency = pathname.startsWith("/emergency-hvac-westchester");
 
-  const smsHref = `sms:${SITE.phoneHref.replace("tel:", "")}`;
+  // Texts must go to the Twilio line (lands in the CRM + alerts the owner) —
+  // the voice line can't receive SMS.
+  const smsHref = SITE.smsHref;
 
   return (
     <div

@@ -52,7 +52,8 @@ const faqs = [
 ];
 
 const EmergencyHVAC = () => {
-  const smsHref = `sms:${SITE.phoneHref.replace("tel:", "")}`;
+  // Twilio line — texts land in the CRM and alert the owner (the voice line can't receive SMS).
+  const smsHref = SITE.smsHref;
   const canonical = `${SITE_URL}/emergency-hvac-westchester`;
 
   useSeo({

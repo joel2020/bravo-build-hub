@@ -59,7 +59,7 @@ const services = [
 const Services = () => {
   useSeo({
     title: "HVAC Services in Westchester County, NY | Bravo Mechanical",
-    description: "Heating and cooling services in Westchester County: AC repair, AC installation, furnace repair, boiler repair, heat pump installation, HVAC maintenance, and commercial HVAC.",
+    description: "AC repair & install, furnace and boiler repair, heat pumps, HVAC maintenance, and commercial HVAC across Westchester County, NY.",
     canonical: `${SITE.siteUrl}/services`,
   });
 

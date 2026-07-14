@@ -71,7 +71,7 @@ const Index = () => {
 
   useSeo({
     title: "HVAC Contractor Westchester County, NY | Bravo Mechanical",
-    description: "Bravo Mechanical is a 5-star, licensed and insured HVAC contractor in Westchester County, NY for AC repair, AC installation, furnace and boiler repair, heat pumps, and 24/7 emergency service across 30 towns.",
+    description: "5-star licensed HVAC contractor in Westchester County, NY. AC repair & install, furnace and boiler service, heat pumps, and 24/7 emergency service.",
     canonical: `${SITE.siteUrl}/`,
     jsonLd: [
       {

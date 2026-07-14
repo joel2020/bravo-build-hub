@@ -21,12 +21,18 @@ Phone: +1-914-361-9142
 ## Service Area
 Westchester County, NY
 
-## Important URLs
-- https://bravomechanicalny.com/
-- https://bravomechanicalny.com/contact
-- https://bravomechanicalny.com/services
-- https://bravomechanicalny.com/about
-- https://bravomechanicalny.com/sitemap.xml
+## Pages
+- [Home](/): HVAC contractor serving Westchester County, NY.
+- [Services](/services): Heating, cooling, repair, install, and maintenance services.
+- [Service Areas](/service-areas): Towns and cities in Westchester County we cover.
+- [Reviews](/reviews): Customer reviews and 5-star Google rating.
+- [Blog](/blog): HVAC tips and guidance for Westchester homeowners.
+- [Emergency HVAC](/emergency-hvac-westchester): 24/7 emergency heating & cooling service.
+- [Financing](/financing): HVAC financing and payment options.
+- [Maintenance Plans](/maintenance-plans): Annual HVAC tune-up plans.
+- [Book Online](/book): Schedule service online.
+- [About](/about): About Bravo Mechanical LLC.
+- [Contact](/contact): Phone, email, and service request form.
 
 ## Brand Summary
 Bravo Mechanical is a modern HVAC company focused on high-quality residential and commercial heating and cooling services across Westchester County. The company emphasizes fast response times, professional installations, transparent communication, and long-term customer relationships.

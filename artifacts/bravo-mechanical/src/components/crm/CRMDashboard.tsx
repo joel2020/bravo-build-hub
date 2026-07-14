@@ -42,6 +42,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { asCurrency, asDate, JOB_STATUS_LABELS, STATUS_BADGE_CLASS } from "@/lib/crm";
+import { sendSmsWithFallback } from "@/lib/sms";
 import { SITE } from "@/lib/site";
 import logo from "@/assets/logo-bravo.webp";
 import hvacUnit from "@/assets/job-mini-split-exterior.webp";
@@ -112,6 +113,7 @@ const navItems: NavItem[] = [
   { id: "dispatch", label: "Dispatch Board", icon: MessageSquare },
   { id: "leads", label: "Customers (CRM)", icon: Users },
   { id: "followups", label: "Follow-Ups", icon: CalendarClock },
+  { id: "messages", label: "Messages", icon: Mail },
   { id: "alerts", label: "Alerts", icon: Bell },
   { id: "myjobs", label: "Technicians", icon: User },
   { id: "proposals", label: "Proposals", icon: FileText },
@@ -129,78 +131,6 @@ const KPI_META: Array<Pick<KPIStat, "label" | "icon" | "color"> & { key: string 
   { key: "revenueMonth", label: "Revenue (This Month)", icon: DollarSign, color: "from-green-500 to-green-600" },
   { key: "outstanding", label: "Outstanding", icon: DollarSign, color: "from-rose-500 to-rose-600" },
 ];
-
-const conversations: Conversation[] = [
-  {
-    name: "Sarah Thompson",
-    preview: "Hey, my AC is blowing warm...",
-    time: "2m",
-    active: true,
-    unread: 2,
-    avatar: "ST",
-    phone: "2145550198",
-    messages: [
-      { id: 1, direction: "inbound", body: "Hey, my AC is blowing warm air and it's 90 degrees in my house. Can someone come out today?" },
-      { id: 2, direction: "outbound", body: "I'm sorry to hear that! We can definitely get someone out today." },
-      { id: 3, direction: "inbound", body: "That would be great, thanks!" },
-    ],
-  },
-  {
-    name: "Michael Johnson",
-    preview: "Thanks! See you at 10am.",
-    time: "10m",
-    avatar: "MJ",
-    phone: "2145550140",
-    messages: [
-      { id: 1, direction: "outbound", body: "You're confirmed for today at 10:00 AM." },
-      { id: 2, direction: "inbound", body: "Thanks! See you at 10am." },
-    ],
-  },
-  {
-    name: "James Wilson",
-    preview: "Can I get an estimate?",
-    time: "15m",
-    avatar: "JW",
-    phone: "2145550124",
-    messages: [
-      { id: 1, direction: "inbound", body: "My furnace keeps short cycling. Can I get an estimate?" },
-    ],
-  },
-  {
-    name: "Emily Carter",
-    preview: "Sounds good, thank you!",
-    time: "30m",
-    avatar: "EC",
-    phone: "2145550160",
-    messages: [
-      { id: 1, direction: "outbound", body: "We can do the maintenance visit tomorrow morning." },
-      { id: 2, direction: "inbound", body: "Sounds good, thank you!" },
-    ],
-  },
-  {
-    name: "Robert Martinez",
-    preview: "No problem!",
-    time: "1h",
-    avatar: "RM",
-    phone: "2145550137",
-    messages: [
-      { id: 1, direction: "outbound", body: "The technician may arrive closer to 2:00 PM." },
-      { id: 2, direction: "inbound", body: "No problem!" },
-    ],
-  },
-  {
-    name: "Melissa Brown",
-    preview: "What's included?",
-    time: "2h",
-    unread: 1,
-    avatar: "MB",
-    phone: "2145550129",
-    messages: [
-      { id: 1, direction: "inbound", body: "What's included in the spring maintenance visit?" },
-    ],
-  },
-];
-
 
 const avatarColors = ["bg-slate-900", "bg-blue-600", "bg-emerald-600", "bg-orange-500", "bg-indigo-600", "bg-rose-500"];
 
@@ -563,47 +493,107 @@ export const MessageThread = ({
   </div>
 );
 
+// Real two-way SMS threads backed by the sms_messages table (inbound rows are
+// ingested from Twilio by the poll-twilio-inbound cron; outbound rows are
+// written by the send_sms_via_twilio RPC).
+type SmsRow = { id: string; phone: string; direction: "inbound" | "outbound"; body: string; lead_id: string | null; received_at: string | null; created_at: string };
+
+const relTimeShort = (iso: string) => {
+  const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+  if (mins < 1) return "now";
+  if (mins < 60) return `${mins}m`;
+  if (mins < 1440) return `${Math.round(mins / 60)}h`;
+  return `${Math.round(mins / 1440)}d`;
+};
+
 export const SMSInbox = ({ searchQuery = "" }: { searchQuery?: string }) => {
-  const [threads, setThreads] = useState(conversations);
-  const [activeName, setActiveName] = useState(conversations[0].name);
+  const [rows, setRows] = useState<SmsRow[]>([]);
+  const [leadNames, setLeadNames] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+  const [activePhone, setActivePhone] = useState("");
   const [composer, setComposer] = useState("");
+
+  const load = async () => {
+    const [{ data: sms }, { data: leads }] = await Promise.all([
+      supabase.from("sms_messages" as any).select("id,phone,direction,body,lead_id,received_at,created_at").order("created_at", { ascending: true }).limit(500),
+      supabase.from("leads" as any).select("id,name"),
+    ]);
+    setRows((sms as unknown as SmsRow[]) || []);
+    setLeadNames(Object.fromEntries(((leads as any[]) || []).map((l) => [l.id, l.name])));
+    setLoading(false);
+  };
+  useEffect(() => { load(); }, []);
+
+  const threads: Conversation[] = useMemo(() => {
+    const byPhone = new Map<string, SmsRow[]>();
+    rows.forEach((row) => {
+      if (!byPhone.has(row.phone)) byPhone.set(row.phone, []);
+      byPhone.get(row.phone)!.push(row);
+    });
+    return Array.from(byPhone.entries())
+      .map(([phone, msgs]) => {
+        const last = msgs[msgs.length - 1];
+        const leadName = msgs.map((m) => m.lead_id && leadNames[m.lead_id]).find(Boolean) as string | undefined;
+        const name = leadName || phone;
+        return {
+          name,
+          phone: phone.replace(/^\+1/, ""),
+          preview: last.body.slice(0, 48),
+          time: relTimeShort(last.received_at || last.created_at),
+          avatar: name.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase(),
+          messages: msgs.map((m, index) => ({ id: index, body: m.body, direction: m.direction })),
+          lastAt: last.received_at || last.created_at,
+        } as Conversation & { lastAt: string };
+      })
+      .sort((a, b) => (a.lastAt < b.lastAt ? 1 : -1));
+  }, [rows, leadNames]);
+
   const filteredThreads = useMemo(
     () => threads.filter((conversation) => includesQuery([conversation.name, conversation.preview, conversation.phone, ...conversation.messages.map((message) => message.body)], searchQuery)),
     [threads, searchQuery],
   );
-  const activeConversation = threads.find((conversation) => conversation.name === activeName) || filteredThreads[0] || threads[0];
+  const activeConversation = threads.find((conversation) => conversation.phone === activePhone) || filteredThreads[0] || threads[0];
 
   const selectConversation = (name: string) => {
-    setActiveName(name);
+    const picked = threads.find((conversation) => conversation.name === name);
+    setActivePhone(picked?.phone || "");
     setComposer("");
   };
 
-  const sendLocalMessage = () => {
+  const sendMessage = async () => {
     const body = composer.trim();
-    if (!body) return;
-    setThreads((current) => current.map((conversation) => {
-      if (conversation.name !== activeConversation.name) return conversation;
-      return {
-        ...conversation,
-        preview: body,
-        time: "now",
-        unread: undefined,
-        messages: [...conversation.messages, { id: Date.now(), direction: "outbound", body }],
-      };
-    }));
-    setComposer("");
+    if (!body || !activeConversation || sending) return;
+    setSending(true);
+    const result = await sendSmsWithFallback(activeConversation.phone, body);
+    setSending(false);
+    if (result.success && !result.fallback) {
+      setComposer("");
+      await load();
+    } else {
+      toast({ title: "Server send unavailable", description: "Opened your device SMS app as a fallback." });
+    }
   };
 
   return (
   <section className="min-w-0 overflow-hidden rounded-md border border-slate-200 bg-white shadow-[0_14px_40px_rgba(15,23,42,0.06)]">
     <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
       <h2 className="text-lg font-black tracking-tight text-slate-950">SMS Inbox</h2>
-      <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">Live</span>
+      <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">(914) 888-2384</span>
     </div>
-    <div className="flex h-[490px] min-w-0 overflow-hidden">
-      <ConversationList items={filteredThreads} activeName={activeConversation.name} onSelect={selectConversation} />
-      <MessageThread conversation={activeConversation} composer={composer} onComposerChange={setComposer} onSend={sendLocalMessage} onPickSuggestion={setComposer} />
-    </div>
+    {loading ? (
+      <div className="p-6 text-sm font-medium text-slate-500">Loading messages…</div>
+    ) : threads.length === 0 ? (
+      <div className="p-8 text-center">
+        <div className="font-bold text-slate-950">No text messages yet</div>
+        <p className="mt-1 text-sm text-slate-500">Texts sent to (914) 888-2384 appear here within a minute, and each new number automatically becomes a lead.</p>
+      </div>
+    ) : (
+      <div className="flex h-[490px] min-w-0 overflow-hidden">
+        <ConversationList items={filteredThreads} activeName={activeConversation?.name || ""} onSelect={selectConversation} />
+        {activeConversation && <MessageThread conversation={activeConversation} composer={composer} onComposerChange={setComposer} onSend={sendMessage} onPickSuggestion={setComposer} />}
+      </div>
+    )}
   </section>
   );
 };

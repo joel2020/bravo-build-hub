@@ -6,6 +6,18 @@ import "./index.css";
 
 initializeMonitoring();
 
+// After a redeploy, hashed chunk filenames change and a user with an old tab
+// can hit a 404 loading a lazy route ("Failed to fetch dynamically imported
+// module"). Vite fires vite:preloadError for exactly this — reload once to
+// pick up the new build instead of showing an error screen.
+window.addEventListener("vite:preloadError", (event) => {
+  const lastReload = Number(sessionStorage.getItem("bravo-chunk-reload") || 0);
+  if (Date.now() - lastReload < 30_000) return; // avoid a reload loop
+  sessionStorage.setItem("bravo-chunk-reload", String(Date.now()));
+  event.preventDefault();
+  window.location.reload();
+});
+
 class AppErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
   state: { error: Error | null } = { error: null };
 

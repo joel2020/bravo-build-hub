@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, Lock } from "lucide-react";
-import { SITE, SERVICES } from "@/lib/site";
+import { SITE, FEATURED_SERVICE_LINKS } from "@/lib/site";
 import logo from "@/assets/logo-bravo.webp";
 
 export const Footer = () => {
@@ -22,11 +22,21 @@ export const Footer = () => {
         <div>
           <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Services</h3>
           <ul className="space-y-2 text-sm">
-            {SERVICES.map((s) => (
-              <li key={s.slug}>
-                <Link to="/services" className="text-primary-foreground/80 hover:text-primary-foreground">{s.title}</Link>
+            {FEATURED_SERVICE_LINKS.map((s) => (
+              <li key={s.path}>
+                <Link to={s.path} className="text-primary-foreground/80 hover:text-primary-foreground">{s.title}</Link>
               </li>
             ))}
+            <li>
+              <Link to="/emergency-hvac-westchester" className="text-primary-foreground font-semibold hover:underline">
+                Emergency? We answer 24/7 →
+              </Link>
+            </li>
+            <li>
+              <Link to="/services" className="text-primary-foreground font-semibold hover:underline">
+                All services →
+              </Link>
+            </li>
           </ul>
         </div>
 

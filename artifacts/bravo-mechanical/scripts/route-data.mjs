@@ -321,6 +321,31 @@ export const STATIC_ROUTES = [
     description: "Terms governing use of the Bravo Mechanical website and services." },
 ];
 
+// Equipment guide pages (src/lib/nySystems.ts). These were previously missing
+// from the sitemap AND competing with the matching money pages for the same
+// queries. Each guide canonicals to its money page so the money page wins;
+// water-heaters has no money page yet and stays self-canonical.
+export const EQUIPMENT_GUIDES = [
+  { slug: "gas-boilers", title: "Gas Boilers for Westchester Homes — Buyer's Guide | Bravo Mechanical",
+    description: "High-efficiency gas boiler guide for Westchester County, NY: system types, AFUE ratings, brands, and rebates for older hydronic homes.",
+    canonical: "/services/boiler-installation-westchester-county-ny" },
+  { slug: "mini-splits", title: "Ductless Mini-Splits for Westchester Homes — Buyer's Guide | Bravo Mechanical",
+    description: "Ductless mini-split guide for Westchester County, NY: cold-climate performance, zoning, brands, and NYS Clean Heat rebates.",
+    canonical: "/services/mini-split-installation-westchester-county-ny" },
+  { slug: "heat-pumps", title: "Heat Pumps for Westchester Homes — Buyer's Guide | Bravo Mechanical",
+    description: "Air-source heat pump guide for Westchester County, NY: cold-climate ratings, sizing, costs, and every rebate that applies.",
+    canonical: "/services/heat-pump-installation-westchester-county-ny" },
+  { slug: "central-ac", title: "Central Air Conditioning for Westchester Homes — Buyer's Guide | Bravo Mechanical",
+    description: "Central AC guide for Westchester County, NY: SEER2 ratings, Manual J sizing, brands, and what installation really costs.",
+    canonical: "/services/ac-installation-westchester-county-ny" },
+  { slug: "gas-furnaces", title: "Gas Furnaces for Westchester Homes — Buyer's Guide | Bravo Mechanical",
+    description: "High-efficiency gas furnace guide for Westchester County, NY: AFUE ratings, venting, brands, and rebate eligibility.",
+    canonical: "/services/furnace-installation-westchester-county-ny" },
+  { slug: "water-heaters", title: "Water Heaters for Westchester Homes — Buyer's Guide | Bravo Mechanical",
+    description: "Water heater guide for Westchester County, NY: tank vs. tankless vs. heat-pump water heaters, recovery rates, and replacement costs.",
+    canonical: null },
+];
+
 // Routes never to expose in sitemap or prerender.
 export const EXCLUDED_PATHS = new Set(["/auth", "/admin/comments", "/admin/crm"]);
 
@@ -425,6 +450,9 @@ export async function loadBlogPosts() {
       date: data.date || "1970-01-01",
       excerpt: data.excerpt || "",
       city: data.city || "",
+      // Full markdown body (after frontmatter) — prerendered into the static
+      // HTML so crawlers that don't execute JS see the whole article.
+      body: raw.slice(match[0].length).trim(),
     });
   }
   posts.sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -467,6 +495,19 @@ export async function buildAllRoutes() {
       type: "city",
       city: c,
       faqs: cityFaqs(c.name),
+    });
+  }
+
+  // Equipment guide pages (canonical to their money page where one exists)
+  for (const g of EQUIPMENT_GUIDES) {
+    routes.push({
+      path: `/services/${g.slug}`,
+      changefreq: "monthly",
+      priority: "0.6",
+      title: g.title,
+      description: g.description,
+      type: "guide",
+      canonical: g.canonical ? `${SITE_URL}${g.canonical}` : undefined,
     });
   }
 

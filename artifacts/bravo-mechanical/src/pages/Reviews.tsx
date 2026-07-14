@@ -60,7 +60,7 @@ const Reviews = () => {
               </div>
               <p className="text-sm mb-4 leading-relaxed">"{review.reviewText}"</p>
               <div className="text-sm font-semibold">{review.reviewerName}</div>
-              {review.reviewDate && <div className="text-xs text-muted-foreground">Reviewed on {review.reviewDate}</div>}
+              {review.reviewDate && <div className="text-xs text-muted-foreground">Reviewed {review.reviewDate}</div>}
               {review.sourceUrl && (
                 <a href={review.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline mt-2 inline-block">
                   View on Google

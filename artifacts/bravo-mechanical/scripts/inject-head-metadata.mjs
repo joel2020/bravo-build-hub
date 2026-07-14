@@ -132,9 +132,10 @@ function buildJsonLd(route) {
         address: { "@type": "PostalAddress", addressLocality: route.city.name, addressRegion: "NY", addressCountry: "US" },
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
         openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }],
-        aggregateRating: { "@type": "AggregateRating", ratingValue: String(SITE_RATING.score), reviewCount: String(SITE_RATING.count), bestRating: "5", worstRating: "1" },
-        review: TOP_REVIEWS.map(reviewToSchema),
-        // Freshness signal — Google rewards recently-updated local-business entities for competitive city queries.
+        // NOTE: no aggregateRating/review here — Google ignores self-serving
+        // review markup on LocalBusiness and it carries manual-action risk.
+        // The star rating in the map pack comes from the Google Business
+        // Profile, not from schema.
         dateModified: BUILD_DATE,
       },
       breadcrumbs([
@@ -157,7 +158,7 @@ function buildJsonLd(route) {
         url,
         serviceType: route.service.seoTitle,
         areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
-        provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL, aggregateRating: { "@type": "AggregateRating", ratingValue: String(SITE_RATING.score), reviewCount: String(SITE_RATING.count) } },
+        provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL },
         dateModified: BUILD_DATE,
       },
       breadcrumbs([
@@ -180,7 +181,7 @@ function buildJsonLd(route) {
         description: route.description,
         url,
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
-        provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL, aggregateRating: { "@type": "AggregateRating", ratingValue: String(SITE_RATING.score), reviewCount: String(SITE_RATING.count) } },
+        provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL },
         dateModified: BUILD_DATE,
       },
       breadcrumbs([
@@ -234,10 +235,11 @@ function buildHeadInsert(route) {
   const desc = htmlEscape(route.description);
   const ogType = route.type === "blog" ? "article" : "website";
 
+  const canonical = route.canonical || url;
   const tags = [
     `<title>${title}</title>`,
     `<meta name="description" content="${desc}" />`,
-    `<link rel="canonical" href="${htmlEscape(url)}" />`,
+    `<link rel="canonical" href="${htmlEscape(canonical)}" />`,
     `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />`,
     `<meta property="og:title" content="${title}" />`,
     `<meta property="og:description" content="${desc}" />`,
@@ -256,7 +258,7 @@ function buildHeadInsert(route) {
   return `\n    <!-- prerendered SEO head for ${route.path} -->\n    ` + tags.join("\n    ") + "\n";
 }
 
-function rewriteHead(html, route) {
+function rewriteHead(html, route, ctx) {
   // Remove the default <title> and a few default meta tags so per-route
   // versions take precedence (keep all the static JSON-LD blocks intact
   // for the homepage, but for non-homepage routes we still keep them —
@@ -277,38 +279,122 @@ function rewriteHead(html, route) {
 
   const insert = buildHeadInsert(route);
   out = out.replace("</head>", `${insert}</head>`);
+
+  // Per-route static body for crawlers that don't execute JS. React replaces
+  // the contents of #root on mount, so browser users still get the app.
+  const body = buildBodyInsert(route, ctx);
+  out = out.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
   return out;
 }
 
-// Splices `review` array into the homepage HVACBusiness JSON-LD inside the
-// built index.html. The hand-authored block lives between
-// "@id":"https://bravomechanicalny.com/#localbusiness" and the closing
-// </script>. We parse, mutate, and re-stringify rather than regex-injecting
-// to guarantee valid JSON.
-async function injectHomepageReviews(html, reviews) {
-  const reviewSchemas = reviews.map((r) => ({
-    "@type": "Review",
-    author: { "@type": "Person", name: r.reviewerName },
-    reviewRating: { "@type": "Rating", ratingValue: String(r.rating), bestRating: "5", worstRating: "1" },
-    reviewBody: r.reviewText,
-    datePublished: relativeDateToIso(r.reviewDate),
-    publisher: { "@type": "Organization", name: "Google" },
-  }));
-
-  // Find every <script type="application/ld+json">...</script> block.
+// Strips self-serving review markup (review / aggregateRating) from any
+// LocalBusiness-family JSON-LD block. Google ignores self-hosted review
+// markup for LocalBusiness and it can trigger a manual action; the map-pack
+// star rating comes from the Google Business Profile, not schema.
+function stripSelfServingReviewMarkup(html) {
   return html.replace(
     /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
     (full, body) => {
       let parsed;
       try { parsed = JSON.parse(body); } catch { return full; }
-      if (parsed && parsed["@type"] === "HVACBusiness" && parsed["@id"] && parsed["@id"].endsWith("#localbusiness")) {
-        parsed.review = reviewSchemas;
+      if (parsed && (parsed["@type"] === "HVACBusiness" || parsed["@type"] === "LocalBusiness")) {
+        delete parsed.review;
+        delete parsed.aggregateRating;
         parsed.dateModified = BUILD_DATE;
         return `<script type="application/ld+json">${JSON.stringify(parsed).replace(/<\/script/gi, "<\\/script")}</script>`;
       }
       return full;
     }
   );
+}
+
+// ---- Static body prerendering -------------------------------------------
+// Crawlers that do not execute JavaScript (GPTBot, ClaudeBot, PerplexityBot,
+// and Googlebot's first-pass fetch) previously saw an EMPTY <div id="root">
+// on every URL — the entire content investment was invisible to them. We now
+// write real, per-route content into #root. React's createRoot().render()
+// replaces it the moment the bundle loads, so browser users see the app.
+
+// Minimal markdown-to-HTML for blog bodies. Imperfect rendering is fine:
+// human visitors never see this (React replaces it); it exists so text
+// crawlers can read the full article.
+function mdToHtml(md) {
+  const esc = htmlEscape;
+  const inline = (t) =>
+    esc(t)
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, a, b) => `<a href="${b.startsWith("http") || b.startsWith("/") ? b : "#"}">${a}</a>`);
+  const blocks = md.split(/\n{2,}/);
+  const out = [];
+  for (const block of blocks) {
+    const b = block.trim();
+    if (!b) continue;
+    const h = b.match(/^(#{1,4})\s+(.*)$/);
+    if (h) { const lvl = Math.min(h[1].length + 1, 4); out.push(`<h${lvl}>${inline(h[2])}</h${lvl}>`); continue; }
+    if (/^[-*]\s+/m.test(b)) {
+      const items = b.split(/\n/).filter((l) => /^[-*]\s+/.test(l.trim())).map((l) => `<li>${inline(l.trim().replace(/^[-*]\s+/, ""))}</li>`);
+      if (items.length) { out.push(`<ul>${items.join("")}</ul>`); continue; }
+    }
+    if (/^\|/.test(b)) { // markdown table -> flatten to paragraph lines
+      out.push(`<p>${b.split(/\n/).map((l) => inline(l.replace(/\|/g, " "))).join("<br/>")}</p>`);
+      continue;
+    }
+    out.push(`<p>${inline(b.replace(/\n/g, " "))}</p>`);
+  }
+  return out.join("\n");
+}
+
+function linkList(items) {
+  return `<ul>${items.map((i) => `<li><a href="${htmlEscape(i.path)}">${htmlEscape(i.label)}</a></li>`).join("")}</ul>`;
+}
+
+function buildBodyInsert(route, ctx) {
+  const esc = htmlEscape;
+  const h1 = esc(String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
+  const parts = [];
+  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed &amp; insured HVAC contractor, Westchester County, NY · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service · <a href="/contact">Request a free written estimate</a></p></header>`);
+  parts.push(`<main>`);
+  parts.push(`<h1>${h1}</h1>`);
+  parts.push(`<p>${esc(route.description)}</p>`);
+
+  if (route.type === "blog" && route.post) {
+    if (route.post.date) parts.push(`<p><em>Published ${esc(route.post.date)} · Bravo Mechanical, Westchester County, NY</em></p>`);
+    if (route.post.body) parts.push(mdToHtml(route.post.body));
+  }
+
+  if (route.faqs && route.faqs.length) {
+    parts.push(`<h2>Frequently asked questions</h2>`);
+    for (const f of route.faqs) {
+      parts.push(`<h3 data-faq-question>${esc(f.q)}</h3><p data-faq-answer>${esc(f.a)}</p>`);
+    }
+  }
+
+  if (route.type === "city" && route.city) {
+    parts.push(`<h2>HVAC services in ${esc(route.city.name)}, NY</h2>`);
+    parts.push(linkList(ctx.services));
+  } else if (route.type === "service" || route.type === "guide" || route.type === "service-city") {
+    parts.push(`<h2>All Westchester HVAC services</h2>`);
+    parts.push(linkList(ctx.services));
+  } else if (route.path === "/" || route.path === "/services") {
+    parts.push(`<h2>HVAC services</h2>`);
+    parts.push(linkList(ctx.services));
+    parts.push(`<h2>Equipment guides</h2>`);
+    parts.push(linkList(ctx.guides));
+    parts.push(`<h2>Westchester service areas</h2>`);
+    parts.push(linkList(ctx.cities));
+  } else if (route.path === "/service-areas") {
+    parts.push(`<h2>Westchester service areas</h2>`);
+    parts.push(linkList(ctx.cities));
+  } else if (route.path === "/blog") {
+    parts.push(`<h2>Latest guides</h2>`);
+    parts.push(linkList(ctx.posts));
+  }
+
+  parts.push(`<p><a href="/contact">Request service or a free written estimate</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving all of Westchester County, NY.</p>`);
+  parts.push(`</main>`);
+  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/emergency-hvac-westchester">24/7 Emergency</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
+
+  return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.65;color:#0f172a">${parts.join("\n")}</div>`;
 }
 
 async function exists(p) {
@@ -328,13 +414,9 @@ async function main() {
   TOP_REVIEWS = ALL_REVIEWS.filter((r) => r.isFeatured).slice(0, 3);
   console.log(`ℹ️  loaded ${ALL_REVIEWS.length} Google reviews (${TOP_REVIEWS.length} featured for city pages).`);
 
-  // Splice the full review array into the homepage HVACBusiness JSON-LD that
-  // is hand-authored in index.html. We do this here (after the build) instead
-  // of editing index.html directly so the source-of-truth review data lives
-  // in src/lib/googleReviews.ts and any update flows through automatically
-  // on the next build.
-  const homepageHtml = await injectHomepageReviews(baseHtml, ALL_REVIEWS);
-  const baseHtmlWithReviews = homepageHtml;
+  // Remove any self-serving review/aggregateRating markup from LocalBusiness
+  // JSON-LD (see stripSelfServingReviewMarkup).
+  const baseHtmlWithReviews = stripSelfServingReviewMarkup(baseHtml);
 
   // Also copy sitemap into dist/public so deployment serves the latest.
   const sitemapSrc = path.join(ROOT, "public", "sitemap.xml");
@@ -343,9 +425,18 @@ async function main() {
   }
 
   const routes = await buildAllRoutes();
+
+  // Link context for the prerendered bodies.
+  const ctx = {
+    services: routes.filter((r) => r.type === "service").map((r) => ({ path: r.path, label: String(r.title).split("|")[0].trim() })),
+    guides: routes.filter((r) => r.type === "guide").map((r) => ({ path: r.path, label: String(r.title).split("—")[0].trim() })),
+    cities: routes.filter((r) => r.type === "city").map((r) => ({ path: r.path, label: `HVAC ${r.city.name}, NY` })),
+    posts: routes.filter((r) => r.type === "blog").slice(0, 12).map((r) => ({ path: r.path, label: r.post.title })),
+  };
+
   let written = 0;
   for (const route of routes) {
-    const html = rewriteHead(baseHtmlWithReviews, route);
+    const html = rewriteHead(baseHtmlWithReviews, route, ctx);
     const dest =
       route.path === "/"
         ? path.join(DIST, "index.html")

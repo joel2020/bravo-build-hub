@@ -1,44 +1,29 @@
 import { supabase } from "@/integrations/supabase/client";
 
-const FUNCTION_URL = `${
-  (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim() || "https://tzczkcvavudoyuuetwcr.supabase.co"
-}/functions/v1/send-sms`;
-
 export type SendSmsResult =
   | { success: true; sid: string; to: string; fallback?: false }
   | { success: false; error: string; fallback?: false }
   | { success: true; fallback: true; to: string };
 
+// Server-side send via Twilio. The send_sms_via_twilio RPC (SECURITY DEFINER,
+// staff-only) reads credentials from Supabase Vault, posts to Twilio
+// synchronously, records the message in sms_messages, and returns the sid.
 export async function sendSms(to: string, body: string): Promise<SendSmsResult> {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-
-  if (session?.access_token) {
-    headers["Authorization"] = `Bearer ${session.access_token}`;
-  }
-
   try {
-    const response = await fetch(FUNCTION_URL, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ to, body }),
-    });
+    const { data, error } = await supabase.rpc("send_sms_via_twilio" as never, {
+      p_to: to,
+      p_body: body,
+    } as never);
 
-    const data = await response.json();
-
-    if (response.ok && data.success) {
-      return { success: true, sid: data.sid, to: data.to, fallback: false };
+    const result = data as { success?: boolean; sid?: string; to?: string; error?: string } | null;
+    if (!error && result?.success) {
+      return { success: true, sid: result.sid || "", to: result.to || to, fallback: false };
     }
 
-    console.warn("SMS function failed, falling back to sms: link:", data);
+    console.warn("Server SMS failed, falling back to sms: link:", error || result?.error);
     return { success: true, fallback: true, to };
-  } catch (error) {
-    console.warn("SMS fetch failed, falling back to sms: link:", error);
+  } catch (err) {
+    console.warn("SMS send failed, falling back to sms: link:", err);
     return { success: true, fallback: true, to };
   }
 }

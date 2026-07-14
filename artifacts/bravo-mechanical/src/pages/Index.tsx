@@ -138,6 +138,11 @@ const Index = () => {
               <span className="hidden sm:inline text-border">|</span>
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
                 <CheckCircle2 className="h-4 w-4 text-accent" />
+                30+ yrs combined experience
+              </span>
+              <span className="hidden sm:inline text-border">|</span>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+                <CheckCircle2 className="h-4 w-4 text-accent" />
                 Free written estimates
               </span>
             </div>

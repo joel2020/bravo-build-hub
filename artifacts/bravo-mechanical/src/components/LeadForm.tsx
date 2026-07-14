@@ -16,7 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 type FormStrings = Record<
   | "errName" | "errPhone" | "errEmail" | "errService" | "errMessage" | "errConsent"
   | "name" | "phone" | "email" | "service" | "servicePlaceholder" | "serviceOther"
-  | "message" | "consent" | "privacy" | "and" | "smsTerms" | "submit" | "submitting"
+  | "message" | "consent" | "consentLabel" | "privacy" | "and" | "smsTerms" | "submit" | "submitting"
   | "successTitle" | "successBody" | "errorTitle" | "errorBody",
   string
 >;
@@ -37,6 +37,7 @@ const FORM_STRINGS: Record<"en" | "es", FormStrings> = {
     serviceOther: "Other / Not sure",
     message: "How can we help?",
     consent: "I agree that Bravo Mechanical LLC may contact me by phone, text message, and email about my service request, including via automated messages. Consent is not a condition of service. Message and data rates may apply. Reply STOP to opt out, HELP for help. See our",
+    consentLabel: "I agree to be contacted by phone, text, and email about my service request",
     privacy: "Privacy Policy",
     and: "and",
     smsTerms: "SMS Terms",
@@ -62,6 +63,7 @@ const FORM_STRINGS: Record<"en" | "es", FormStrings> = {
     serviceOther: "Otro / No estoy seguro",
     message: "¿Cómo podemos ayudarle?",
     consent: "Acepto que Bravo Mechanical LLC me contacte por teléfono, mensaje de texto y correo electrónico sobre mi solicitud de servicio, incluso mediante mensajes automáticos. El consentimiento no es condición para recibir servicio. Pueden aplicar tarifas de mensajes y datos. Responda STOP para cancelar, HELP para ayuda. Vea nuestra",
+    consentLabel: "Acepto ser contactado por teléfono, mensaje de texto y correo electrónico sobre mi solicitud de servicio",
     privacy: "Política de Privacidad",
     and: "y",
     smsTerms: "Términos de SMS",
@@ -142,6 +144,11 @@ export const LeadForm = ({
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  // Honeypot. A real person never sees or fills this; most naive spam bots fill
+  // every input they find. If it has a value we show the normal success screen
+  // and drop the submission on the floor, so the bot has no signal to retry.
+  const [honeypot, setHoneypot] = useState("");
+
   const tracking = useMemo<TrackingPayload>(() => {
     if (typeof window === "undefined") {
       return {
@@ -207,6 +214,13 @@ export const LeadForm = ({
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (honeypot.trim() !== "") {
+      // Silently accept and discard. Never reaches the CRM, never texts the owner.
+      setSubmitted(true);
+      return;
+    }
+
     const result = schema.safeParse(values);
     if (!result.success) {
       const errs: Errors = {};
@@ -327,38 +341,62 @@ export const LeadForm = ({
 
   return (
     <form onSubmit={onSubmit} className="rounded-lg border border-border bg-card p-6 md:p-8 space-y-5">
+      {/* Honeypot — hidden from users and assistive tech, irresistible to bots. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="company-website">Company website (leave blank)</label>
+        <input
+          id="company-website"
+          name="company_website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
+
       <div className="grid md:grid-cols-2 gap-5">
         <div>
           <Label htmlFor="name">{t.name}</Label>
-          <Input id="name" value={values.name} onChange={(e) => update("name", e.target.value)} className="mt-1.5" />
-          {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
+          <Input id="name" required aria-required="true" aria-invalid={!!errors.name} value={values.name} onChange={(e) => update("name", e.target.value)} className="mt-1.5" />
+          {errors.name && <p role="alert" className="text-destructive text-xs mt-1">{errors.name}</p>}
         </div>
         <div>
           <Label htmlFor="phone">{t.phone}</Label>
-          <Input id="phone" type="tel" value={values.phone} onChange={(e) => update("phone", e.target.value)} className="mt-1.5" />
-          {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone}</p>}
+          <Input id="phone" required aria-required="true" aria-invalid={!!errors.phone} type="tel" value={values.phone} onChange={(e) => update("phone", e.target.value)} className="mt-1.5" />
+          {errors.phone && <p role="alert" className="text-destructive text-xs mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
         <Label htmlFor="email">{t.email}</Label>
-        <Input id="email" type="email" value={values.email} onChange={(e) => update("email", e.target.value)} className="mt-1.5" />
-        {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
+        <Input id="email" required aria-required="true" aria-invalid={!!errors.email} type="email" value={values.email} onChange={(e) => update("email", e.target.value)} className="mt-1.5" />
+        {errors.email && <p role="alert" className="text-destructive text-xs mt-1">{errors.email}</p>}
       </div>
       <div>
         <Label htmlFor="service">{t.service}</Label>
         <Select value={values.service} onValueChange={(v) => update("service", v)}>
-          <SelectTrigger id="service" className="mt-1.5"><SelectValue placeholder={t.servicePlaceholder} /></SelectTrigger>
+          {/* Radix renders the trigger as a <button>, and htmlFor does not give a
+              button its accessible name — hence the explicit aria-label. */}
+          <SelectTrigger
+            id="service"
+            className="mt-1.5"
+            aria-label={t.service}
+            aria-required="true"
+            aria-invalid={!!errors.service}
+          >
+            <SelectValue placeholder={t.servicePlaceholder} />
+          </SelectTrigger>
           <SelectContent>
             {SERVICES.map((s) => <SelectItem key={s.slug} value={s.title}>{s.title}</SelectItem>)}
             <SelectItem value="Other">{t.serviceOther}</SelectItem>
           </SelectContent>
         </Select>
-        {errors.service && <p className="text-destructive text-xs mt-1">{errors.service}</p>}
+        {errors.service && <p role="alert" className="text-destructive text-xs mt-1">{errors.service}</p>}
       </div>
       <div>
         <Label htmlFor="message">{t.message}</Label>
-        <Textarea id="message" rows={5} value={values.message} onChange={(e) => update("message", e.target.value)} className="mt-1.5" />
-        {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
+        <Textarea id="message" required aria-required="true" aria-invalid={!!errors.message} rows={5} value={values.message} onChange={(e) => update("message", e.target.value)} className="mt-1.5" />
+        {errors.message && <p role="alert" className="text-destructive text-xs mt-1">{errors.message}</p>}
       </div>
       <div className="rounded-md border border-border bg-secondary/40 p-3">
         <label className="flex items-start gap-3 text-xs leading-relaxed text-muted-foreground cursor-pointer">
@@ -367,7 +405,10 @@ export const LeadForm = ({
             checked={values.consent}
             onChange={(e) => update("consent", e.target.checked)}
             className="mt-0.5 h-4 w-4 shrink-0 rounded border-border accent-accent"
+            aria-label={t.consentLabel}
             aria-describedby="consent-help"
+            aria-required="true"
+            aria-invalid={!!errors.consent}
           />
           <span id="consent-help">
             {t.consent}{" "}
@@ -376,7 +417,7 @@ export const LeadForm = ({
             <a href="/terms-and-conditions" className="font-semibold text-foreground underline hover:text-accent">{t.smsTerms}</a>.
           </span>
         </label>
-        {errors.consent && <p className="text-destructive text-xs mt-2">{errors.consent}</p>}
+        {errors.consent && <p role="alert" className="text-destructive text-xs mt-2">{errors.consent}</p>}
       </div>
       <Button type="submit" size="lg" disabled={submitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
         {submitting ? t.submitting : t.submit}

@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.ts --host 0.0.0.0",
-    "build": "vite build --config vite.config.ts && pnpm run build:seo",
-    "build:seo": "node scripts/generate-sitemap.mjs && node scripts/inject-head-metadata.mjs",
+    "build": "node scripts/generate-blog-index.mjs && vite build --config vite.config.ts && pnpm run build:seo",
+    "build:seo": "node scripts/generate-sitemap.mjs && node scripts/inject-head-metadata.mjs && node scripts/generate-404.mjs",
     "build:sitemap": "node scripts/generate-sitemap.mjs",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test:e2e": "node tests/smoke.mjs"
+    "test:e2e": "node tests/smoke.mjs",
+    "build:blog-index": "node scripts/generate-blog-index.mjs"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",

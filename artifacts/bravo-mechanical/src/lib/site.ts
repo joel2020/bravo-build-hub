@@ -10,6 +10,14 @@ export const SITE = {
   email: "info@bravomechanicalny.com",
   emailHref: "mailto:info@bravomechanicalny.com",
   area: "Westchester County, NY",
+  // Published business address (confirmed by the owner 2026-07-14; matches Yelp).
+  address: {
+    street: "1 Fowler Avenue",
+    city: "Yonkers",
+    state: "NY",
+    zip: "10701",
+    full: "1 Fowler Avenue, Yonkers, NY 10701",
+  },
   // Keep this count aligned with the verified public Google profile and src/lib/googleReviews.ts.
   rating: { score: 5.0, count: 7, source: "Google" },
   social: {
@@ -19,11 +27,8 @@ export const SITE = {
   hours: [
     { day: "Mon – Sun", time: "Open 24 hours" },
   ],
-  // Intentionally empty per business owner's instruction (no public HVAC license # available).
-  // Do not auto-populate — must come directly from the business owner if/when issued.
-  // If/when populated, the LocalBusiness JSON-LD in scripts/inject-head-metadata.mjs will
-  // surface these automatically (no other change required).
-  licenseNumbers: [] as string[],
+  // Provided directly by the business owner on 2026-07-14.
+  licenseNumbers: ["8822"] as string[],
   // Effective date of the latest legal-page revision. Update both when policies change.
   legalLastUpdated: "May 3, 2026",
 };
@@ -56,4 +61,5 @@ export const TOWNS = [
   "Peekskill", "Mount Kisco", "Chappaqua", "Pleasantville", "Pound Ridge",
   "Bedford", "Katonah", "Armonk", "Hastings-on-Hudson", "Dobbs Ferry",
   "Irvington", "Briarcliff Manor", "Croton-on-Hudson", "Yorktown", "Somers",
+  "Ardsley", "Hartsdale", "Pelham", "Port Chester",
 ];

@@ -100,7 +100,7 @@ const About = () => {
           <div>
             <h2 className="text-2xl font-extrabold mb-3">Licensing, insurance, and documentation</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Bravo Mechanical provides licensed and insured HVAC service. License, insurance, and project documentation can be provided on request when required for the scope of work.
+              Bravo Mechanical LLC is a licensed and insured HVAC contractor — License #8822. Proof of insurance and project documentation are provided with every written estimate.
             </p>
           </div>
           <div>

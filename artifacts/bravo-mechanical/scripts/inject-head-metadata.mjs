@@ -129,7 +129,8 @@ function buildJsonLd(route) {
         email: SITE_EMAIL,
         image: OG_IMAGE,
         priceRange: "$$",
-        address: { "@type": "PostalAddress", addressLocality: route.city.name, addressRegion: "NY", addressCountry: "US" },
+        // Real NAP everywhere — one business, one address; the city is areaServed.
+        address: { "@type": "PostalAddress", streetAddress: "1 Fowler Avenue", addressLocality: "Yonkers", addressRegion: "NY", postalCode: "10701", addressCountry: "US" },
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
         openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }],
         // NOTE: no aggregateRating/review here — Google ignores self-serving
@@ -352,7 +353,7 @@ function buildBodyInsert(route, ctx) {
   const esc = htmlEscape;
   const h1 = esc(String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
   const parts = [];
-  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed &amp; insured HVAC contractor, Westchester County, NY · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service · <a href="/contact">Request a free written estimate</a></p></header>`);
+  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed &amp; insured HVAC contractor (License #8822) · 1 Fowler Avenue, Yonkers, NY 10701 · Serving all of Westchester County · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service · <a href="/contact">Request a free written estimate</a></p></header>`);
   parts.push(`<main>`);
   parts.push(`<h1>${h1}</h1>`);
   parts.push(`<p>${esc(route.description)}</p>`);

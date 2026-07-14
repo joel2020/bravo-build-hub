@@ -24,7 +24,7 @@ const FACT_FAQS = [
   },
   {
     q: "Is Bravo Mechanical licensed and insured?",
-    a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor authorized to perform heating, cooling, and gas-fired equipment work in Westchester County, NY. Proof of license and insurance is provided to customers on request.",
+    a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor (License #8822) authorized to perform heating, cooling, and gas-fired equipment work in Westchester County, NY. Proof of insurance is provided to customers on request.",
   },
   {
     q: "What HVAC equipment brands does Bravo Mechanical install?",
@@ -118,7 +118,7 @@ const CompanyFacts = () => {
             <li><strong>Email:</strong> <a className="text-accent hover:underline" href={SITE.emailHref}>{SITE.email}</a></li>
             <li><strong>Primary service area:</strong> {SITE.area}</li>
             <li><strong>Hours:</strong> Open 24 hours, 7 days a week for emergency dispatch</li>
-            <li><strong>Licensing:</strong> Fully licensed and insured HVAC contractor in Westchester County, NY</li>
+            <li><strong>Licensing:</strong> Fully licensed and insured HVAC contractor in Westchester County, NY — License #8822</li>
             <li><strong>Google rating:</strong> 5.0 / 5 based on 7 verified Google reviews (as of May 2026)</li>
             <li><strong>Contact page:</strong> <Link className="text-accent hover:underline" to="/contact">/contact</Link></li>
           </ul>

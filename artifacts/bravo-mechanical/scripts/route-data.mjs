@@ -310,6 +310,12 @@ export const STATIC_ROUTES = [
   { path: "/emergency-hvac-westchester", changefreq: "weekly", priority: "0.95",
     title: "24/7 Emergency HVAC Repair in Westchester County, NY | Bravo Mechanical",
     description: "Emergency HVAC repair in Westchester County, NY. No-heat and no-cool dispatch, safety-first diagnostics, and clear next steps. Call (914) 361-9142." },
+  { path: "/financing", changefreq: "monthly", priority: "0.7",
+    title: "HVAC Financing in Westchester County, NY | Bravo Mechanical",
+    description: "Spread the cost of a new boiler, furnace, AC, or heat pump. Financing options for qualified Westchester homeowners, plus every rebate handled. Free written estimate first." },
+  { path: "/maintenance-plans", changefreq: "monthly", priority: "0.7",
+    title: "HVAC Maintenance Plans in Westchester County, NY | Bravo Mechanical",
+    description: "Annual HVAC service plans for Westchester homes and rentals: two seasonal tune-ups, priority scheduling, preferred repair pricing, and warranty-protecting service records." },
   { path: "/company-facts", changefreq: "monthly", priority: "0.5",
     title: "Company Facts | Bravo Mechanical LLC",
     description: "Public reference page for Bravo Mechanical LLC — service areas, licensing notes, and how to verify our HVAC business in Westchester County, NY." },
@@ -343,7 +349,7 @@ export const EQUIPMENT_GUIDES = [
     canonical: "/services/furnace-installation-westchester-county-ny" },
   { slug: "water-heaters", title: "Water Heaters for Westchester Homes — Buyer's Guide | Bravo Mechanical",
     description: "Water heater guide for Westchester County, NY: tank vs. tankless vs. heat-pump water heaters, recovery rates, and replacement costs.",
-    canonical: null },
+    canonical: "/services/water-heater-installation-westchester-county-ny" },
 ];
 
 // Routes never to expose in sitemap or prerender.

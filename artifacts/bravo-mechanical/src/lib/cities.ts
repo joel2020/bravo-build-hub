@@ -275,6 +275,38 @@ const CITY_DATA: Record<string, Omit<City, "slug" | "name" | "faqs">> = {
     housing: "Heat-pump conversions (often replacing oil or propane), boiler replacements, condo HVAC service contracts in Heritage Hills.",
     climateNote: "Cold Northern Westchester winters — system design and reliable heat are top priorities.",
   },
+  "Ardsley": {
+    zips: ["10502"],
+    neighborhoods: ["Ardsley Village","Ardsley Park","Concord Road corridor"],
+    region: "Rivertowns",
+    intro: "Ardsley is a compact Rivertowns village of roughly 4,700 residents, dominated by 1950s–60s colonials, split-levels, and capes on quiet residential streets off Ashford Avenue and Heatherdell Road. Homes of this era typically run forced-air furnaces or hot-water boilers that are reaching their second or third replacement cycle.",
+    housing: "The most common Ardsley calls we see: mid-century furnace and boiler replacements, adding central AC or ductless cooling to homes that never had it, and sealing leaky mid-century ductwork that wastes conditioned air in unfinished basements.",
+    climateNote: "Ardsley's Saw Mill River valley position traps summer humidity, and winter cold snaps expose undersized or aging heating plants. Right-sizing on replacement — not matching the old oversized unit — pays off here.",
+  },
+  "Hartsdale": {
+    zips: ["10530"],
+    neighborhoods: ["Manor Woods","Poets Corner","College Corners","Central Park Avenue corridor"],
+    region: "Central Westchester",
+    intro: "Hartsdale, a hamlet of Greenburgh, mixes pre-war Tudors and colonials near the Metro-North station with large co-op and condo communities along the Central Park Avenue corridor. That split means two very different kinds of HVAC work — and we do both.",
+    housing: "In the single-family neighborhoods we handle boiler replacements, steam-system balancing, and ductless retrofits for homes without ducts. In Hartsdale's co-ops and condos we install and service through-wall units, ductless splits (with board-approved line-set routing), and unit-level heat pumps.",
+    climateNote: "Pre-war Hartsdale homes with radiator heat often have no cooling infrastructure at all — cold-climate ductless heat pumps solve both the July humidity and shoulder-season heating in one system, with NYS Clean Heat rebates.",
+  },
+  "Pelham": {
+    zips: ["10803"],
+    neighborhoods: ["Pelham Village","Pelham Manor","Pelhamwood","Chester Park"],
+    region: "Sound Shore",
+    intro: "Pelham and Pelham Manor are among Westchester's oldest commuter suburbs, filled with 1910s–1930s colonials, Tudors, and center-hall homes on tree-lined streets. Pre-war construction here usually means steam or hot-water radiator heat, plaster walls, and no ductwork — the classic Westchester retrofit challenge.",
+    housing: "Our bread-and-butter in Pelham: steam boiler repair and replacement (including near-boiler piping done correctly), oil-to-gas conversions, and adding cooling to pre-war homes with ductless mini-splits or slim-duct systems that respect original plaster and trim.",
+    climateNote: "Steam systems in Pelham's older homes are unforgiving of bad piping and poor maintenance — short cycling, banging pipes, and uneven heat are almost always fixable without full replacement. We diagnose before we quote.",
+  },
+  "Port Chester": {
+    zips: ["10573"],
+    neighborhoods: ["Downtown","Fox Island area","Ridge Street corridor","King Street corridor"],
+    region: "Sound Shore",
+    intro: "Port Chester is one of Westchester's densest villages, with a large stock of two- and three-family homes, older single-families, and active ground-floor commercial space along Main Street and Westchester Avenue. Multifamily heating is a specialty of ours here.",
+    housing: "Common Port Chester work: boiler replacements in two- and three-family buildings (including separate-zone configurations landlords ask for), water heater replacements sized for multifamily demand, ductless cooling for apartments, and commercial HVAC for restaurants and storefronts.",
+    climateNote: "Dense housing near the Byram River and the Sound means humid summers and hard-working boilers in winter. For rental property owners, annual maintenance contracts prevent the mid-January no-heat call from a tenant.",
+  },
 };
 
 export const CITIES: City[] = TOWNS.map((name) => {

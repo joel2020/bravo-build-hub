@@ -68,7 +68,7 @@ const DefaultHeroTrustCard = () => (
           </div>
         </div>
         <span className="text-xs text-muted-foreground mt-1">
-          {SITE.rating.count}+ reviews on {SITE.rating.source}
+          Rated {SITE.rating.score.toFixed(1)} on {SITE.rating.source}
         </span>
       </div>
     </a>

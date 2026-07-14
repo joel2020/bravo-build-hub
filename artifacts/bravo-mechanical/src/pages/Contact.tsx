@@ -54,7 +54,9 @@ const Contact = () => {
       />
 
       <section className="container mx-auto px-4 py-16 grid lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-1 space-y-6">
+        {/* On mobile the form must come first — it's the primary conversion
+            element and shouldn't sit below the hours/map blocks. */}
+        <div className="order-2 lg:order-none lg:col-span-1 space-y-6">
           <div className="bg-card border border-border rounded-lg p-6 space-y-5">
             <div className="flex items-start gap-3">
               <Phone className="h-5 w-5 text-accent mt-0.5 shrink-0" />
@@ -112,7 +114,7 @@ const Contact = () => {
           </a>
         </div>
 
-        <div className="lg:col-span-2">
+        <div className="order-1 lg:order-none lg:col-span-2">
           <h2 className="text-2xl font-extrabold mb-2">Request service or an estimate</h2>
           <p className="text-muted-foreground mb-4">
             Tell us what is happening with your heating or cooling system and we will follow up with the next available service window. After you submit the form, our team reviews your request, confirms the property location, asks any needed follow-up questions, and helps schedule the appropriate service or estimate visit.

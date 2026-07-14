@@ -28,6 +28,18 @@ export const SITE = {
   legalLastUpdated: "May 3, 2026",
 };
 
+// The 6 "money pages" featured on the homepage and in the footer. These must
+// deep-link to the high-intent service pages — linking them all to /services
+// starves the pages that actually convert of internal link equity.
+export const FEATURED_SERVICE_LINKS = [
+  { title: "AC Repair", path: "/services/ac-repair-westchester-county-ny", description: "No cool air? Same-day AC diagnostics and repair across Westchester, priced in writing before the fix." },
+  { title: "AC Installation", path: "/services/ac-installation-westchester-county-ny", description: "Central AC and ductless cooling installed with honest Manual J sizing and SEER2 equipment." },
+  { title: "Boiler Repair", path: "/services/boiler-repair-westchester-county-ny", description: "Steam and hot-water boiler repair — short cycling, leaks, and no-heat calls, 24/7." },
+  { title: "Boiler Installation", path: "/services/boiler-installation-westchester-county-ny", description: "High-efficiency boiler replacement with near-boiler piping done right and Con Ed rebates handled." },
+  { title: "Heat Pump Installation", path: "/services/heat-pump-installation-westchester-county-ny", description: "Cold-climate heat pumps with NYS Clean Heat and Con Edison rebates handled end to end." },
+  { title: "24/7 Emergency HVAC", path: "/services/emergency-hvac-repair-westchester-county-ny", description: "No heat, no cooling, or a leaking boiler — licensed techs answering around the clock." },
+];
+
 export const SERVICES = [
   { slug: "hvac-installation", title: "HVAC Installation", description: "New furnace, AC, heat pump, and ductwork installation sized and engineered for your space." },
   { slug: "hvac-repair", title: "HVAC Repair", description: "Fast diagnostics and repair for heating and cooling systems — including same-day and emergency service." },

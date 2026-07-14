@@ -7,7 +7,7 @@ import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
 import { useSeo } from "@/lib/seo";
 
-import { SITE, SERVICES } from "@/lib/site";
+import { SITE, FEATURED_SERVICE_LINKS } from "@/lib/site";
 import { NY_SYSTEMS } from "@/lib/nySystems";
 import { getFeaturedGoogleReviews } from "@/lib/googleReviews";
 import { trackRequestServiceClick } from "@/lib/analytics";
@@ -131,7 +131,7 @@ const Index = () => {
                   ))}
                 </div>
                 <span className="text-sm text-muted-foreground">
-                  {SITE.rating.count}+ reviews on {SITE.rating.source}
+                  Rated {SITE.rating.score.toFixed(1)} on {SITE.rating.source}
                 </span>
               </a>
               <span className="hidden sm:inline text-border">|</span>
@@ -237,13 +237,16 @@ const Index = () => {
           <p className="mt-3 text-muted-foreground">From emergency repairs to full system installations, Bravo Mechanical handles every part of your heating, cooling, and ventilation needs.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {SERVICES.map((s) => (
-            <div key={s.slug} className="bg-card border border-border rounded-lg p-6 hover:border-accent transition-colors">
+          {FEATURED_SERVICE_LINKS.map((s) => (
+            <div key={s.path} className="bg-card border border-border rounded-lg p-6 hover:border-accent transition-colors">
               <h3 className="font-bold text-lg mb-2">{s.title}</h3>
               <p className="text-sm text-muted-foreground mb-4">{s.description}</p>
-              <Link to="/services" className="text-accent font-semibold text-sm hover:underline">Learn more →</Link>
+              <Link to={s.path} className="text-accent font-semibold text-sm hover:underline">Learn more →</Link>
             </div>
           ))}
+        </div>
+        <div className="mt-8">
+          <Link to="/services" className="text-accent font-semibold hover:underline">View all 12 services →</Link>
         </div>
       </section>
 

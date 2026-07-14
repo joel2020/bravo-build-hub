@@ -31,8 +31,11 @@ function urlEntry({ path: p, changefreq, priority, lastmod }) {
 
 async function main() {
   const routes = await buildAllRoutes();
-  const today = new Date().toISOString().slice(0, 10);
-  const enriched = routes.map((r) => ({ ...r, lastmod: r.lastmod || today }));
+  // Only emit lastmod where we have a REAL modification date (blog posts).
+  // Stamping every URL with the build date looks like fake freshness — and a
+  // build that runs late in the day UTC produces a "tomorrow" date in US
+  // timezones, which crawlers may treat as a spam signal.
+  const enriched = routes.map((r) => ({ ...r, lastmod: r.lastmod || undefined }));
 
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +

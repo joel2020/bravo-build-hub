@@ -171,7 +171,7 @@ const BookOnline = () => {
             {submitting ? "Booking…" : "Book My Visit"}
           </Button>
           <p className="text-xs text-muted-foreground text-center">
-            By booking you agree to be contacted by phone, text, or email about your request. We'll confirm the exact time by text from {SITE.smsPhone}.
+            By tapping "Book My Visit" you agree that Bravo Mechanical LLC may contact you by phone, text message, and email about your service request, including via automated messages. We'll confirm the exact time by text from {SITE.smsPhone}. Consent is not a condition of service. Message frequency varies; message and data rates may apply. Reply STOP to opt out, HELP for help. See our <Link to="/privacy-policy" className="underline hover:text-accent">Privacy Policy</Link> and <Link to="/terms-and-conditions" className="underline hover:text-accent">SMS Terms</Link>.
           </p>
         </div>
 

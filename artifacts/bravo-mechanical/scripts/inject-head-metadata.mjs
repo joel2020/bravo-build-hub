@@ -33,6 +33,7 @@ import {
   OG_IMAGE,
   BUILD_DATE,
 } from "./route-data.mjs";
+import { PRIVACY_POLICY_HTML, TERMS_HTML } from "./legal-content.mjs";
 
 // Module-level review cache populated once per build, then read by buildJsonLd.
 let ALL_REVIEWS = [];
@@ -252,6 +253,13 @@ function buildHeadInsert(route) {
     `<meta name="twitter:image" content="${OG_IMAGE}" />`,
   ];
 
+  // hreflang alternates for routes that exist in both languages.
+  if (route.alternates) {
+    for (const [hreflang, altPath] of Object.entries(route.alternates)) {
+      tags.push(`<link rel="alternate" hreflang="${hreflang}" href="${htmlEscape(`${SITE_URL}${altPath}`)}" />`);
+    }
+  }
+
   for (const ld of buildJsonLd(route)) {
     tags.push(jsonScript(ld));
   }
@@ -280,6 +288,11 @@ function rewriteHead(html, route, ctx) {
 
   const insert = buildHeadInsert(route);
   out = out.replace("</head>", `${insert}</head>`);
+
+  // Spanish routes get lang="es" on the html element.
+  if (route.lang) {
+    out = out.replace(/<html\s+lang="[^"]*"/i, `<html lang="${route.lang}"`);
+  }
 
   // Per-route static body for crawlers that don't execute JS. React replaces
   // the contents of #root on mount, so browser users still get the app.
@@ -362,6 +375,12 @@ function buildBodyInsert(route, ctx) {
     if (route.post.date) parts.push(`<p><em>Published ${esc(route.post.date)} · Bravo Mechanical, Westchester County, NY</em></p>`);
     if (route.post.body) parts.push(mdToHtml(route.post.body));
   }
+
+  // Legal pages must serve their FULL text to non-JS crawlers — automated
+  // compliance verifiers (e.g. Twilio A2P 10DLC vetting) fetch these URLs
+  // without executing JavaScript.
+  if (route.path === "/privacy-policy") parts.push(PRIVACY_POLICY_HTML);
+  if (route.path === "/terms-and-conditions") parts.push(TERMS_HTML);
 
   if (route.faqs && route.faqs.length) {
     parts.push(`<h2>Frequently asked questions</h2>`);

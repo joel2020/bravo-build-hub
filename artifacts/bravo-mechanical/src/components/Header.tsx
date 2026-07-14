@@ -11,11 +11,13 @@ const nav = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/services", label: "Services" },
+  { to: "/projects", label: "Projects" },
   { to: "/service-areas", label: "Service Areas" },
   { to: "/reviews", label: "Reviews" },
   { to: "/blog", label: "Blog" },
   { to: "/book", label: "Book Online" },
   { to: "/contact", label: "Contact" },
+  { to: "/es", label: "Español" },
 ];
 
 export const Header = () => {

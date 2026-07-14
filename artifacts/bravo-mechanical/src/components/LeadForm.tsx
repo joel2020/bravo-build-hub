@@ -11,16 +11,80 @@ import { trackLeadSubmit } from "@/lib/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-const schema = z.object({
-  name: z.string().min(2, "Please enter your name"),
-  phone: z.string().min(7, "Please enter a valid phone number"),
-  email: z.string().email("Please enter a valid email"),
-  service: z.string().min(1, "Please select a service"),
-  message: z.string().min(5, "Please add a short message"),
-  consent: z.literal(true, { errorMap: () => ({ message: "Please agree to be contacted before submitting" }) }),
-});
+// All user-facing form copy in both languages. The submission pipeline is
+// identical either way — Spanish leads land in the same CRM inbox.
+type FormStrings = Record<
+  | "errName" | "errPhone" | "errEmail" | "errService" | "errMessage" | "errConsent"
+  | "name" | "phone" | "email" | "service" | "servicePlaceholder" | "serviceOther"
+  | "message" | "consent" | "privacy" | "and" | "smsTerms" | "submit" | "submitting"
+  | "successTitle" | "successBody" | "errorTitle" | "errorBody",
+  string
+>;
 
-type Errors = Partial<Record<keyof z.infer<typeof schema>, string>>;
+const FORM_STRINGS: Record<"en" | "es", FormStrings> = {
+  en: {
+    errName: "Please enter your name",
+    errPhone: "Please enter a valid phone number",
+    errEmail: "Please enter a valid email",
+    errService: "Please select a service",
+    errMessage: "Please add a short message",
+    errConsent: "Please agree to be contacted before submitting",
+    name: "Full name",
+    phone: "Phone",
+    email: "Email",
+    service: "Service needed",
+    servicePlaceholder: "Select a service",
+    serviceOther: "Other / Not sure",
+    message: "How can we help?",
+    consent: "I agree that Bravo Mechanical LLC may contact me by phone, text message, and email about my service request, including via automated messages. Consent is not a condition of service. Message and data rates may apply. Reply STOP to opt out, HELP for help. See our",
+    privacy: "Privacy Policy",
+    and: "and",
+    smsTerms: "SMS Terms",
+    submit: "Request My Estimate",
+    submitting: "Submitting...",
+    successTitle: "Thanks — we got your request.",
+    successBody: "A member of the Bravo Mechanical team will reach out shortly. If you need emergency HVAC service, call us now at (914) 361-9142 for fastest dispatch.",
+    errorTitle: "Could not submit request",
+    errorBody: "Please try again or call us directly for immediate help.",
+  },
+  es: {
+    errName: "Por favor escriba su nombre",
+    errPhone: "Por favor escriba un número de teléfono válido",
+    errEmail: "Por favor escriba un correo electrónico válido",
+    errService: "Por favor seleccione un servicio",
+    errMessage: "Por favor agregue un mensaje corto",
+    errConsent: "Por favor acepte ser contactado antes de enviar",
+    name: "Nombre completo",
+    phone: "Teléfono",
+    email: "Correo electrónico",
+    service: "Servicio que necesita",
+    servicePlaceholder: "Seleccione un servicio",
+    serviceOther: "Otro / No estoy seguro",
+    message: "¿Cómo podemos ayudarle?",
+    consent: "Acepto que Bravo Mechanical LLC me contacte por teléfono, mensaje de texto y correo electrónico sobre mi solicitud de servicio, incluso mediante mensajes automáticos. El consentimiento no es condición para recibir servicio. Pueden aplicar tarifas de mensajes y datos. Responda STOP para cancelar, HELP para ayuda. Vea nuestra",
+    privacy: "Política de Privacidad",
+    and: "y",
+    smsTerms: "Términos de SMS",
+    submit: "Solicitar Mi Presupuesto",
+    submitting: "Enviando...",
+    successTitle: "Gracias — recibimos su solicitud.",
+    successBody: "Un miembro del equipo de Bravo Mechanical le contactará en breve. Si necesita servicio de emergencia, llámenos ahora al (914) 361-9142.",
+    errorTitle: "No se pudo enviar la solicitud",
+    errorBody: "Por favor intente de nuevo o llámenos directamente para ayuda inmediata.",
+  },
+};
+
+const buildSchema = (t: FormStrings) =>
+  z.object({
+    name: z.string().min(2, t.errName),
+    phone: z.string().min(7, t.errPhone),
+    email: z.string().email(t.errEmail),
+    service: z.string().min(1, t.errService),
+    message: z.string().min(5, t.errMessage),
+    consent: z.literal(true, { errorMap: () => ({ message: t.errConsent }) }),
+  });
+
+type Errors = Partial<Record<"name" | "phone" | "email" | "service" | "message" | "consent", string>>;
 
 type TrackingPayload = {
   source_page: string | null;
@@ -59,6 +123,7 @@ type LeadFormProps = {
   defaultMessage?: string;
   city?: string;
   urgency?: string;
+  lang?: "en" | "es";
 };
 
 export const LeadForm = ({
@@ -67,7 +132,10 @@ export const LeadForm = ({
   defaultMessage = "",
   city,
   urgency,
+  lang = "en",
 }: LeadFormProps) => {
+  const t = FORM_STRINGS[lang];
+  const schema = useMemo(() => buildSchema(t), [t]);
   const { toast } = useToast();
   const [values, setValues] = useState({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage, consent: false });
   const [errors, setErrors] = useState<Errors>({});
@@ -173,7 +241,7 @@ export const LeadForm = ({
       fbclid: tracking.fbclid,
     };
 
-    const consentStamp = `[Consent] SMS/email contact agreed at ${new Date().toISOString()} (form: ${source})`;
+    const consentStamp = `[Consent] SMS/email contact agreed at ${new Date().toISOString()} (form: ${source}, lang: ${lang})`;
   const newNotes = `${buildLeadNotes(result.data.service, result.data.message, city, urgency)} | ${consentStamp}`;
     const duplicateLeadId = await findRecentDuplicateLeadId(result.data.phone, result.data.email);
 
@@ -224,8 +292,8 @@ export const LeadForm = ({
 
     if (error) {
       toast({
-        title: "Could not submit request",
-        description: "Please try again or call us directly for immediate help.",
+        title: t.errorTitle,
+        description: t.errorBody,
         variant: "destructive",
       });
       return;
@@ -251,8 +319,8 @@ export const LeadForm = ({
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center">
         <CheckCircle2 className="h-12 w-12 text-accent mx-auto mb-4" />
-        <h3 className="text-xl font-bold mb-2">Thanks — we got your request.</h3>
-        <p className="text-muted-foreground">A member of the Bravo Mechanical team will reach out shortly. If you need emergency HVAC service, call us now at (914) 361-9142 for fastest dispatch.</p>
+        <h3 className="text-xl font-bold mb-2">{t.successTitle}</h3>
+        <p className="text-muted-foreground">{t.successBody}</p>
       </div>
     );
   }
@@ -261,34 +329,34 @@ export const LeadForm = ({
     <form onSubmit={onSubmit} className="rounded-lg border border-border bg-card p-6 md:p-8 space-y-5">
       <div className="grid md:grid-cols-2 gap-5">
         <div>
-          <Label htmlFor="name">Full name</Label>
+          <Label htmlFor="name">{t.name}</Label>
           <Input id="name" value={values.name} onChange={(e) => update("name", e.target.value)} className="mt-1.5" />
           {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
         </div>
         <div>
-          <Label htmlFor="phone">Phone</Label>
+          <Label htmlFor="phone">{t.phone}</Label>
           <Input id="phone" type="tel" value={values.phone} onChange={(e) => update("phone", e.target.value)} className="mt-1.5" />
           {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t.email}</Label>
         <Input id="email" type="email" value={values.email} onChange={(e) => update("email", e.target.value)} className="mt-1.5" />
         {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
       </div>
       <div>
-        <Label htmlFor="service">Service needed</Label>
+        <Label htmlFor="service">{t.service}</Label>
         <Select value={values.service} onValueChange={(v) => update("service", v)}>
-          <SelectTrigger id="service" className="mt-1.5"><SelectValue placeholder="Select a service" /></SelectTrigger>
+          <SelectTrigger id="service" className="mt-1.5"><SelectValue placeholder={t.servicePlaceholder} /></SelectTrigger>
           <SelectContent>
             {SERVICES.map((s) => <SelectItem key={s.slug} value={s.title}>{s.title}</SelectItem>)}
-            <SelectItem value="Other">Other / Not sure</SelectItem>
+            <SelectItem value="Other">{t.serviceOther}</SelectItem>
           </SelectContent>
         </Select>
         {errors.service && <p className="text-destructive text-xs mt-1">{errors.service}</p>}
       </div>
       <div>
-        <Label htmlFor="message">How can we help?</Label>
+        <Label htmlFor="message">{t.message}</Label>
         <Textarea id="message" rows={5} value={values.message} onChange={(e) => update("message", e.target.value)} className="mt-1.5" />
         {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
       </div>
@@ -302,16 +370,16 @@ export const LeadForm = ({
             aria-describedby="consent-help"
           />
           <span id="consent-help">
-            I agree that Bravo Mechanical LLC may contact me by phone, text message, and email about my service request, including via automated messages. Consent is not a condition of service. Message and data rates may apply. Reply STOP to opt out, HELP for help. See our{" "}
-            <a href="/privacy-policy" className="font-semibold text-foreground underline hover:text-accent">Privacy Policy</a>
-            {" "}and{" "}
-            <a href="/terms-and-conditions" className="font-semibold text-foreground underline hover:text-accent">SMS Terms</a>.
+            {t.consent}{" "}
+            <a href="/privacy-policy" className="font-semibold text-foreground underline hover:text-accent">{t.privacy}</a>
+            {" "}{t.and}{" "}
+            <a href="/terms-and-conditions" className="font-semibold text-foreground underline hover:text-accent">{t.smsTerms}</a>.
           </span>
         </label>
         {errors.consent && <p className="text-destructive text-xs mt-2">{errors.consent}</p>}
       </div>
       <Button type="submit" size="lg" disabled={submitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-        {submitting ? "Submitting..." : "Request My Estimate"}
+        {submitting ? t.submitting : t.submit}
       </Button>
     </form>
   );

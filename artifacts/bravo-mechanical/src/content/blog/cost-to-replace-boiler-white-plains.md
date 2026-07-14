@@ -36,7 +36,7 @@ Pricing assumes a single-family home in 10601, 10603, 10605, 10606, or 10607 wit
 
 - **Con Edison high-efficiency boiler rebate** — $400–$1,000 depending on AFUE.
 - **NYS Clean Heat** — only applies if you switch to a heat pump, not boiler-to-boiler.
-- **Federal 25C tax credit** — up to $600 for a qualifying high-efficiency gas boiler.
+- **Federal 25C tax credit** — no longer available. It was terminated for equipment placed in service after December 31, 2025, so it does not reduce the cost of a 2026 boiler replacement.
 
 ## Should White Plains homeowners switch to a heat pump instead?
 

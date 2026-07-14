@@ -41,10 +41,8 @@ Rye (10580) has a mix of historic colonials, mid-century waterfront homes, and c
 
 ## Rebates that apply in Rye
 
-- **NYS Clean Heat:** $1,500–$3,000 per ton of capacity
-- **Con Edison:** $200–$500 per indoor head
-- **Federal 25C:** up to $2,000 for qualifying heat pumps
+- **NYS Clean Heat:** $1,500–$3,000 per ton of capacity, applied directly to your quote
 
-A typical 5-zone Rye install runs **$19,500 before rebates, $13,000–$15,000 after.**
+A typical 5-zone Rye install runs **$19,500 before rebates.** Your NYS Clean Heat incentive is set by system capacity, so we show it as a line item on the written estimate rather than guessing at it up front. The federal 25C tax credit was terminated for equipment placed in service after December 31, 2025 and no longer reduces your cost — see our [2026 rebate guide](/blog/ny-heat-pump-rebates-2026) for what still applies.
 
 [Book a Rye mini-split consultation](/contact) or call (914) 361-9142.

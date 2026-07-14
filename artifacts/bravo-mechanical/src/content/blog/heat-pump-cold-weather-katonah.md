@@ -50,7 +50,7 @@ Most "my heat pump can't keep up in cold weather" complaints we troubleshoot in 
 ## Realistic Katonah heat-pump install cost
 
 - Whole-home ducted ccHP (replacing furnace + AC): **$22,000–$38,000**
-- After NYS Clean Heat + federal 25C: **$13,000–$28,000 net**
+- NYS Clean Heat comes off the quote directly; the amount is set by system capacity, so we itemize it on your written estimate. (The federal 25C credit ended for equipment placed in service after December 31, 2025 — see our [2026 rebate guide](/blog/ny-heat-pump-rebates-2026).)
 - Operating cost vs. oil heat: typically 35–55% lower
 
 ## Free Katonah cold-weather assessment

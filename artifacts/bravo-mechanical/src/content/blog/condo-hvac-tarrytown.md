@@ -57,7 +57,7 @@ Increasingly popular for older Tarrytown brownstones converted to condos. Outdoo
 
 - **Con Edison heat pump rebate** — fully applies
 - **NYS Clean Heat** — applies, including for ductless
-- **Federal 25C tax credit** — applies (up to $2,000 heat pumps)
+- **Federal 25C tax credit** — no longer available (terminated for equipment placed in service after December 31, 2025)
 
 ## Common condo HVAC mistakes to avoid
 

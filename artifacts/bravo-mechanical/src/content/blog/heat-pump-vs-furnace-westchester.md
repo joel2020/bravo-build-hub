@@ -38,7 +38,7 @@ author: Bravo Mechanical Team
 Three factors tilt the equation toward heat pumps:
 
 1. **No second AC system to buy.** A gas furnace doesn't cool. You're also buying a $5,000–$8,000 AC. A heat pump does both for one price.
-2. **2025 rebate stack.** $4,000–$10,000 off, only available now. Federal 25C is set to expire after 2032.
+2. **NYS Clean Heat rebate stack.** $4,000–$10,000 off, applied directly to your quote. (The federal 25C credit was terminated for equipment placed in service after December 31, 2025 — see our [2026 rebate guide](/blog/ny-heat-pump-rebates-2026).)
 3. **NYS gas pressure.** New construction can't have gas after 2026 in NYC; Westchester is next. Con Edison gas rates have risen 28% in 5 years and are projected to keep climbing as the customer base shrinks.
 
 ## When a gas furnace still makes sense
@@ -53,7 +53,7 @@ Three factors tilt the equation toward heat pumps:
 - Both heating and cooling need replacement
 - You currently have oil heat (skip the new oil tank, save $)
 - You're staying 5+ years
-- You qualify for HEEHRA income-based rebates
+- You qualify for EmPower+ / HEAR income-based rebates
 - You want zoned comfort
 
 ## When a hybrid (dual-fuel) is the smartest call

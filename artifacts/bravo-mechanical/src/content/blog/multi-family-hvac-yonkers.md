@@ -70,7 +70,6 @@ Yonkers Building Department requires permits for boiler/furnace replacement and 
 
 - **Con Edison multifamily rebate program** — up to $5,000+ per unit for heat pump retrofits
 - **NYS Clean Heat multifamily** — substantial per-unit incentives
-- **Federal 25C** — applies to owner of building for shared equipment
 
 ## Maintenance contracts for Yonkers landlords
 

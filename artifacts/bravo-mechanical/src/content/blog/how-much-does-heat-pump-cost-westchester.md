@@ -8,7 +8,7 @@ city: Westchester County
 author: Bravo Mechanical Team
 ---
 
-**Quick answer:** In 2025, a cold-climate heat pump install in Westchester County, NY costs **$15,000–$28,000** before rebates for a typical 2,000–3,000 sq ft home. After NYS Clean Heat ($2,000–$8,000) and the federal 25C tax credit (up to $2,000), the **net cost typically lands at $9,000–$18,000**.
+**Quick answer:** A cold-climate heat pump install in Westchester County, NY costs **$15,000–$28,000** before rebates for a typical 2,000–3,000 sq ft home. After NYS Clean Heat ($2,000–$8,000), the **net cost typically lands at $13,000–$20,000**. Income-eligible households can go materially lower through EmPower+ / HEAR.
 
 ## 2025 installed pricing by system type
 
@@ -34,7 +34,7 @@ Pricing assumes adequate electrical service. Panel upgrades add $2,500–$5,500.
 - Manual J load calculation
 - Permit and inspection (Westchester municipality)
 - NYS Clean Heat rebate paperwork
-- Commissioning + AHRI documentation for tax credit
+- Commissioning + AHRI documentation for rebate processing
 - Labor warranty (1 year standard, 2–5 years available)
 
 ## What drives the price up
@@ -45,17 +45,17 @@ Pricing assumes adequate electrical service. Panel upgrades add $2,500–$5,500.
 - **Removing oil tank** ($800–$2,500) — for full electrification
 - **Ductwork modifications** (ducted only) — $1,500–$6,000
 
-## Rebates available in Westchester (2025)
+## Rebates available in Westchester
 
 | Program | Amount |
 |---|---|
 | NYS Clean Heat (whole-home) | $2,000–$8,000 |
 | NYS Clean Heat (geothermal) | $1,500–$2,000 per ton |
-| Federal 25C tax credit | 30% up to $2,000/yr |
-| HEEHRA (income-qualified) | Up to $8,000 |
-| Con Edison heat pump bonus | $200–$500 per indoor head |
+| EmPower+ / HEAR (income-eligible) | See current guide |
 
 Rebates apply to the contractor quote — you don't file separately for NYS Clean Heat.
+
+> **The federal 25C tax credit no longer applies.** It was terminated for equipment placed in service after December 31, 2025. For current incentive figures, see our [2026 New York heat pump rebate guide](/blog/ny-heat-pump-rebates-2026).
 
 ## A real Westchester example
 
@@ -63,9 +63,7 @@ Rebates apply to the contractor quote — you don't file separately for NYS Clea
 
 - Equipment + install: $24,500
 - NYS Clean Heat: -$5,500
-- ConEd indoor head bonus: -$1,200
-- Federal 25C: -$2,000
-- **Net cost: ~$15,800**
+- **Net cost: ~$19,000** before any income-eligible programs
 
 ## Why heat pumps make sense in Westchester right now
 

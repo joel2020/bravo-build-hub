@@ -44,12 +44,13 @@ Almost every Yonkers oil-to-gas conversion needs a stainless steel chimney liner
 
 Yonkers Building Dept inspects, then Con Ed activates the meter. Total project timeline: **6–12 weeks**.
 
-## 2025 rebate stack for Yonkers conversions
+## Rebate stack for Yonkers conversions
 
 - **Con Edison high-efficiency boiler rebate:** $400–$1,000
 - **NYSEG / Con Ed conversion incentive:** up to $1,500
-- **Federal 25C tax credit:** up to $600
 - **NYS Clean Heat (heat pump only):** consider going further and switching to a heat pump for $5,000–$10,000
+
+The federal 25C tax credit is no longer part of this stack — it was terminated for equipment placed in service after December 31, 2025.
 
 ## Total realistic Yonkers project cost
 

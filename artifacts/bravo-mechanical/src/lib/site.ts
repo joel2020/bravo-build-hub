@@ -36,6 +36,9 @@ export const SITE = {
   ],
   // Provided directly by the business owner on 2026-07-14.
   licenseNumbers: ["8822"] as string[],
+  // Owner-stated (2026-07-14): the team's combined field experience.
+  experienceYears: 30,
+  experienceLine: "Our team brings 30+ years of combined HVAC experience across Westchester County.",
   // Effective date of the latest legal-page revision. Update both when policies change.
   legalLastUpdated: "May 3, 2026",
 };

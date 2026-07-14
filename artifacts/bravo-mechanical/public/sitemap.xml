@@ -366,6 +366,11 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://bravomechanicalny.com/services/mini-split-permit-westchester-county-ny</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://bravomechanicalny.com/services/hvac-installation/yonkers</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
@@ -464,6 +469,12 @@
     <loc>https://bravomechanicalny.com/services/indoor-air-quality/scarsdale</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/mini-split-permit-reconciliation-westchester</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bravomechanicalny.com/blog/ac-not-cooling-westchester</loc>

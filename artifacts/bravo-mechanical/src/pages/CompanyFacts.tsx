@@ -41,6 +41,7 @@ const FACT_FAQS = [
 ];
 
 const KEY_STATS = [
+  { value: "30+", label: "Years combined experience", note: "across the Bravo Mechanical team" },
   { value: "5.0 / 5", label: "Google rating", note: "based on 7 verified reviews" },
   { value: "30", label: "Westchester towns served", note: "from Yonkers north to Somers" },
   { value: "24 / 7", label: "Emergency HVAC dispatch", note: "no-heat, no-cool, gas-leak" },

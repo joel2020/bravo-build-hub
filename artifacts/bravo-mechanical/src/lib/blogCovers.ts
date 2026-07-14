@@ -32,6 +32,7 @@ export const BLOG_COVERS: Record<string, string> = {
   "mini-split-vs-window-ac-westchester": jobMitsubishi,
   "hvac-maintenance-checklist-westchester": winterFurnacePrep,
   "boiler-banging-noises-westchester": jobRadiator,
+  "mini-split-permit-reconciliation-westchester": hvacPermitsYonkers,
 };
 
 export const getCoverForSlug = (slug: string): string | undefined => BLOG_COVERS[slug];

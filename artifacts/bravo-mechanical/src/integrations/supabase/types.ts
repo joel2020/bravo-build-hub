@@ -391,8 +391,10 @@ export type Database = {
           caption: string | null
           created_at: string
           id: string
+          is_public: boolean
           job_id: string
           lead_id: string | null
+          public_caption: string | null
           public_url: string | null
           storage_path: string
           uploaded_by: string | null
@@ -401,8 +403,10 @@ export type Database = {
           caption?: string | null
           created_at?: string
           id?: string
+          is_public?: boolean
           job_id: string
           lead_id?: string | null
+          public_caption?: string | null
           public_url?: string | null
           storage_path: string
           uploaded_by?: string | null
@@ -411,8 +415,10 @@ export type Database = {
           caption?: string | null
           created_at?: string
           id?: string
+          is_public?: boolean
           job_id?: string
           lead_id?: string | null
+          public_caption?: string | null
           public_url?: string | null
           storage_path?: string
           uploaded_by?: string | null

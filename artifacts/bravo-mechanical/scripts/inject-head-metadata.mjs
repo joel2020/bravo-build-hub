@@ -252,6 +252,13 @@ function buildHeadInsert(route) {
     `<meta name="twitter:image" content="${OG_IMAGE}" />`,
   ];
 
+  // hreflang alternates for routes that exist in both languages.
+  if (route.alternates) {
+    for (const [hreflang, altPath] of Object.entries(route.alternates)) {
+      tags.push(`<link rel="alternate" hreflang="${hreflang}" href="${htmlEscape(`${SITE_URL}${altPath}`)}" />`);
+    }
+  }
+
   for (const ld of buildJsonLd(route)) {
     tags.push(jsonScript(ld));
   }
@@ -280,6 +287,11 @@ function rewriteHead(html, route, ctx) {
 
   const insert = buildHeadInsert(route);
   out = out.replace("</head>", `${insert}</head>`);
+
+  // Spanish routes get lang="es" on the html element.
+  if (route.lang) {
+    out = out.replace(/<html\s+lang="[^"]*"/i, `<html lang="${route.lang}"`);
+  }
 
   // Per-route static body for crawlers that don't execute JS. React replaces
   // the contents of #root on mount, so browser users still get the app.

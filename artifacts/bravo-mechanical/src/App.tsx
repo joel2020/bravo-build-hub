@@ -22,6 +22,11 @@ const BlogPost = lazy(() => import("./pages/BlogPost.tsx"));
 const EmergencyHVAC = lazy(() => import("./pages/EmergencyHVAC.tsx"));
 const Financing = lazy(() => import("./pages/Financing.tsx"));
 const BookOnline = lazy(() => import("./pages/BookOnline.tsx"));
+const Projects = lazy(() => import("./pages/Projects.tsx"));
+const EsHome = lazy(() => import("./pages/es/EsHome.tsx"));
+const EsContact = lazy(() => import("./pages/es/EsContact.tsx"));
+const EsBook = lazy(() => import("./pages/es/EsBook.tsx"));
+const EsEmergency = lazy(() => import("./pages/es/EsEmergency.tsx"));
 const MaintenancePlans = lazy(() => import("./pages/MaintenancePlans.tsx"));
 const CompanyFacts = lazy(() => import("./pages/CompanyFacts.tsx"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.tsx"));
@@ -78,6 +83,11 @@ const AppRoutes = () => {
       <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
       <Route path="/financing" element={<Financing />} />
       <Route path="/book" element={<BookOnline />} />
+      <Route path="/projects" element={<Projects />} />
+      <Route path="/es" element={<EsHome />} />
+      <Route path="/es/contacto" element={<EsContact />} />
+      <Route path="/es/reservar" element={<EsBook />} />
+      <Route path="/es/emergencia" element={<EsEmergency />} />
       <Route path="/maintenance-plans" element={<MaintenancePlans />} />
       <Route path="/company-facts" element={<CompanyFacts />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />

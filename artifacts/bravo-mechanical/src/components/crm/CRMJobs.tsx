@@ -51,6 +51,8 @@ type JobPhoto = {
   storage_path: string;
   public_url: string | null;
   created_at: string;
+  is_public: boolean;
+  public_caption: string | null;
 };
 
 export const CRMJobs = () => {
@@ -102,7 +104,7 @@ export const CRMJobs = () => {
   const loadPhotos = async (jobIds: string[]) => {
     const { data, error } = await supabase
       .from("job_photos")
-      .select("id, job_id, lead_id, storage_path, public_url, created_at")
+      .select("id, job_id, lead_id, storage_path, public_url, created_at, is_public, public_caption")
       .in("job_id", jobIds)
       .order("created_at", { ascending: false });
 
@@ -288,6 +290,32 @@ useEffect(() => {
     await loadJobsAndLeads();
   };
 
+  // Publish/unpublish a photo on the public website gallery (/projects).
+  const togglePhotoOnWebsite = async (photo: JobPhoto, job: Job) => {
+    let caption = photo.public_caption;
+    if (!photo.is_public) {
+      const suggested = photo.public_caption || job.title || "";
+      caption = window.prompt("Caption shown on the website (e.g. \"Boiler replacement — Yonkers\"):", suggested || "");
+      if (caption === null) return; // cancelled
+      caption = caption.trim() || null;
+    }
+    const { error } = await supabase
+      .from("job_photos")
+      .update({ is_public: !photo.is_public, public_caption: caption })
+      .eq("id", photo.id);
+    if (error) {
+      toast({ title: "Could not update photo", description: error.message, variant: "destructive" });
+      return;
+    }
+    setPhotosByJobId((prev) => ({
+      ...prev,
+      [photo.job_id]: (prev[photo.job_id] || []).map((p) =>
+        p.id === photo.id ? { ...p, is_public: !photo.is_public, public_caption: caption } : p
+      ),
+    }));
+    toast({ title: !photo.is_public ? "Photo published to website" : "Photo removed from website" });
+  };
+
   const uploadJobPhoto = async (job: Job, event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     event.target.value = "";
@@ -455,9 +483,19 @@ useEffect(() => {
                     ) : (
                       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                         {photos.map((photo) => (
-                          <a key={photo.id} href={photo.public_url || "#"} target="_blank" rel="noreferrer" className="block overflow-hidden rounded border bg-slate-100">
-                            <img src={photo.public_url || ""} alt="Job upload" className="h-24 w-full object-cover" loading="lazy" />
-                          </a>
+                          <div key={photo.id} className="overflow-hidden rounded border bg-slate-100">
+                            <a href={photo.public_url || "#"} target="_blank" rel="noreferrer" className="block">
+                              <img src={photo.public_url || ""} alt="Job upload" className="h-24 w-full object-cover" loading="lazy" />
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => togglePhotoOnWebsite(photo, job)}
+                              className={`block w-full px-1 py-1 text-[11px] font-semibold ${photo.is_public ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-slate-200 text-slate-700 hover:bg-slate-300"}`}
+                              title={photo.is_public ? `On website${photo.public_caption ? `: ${photo.public_caption}` : ""}` : "Publish to the website project gallery"}
+                            >
+                              {photo.is_public ? "On website ✓" : "Show on website"}
+                            </button>
+                          </div>
                         ))}
                       </div>
                     )}

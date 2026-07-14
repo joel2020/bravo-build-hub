@@ -56,6 +56,31 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://bravomechanicalny.com/projects</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/es</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/es/contacto</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/es/reservar</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/es/emergencia</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>https://bravomechanicalny.com/company-facts</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -439,6 +464,54 @@
     <loc>https://bravomechanicalny.com/services/indoor-air-quality/scarsdale</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/ac-not-cooling-westchester</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/ac-repair-cost-westchester</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/ac-freezing-up-westchester</loc>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/hot-upstairs-cold-downstairs-westchester</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/water-heater-leaking-what-to-do</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/mini-split-vs-window-ac-westchester</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/hvac-maintenance-checklist-westchester</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bravomechanicalny.com/blog/boiler-banging-noises-westchester</loc>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bravomechanicalny.com/blog/ny-heat-pump-rebates-2026</loc>

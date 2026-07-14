@@ -7,11 +7,13 @@ export const SITE = {
   tagline: "Reliable HVAC Service You Can Count On",
   phone: "(914) 361-9142",
   phoneHref: "tel:+19143619142",
-  // Textable business line (Twilio). Inbound texts flow into the CRM,
-  // auto-create leads, and alert the owner — send ALL "text us" links here,
-  // not to the voice line.
-  smsPhone: "(914) 888-2384",
-  smsHref: "sms:+19148882384",
+  // Public-facing call + text number. Per the owner (2026-07-14), all
+  // displayed calls and texts on the marketing site use the single business
+  // line (914) 361-9142. NOTE: the Twilio line that the CRM polls for inbound
+  // texts and sends auto-replies from is still (914) 888-2384 — customer texts
+  // to 361 reach the owner's phone directly, not the CRM inbox.
+  smsPhone: "(914) 361-9142",
+  smsHref: "sms:+19143619142",
   email: "info@bravomechanicalny.com",
   emailHref: "mailto:info@bravomechanicalny.com",
   area: "Westchester County, NY",

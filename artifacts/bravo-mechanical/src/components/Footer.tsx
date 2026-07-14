@@ -33,6 +33,12 @@ export const Footer = () => {
               </Link>
             </li>
             <li>
+              <Link to="/financing" className="text-primary-foreground/80 hover:text-primary-foreground">Financing</Link>
+            </li>
+            <li>
+              <Link to="/maintenance-plans" className="text-primary-foreground/80 hover:text-primary-foreground">Maintenance Plans</Link>
+            </li>
+            <li>
               <Link to="/services" className="text-primary-foreground font-semibold hover:underline">
                 All services →
               </Link>
@@ -77,7 +83,7 @@ export const Footer = () => {
             </li>
             <li className="flex items-start gap-2">
               <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-              <span>Westchester County, NY</span>
+              <span>{SITE.address.full}<br />Serving all of Westchester County</span>
             </li>
           </ul>
         </div>
@@ -104,7 +110,7 @@ export const Footer = () => {
             <Link to="/auth" rel="nofollow" className="inline-flex items-center gap-1 hover:text-primary-foreground hover:underline">
               <Lock className="h-3 w-3" /> CRM Login
             </Link>
-            <span>Licensed & insured HVAC contractor serving Westchester County, NY.</span>
+            <span>License #8822 · Licensed & insured HVAC contractor serving Westchester County, NY.</span>
           </div>
         </div>
       </div>

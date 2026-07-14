@@ -20,6 +20,8 @@ const Contact = lazy(() => import("./pages/Contact.tsx"));
 const Blog = lazy(() => import("./pages/Blog.tsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.tsx"));
 const EmergencyHVAC = lazy(() => import("./pages/EmergencyHVAC.tsx"));
+const Financing = lazy(() => import("./pages/Financing.tsx"));
+const MaintenancePlans = lazy(() => import("./pages/MaintenancePlans.tsx"));
 const CompanyFacts = lazy(() => import("./pages/CompanyFacts.tsx"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.tsx"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions.tsx"));
@@ -73,6 +75,8 @@ const AppRoutes = () => {
       <Route path="/admin/comments" element={<AdminComments />} />
       <Route path="/admin/crm" element={<CRM />} />
       <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
+      <Route path="/financing" element={<Financing />} />
+      <Route path="/maintenance-plans" element={<MaintenancePlans />} />
       <Route path="/company-facts" element={<CompanyFacts />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />

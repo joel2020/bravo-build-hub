@@ -75,8 +75,9 @@ const Contact = () => {
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 text-accent mt-0.5 shrink-0" />
               <div>
-                <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Service Area</div>
-                <div className="font-semibold">Westchester County, NY</div>
+                <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Address</div>
+                <div className="font-semibold">{SITE.address.full}</div>
+                <div className="text-sm text-muted-foreground">Serving all of Westchester County, NY</div>
               </div>
             </div>
             <div className="flex items-start gap-3">

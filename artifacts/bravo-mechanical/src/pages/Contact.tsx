@@ -3,7 +3,6 @@ import { Phone, Mail, MapPin, Clock, AlertTriangle, CheckCircle2, MessageSquare 
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { LeadForm } from "@/components/LeadForm";
-import { RebateEstimator } from "@/components/RebateEstimator";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { trackCallClick } from "@/lib/analytics";
@@ -145,9 +144,6 @@ const Contact = () => {
             ))}
           </div>
           <LeadForm />
-          <div className="mt-8">
-            <RebateEstimator />
-          </div>
         </div>
       </section>
     </Layout>

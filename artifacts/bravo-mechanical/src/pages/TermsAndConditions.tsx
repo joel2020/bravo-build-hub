@@ -40,13 +40,10 @@ const TermsAndConditions = () => {
           <section className="space-y-3">
             <h3 className="text-xl font-extrabold text-foreground">1. Service Disclaimers</h3>
             <p>
-              The information on this Site, including descriptions of HVAC services, rebate programs, and pricing ranges, is provided for general informational purposes only and is subject to change without notice. The Site does not constitute professional engineering, legal, or tax advice.
+              The information on this Site, including descriptions of HVAC services and pricing ranges, is provided for general informational purposes only and is subject to change without notice. The Site does not constitute professional engineering, legal, or tax advice.
             </p>
             <p>
               <strong>Estimates and quotes shown on the Site are not binding offers.</strong> Final pricing depends on the specific equipment selected, site conditions, permitting, and other factors that can only be assessed after an in-person evaluation by a Bravo Mechanical technician.
-            </p>
-            <p>
-              <strong>Rebate Estimator disclaimer:</strong> The NY rebate estimator provides top-of-funnel projections based on currently published NYSERDA, utility, and federal program rules. Actual rebate amounts depend on equipment selected, contractor enrollment in each program, system size, household income verification, your utility territory, and current program funding levels. We will verify your exact eligibility when we quote your project.
             </p>
             <p>
               <strong>Emergency service:</strong> While we make every effort to respond quickly to emergency calls, response times depend on technician availability, weather, call volume, and your location. Phone calls are the fastest way to reach us for urgent service.

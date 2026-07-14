@@ -236,7 +236,7 @@ const CityPage = () => {
             { t: "We live and work in Westchester", d: `Our techs know ${city.name} — the housing stock, the climate, the building codes. No guessing.` },
             { t: "Honest sizing and honest pricing", d: "We do real load calculations and quote in writing before any work begins. No bait-and-switch." },
             { t: "Licensed, insured, and code-compliant", d: "Every install is permitted when required and built to last. We protect your home." },
-            { t: "Rebate-savvy", d: "We know the NYS Clean Heat, Comfort Home, IRA 25C, and Con Edison programs and confirm eligibility before you buy." },
+            { t: "Straight pricing", d: "A written, itemized estimate before any work begins — equipment options and total price fixed up front." },
           ].map((b) => (
             <div key={b.t} className="bg-card border border-border rounded-lg p-5 flex gap-3">
               <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />

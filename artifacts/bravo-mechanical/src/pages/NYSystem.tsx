@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, Phone } from "lucide-react";
+import { ArrowLeft, Phone } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
@@ -151,28 +151,6 @@ const NYSystem = () => {
               <img key={i} src={g.src} alt={g.alt} loading="lazy" className="aspect-[4/3] w-full object-cover rounded-lg border border-border" />
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Rebates */}
-      <section className="container mx-auto px-4 py-12 lg:py-16">
-        <div className="max-w-2xl mb-8">
-          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Rebates & incentives</div>
-          <h2 className="text-2xl md:text-3xl font-extrabold">Programs that may apply to your install</h2>
-          <p className="mt-3 text-muted-foreground text-sm">Final eligibility depends on equipment model, installation address, and program funding at the time of install. We help confirm before purchase.</p>
-        </div>
-        <div className="grid md:grid-cols-2 gap-4 mb-8">
-          {page.rebates.map((r) => (
-            <div key={r.name} className="bg-card border border-border rounded-lg p-5">
-              <div className="flex gap-3">
-                <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
-                <div>
-                  <div className="font-bold mb-1">{r.name}</div>
-                  <div className="text-sm text-muted-foreground">{r.detail}</div>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 

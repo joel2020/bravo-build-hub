@@ -28,7 +28,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     scope: [
       "Gas furnaces and high-efficiency boilers",
       "Central air conditioning systems",
-      "Cold-climate heat pumps (NYS Clean Heat eligible)",
+      "Cold-climate heat pumps for year-round comfort",
       "Ductless mini-split systems",
       "Ductwork design, replacement, and zoning",
       "Smart thermostat setup and integration",
@@ -38,16 +38,12 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "Manual J load calculations on every install",
       "Permits pulled and inspections coordinated",
       "Clean job sites and protected floors",
-      "Rebate paperwork handled (Clean Heat, IRA 25C, Con Ed)",
+      "Written fixed pricing before any work begins",
     ],
     faqs: (c) => [
       {
         q: `How much does a new HVAC system cost in ${c}?`,
         a: `Pricing in ${c} depends on system type (furnace, AC, heat pump, ductless), the size of your home, and whether ductwork or electrical upgrades are needed. We give a free written quote after an in-home assessment — no high-pressure sales calls.`,
-      },
-      {
-        q: `Do you handle rebates and tax credits for ${c} homeowners?`,
-        a: `Yes. We confirm eligibility for NYS Clean Heat, NYSERDA Comfort Home, IRA 25C federal tax credits, and Con Edison rebates before you commit, and we can help you understand required documentation on qualifying installs.`,
       },
       {
         q: `How long does installation take?`,
@@ -209,7 +205,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "Full system replacements (furnace, AC, heat pump)",
       "Add-on cooling for older homes (high-velocity, ductless)",
       "Zoning systems for multi-floor comfort",
-      "Energy-efficient upgrades and rebate-eligible installs",
+      "Energy-efficient upgrades and high-efficiency installs",
       "Annual maintenance plans",
       "Fast residential repair service",
     ],
@@ -227,7 +223,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       },
       {
         q: `Should I switch from oil or gas to a heat pump?`,
-        a: `For many ${c} homes, modern cold-climate heat pumps make sense — especially with NYS Clean Heat and IRA 25C rebates lowering the upfront cost. But it depends on your insulation, electrical service, and current fuel costs. We give a straight answer either way.`,
+        a: `For many ${c} homes, modern cold-climate heat pumps make sense — they heat and cool in one system and cut fuel deliveries out entirely. But it depends on your insulation, electrical service, and current fuel costs. We give a straight answer either way.`,
       },
       {
         q: `How long do residential HVAC systems last?`,

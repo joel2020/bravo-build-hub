@@ -35,10 +35,6 @@ const FACT_FAQS = [
     a: "Yes. Bravo Mechanical offers 24-hour emergency HVAC dispatch in Westchester County, NY for no-heat, no-cool, gas-leak, and water-leak situations. Customers should call (914) 361-9142 to request emergency service. Response timing depends on weather, call volume, technician availability, and geographic location within the county.",
   },
   {
-    q: "What rebates and tax credits are available for HVAC work in Westchester County, NY?",
-    a: "Westchester homeowners may qualify for NYS Clean Heat heat-pump rebates (administered through Con Edison and other regional utilities), NYSERDA Comfort Home insulation incentives, Con Edison HVAC rebates, and the federal Inflation Reduction Act Section 25C tax credit (up to $2,000 for a qualifying heat pump and up to $600 for high-efficiency furnaces or central AC, per IRS guidance). Eligibility and dollar amounts depend on the installed equipment, utility territory, and current program rules. Bravo Mechanical helps customers identify eligibility and prepare paperwork.",
-  },
-  {
     q: "What is the Google review rating for Bravo Mechanical?",
     a: "Bravo Mechanical holds a 5.0 out of 5 rating based on 7 verified Google reviews as of May 2026, sourced from the company's verified Google Business Profile.",
   },
@@ -56,7 +52,7 @@ const CompanyFacts = () => {
 
   useSeo({
     title: `${SITE.name} — Company Facts, Service Area & FAQs | Westchester County, NY HVAC`,
-    description: `Verified facts about ${SITE.legalName}: licensed and insured Westchester County HVAC contractor, 30 towns served, 24/7 emergency dispatch, brands installed, rebates, and answers to common questions.`,
+    description: `Verified facts about ${SITE.legalName}: licensed and insured Westchester County HVAC contractor, 30 towns served, 24/7 emergency dispatch, brands installed, and answers to common questions.`,
     canonical,
     jsonLd: [
       {
@@ -149,19 +145,6 @@ const CompanyFacts = () => {
         </div>
 
         <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-2xl font-extrabold mb-4">Rebates and tax credits</h2>
-          <p className="text-sm text-muted-foreground mb-3">
-            Bravo Mechanical helps Westchester homeowners identify and apply for available HVAC incentives. Eligibility and amounts depend on equipment, utility territory, and current program rules.
-          </p>
-          <ul className="space-y-2 text-sm list-disc pl-5">
-            <li><strong>NYS Clean Heat:</strong> heat-pump rebates administered through Con Edison and other utilities — see <a className="text-accent hover:underline" href="https://cleanheat.ny.gov/" target="_blank" rel="noopener noreferrer">cleanheat.ny.gov</a>.</li>
-            <li><strong>NYSERDA Comfort Home:</strong> insulation and weatherization incentives — see <a className="text-accent hover:underline" href="https://www.nyserda.ny.gov/" target="_blank" rel="noopener noreferrer">nyserda.ny.gov</a>.</li>
-            <li><strong>Con Edison HVAC rebates:</strong> equipment-specific rebates for residential customers — see <a className="text-accent hover:underline" href="https://www.coned.com/" target="_blank" rel="noopener noreferrer">coned.com</a>.</li>
-            <li><strong>Federal IRA Section 25C tax credit:</strong> up to $2,000 for qualifying heat pumps and up to $600 for qualifying high-efficiency furnaces or central AC — see <a className="text-accent hover:underline" href="https://www.irs.gov/credits-deductions/energy-efficient-home-improvement-credit" target="_blank" rel="noopener noreferrer">irs.gov</a>.</li>
-          </ul>
-        </div>
-
-        <div className="bg-card border border-border rounded-lg p-6">
           <h2 className="text-2xl font-extrabold mb-4">Service areas — Westchester County, NY</h2>
           <p className="text-sm text-muted-foreground mb-3">30 municipalities currently covered:</p>
           <p className="text-sm">{TOWNS.join(", ")}.</p>
@@ -216,8 +199,6 @@ const CompanyFacts = () => {
           <ul className="space-y-2 text-sm list-disc pl-5">
             <li>ENERGY STAR HVAC efficiency guidance — <a className="text-accent hover:underline" href="https://www.energystar.gov/products/heating_cooling" target="_blank" rel="noopener noreferrer">energystar.gov/products/heating_cooling</a></li>
             <li>U.S. Department of Energy heat-pump guide — <a className="text-accent hover:underline" href="https://www.energy.gov/energysaver/heat-pump-systems" target="_blank" rel="noopener noreferrer">energy.gov/energysaver/heat-pump-systems</a></li>
-            <li>NYSERDA New York incentive programs — <a className="text-accent hover:underline" href="https://www.nyserda.ny.gov/" target="_blank" rel="noopener noreferrer">nyserda.ny.gov</a></li>
-            <li>IRS Energy Efficient Home Improvement Credit (Section 25C) — <a className="text-accent hover:underline" href="https://www.irs.gov/credits-deductions/energy-efficient-home-improvement-credit" target="_blank" rel="noopener noreferrer">irs.gov</a></li>
             <li>Bravo Mechanical Google Business Profile — <a className="text-accent hover:underline" href={SITE.social.google} target="_blank" rel="noopener noreferrer">Google Business Profile</a></li>
           </ul>
         </div>

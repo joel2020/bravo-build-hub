@@ -27,6 +27,7 @@ const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const Auth = lazy(() => import("./pages/Auth.tsx"));
 const AdminComments = lazy(() => import("./pages/AdminComments.tsx"));
 const CRM = lazy(() => import("./pages/CRM.tsx"));
+const ProposalView = lazy(() => import("./pages/ProposalView.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const AppRoutes = () => {
         <Route path="/auth" element={<Auth />} />
         <Route path="/admin/crm" element={<CRM />} />
         <Route path="/admin/comments" element={<Navigate to="/admin/crm" replace />} />
+        <Route path="/proposal/:token" element={<ProposalView />} />
         <Route path="*" element={<Navigate to="/admin/crm" replace />} />
       </Routes>
     );
@@ -67,6 +69,7 @@ const AppRoutes = () => {
       <Route path="/blog/:slug" element={<BlogPost />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/auth" element={<Auth />} />
+      <Route path="/proposal/:token" element={<ProposalView />} />
       <Route path="/admin/comments" element={<AdminComments />} />
       <Route path="/admin/crm" element={<CRM />} />
       <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />

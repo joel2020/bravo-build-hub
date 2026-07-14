@@ -15,6 +15,7 @@ import { CRMInvoices } from "@/components/crm/CRMInvoices";
 import { CRMJobs } from "@/components/crm/CRMJobs";
 import { CRMLeads } from "@/components/crm/CRMLeads";
 import { CRMMyJobs } from "@/components/crm/CRMMyJobs";
+import { CRMProposals } from "@/components/crm/CRMProposals";
 
 const CRM = () => {
   const [loading, setLoading] = useState(true);
@@ -58,6 +59,7 @@ const CRM = () => {
     alerts: "Alerts",
     messages: "Messages",
     myjobs: "Technicians",
+    proposals: "Proposals",
     invoices: "Invoices",
     activity: "Activity Log",
     settings: "Settings",
@@ -71,6 +73,7 @@ const CRM = () => {
     if (activeView === "followups") return <CRMFollowUps />;
     if (activeView === "messages") return <SMSInbox searchQuery={dashboardSearch} />;
     if (activeView === "myjobs") return <CRMMyJobs />;
+    if (activeView === "proposals") return <CRMProposals />;
     if (activeView === "invoices") return <CRMInvoices />;
     if (activeView === "activity") return <CRMActivityLog />;
     if (activeView === "settings") return <CRMSettingsPanel />;

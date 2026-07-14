@@ -51,7 +51,7 @@ export const HOMEPAGE_FAQS = [
   },
   {
     q: "What rebates and tax credits are available for HVAC upgrades in Westchester?",
-    a: "Westchester homeowners may qualify for NYS Clean Heat heat-pump rebates, NYSERDA Comfort Home incentives, Con Edison rebates, and the federal IRA 25C tax credit (up to $2,000 for a qualifying heat pump and up to $600 for high-efficiency furnaces or central AC). Eligibility depends on equipment, utility territory, and current program rules.",
+    a: "Westchester homeowners may qualify for NYS Clean Heat heat-pump rebates, NYSERDA Comfort Home incentives, Con Edison rebates, and income-eligible EmPower+/HEAR funding. Note: the federal 25C tax credit expired December 31, 2025 and no longer applies to systems placed in service in 2026. Eligibility depends on equipment, utility territory, income, and current program rules.",
   },
 ];
 

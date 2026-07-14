@@ -8,6 +8,7 @@ import {
   ChevronRight,
   ClipboardList,
   DollarSign,
+  FileText,
   Home,
   Inbox,
   LayoutDashboard,
@@ -98,7 +99,7 @@ type ThreadMessage = {
   direction: "inbound" | "outbound";
 };
 
-type DashboardSection = "dashboard" | "jobs" | "dispatch" | "leads" | "followups" | "alerts" | "messages" | "myjobs" | "invoices" | "activity" | "settings";
+type DashboardSection = "dashboard" | "jobs" | "dispatch" | "leads" | "followups" | "alerts" | "messages" | "myjobs" | "proposals" | "invoices" | "activity" | "settings";
 
 type DashboardProps = {
   searchQuery?: string;
@@ -113,6 +114,7 @@ const navItems: NavItem[] = [
   { id: "followups", label: "Follow-Ups", icon: CalendarClock },
   { id: "alerts", label: "Alerts", icon: Bell },
   { id: "myjobs", label: "Technicians", icon: User },
+  { id: "proposals", label: "Proposals", icon: FileText },
   { id: "invoices", label: "Invoices", icon: ClipboardList },
   { id: "activity", label: "Activity Log", icon: LineChart },
   { id: "settings", label: "Settings", icon: Settings },

@@ -40,9 +40,9 @@ export const PRIVACY_POLICY_HTML = `
 <li><strong>Consent is not a condition of purchase.</strong></li>
 <li><strong>Carriers are not liable for delayed or undelivered messages.</strong></li>
 </ul>
-<p>SMS opt-in data and consent records are not shared with third parties or affiliates for marketing or promotional purposes.</p>
+<p><strong>No mobile information will be shared with third parties or affiliates for marketing or promotional purposes.</strong> Text messaging originator opt-in data and consent (your phone number and the fact that you agreed to receive texts) are never sold, rented, or shared with any third parties or affiliates. This information is used solely to deliver the messages you request and is excluded from all other data-sharing described in this policy.</p>
 <h2>4. Third-Party Service Providers</h2>
-<p>We use the following third-party processors to operate our business. Each receives only the data needed to perform its function:</p>
+<p>We use the following third-party service providers ("subcontractors") to operate our business. Each is a processor that receives only the data needed to perform its function on our behalf; none receives your information for its own marketing, and, as stated above, text-messaging opt-in data and consent are never shared for marketing or promotional purposes:</p>
 <ul>
 <li><strong>Supabase (database, authentication, edge functions):</strong> stores your contact information, service requests, and CRM data on Postgres infrastructure with encryption at rest and in transit. <a href="https://supabase.com/privacy">Privacy Policy</a></li>
 <li><strong>Twilio (SMS delivery):</strong> transmits text messages between you and Bravo Mechanical. Receives your phone number and message content. <a href="https://www.twilio.com/legal/privacy">Privacy Policy</a></li>

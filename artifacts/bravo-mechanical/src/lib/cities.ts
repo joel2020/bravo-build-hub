@@ -29,8 +29,8 @@ const baseFaqs = (name: string) => [
     a: `We install Carrier, Trane, Rheem, Mitsubishi, Daikin, Bosch, Navien, Bradford White, AO Smith, and other major manufacturers. We size systems to your home — we don't push one brand, we recommend what's right for your house in ${name}.`,
   },
   {
-    q: `Are NYS Clean Heat and federal heat-pump rebates available in ${name}?`,
-    a: `In many cases, homeowners in ${name} may qualify for NYSERDA, utility, or federal incentives depending on equipment, utility territory, and current program rules. We review options during quoting.`,
+    q: `Do you provide written estimates in ${name}?`,
+    a: `Yes. Every installation or replacement project in ${name} starts with a free written estimate — equipment options, scope, and total price fixed before any work begins.`,
   },
 ];
 
@@ -136,7 +136,7 @@ const CITY_DATA: Record<string, Omit<City, "slug" | "name" | "faqs">> = {
     neighborhoods: ["Downtown Tarrytown","Lyndhurst area","Philipse Manor","Wilson Park"],
     region: "Rivertowns",
     intro: "Tarrytown overlooks the Hudson and includes everything from compact village apartments to large estate homes. We service the full spectrum.",
-    housing: "Heat-pump installations are popular in Tarrytown — many homeowners are looking to electrify and qualify for NYS Clean Heat rebates. Boiler and furnace work is steady year-round.",
+    housing: "Heat-pump installations are popular in Tarrytown — many homeowners are looking to electrify their heating and cooling. Boiler and furnace work is steady year-round.",
     climateNote: "River-valley microclimates can produce surprisingly humid summers and damp basements — IAQ matters.",
   },
   "Sleepy Hollow": {
@@ -289,7 +289,7 @@ const CITY_DATA: Record<string, Omit<City, "slug" | "name" | "faqs">> = {
     region: "Central Westchester",
     intro: "Hartsdale, a hamlet of Greenburgh, mixes pre-war Tudors and colonials near the Metro-North station with large co-op and condo communities along the Central Park Avenue corridor. That split means two very different kinds of HVAC work — and we do both.",
     housing: "In the single-family neighborhoods we handle boiler replacements, steam-system balancing, and ductless retrofits for homes without ducts. In Hartsdale's co-ops and condos we install and service through-wall units, ductless splits (with board-approved line-set routing), and unit-level heat pumps.",
-    climateNote: "Pre-war Hartsdale homes with radiator heat often have no cooling infrastructure at all — cold-climate ductless heat pumps solve both the July humidity and shoulder-season heating in one system, with NYS Clean Heat rebates.",
+    climateNote: "Pre-war Hartsdale homes with radiator heat often have no cooling infrastructure at all — cold-climate ductless heat pumps solve both the July humidity and shoulder-season heating in one system.",
   },
   "Pelham": {
     zips: ["10803"],

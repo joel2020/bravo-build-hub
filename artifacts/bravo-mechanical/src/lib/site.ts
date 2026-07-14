@@ -45,8 +45,8 @@ export const FEATURED_SERVICE_LINKS = [
   { title: "AC Repair", path: "/services/ac-repair-westchester-county-ny", description: "No cool air? Same-day AC diagnostics and repair across Westchester, priced in writing before the fix." },
   { title: "AC Installation", path: "/services/ac-installation-westchester-county-ny", description: "Central AC and ductless cooling installed with honest Manual J sizing and SEER2 equipment." },
   { title: "Boiler Repair", path: "/services/boiler-repair-westchester-county-ny", description: "Steam and hot-water boiler repair — short cycling, leaks, and no-heat calls, 24/7." },
-  { title: "Boiler Installation", path: "/services/boiler-installation-westchester-county-ny", description: "High-efficiency boiler replacement with near-boiler piping done right and Con Ed rebates handled." },
-  { title: "Heat Pump Installation", path: "/services/heat-pump-installation-westchester-county-ny", description: "Cold-climate heat pumps with NYS Clean Heat and Con Edison rebates handled end to end." },
+  { title: "Boiler Installation", path: "/services/boiler-installation-westchester-county-ny", description: "High-efficiency boiler replacement with near-boiler piping done right and a written fixed price first." },
+  { title: "Heat Pump Installation", path: "/services/heat-pump-installation-westchester-county-ny", description: "Cold-climate heat pumps sized and installed right for year-round Westchester comfort." },
   { title: "24/7 Emergency HVAC", path: "/services/emergency-hvac-repair-westchester-county-ny", description: "No heat, no cooling, or a leaking boiler — licensed techs answering around the clock." },
 ];
 

@@ -34,7 +34,7 @@ const Blog = () => {
   useSeo({
     title: "HVAC Blog — Westchester Heating & Cooling Tips | Bravo Mechanical",
     description:
-      "Practical HVAC guides for Westchester County homeowners: seasonal tune-ups, NY rebates, troubleshooting, and local install advice from licensed pros.",
+      "Practical HVAC guides for Westchester County homeowners: seasonal tune-ups, troubleshooting, and local install advice from licensed pros.",
     canonical: `${SITE.siteUrl}/blog`,
     jsonLd: {
       "@context": "https://schema.org",
@@ -57,7 +57,7 @@ const Blog = () => {
       <PageHero
         eyebrow="Blog"
         title="HVAC tips & guides for Westchester homeowners"
-        subtitle="Seasonal advice, rebate breakdowns, troubleshooting walkthroughs, and local install know-how from licensed Westchester County pros."
+        subtitle="Seasonal advice, troubleshooting walkthroughs, and local install know-how from licensed Westchester County pros."
       />
 
       <section className="container mx-auto px-4 py-12">

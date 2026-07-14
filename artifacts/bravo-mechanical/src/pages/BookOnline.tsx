@@ -9,7 +9,7 @@ import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { trackLeadSubmit } from "@/lib/analytics";
 
-const WINDOWS = ["Morning (8am–12pm)", "Afternoon (12pm–4pm)", "Evening (4pm–7pm)"];
+const WINDOWS = ["Morning (8am–11am)", "Midday (11am–2pm)"];
 const SERVICES_OFFERED = [
   "AC Repair", "AC Installation", "Boiler Repair", "Boiler Installation",
   "Furnace Repair", "Furnace Installation", "Heat Pump / Mini-Split",

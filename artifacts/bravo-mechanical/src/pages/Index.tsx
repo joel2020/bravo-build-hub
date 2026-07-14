@@ -56,10 +56,6 @@ const Index = () => {
       a: "Bravo Mechanical is a brand-agnostic HVAC contractor and installs Carrier, Trane, Rheem, Mitsubishi, Daikin, Bosch, Navien, Bradford White, AO Smith, Weil-McLain, and other major manufacturers. Recommendations are based on home size, ductwork, fuel type, and budget — not on a single-brand contract.",
     },
     {
-      q: "What HVAC rebates and tax credits are available in Westchester County, NY?",
-      a: "Westchester homeowners may qualify for NYS Clean Heat heat-pump rebates (administered through Con Edison and other utilities), NYSERDA Comfort Home insulation incentives, Con Edison HVAC rebates, and the federal Inflation Reduction Act 25C tax credit (up to $2,000 for a qualifying heat pump and up to $600 for a high-efficiency furnace or central AC, per IRS guidelines). Eligibility and amounts depend on equipment, utility territory, and current program rules. Bravo Mechanical helps customers identify and apply.",
-    },
-    {
       q: "Is Bravo Mechanical licensed and insured?",
       a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor authorized to perform heating, cooling, and gas-fired equipment work in Westchester County, NY. Proof of insurance is provided on request.",
     },
@@ -396,9 +392,6 @@ const Index = () => {
             </Link>
           ))}
         </div>
-        <p className="mt-4 text-xs text-muted-foreground">
-          Programs covered: NYSERDA Clean Heat, NYS Comfort Home, federal Inflation Reduction Act (25C) tax credits, and Con Edison utility rebates.
-        </p>
       </section>
 
       {/* Featured work */}
@@ -478,7 +471,7 @@ const Index = () => {
         <div className="max-w-3xl mx-auto">
           <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">FAQ</div>
           <h2 className="text-3xl md:text-4xl font-extrabold mb-3">HVAC questions Westchester homeowners ask</h2>
-          <p className="text-muted-foreground mb-8">Direct, factual answers about pricing, brands, rebates, and emergency service in Westchester County, NY.</p>
+          <p className="text-muted-foreground mb-8">Direct, factual answers about pricing, brands, and emergency service in Westchester County, NY.</p>
           <Accordion type="single" collapsible className="w-full">
             {homepageFaqs.map((f, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
@@ -488,7 +481,7 @@ const Index = () => {
             ))}
           </Accordion>
           <p className="text-xs text-muted-foreground mt-6">
-            Pricing ranges are typical Westchester County installed-equipment estimates and vary by home size, ductwork, fuel type, and equipment tier. Sources: ENERGY STAR (energystar.gov), NYSERDA (nyserda.ny.gov), and IRS Inflation Reduction Act 25C (irs.gov).
+            Pricing ranges are typical Westchester County installed-equipment estimates and vary by home size, ductwork, fuel type, and equipment tier. Source: ENERGY STAR (energystar.gov).
           </p>
         </div>
       </section>

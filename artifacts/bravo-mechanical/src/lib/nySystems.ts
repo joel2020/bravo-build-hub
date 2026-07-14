@@ -26,7 +26,6 @@ export type NYSystem = {
     metaDescription: string;
     overview: string[];
     gallery: { src: string; alt: string }[];
-    rebates: { name: string; detail: string }[];
     faqs: { q: string; a: string }[];
   };
 };
@@ -57,10 +56,6 @@ export const NY_SYSTEMS: NYSystem[] = [
         { src: jobRadiator, alt: "Hydronic radiator system serviced by Bravo Mechanical" },
         { src: jobOilTank, alt: "Near-boiler piping with gauges and circulator" },
       ],
-      rebates: [
-        { name: "Federal 25C Tax Credit", detail: "Up to $600 for qualifying high-efficiency natural gas boilers (95%+ AFUE)." },
-        { name: "Con Edison Rebates", detail: "Local utility rebates often available for high-efficiency gas heating equipment in eligible service areas." },
-      ],
       faqs: [
         { q: "How long does a boiler installation take?", a: "Most residential boiler replacements take 1-2 days. We typically remove the old unit, rebuild near-boiler piping, install and vent the new boiler, and restart the system in a single visit when conditions allow." },
         { q: "Will a new boiler work with my existing radiators?", a: "Yes. Modern condensing boilers are designed to retrofit into existing baseboard and radiator systems. We verify your distribution capacity during the estimate." },
@@ -75,17 +70,17 @@ export const NY_SYSTEMS: NYSystem[] = [
       img: jobMitsubishi,
       alt: "Mitsubishi ductless mini-split heat pump exterior unit",
       title: "Ductless mini-split heat pumps",
-      desc: "Mitsubishi and Daikin cold-climate heat pumps now heat efficiently down to -13°F — qualifying for NYS Clean Heat rebates. Ideal for homes without ductwork, additions, and finished basements or attics.",
-      best: "Best for: zoned comfort, no-duct retrofits, electrification rebates",
+      desc: "Mitsubishi and Daikin cold-climate heat pumps now heat efficiently down to -13°F. Ideal for homes without ductwork, additions, and finished basements or attics.",
+      best: "Best for: zoned comfort, no-duct retrofits, all-electric heating and cooling",
     },
     page: {
       eyebrow: "NY Homeowner Guide",
       title: "Ductless mini-split heat pump installation in Westchester County",
-      subtitle: "Mitsubishi and Daikin cold-climate heat pumps that heat efficiently down to -13°F — qualifying for NYS Clean Heat rebates.",
-      metaDescription: "Ductless mini-split heat pump installation in Westchester County, NY. Cold-climate Mitsubishi and Daikin systems with NYS Clean Heat rebates.",
+      subtitle: "Mitsubishi and Daikin cold-climate heat pumps that heat efficiently down to -13°F.",
+      metaDescription: "Ductless mini-split heat pump installation in Westchester County, NY. Cold-climate Mitsubishi and Daikin systems installed by licensed local techs.",
       overview: [
         "Ductless mini-splits are the easiest way to add efficient heating and cooling to a home that doesn't have ductwork — older Cape Cods, Tudors, additions, finished basements, sunrooms, and attics. One outdoor condenser can feed up to eight indoor heads, each with its own thermostat.",
-        "Today's cold-climate inverter heat pumps from Mitsubishi (Hyper-Heat) and Daikin (Aurora) keep full heating capacity down to 5°F and continue to operate at -13°F, making them practical primary heat for most Westchester homes — and qualifying for the largest NYS Clean Heat rebates.",
+        "Today's cold-climate inverter heat pumps from Mitsubishi (Hyper-Heat) and Daikin (Aurora) keep full heating capacity down to 5°F and continue to operate at -13°F, making them practical primary heat for most Westchester homes.",
         "We are factory-trained on Mitsubishi Diamond and handle line-set routing carefully so the install looks intentional, not bolted on.",
       ],
       gallery: [
@@ -93,16 +88,11 @@ export const NY_SYSTEMS: NYSystem[] = [
         { src: jobMiniSplit, alt: "Cold-climate heat pump condenser mounted outside a NY home" },
         { src: jobExteriorWhite, alt: "Mini-split line set neatly run along exterior siding" },
       ],
-      rebates: [
-        { name: "NYSERDA Clean Heat", detail: "Per-ton rebates for cold-climate ductless heat pumps. Bonus amounts for low-to-moderate income households." },
-        { name: "Federal 25C Tax Credit", detail: "Up to $2,000 for qualifying air-source heat pumps installed in your primary residence." },
-        { name: "Con Edison / Utility", detail: "Local utility instant rebates stack on top of NYSERDA in most service territories." },
-      ],
       faqs: [
         { q: "Will a mini-split actually heat my home in January?", a: "Yes — modern cold-climate units are rated for full heating capacity at 5°F and continue to operate at -13°F. We size based on your home's heat loss to make sure capacity matches the coldest week of the year." },
         { q: "How many indoor heads can one outdoor unit support?", a: "Multi-zone outdoor condensers can support 2-8 indoor heads. We design the system around your room-by-room needs, not the manufacturer's maximum." },
         { q: "Are mini-splits noisy?", a: "Indoor heads run at 19-30 dB on low — quieter than a whisper. Outdoor units are designed to sit close to the house without disturbing neighbors." },
-        { q: "Can I use mini-splits with my existing furnace?", a: "Yes. Many Westchester homeowners run mini-splits as primary heat and keep the furnace as backup for the coldest snaps. This dual-fuel setup maximizes rebates while keeping a safety net." },
+        { q: "Can I use mini-splits with my existing furnace?", a: "Yes. Many Westchester homeowners run mini-splits as primary heat and keep the furnace as backup for the coldest snaps. This dual-fuel setup delivers efficient everyday heat while keeping a safety net." },
       ],
     },
   },
@@ -112,32 +102,27 @@ export const NY_SYSTEMS: NYSystem[] = [
       img: jobMiniSplit,
       alt: "Whole-home air-source heat pump exterior condenser",
       title: "Whole-home air-source heat pumps",
-      desc: "Centrally-ducted heat pumps replace traditional AC + furnace combos with one all-electric system. Eligible for federal 25C tax credits and NYSERDA Comfort Home incentives.",
+      desc: "Centrally-ducted heat pumps replace traditional AC + furnace combos with one all-electric system that heats and cools all year.",
       best: "Best for: full electrification, ducted homes, long-term energy savings",
     },
     page: {
       eyebrow: "NY Homeowner Guide",
       title: "Whole-home air-source heat pump installation in Westchester County",
-      subtitle: "All-electric ducted heat pumps that replace your furnace and AC with one efficient system. Federal 25C and NYSERDA incentives apply.",
-      metaDescription: "Whole-home air-source heat pump installation in Westchester County, NY. Ducted electric systems with federal 25C tax credits and NYSERDA Comfort Home rebates.",
+      subtitle: "All-electric ducted heat pumps that replace your furnace and AC with one efficient system.",
+      metaDescription: "Whole-home air-source heat pump installation in Westchester County, NY. Ducted electric systems sized and commissioned by licensed local techs.",
       overview: [
         "If your home already has ductwork, a centrally-ducted air-source heat pump can replace both your AC condenser and your furnace with a single all-electric system. One piece of outdoor equipment, one indoor air handler, even temperatures all year.",
         "We install variable-speed cold-climate systems from Carrier, Trane, and Mitsubishi that hold capacity down to 5°F. Most Westchester homes can run heat pump-only with no backup; for the very coldest installs we add a small electric or dual-fuel backup.",
-        "Whole-home heat pumps qualify for the largest combined incentive stack: federal 25C tax credit plus NYSERDA Comfort Home rebates plus utility rebates.",
+        "One system to maintain instead of two, no combustion in the house, and steady low-and-slow heat that avoids the temperature swings of a cycling furnace.",
       ],
       gallery: [
         { src: jobMiniSplit, alt: "Whole-home air-source heat pump outdoor condenser" },
         { src: jobExteriorWhite, alt: "Heat pump install on a Westchester home exterior" },
         { src: jobMitsubishi, alt: "Variable-speed heat pump equipment" },
       ],
-      rebates: [
-        { name: "Federal 25C Tax Credit", detail: "Up to $2,000 for qualifying air-source heat pump installations in your primary residence." },
-        { name: "NYSERDA Comfort Home", detail: "Whole-home electrification packages with rebates of $1,000-$4,000+ depending on scope." },
-        { name: "NYSERDA Clean Heat", detail: "Per-ton rebates for cold-climate ducted heat pumps." },
-      ],
       faqs: [
         { q: "Can a heat pump really replace my furnace?", a: "For most Westchester homes, yes. Modern cold-climate ducted heat pumps maintain full output well below freezing. We model your heat loss against the heat pump's performance curve before recommending heat-pump-only vs. dual-fuel." },
-        { q: "Will my electric bill go up?", a: "Yes — but your gas or oil bill goes away. Most homeowners see 10-30% lower total energy costs after switching, especially when paired with rebates and ENERGY STAR equipment." },
+        { q: "Will my electric bill go up?", a: "Yes — but your gas or oil bill goes away. Most homeowners see 10-30% lower total energy costs after switching, especially with ENERGY STAR equipment." },
         { q: "Do I need new ductwork?", a: "Often the existing ducts work fine. We test static pressure and airflow as part of the estimate; if modifications are needed we include them in writing up front." },
         { q: "How long does installation take?", a: "Most whole-home heat pump installs take 2-3 days, including removing the old equipment, electrical work, refrigerant lines, and full commissioning." },
       ],
@@ -166,10 +151,6 @@ export const NY_SYSTEMS: NYSystem[] = [
         { src: heroTechnician, alt: "Outdoor central AC condenser installed beside a home" },
         { src: jobExteriorWhite, alt: "Central AC line set neatly routed along exterior" },
         { src: jobMiniSplit, alt: "AC condenser pad with proper clearance" },
-      ],
-      rebates: [
-        { name: "Federal 25C Tax Credit", detail: "Up to $600 for qualifying high-efficiency central air conditioners (16 SEER2+ in the North region)." },
-        { name: "Con Edison Rebates", detail: "Utility rebates available for high-SEER central AC equipment in eligible service areas." },
       ],
       faqs: [
         { q: "How long do central AC systems last in NY?", a: "Properly maintained systems last 15-20 years. Coastal Westchester homes near the Sound see slightly shorter outdoor-unit life due to salt exposure." },
@@ -203,10 +184,6 @@ export const NY_SYSTEMS: NYSystem[] = [
         { src: jobBoiler, alt: "High-efficiency gas heating equipment install" },
         { src: jobOilTank, alt: "Furnace venting and gas piping" },
       ],
-      rebates: [
-        { name: "Federal 25C Tax Credit", detail: "Up to $600 for qualifying 97%+ AFUE natural gas furnaces." },
-        { name: "Con Edison Rebates", detail: "Utility rebates available on qualifying high-efficiency gas furnaces in eligible service areas." },
-      ],
       faqs: [
         { q: "What size furnace do I need?", a: "We perform a Manual J heat-loss calculation. Most 2,000 sq ft Westchester homes need 60,000-80,000 BTU/h — oversized furnaces short-cycle, wear out faster, and deliver uneven temperatures." },
         { q: "Single-stage, two-stage, or modulating?", a: "Two-stage offers the best comfort-per-dollar for most homes. Modulating furnaces deliver the quietest, most even heat but cost more up front. We'll explain the trade-offs for your home." },
@@ -227,7 +204,7 @@ export const NY_SYSTEMS: NYSystem[] = [
     page: {
       eyebrow: "NY Homeowner Guide",
       title: "Water heater installation in Westchester County",
-      subtitle: "Gas, electric, tankless, and hybrid heat pump water heaters — properly sized, code-compliant installs with rebates where available.",
+      subtitle: "Gas, electric, tankless, and hybrid heat pump water heaters — properly sized, code-compliant installs.",
       metaDescription: "Water heater installation in Westchester County, NY. Gas, electric, tankless, and hybrid heat pump units from Rheem, AO Smith, Bradford White, and Navien.",
       overview: [
         "We install every major type of water heater: standard gas and electric tanks, high-efficiency tankless (Navien, Rinnai, Rheem), and hybrid heat pump units that use roughly 60% less electricity than a standard electric tank.",
@@ -238,11 +215,6 @@ export const NY_SYSTEMS: NYSystem[] = [
         { src: jobWaterHeater, alt: "Residential water heater installation" },
         { src: jobBoiler, alt: "Mechanical room with new water heater" },
         { src: jobOilTank, alt: "Plumbing tie-ins for a water heater replacement" },
-      ],
-      rebates: [
-        { name: "NYSERDA Heat Pump Water Heater Rebate", detail: "Up to $700 for qualifying hybrid heat pump water heater installations." },
-        { name: "Federal 25C Tax Credit", detail: "Up to $2,000 for heat pump water heaters (shared annual cap with other heat pump equipment)." },
-        { name: "Con Edison / Utility", detail: "Additional utility rebates available in eligible service territories for high-efficiency and heat pump units." },
       ],
       faqs: [
         { q: "Tank, tankless, or heat pump — which is right for me?", a: "Tankless is great for limited space and unlimited hot water on demand. Heat pump is best if you want lower bills and have a basement with 700+ cubic feet. Standard tanks are still the most affordable upfront. We walk through the trade-offs at the estimate." },

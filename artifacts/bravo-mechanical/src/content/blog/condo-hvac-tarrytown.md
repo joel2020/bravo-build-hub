@@ -57,7 +57,7 @@ Increasingly popular for older Tarrytown brownstones converted to condos. Outdoo
 
 - **Con Edison heat pump rebate** — fully applies
 - **NYS Clean Heat** — applies, including for ductless
-- **Federal 25C tax credit** — applies (up to $2,000 heat pumps)
+- **Federal 25C tax credit** — no longer available (terminated for equipment placed in service after December 31, 2025)
 
 ## Common condo HVAC mistakes to avoid
 
@@ -68,4 +68,4 @@ Increasingly popular for older Tarrytown brownstones converted to condos. Outdoo
 
 ## Free Tarrytown condo HVAC consult
 
-We've worked in most of the major Tarrytown buildings and know which ones are easy vs. red-tape-heavy. [Book a condo assessment](/contact) or call (914) 318-7368.
+We've worked in most of the major Tarrytown buildings and know which ones are easy vs. red-tape-heavy. [Book a condo assessment](/contact) or call (914) 361-9142.

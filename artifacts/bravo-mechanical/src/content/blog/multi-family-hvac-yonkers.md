@@ -70,7 +70,6 @@ Yonkers Building Department requires permits for boiler/furnace replacement and 
 
 - **Con Edison multifamily rebate program** — up to $5,000+ per unit for heat pump retrofits
 - **NYS Clean Heat multifamily** — substantial per-unit incentives
-- **Federal 25C** — applies to owner of building for shared equipment
 
 ## Maintenance contracts for Yonkers landlords
 
@@ -80,4 +79,4 @@ We offer flat-rate annual service contracts that bundle:
 - Priority scheduling during heat waves and cold snaps
 - Documentation for tenant inquiries / housing court
 
-[Request a Yonkers multi-family HVAC consultation](/contact) or call (914) 318-7368.
+[Request a Yonkers multi-family HVAC consultation](/contact) or call (914) 361-9142.

@@ -42,7 +42,7 @@ For most new Armonk builds, the right answer is one of:
 ### C. Geothermal
 
 - $40,000–$80,000+ depending on loop type and home size
-- 30% federal tax credit + Clean Heat rebate
+- NYS Clean Heat rebate applies (the 30% federal residential clean energy credit was terminated for property placed in service after December 31, 2025)
 - Best for large lots (most of Armonk qualifies)
 - 25–50 year equipment life
 
@@ -71,4 +71,4 @@ Armonk new builds with tight envelopes (ACH50 < 3.0) require mechanical ventilat
 - 6,000 sq ft home, geothermal, 4 zones, ERV: **$80,000–$120,000**
 - 8,000+ sq ft estate, multi-equipment, 6+ zones: **$150,000+**
 
-[Book a new-construction design consultation](/contact) or call (914) 318-7368.
+[Book a new-construction design consultation](/contact) or call (914) 361-9142.

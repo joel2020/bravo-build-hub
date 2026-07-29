@@ -46,6 +46,6 @@ That changes the heat-pump math significantly.
 
 ## What we recommend for most Bronxville homes
 
-For a 2,500–3,500 sq ft home in Lawrence Park or Cedar Knoll, a **6-zone ductless heat pump with the existing boiler kept as winter backup** is usually the best cost/comfort/rebate balance. Total install runs $22,000–$28,000 before rebates, dropping to $15,000–$20,000 after Clean Heat and federal 25C credits.
+For a 2,500–3,500 sq ft home in Lawrence Park or Cedar Knoll, a **6-zone ductless heat pump with the existing boiler kept as winter backup** is usually the best cost/comfort/rebate balance. Total install runs $22,000–$28,000 before incentives. Your NYS Clean Heat incentive is set by system capacity and comes off the quote directly — we itemize it on the written estimate. (The federal 25C credit ended for equipment placed in service after December 31, 2025; see our [2026 rebate guide](/blog/ny-heat-pump-rebates-2026).)
 
-[Get a Bronxville-specific quote](/contact) or call (914) 318-7368.
+[Get a Bronxville-specific quote](/contact) or call (914) 361-9142.

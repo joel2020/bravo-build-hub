@@ -15,8 +15,8 @@ export const Footer = () => {
             </div>
             <div className="font-extrabold text-lg">Bravo Mechanical</div>
           </div>
-          <p className="text-sm text-primary-foreground/80">Serving all of Westchester County, NY.</p>
-          <p className="text-sm text-primary-foreground/80 mt-2">Reliable HVAC service for homes and businesses.</p>
+          <p className="text-sm text-primary-foreground/90">Serving all of Westchester County, NY.</p>
+          <p className="text-sm text-primary-foreground/90 mt-2">Reliable HVAC service for homes and businesses.</p>
         </div>
 
         <div>
@@ -24,7 +24,7 @@ export const Footer = () => {
           <ul className="space-y-2 text-sm">
             {FEATURED_SERVICE_LINKS.map((s) => (
               <li key={s.path}>
-                <Link to={s.path} className="text-primary-foreground/80 hover:text-primary-foreground">{s.title}</Link>
+                <Link to={s.path} className="text-primary-foreground/90 hover:text-primary-foreground">{s.title}</Link>
               </li>
             ))}
             <li>
@@ -36,16 +36,16 @@ export const Footer = () => {
               <Link to="/book" className="text-primary-foreground font-semibold hover:underline">Book online →</Link>
             </li>
             <li>
-              <Link to="/projects" className="text-primary-foreground/80 hover:text-primary-foreground">Recent Projects</Link>
+              <Link to="/projects" className="text-primary-foreground/90 hover:text-primary-foreground">Recent Projects</Link>
             </li>
             <li>
-              <Link to="/es" className="text-primary-foreground/80 hover:text-primary-foreground">Hablamos español →</Link>
+              <Link to="/es" className="text-primary-foreground/90 hover:text-primary-foreground">Hablamos español →</Link>
             </li>
             <li>
-              <Link to="/financing" className="text-primary-foreground/80 hover:text-primary-foreground">Financing</Link>
+              <Link to="/financing" className="text-primary-foreground/90 hover:text-primary-foreground">Financing</Link>
             </li>
             <li>
-              <Link to="/maintenance-plans" className="text-primary-foreground/80 hover:text-primary-foreground">Maintenance Plans</Link>
+              <Link to="/maintenance-plans" className="text-primary-foreground/90 hover:text-primary-foreground">Maintenance Plans</Link>
             </li>
             <li>
               <Link to="/services" className="text-primary-foreground font-semibold hover:underline">
@@ -66,7 +66,7 @@ export const Footer = () => {
               { name: "Scarsdale", slug: "scarsdale" },
             ].map((c) => (
               <li key={c.slug}>
-                <Link to={`/service-areas/${c.slug}`} className="text-primary-foreground/80 hover:text-primary-foreground">
+                <Link to={`/service-areas/${c.slug}`} className="text-primary-foreground/90 hover:text-primary-foreground">
                   HVAC {c.name}
                 </Link>
               </li>
@@ -111,7 +111,7 @@ export const Footer = () => {
       </div>
 
       <div className="border-t border-primary-foreground/15">
-        <div className="container mx-auto px-4 py-5 flex flex-col gap-3 text-xs text-primary-foreground/70 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container mx-auto px-4 py-5 flex flex-col gap-3 text-xs text-primary-foreground/90 sm:flex-row sm:items-center sm:justify-between">
           <div>© {year} {SITE.legalName}. All rights reserved.</div>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
             <Link to="/privacy-policy" className="hover:text-primary-foreground hover:underline">Privacy Policy</Link>

@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
+import { NavigationEffects } from "./components/NavigationEffects";
 import { StickyMobileCTA } from "./components/StickyMobileCTA";
 
 // Eager: home page (Index) loads immediately on first paint.
@@ -103,6 +104,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <NavigationEffects />
         <Suspense fallback={<PageLoader />}>
           <AppRoutes />
         </Suspense>

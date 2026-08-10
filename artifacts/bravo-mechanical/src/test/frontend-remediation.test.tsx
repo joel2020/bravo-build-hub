@@ -193,6 +193,67 @@ describe("frontend remediation navigation shell", () => {
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
   });
 
+  it("dismisses the mobile menu when entering xl and keeps focus off the hidden trigger", async () => {
+    const listeners = new Set<(event: MediaQueryListEvent) => void>();
+    const mediaQueryState = {
+      matches: false,
+      media: "(min-width: 1280px)",
+      onchange: null,
+      addEventListener: (
+        _type: string,
+        listener: (event: MediaQueryListEvent) => void,
+      ) => {
+        listeners.add(listener);
+      },
+      removeEventListener: (
+        _type: string,
+        listener: (event: MediaQueryListEvent) => void,
+      ) => {
+        listeners.delete(listener);
+      },
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      dispatchEvent: () => true,
+    };
+    vi.stubGlobal("matchMedia", () => mediaQueryState as unknown as MediaQueryList);
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <Header />
+        <button type="button">Safe target</button>
+      </MemoryRouter>,
+    );
+
+    const trigger = screen.getByRole("button", { name: /open menu/i });
+    await user.click(trigger);
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+
+    const safeTarget = screen.getByRole("button", { name: "Safe target" });
+    safeTarget.focus();
+    mediaQueryState.matches = true;
+    act(() => {
+      listeners.forEach((listener) =>
+        listener({ matches: true, media: mediaQueryState.media } as MediaQueryListEvent),
+      );
+    });
+
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(screen.queryByRole("navigation", { name: /mobile navigation/i })).toBeNull();
+    await user.keyboard("{Escape}");
+    expect(document.activeElement).toBe(safeTarget);
+
+    mediaQueryState.matches = false;
+    act(() => {
+      listeners.forEach((listener) =>
+        listener({ matches: false, media: mediaQueryState.media } as MediaQueryListEvent),
+      );
+    });
+
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(screen.queryByRole("navigation", { name: /mobile navigation/i })).toBeNull();
+  });
+
   it("keeps primary navigation at xl and places secondary links in More", async () => {
     const user = userEvent.setup();
     render(

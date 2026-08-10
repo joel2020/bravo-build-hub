@@ -51,6 +51,18 @@ export const Header = () => {
   }, [pathname]);
 
   useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+
+    const xlBreakpoint = window.matchMedia("(min-width: 1280px)");
+    const closeMobileMenuAtXl = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false);
+    };
+
+    xlBreakpoint.addEventListener("change", closeMobileMenuAtXl);
+    return () => xlBreakpoint.removeEventListener("change", closeMobileMenuAtXl);
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
 
     const dismissMenu = (event: KeyboardEvent) => {

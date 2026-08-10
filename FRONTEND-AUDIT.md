@@ -44,13 +44,13 @@ The preview is protected by Vercel and intentionally sends `noindex`, so its Lig
 | Sticky CTA | 19px footer clearance on every audited route at 375px; CTA absent at wider breakpoints as designed |
 | Emergency link | `rgb(29, 37, 48)` over composited `rgb(248, 227, 224)`: 12.52:1 |
 | Runtime/console | No console errors, page errors, hydration errors, or hook-order errors in the final browser run |
-| Lighthouse | Three mobile runs per route/revision with Lighthouse 13.4.1; current median performance/accessibility: booking 72/100, contact 73/100; CLS 0 throughout |
-| LCP comparison | Booking base 9.460s → current 9.308s (−0.152s, −1.61%); contact base 9.460s → current 9.459s (−0.001s, −0.01%) |
+| Lighthouse | Three mobile runs per route/revision with Lighthouse 13.4.1; final median performance/accessibility: booking 73/100, contact 73/100; CLS 0 throughout |
+| LCP comparison | Actual branch base `58bac9e`: booking 9.310s → final 9.018s (−0.292s, −3.14%); contact 9.462s → final 9.460s (−0.002s, −0.02%) |
 | Performance trace | Contact mobile unthrottled observer: CLS 0.0000, LCP 376ms |
 | Preview HTTP | Known routes 200; unknown route 404; private route 200 with noindex; canonical URLs point to `www.bravomechanicalny.com` |
 | Hydrated schema | Yonkers: one FAQPage, one HVACBusiness, zero aggregateRating; canonical unchanged after hydration |
 
-The like-for-like comparison used base `8ee72cebeaaaedceefc4885d13529968105962ac` and application head `7f439d9251988e8b4033c7aa60fc8cc7e90738dc`, with the same local production server, Lighthouse 13.4.1 mobile defaults, Chromium binary, flags, and three runs per route. No material median LCP regression was measured. Absolute throttled LCP remains about 9.3–9.5 seconds on both revisions and remains a performance follow-up; the small median decreases should not be interpreted as a proven user-facing improvement.
+The final like-for-like comparison used the actual branch base `58bac9e37c99f538e67a4c848557fee4e7266f04` and final application tree `fcc05d0673cdbd061b745e11399449b9f476c579`, with the same local production server, Lighthouse 13.4.1 mobile defaults, Chromium binary, flags, and three runs per route. No median LCP regression was measured. The median decreases are within observed run-to-run spread and are not claimed as a user-facing improvement. Absolute throttled LCP remains about 9.0–9.5 seconds and is a separate performance concern. Machine-readable evidence is in `.superpowers/sdd/2026-08-10-frontend-remediation/task-6-artifacts/lighthouse-comparison-final/`.
 
 ## Confirmed defects
 

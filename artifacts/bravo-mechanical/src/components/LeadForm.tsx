@@ -156,7 +156,7 @@ export const LeadForm = ({
     || values.email.trim() !== initialValues.current.email.trim()
     || values.service.trim() !== initialValues.current.service.trim()
     || values.message.trim() !== initialValues.current.message.trim();
-  useUnsavedChangesGuard(isDirty && !submitting && !submitted);
+  useUnsavedChangesGuard(isDirty && !submitted);
 
   const tracking = useMemo<TrackingPayload>(() => {
     if (typeof window === "undefined") {

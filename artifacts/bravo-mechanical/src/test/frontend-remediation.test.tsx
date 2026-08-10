@@ -28,24 +28,32 @@ import Index from "../pages/Index";
 import Projects from "../pages/Projects";
 import Services from "../pages/Services";
 
+const supabaseTestState = vi.hoisted(() => ({
+  insert: vi.fn(),
+}));
+
 vi.mock("../integrations/supabase/client", () => ({
   isSupabaseConfigured: true,
   supabase: {
-    from: () => {
+    from: (table: string) => {
       const query = {
         select: () => query,
         eq: () => query,
+        gte: () => query,
         order: () => query,
+        insert: (payload: unknown) => supabaseTestState.insert(payload),
         limit: () =>
           Promise.resolve({
-            data: [
-              {
-                id: "published-photo",
-                public_url: "https://example.com/published-job.jpg",
-                public_caption: "Published CRM project",
-                created_at: "2026-08-10T12:00:00.000Z",
-              },
-            ],
+            data: table === "job_photos"
+              ? [
+                  {
+                    id: "published-photo",
+                    public_url: "https://example.com/published-job.jpg",
+                    public_caption: "Published CRM project",
+                    created_at: "2026-08-10T12:00:00.000Z",
+                  },
+                ]
+              : [],
           }),
       };
       return query;
@@ -501,7 +509,22 @@ describe("recoverable lead forms", () => {
   afterEach(() => {
     cleanup();
     vi.restoreAllMocks();
+    supabaseTestState.insert.mockReset();
   });
+
+  const createDeferredInsert = () => {
+    let resolve!: (result: { error: Error | null }) => void;
+    const promise = new Promise<{ error: Error | null }>((complete) => {
+      resolve = complete;
+    });
+    return { promise, resolve };
+  };
+
+  const expectUnloadProtection = (protectedFromUnload: boolean) => {
+    const event = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(protectedFromUnload);
+  };
 
   it("protects only a dirty unfinished request", async () => {
     const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
@@ -668,5 +691,70 @@ describe("recoverable lead forms", () => {
       "You have an unfinished service request. Leave this page and discard it?",
     );
     expect(screen.queryByRole("heading", { name: "Next page" })).toBeNull();
+  });
+
+  it("keeps a booking protected through pending and failed persistence, then releases it after success", async () => {
+    const firstInsert = createDeferredInsert();
+    supabaseTestState.insert
+      .mockReturnValueOnce(firstInsert.promise)
+      .mockResolvedValueOnce({ error: null });
+    const user = userEvent.setup();
+    const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
+    render(<RouterProvider router={router} />);
+
+    await user.type(screen.getByLabelText(/^name/i), "Jordan Lee");
+    await user.type(screen.getByLabelText(/mobile phone/i), "9145551234");
+    await user.click(screen.getByRole("button", { name: "AC Repair" }));
+    await user.click(screen.getAllByRole("button", { name: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),/ })[0]);
+    await user.click(screen.getByRole("button", { name: "Morning (8am–11am)" }));
+    await user.click(screen.getByRole("button", { name: /book my visit/i }));
+
+    expect(screen.getByRole("button", { name: /booking/i }).hasAttribute("disabled")).toBe(true);
+    expectUnloadProtection(true);
+
+    firstInsert.resolve({ error: new Error("insert failed") });
+    expect(await screen.findByText(/something went wrong/i)).toBeTruthy();
+    expectUnloadProtection(true);
+
+    await user.click(screen.getByRole("button", { name: /book my visit/i }));
+    expect(await screen.findByRole("heading", { name: /you're on the board/i })).toBeTruthy();
+    expectUnloadProtection(false);
+  });
+
+  it("keeps a contact lead protected through pending and failed persistence, then releases it after success", async () => {
+    const firstInsert = createDeferredInsert();
+    supabaseTestState.insert
+      .mockReturnValueOnce(firstInsert.promise)
+      .mockResolvedValueOnce({ error: null });
+    const user = userEvent.setup();
+    const router = createMemoryRouter([
+      {
+        path: "*",
+        element: (
+          <LeadForm
+            defaultService="AC Repair"
+            defaultMessage="The system is not cooling."
+          />
+        ),
+      },
+    ]);
+    render(<RouterProvider router={router} />);
+
+    await user.type(screen.getByLabelText(/full name/i), "Jordan Lee");
+    await user.type(screen.getByLabelText(/^phone/i), "9145551234");
+    await user.type(screen.getByLabelText(/^email/i), "jordan@example.com");
+    await user.click(screen.getByRole("checkbox"));
+    await user.click(screen.getByRole("button", { name: /request my estimate/i }));
+
+    expect(screen.getByRole("button", { name: /submitting/i }).hasAttribute("disabled")).toBe(true);
+    expectUnloadProtection(true);
+
+    firstInsert.resolve({ error: new Error("insert failed") });
+    expect(await screen.findByRole("button", { name: /request my estimate/i })).toBeTruthy();
+    expectUnloadProtection(true);
+
+    await user.click(screen.getByRole("button", { name: /request my estimate/i }));
+    expect(await screen.findByText(/thanks — we got your request/i)).toBeTruthy();
+    expectUnloadProtection(false);
   });
 });

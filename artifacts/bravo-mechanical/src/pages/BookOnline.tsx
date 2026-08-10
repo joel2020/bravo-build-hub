@@ -80,7 +80,7 @@ const BookOnline = () => {
   const windowRef = useRef<HTMLFieldSetElement>(null);
 
   const isDirty = Object.values(form).some((value) => value.trim().length > 0);
-  useUnsavedChangesGuard(isDirty && !submitting && !done);
+  useUnsavedChangesGuard(isDirty && !done);
 
   const update = (key: keyof BookingForm, value: string) => {
     const nextForm = { ...form, [key]: value };

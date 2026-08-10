@@ -32,13 +32,20 @@ const home = await readDist('index.html');
 const assetDir = path.join(dist, 'assets');
 const jsAssets = (await import('node:fs/promises')).readdir(assetDir);
 const appText = [home];
+const cssText = [];
 for (const file of await jsAssets) {
   if (file.endsWith('.js')) appText.push(await readFile(path.join(assetDir, file), 'utf8'));
+  if (file.endsWith('.css')) cssText.push(await readFile(path.join(assetDir, file), 'utf8'));
 }
 const bundledApp = appText.join('\n');
+const bundledCss = cssText.join('\n');
 assert(bundledApp.includes('tel:+19143619142'), 'Built app is missing tel:+19143619142 CTA');
 assert(bundledApp.includes('mailto:info@bravomechanicalny.com'), 'Built app is missing info@bravomechanicalny.com mailto CTA');
 assert(!/Bravomechanicalllc@gmail\.com|bravomechanicalllc@gmail\.com|914-555-0100|9145550100/.test(bundledApp), 'Built app contains outdated placeholder contact info');
+assert(bundledCss.includes('.skip-link'), 'Built CSS is missing the keyboard skip-link styles');
+assert(bundledCss.includes('.page-loader'), 'Built CSS is missing the route-loader styles');
+assert(bundledCss.includes('.page-loader__spinner'), 'Built CSS is missing the route-loader spinner styles');
+assert(bundledCss.includes('prefers-reduced-motion:reduce'), 'Built CSS is missing the reduced-motion route-loader override');
 
 const robots = await readDist('robots.txt');
 assert(robots.includes('Allow: /'), 'robots.txt must allow crawling');

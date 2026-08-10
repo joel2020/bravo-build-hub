@@ -29,6 +29,7 @@ import Projects from "../pages/Projects";
 import Services from "../pages/Services";
 
 vi.mock("../integrations/supabase/client", () => ({
+  isSupabaseConfigured: true,
   supabase: {
     from: () => {
       const query = {

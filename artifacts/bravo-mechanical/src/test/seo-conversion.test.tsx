@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
-import { MemoryRouter } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { LeadForm } from "@/components/LeadForm";
@@ -17,8 +17,10 @@ type GeneratedRoute = {
   city?: { intro?: string; housing?: string; climateNote?: string };
 };
 
-const renderInRouter = (node: React.ReactNode) =>
-  renderToStaticMarkup(<MemoryRouter>{node}</MemoryRouter>);
+const renderInRouter = (node: React.ReactNode) => {
+  const router = createMemoryRouter([{ path: "*", element: node }]);
+  return renderToStaticMarkup(<RouterProvider router={router} />);
+};
 
 describe("SEO generation", () => {
   it("keeps every generated search snippet within its display budget", async () => {

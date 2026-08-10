@@ -4,20 +4,17 @@
 
 **Application:** `artifacts/bravo-mechanical`
 
-**Branch:** `codex/seo-conversion-fixes`
+**Branch:** `codex/frontend-remediation`
 
-**Reviewed preview:** https://bravo-build-9ukc42m9k-joel-carias-projects.vercel.app
+**Reviewed preview:** https://bravo-build-ciw93eyvm-joel-carias-projects.vercel.app
 
 ## Executive summary
 
-The public frontend has a strong foundation: the brand is consistent, calls to action are prominent, typography is readable, cards and forms share a coherent visual system, route splitting is in place, and the mobile call/text bar is useful without covering page content. All six representative routes rendered with one H1, no broken images, no console warnings or errors, and no horizontal overflow at 375, 768, or 1440 pixels.
+The remediation branch resolves the confirmed public-frontend defects recorded below. A fresh production-build audit of all six representative routes at 375, 768, 1024, 1100, 1280, and 1440 pixels found zero horizontal overflow, one H1, one `#main-content` landmark, zero broken images, and no console or runtime errors. The mobile sticky CTA retained 19px of footer clearance at 375px.
 
-There are no confirmed critical issues. Two high-impact defects should be fixed first:
+Menu state/Escape/focus return, skip-link focus, forward navigation reset/focus, browser Back restoration, first-error focus, and dirty-form stay/leave behavior all passed. The emergency phone link measured 12.52:1 contrast in Chromium. Mobile Lighthouse accessibility scored 100 for both booking and contact, with CLS 0 on both routes.
 
-1. The full desktop header activates at 1024px even though it is about 258px too wide. The phone number and estimate CTA render off-screen on every tested route.
-2. Client-side navigation preserves the old page's scroll position and does not move focus. A user navigating from 2,500px down the homepage landed 2,500px down `/services`, bypassing its headline and primary actions.
-
-The largest conversion opportunity is to stop using the same generic trust/estimate card on task-specific pages. At 375×812, the booking form begins at 809px and the contact form at 1,451px. On `/book`, the hero promotes “Get a Free Estimate” before users reach “Book My Visit”; on `/contact`, the same CTA links back to the current page. Page-specific heroes would shorten the path and reduce competing choices.
+The original findings and baseline evidence remain below for traceability. Current measured status is recorded in the remediation verification section.
 
 ## Scope and method
 
@@ -30,9 +27,29 @@ Reviewed routes:
 - `/book`
 - `/contact`
 
-Browser checks covered 375, 768, 1024, and 1440px widths; keyboard/menu behavior; empty-form submission; layout overflow; images; console output; route navigation; and representative mobile Lighthouse audits. Source inspection focused on shared shell, hero, form, project, and route components rather than generated output or dependencies.
+The original browser checks covered 375, 768, 1024, and 1440px widths. Remediation verification expanded the matrix to 375, 768, 1024, 1100, 1280, and 1440px and rechecked keyboard/menu behavior, empty-form submission, layout overflow, images, console output, route navigation, sticky CTA clearance, schema, and representative mobile Lighthouse audits.
 
 The preview is protected by Vercel and intentionally sends `noindex`, so its Lighthouse SEO score of 69 is not treated as a production SEO defect. Vercel's preview toolbar and the Google Maps embed also generate third-party-cookie best-practice findings that are not application regressions.
+
+## Remediation verification — August 10, 2026
+
+| Check | Measured result |
+| --- | --- |
+| Six-route viewport matrix | All 36 route/width combinations: overflow 0, H1 count 1, `#main-content` present, broken images 0 |
+| Header/menu | Compact navigation through 1100px; desktop navigation at 1280px and 1440px; disclosure state, Escape dismissal, and trigger focus return passed |
+| Route behavior | Forward `/` → `/services`: scroll 2500 → 0 and main focused; Back restored `/` at scroll 2500 |
+| Skip link | First Tab focused the link; activation focused `#main-content` and set the matching hash |
+| Form recovery | Empty booking focused `#bk-name`; empty contact focused `name`; both exposed `aria-invalid=true` and matching error descriptions |
+| Dirty-form protection | Dismiss stayed on `/book`; accept navigated to `/contact`; prompt copy matched the implementation |
+| Sticky CTA | 19px footer clearance on every audited route at 375px; CTA absent at wider breakpoints as designed |
+| Emergency link | `rgb(29, 37, 48)` over composited `rgb(248, 227, 224)`: 12.52:1 |
+| Runtime/console | No console errors, page errors, hydration errors, or hook-order errors in the final browser run |
+| Lighthouse | Booking: performance 73, accessibility 100, best practices 100, SEO 100, CLS 0; contact: 73/100/100/100, CLS 0 |
+| Performance trace | Contact mobile unthrottled observer: CLS 0.0000, LCP 376ms; throttled Lighthouse LCP: booking 9.46s, contact 9.16s |
+| Preview HTTP | Known routes 200; unknown route 404; private route 200 with noindex; canonical URLs point to `www.bravomechanicalny.com` |
+| Hydrated schema | Yonkers: one FAQPage, one HVACBusiness, zero aggregateRating; canonical unchanged after hydration |
+
+The throttled Lighthouse LCP values are slow and have no like-for-like pre-remediation baseline, so this audit does not claim a measured LCP improvement. Task 6 did not add application bundles to the booking or contact routes; the finding remains a performance follow-up.
 
 ## Confirmed defects
 

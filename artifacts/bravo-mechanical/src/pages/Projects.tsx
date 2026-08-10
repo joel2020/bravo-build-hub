@@ -5,7 +5,7 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
-import { supabase } from "@/integrations/supabase/client";
+import { isSupabaseConfigured, supabase } from "@/integrations/supabase/client";
 import jobBoilerBefore from "@/assets/job-boiler-before.avif";
 import jobBoilerAfter from "@/assets/job-boiler-after.avif";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
@@ -108,6 +108,8 @@ const Projects = () => {
   const [crmPhotos, setCrmPhotos] = useState<CrmPhoto[]>([]);
 
   useEffect(() => {
+    if (!isSupabaseConfigured) return;
+
     // RLS only exposes photos explicitly published from the CRM.
     supabase
       .from("job_photos")

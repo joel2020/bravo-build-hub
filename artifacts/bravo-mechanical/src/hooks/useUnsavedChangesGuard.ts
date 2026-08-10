@@ -8,23 +8,21 @@ export const useUnsavedChangesGuard = (
   isDirty: boolean,
   message = DEFAULT_MESSAGE,
 ): void => {
-  // Static SEO rendering has no navigation lifecycle to protect.
-  if (typeof window === "undefined") return;
-
-  const blocker = useBlocker(isDirty);
+  const hasBrowserNavigation = typeof window !== "undefined";
+  const blocker = useBlocker(hasBrowserNavigation && isDirty);
 
   useEffect(() => {
-    if (blocker.state !== "blocked") return;
+    if (!hasBrowserNavigation || blocker.state !== "blocked") return;
 
     if (window.confirm(message)) {
       blocker.proceed();
     } else {
       blocker.reset();
     }
-  }, [blocker, message]);
+  }, [blocker, hasBrowserNavigation, message]);
 
   useEffect(() => {
-    if (!isDirty) return;
+    if (!hasBrowserNavigation || !isDirty) return;
 
     const preventUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
@@ -33,5 +31,5 @@ export const useUnsavedChangesGuard = (
 
     window.addEventListener("beforeunload", preventUnload);
     return () => window.removeEventListener("beforeunload", preventUnload);
-  }, [isDirty]);
+  }, [hasBrowserNavigation, isDirty]);
 };

@@ -1,7 +1,13 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Menu, Phone, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo-bravo.webp";
@@ -20,13 +26,47 @@ const nav = [
   { to: "/es", label: "Español" },
 ];
 
+const primaryNav = [
+  { to: "/services", label: "Services" },
+  { to: "/service-areas", label: "Service Areas" },
+  { to: "/projects", label: "Projects" },
+  { to: "/reviews", label: "Reviews" },
+  { to: "/book", label: "Book Online" },
+  { to: "/contact", label: "Contact" },
+];
+
+const secondaryNav = [
+  { to: "/about", label: "About" },
+  { to: "/blog", label: "Blog" },
+  { to: "/es", label: "Español" },
+];
+
 export const Header = () => {
   const [open, setOpen] = useState(false);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const dismissMenu = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      menuTriggerRef.current?.focus();
+    };
+
+    window.addEventListener("keydown", dismissMenu);
+    return () => window.removeEventListener("keydown", dismissMenu);
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 lg:h-20 items-center justify-between gap-4">
+        <div className="flex h-16 xl:h-20 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setOpen(false)}>
             <img
               src={logo}
@@ -42,8 +82,8 @@ export const Header = () => {
             </div>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1">
-            {nav.map((item) => (
+          <nav aria-label="Primary navigation" className="hidden xl:flex items-center gap-1">
+            {primaryNav.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -58,6 +98,24 @@ export const Header = () => {
                 {item.label}
               </NavLink>
             ))}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  More
+                  <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {secondaryNav.map((item) => (
+                  <DropdownMenuItem key={item.to} asChild>
+                    <NavLink to={item.to}>{item.label}</NavLink>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -81,9 +139,13 @@ export const Header = () => {
               <Phone className="h-5 w-5" />
             </a>
             <button
-              className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-border"
+              ref={menuTriggerRef}
+              type="button"
+              className="xl:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               onClick={() => setOpen(!open)}
-              aria-label="Toggle menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-navigation"
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -91,8 +153,8 @@ export const Header = () => {
         </div>
 
         {open && (
-          <div className="lg:hidden pb-4 border-t border-border -mx-4 px-4">
-            <nav className="flex flex-col pt-3">
+          <div className="xl:hidden pb-4 border-t border-border -mx-4 px-4">
+            <nav id="mobile-navigation" aria-label="Mobile navigation" className="flex flex-col pt-3">
               {nav.map((item) => (
                 <NavLink
                   key={item.to}

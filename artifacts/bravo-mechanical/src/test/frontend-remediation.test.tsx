@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { NavigationEffects } from "../components/NavigationEffects";
+import { Header } from "../components/Header";
 
 const TestRoutes = () => {
   const navigate = useNavigate();
@@ -147,5 +148,76 @@ describe("frontend remediation navigation shell", () => {
       "#main-content",
     );
     expect(screen.getByRole("main").getAttribute("tabindex")).toBe("-1");
+  });
+
+  it("announces and dismisses the mobile menu", async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    const trigger = screen.getByRole("button", { name: /open menu/i });
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(trigger.getAttribute("aria-controls")).toBe("mobile-navigation");
+
+    await user.click(trigger);
+
+    expect(trigger.getAttribute("aria-label")).toMatch(/close menu/i);
+    expect(
+      screen.getByRole("navigation", { name: /mobile navigation/i }).getAttribute("id"),
+    ).toBe("mobile-navigation");
+
+    await user.keyboard("{Escape}");
+
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("dismisses the mobile menu when the route changes", async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <Header />
+        <TestRoutes />
+      </MemoryRouter>,
+    );
+
+    const trigger = screen.getByRole("button", { name: /open menu/i });
+    await user.click(trigger);
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+
+    await user.click(screen.getByRole("button", { name: "Next" }));
+
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("keeps primary navigation at xl and places secondary links in More", async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    const primaryNavigation = screen.getByRole("navigation", { name: /primary navigation/i });
+    expect(primaryNavigation.classList.contains("hidden")).toBe(true);
+    expect(primaryNavigation.classList.contains("xl:flex")).toBe(true);
+    expect(primaryNavigation.textContent).toContain("Services");
+    expect(primaryNavigation.textContent).toContain("Service Areas");
+    expect(primaryNavigation.textContent).toContain("Projects");
+    expect(primaryNavigation.textContent).toContain("Reviews");
+    expect(primaryNavigation.textContent).toContain("Book Online");
+    expect(primaryNavigation.textContent).toContain("Contact");
+    expect(primaryNavigation.textContent).not.toContain("About");
+    expect(primaryNavigation.textContent).not.toContain("Blog");
+    expect(primaryNavigation.textContent).not.toContain("Español");
+
+    await user.click(screen.getByRole("button", { name: "More" }));
+
+    expect(screen.getByRole("menuitem", { name: "About" }).getAttribute("href")).toBe("/about");
+    expect(screen.getByRole("menuitem", { name: "Blog" }).getAttribute("href")).toBe("/blog");
+    expect(screen.getByRole("menuitem", { name: "Español" }).getAttribute("href")).toBe("/es");
   });
 });

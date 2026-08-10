@@ -171,6 +171,25 @@ const BookOnline = () => {
         eyebrow="Book Online"
         title="Pick a Day. Pick a Window. Done."
         subtitle="Book your Westchester HVAC visit in under a minute — no phone call needed. We confirm the exact time by text."
+        compact
+        rightSlot={
+          <aside aria-label="Online booking summary" className="bg-card border border-border rounded-xl p-6 shadow-sm">
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-center gap-3">
+                <CalendarDays className="h-5 w-5 text-accent shrink-0" aria-hidden="true" />
+                <span className="font-semibold text-foreground">About 1 minute</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <MessageSquare className="h-5 w-5 text-accent shrink-0" aria-hidden="true" />
+                <span className="font-semibold text-foreground">Confirmation by text</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="h-5 w-5 text-accent shrink-0" aria-hidden="true" />
+                <span className="font-semibold text-foreground">No payment required</span>
+              </li>
+            </ul>
+          </aside>
+        }
       />
 
       <section className="container mx-auto px-4 py-12 max-w-2xl">

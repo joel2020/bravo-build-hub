@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { lazy, Suspense } from "react";
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -17,7 +17,10 @@ import { Layout } from "../components/Layout";
 import { NavigationEffects } from "../components/NavigationEffects";
 import { Header } from "../components/Header";
 import { LeadForm } from "../components/LeadForm";
+import { PageHero } from "../components/PageHero";
+import { SITE } from "../lib/site";
 import BookOnline from "../pages/BookOnline";
+import Contact from "../pages/Contact";
 
 const TestRoutes = () => {
   const navigate = useNavigate();
@@ -290,6 +293,68 @@ describe("frontend remediation navigation shell", () => {
     expect(screen.getByRole("menuitem", { name: "About" }).getAttribute("href")).toBe("/about");
     expect(screen.getByRole("menuitem", { name: "Blog" }).getAttribute("href")).toBe("/blog");
     expect(screen.getByRole("menuitem", { name: "Español" }).getAttribute("href")).toBe("/es");
+  });
+});
+
+describe("task-specific booking and contact presentation", () => {
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  it("summarizes the booking task without the generic estimate hero action", () => {
+    const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
+    render(<RouterProvider router={router} />);
+
+    const summary = screen.getByRole("complementary", { name: /online booking summary/i });
+    const hero = screen.getByRole("heading", { name: "Pick a Day. Pick a Window. Done." }).closest("section");
+    expect(summary.textContent).toContain("About 1 minute");
+    expect(summary.textContent).toContain("Confirmation by text");
+    expect(summary.textContent).toContain("No payment required");
+    expect(hero).not.toBeNull();
+    expect(within(hero!).queryByRole("link", { name: /get a free estimate/i })).toBeNull();
+  });
+
+  it("uses compact hero spacing when requested", () => {
+    render(
+      <MemoryRouter>
+        <PageHero title="Compact task" compact hideRightSlot />
+      </MemoryRouter>,
+    );
+
+    const heroContainer = screen.getByRole("heading", { name: "Compact task" }).parentElement
+      ?.parentElement?.parentElement;
+    expect(heroContainer?.classList.contains("py-8")).toBe(true);
+    expect(heroContainer?.classList.contains("lg:py-14")).toBe(true);
+  });
+
+  it("puts contact actions in the hero and the request form before location content", () => {
+    const router = createMemoryRouter([{ path: "*", element: <Contact /> }]);
+    render(<RouterProvider router={router} />);
+
+    const actions = screen.getByRole("complementary", { name: /call or text bravo mechanical/i });
+    expect(actions.textContent).toContain("Call for fastest response");
+    expect(actions.textContent).toContain("Text us — fastest for photos");
+
+    const form = screen.getByRole("button", { name: /request my estimate/i }).closest("form");
+    const location = screen.getByRole("complementary", { name: /location and hours/i });
+    expect(form).not.toBeNull();
+    expect(form!.compareDocumentPosition(location) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("uses an AA-intended emergency phone color and keeps the map outside its link", () => {
+    const router = createMemoryRouter([{ path: "*", element: <Contact /> }]);
+    render(<RouterProvider router={router} />);
+
+    const emergencyPanel = screen.getByText("Emergency HVAC service").parentElement;
+    const panelPhone = emergencyPanel?.querySelector(`a[href="${SITE.phoneHref}"]`);
+    expect(panelPhone?.classList.contains("text-foreground")).toBe(true);
+
+    const map = screen.getByTitle("Bravo Mechanical Google Business Profile Map");
+    expect(map.closest("a")).toBeNull();
+    expect(screen.getByRole("link", { name: /open in google maps/i }).getAttribute("href")).toBe(
+      SITE.social.google,
+    );
   });
 });
 

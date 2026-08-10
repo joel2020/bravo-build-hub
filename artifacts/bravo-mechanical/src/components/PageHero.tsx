@@ -18,15 +18,17 @@ type PageHeroProps = {
   rightSlot?: ReactNode;
   /** Set true to suppress the right-side card entirely (rare). */
   hideRightSlot?: boolean;
+  /** Use tighter vertical spacing for task-focused pages. */
+  compact?: boolean;
 };
 
-export const PageHero = ({ eyebrow, title, subtitle, rightSlot, hideRightSlot }: PageHeroProps) => {
+export const PageHero = ({ eyebrow, title, subtitle, rightSlot, hideRightSlot, compact }: PageHeroProps) => {
   const showRight = !hideRightSlot;
   const right = rightSlot ?? <DefaultHeroTrustCard />;
 
   return (
     <section className="bg-secondary border-b border-border">
-      <div className="container mx-auto px-4 py-14 lg:py-20">
+      <div className={cn("container mx-auto px-4", compact ? "py-8 lg:py-14" : "py-14 lg:py-20")}>
         <div
           className={cn(
             "grid gap-10 items-start",

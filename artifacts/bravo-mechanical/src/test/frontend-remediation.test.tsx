@@ -4,10 +4,20 @@ import { lazy, Suspense } from "react";
 import { act, cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  createMemoryRouter,
+  MemoryRouter,
+  Route,
+  RouterProvider,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { NavigationEffects } from "../components/NavigationEffects";
 import { Header } from "../components/Header";
+import { LeadForm } from "../components/LeadForm";
+import BookOnline from "../pages/BookOnline";
 
 const TestRoutes = () => {
   const navigate = useNavigate();
@@ -280,5 +290,139 @@ describe("frontend remediation navigation shell", () => {
     expect(screen.getByRole("menuitem", { name: "About" }).getAttribute("href")).toBe("/about");
     expect(screen.getByRole("menuitem", { name: "Blog" }).getAttribute("href")).toBe("/blog");
     expect(screen.getByRole("menuitem", { name: "Español" }).getAttribute("href")).toBe("/es");
+  });
+});
+
+describe("recoverable lead forms", () => {
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  it("protects only a dirty unfinished request", async () => {
+    const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
+    const GuardHarness = ({ dirty }: { dirty: boolean }) => {
+      useUnsavedChangesGuard(dirty);
+      return null;
+    };
+    const dirtyRouter = createMemoryRouter([{ path: "*", element: <GuardHarness dirty /> }]);
+    const { unmount } = render(<RouterProvider router={dirtyRouter} />);
+
+    const dirtyEvent = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(dirtyEvent);
+    expect(dirtyEvent.defaultPrevented).toBe(true);
+
+    unmount();
+    const cleanRouter = createMemoryRouter([
+      { path: "*", element: <GuardHarness dirty={false} /> },
+    ]);
+    render(<RouterProvider router={cleanRouter} />);
+    const cleanEvent = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(cleanEvent);
+    expect(cleanEvent.defaultPrevented).toBe(false);
+  });
+
+  it("prompts before dirty in-app navigation", async () => {
+    const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
+    const confirm = vi.spyOn(window, "confirm").mockReturnValue(false);
+    const GuardHarness = () => {
+      const navigate = useNavigate();
+      useUnsavedChangesGuard(true);
+      return <button onClick={() => navigate("/next")}>Leave request</button>;
+    };
+
+    const router = createMemoryRouter([
+      { path: "/", element: <GuardHarness /> },
+      { path: "/next", element: <h1>Next page</h1> },
+    ]);
+    render(<RouterProvider router={router} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Leave request" }));
+
+    expect(confirm).toHaveBeenCalledWith(
+      "You have an unfinished service request. Leave this page and discard it?",
+    );
+    expect(screen.queryByRole("heading", { name: "Next page" })).toBeNull();
+  });
+
+  it("continues dirty in-app navigation after confirmation", async () => {
+    const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    const GuardHarness = () => {
+      const navigate = useNavigate();
+      useUnsavedChangesGuard(true);
+      return <button onClick={() => navigate("/next")}>Leave request</button>;
+    };
+    const router = createMemoryRouter([
+      { path: "/", element: <GuardHarness /> },
+      { path: "/next", element: <h1>Next page</h1> },
+    ]);
+    render(<RouterProvider router={router} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Leave request" }));
+
+    expect(await screen.findByRole("heading", { name: "Next page" })).toBeTruthy();
+  });
+
+  it("can stay on or leave a dirty request during back navigation", async () => {
+    const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
+    const confirm = vi.spyOn(window, "confirm").mockReturnValue(false);
+    const GuardHarness = () => {
+      const navigate = useNavigate();
+      useUnsavedChangesGuard(true);
+      return <button onClick={() => navigate(-1)}>Back</button>;
+    };
+    const router = createMemoryRouter(
+      [
+        { path: "/previous", element: <h1>Previous page</h1> },
+        { path: "/request", element: <GuardHarness /> },
+      ],
+      { initialEntries: ["/previous", "/request"], initialIndex: 1 },
+    );
+    render(<RouterProvider router={router} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+    expect(screen.getByRole("button", { name: "Back" })).toBeTruthy();
+
+    confirm.mockReturnValue(true);
+    await userEvent.click(screen.getByRole("button", { name: "Back" }));
+    expect(await screen.findByRole("heading", { name: "Previous page" })).toBeTruthy();
+  });
+
+  it("focuses and describes the first invalid booking field", async () => {
+    const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
+    render(<RouterProvider router={router} />);
+
+    await userEvent.click(screen.getByRole("button", { name: /book my visit/i }));
+
+    expect(document.activeElement).toBe(screen.getByLabelText(/name/i));
+    expect(screen.getByLabelText(/name/i).getAttribute("aria-invalid")).toBe("true");
+    expect(
+      screen.getByRole("group", { name: /what do you need/i }).getAttribute("aria-describedby"),
+    ).toBe("booking-service-error");
+  });
+
+  it("clears an individual booking error when its value becomes valid", async () => {
+    const user = userEvent.setup();
+    const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
+    render(<RouterProvider router={router} />);
+
+    await user.click(screen.getByRole("button", { name: /book my visit/i }));
+    const name = screen.getByLabelText(/name/i);
+    await user.type(name, "Jordan Lee");
+
+    expect(name.getAttribute("aria-invalid")).toBe("false");
+    expect(name.hasAttribute("aria-describedby")).toBe(false);
+    expect(screen.queryByText("Enter your name.")).toBeNull();
+  });
+
+  it("focuses the first invalid contact field after an empty submit", async () => {
+    const router = createMemoryRouter([{ path: "*", element: <LeadForm /> }]);
+    render(<RouterProvider router={router} />);
+
+    await userEvent.click(screen.getByRole("button", { name: /request my estimate/i }));
+
+    expect(document.activeElement).toBe(screen.getByLabelText(/full name/i));
+    expect(screen.getByLabelText(/full name/i).getAttribute("aria-invalid")).toBe("true");
   });
 });

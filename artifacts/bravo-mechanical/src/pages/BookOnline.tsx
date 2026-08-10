@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Phone, CalendarDays, CheckCircle2, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { trackLeadSubmit } from "@/lib/analytics";
+import { useUnsavedChangesGuard } from "@/hooks/useUnsavedChangesGuard";
 
 const WINDOWS = ["Morning (8am–11am)", "Midday (11am–2pm)"];
 const SERVICES_OFFERED = [
@@ -15,6 +16,36 @@ const SERVICES_OFFERED = [
   "Furnace Repair", "Furnace Installation", "Heat Pump / Mini-Split",
   "Water Heater", "Maintenance / Tune-Up", "Something else",
 ];
+
+type BookingForm = {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+  service: string;
+  message: string;
+  date: string;
+  window: string;
+};
+
+type BookingErrorField = "name" | "phone" | "service" | "date" | "window";
+type BookingErrors = Partial<Record<BookingErrorField, string>>;
+
+const BOOKING_ERROR_ORDER: BookingErrorField[] = ["name", "phone", "service", "date", "window"];
+
+export const validateBooking = (form: BookingForm): BookingErrors => {
+  const errors: BookingErrors = {};
+
+  if (!form.name.trim()) errors.name = "Enter your name.";
+  if (form.phone.replace(/\D/g, "").length < 10) {
+    errors.phone = "Enter a mobile phone number with at least 10 digits.";
+  }
+  if (!form.service) errors.service = "Select the service you need.";
+  if (!form.date) errors.date = "Choose a preferred day.";
+  if (!form.window) errors.window = "Choose a time window.";
+
+  return errors;
+};
 
 // Next 14 selectable days. Same-day requests should call — we route them to the phone.
 const nextDays = () => {
@@ -36,20 +67,54 @@ const BookOnline = () => {
   });
 
   const days = useMemo(nextDays, []);
-  const [form, setForm] = useState({ name: "", phone: "", email: "", address: "", service: "", message: "", date: "", window: "" });
+  const [form, setForm] = useState<BookingForm>({ name: "", phone: "", email: "", address: "", service: "", message: "", date: "", window: "" });
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
   const [attempted, setAttempted] = useState(false);
+  const [errors, setErrors] = useState<BookingErrors>({});
+  const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const serviceRef = useRef<HTMLFieldSetElement>(null);
+  const dateRef = useRef<HTMLFieldSetElement>(null);
+  const windowRef = useRef<HTMLFieldSetElement>(null);
 
-  const update = (k: keyof typeof form, v: string) => setForm((p) => ({ ...p, [k]: v }));
-  const valid = form.name.trim() && form.phone.replace(/\D/g, "").length >= 10 && form.service && form.date && form.window;
+  const isDirty = Object.values(form).some((value) => value.trim().length > 0);
+  useUnsavedChangesGuard(isDirty && !submitting && !done);
+
+  const update = (key: keyof BookingForm, value: string) => {
+    const nextForm = { ...form, [key]: value };
+    setForm(nextForm);
+
+    if (BOOKING_ERROR_ORDER.includes(key as BookingErrorField)) {
+      const field = key as BookingErrorField;
+      if (!validateBooking(nextForm)[field]) {
+        setErrors((current) => {
+          if (!current[field]) return current;
+          const nextErrors = { ...current };
+          delete nextErrors[field];
+          return nextErrors;
+        });
+      }
+    }
+  };
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setAttempted(true);
-    if (!valid || submitting) {
+    const nextErrors = validateBooking(form);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0 || submitting) {
       setError("Complete your name, mobile phone, service, day, and time window.");
+      const firstError = BOOKING_ERROR_ORDER.find((field) => nextErrors[field]);
+      const targets = {
+        name: nameRef.current,
+        phone: phoneRef.current,
+        service: serviceRef.current,
+        date: dateRef.current,
+        window: windowRef.current,
+      };
+      if (firstError) targets[firstError]?.focus();
       return;
     }
     setSubmitting(true);
@@ -113,11 +178,13 @@ const BookOnline = () => {
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-name">Name *</label>
-              <input id="bk-name" name="name" required className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.name} onChange={(e) => update("name", e.target.value)} autoComplete="name" />
+              <input ref={nameRef} id="bk-name" name="name" required aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "booking-name-error" : undefined} className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.name} onChange={(e) => update("name", e.target.value)} autoComplete="name" />
+              {errors.name && <p id="booking-name-error" role="alert" className="text-destructive text-xs mt-1">{errors.name}</p>}
             </div>
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-phone">Mobile phone *</label>
-              <input id="bk-phone" name="phone" required minLength={10} inputMode="tel" type="tel" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.phone} onChange={(e) => update("phone", e.target.value)} autoComplete="tel" placeholder="(914) 555-1234" />
+              <input ref={phoneRef} id="bk-phone" name="phone" required minLength={10} inputMode="tel" type="tel" aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "booking-phone-error" : undefined} className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.phone} onChange={(e) => update("phone", e.target.value)} autoComplete="tel" placeholder="(914) 555-1234" />
+              {errors.phone && <p id="booking-phone-error" role="alert" className="text-destructive text-xs mt-1">{errors.phone}</p>}
             </div>
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-email">Email</label>
@@ -129,7 +196,7 @@ const BookOnline = () => {
             </div>
           </div>
 
-          <fieldset>
+          <fieldset ref={serviceRef} tabIndex={-1} aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "booking-service-error" : undefined}>
             <legend className="text-sm font-bold block mb-2">What do you need? *</legend>
             <div className="flex flex-wrap gap-2">
               {SERVICES_OFFERED.map((s) => (
@@ -141,9 +208,10 @@ const BookOnline = () => {
               ))}
             </div>
             <input type="hidden" name="service" value={form.service} />
+            {errors.service && <p id="booking-service-error" role="alert" className="text-destructive text-xs mt-2">{errors.service}</p>}
           </fieldset>
 
-          <fieldset>
+          <fieldset ref={dateRef} tabIndex={-1} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "booking-date-error" : undefined}>
             <legend className="text-sm font-bold mb-2 flex items-center gap-2"><CalendarDays className="h-4 w-4" /> Pick a day *</legend>
             <div className="flex flex-wrap gap-2">
               {days.map((d) => (
@@ -155,10 +223,11 @@ const BookOnline = () => {
               ))}
             </div>
             <input type="hidden" name="date" value={form.date} />
+            {errors.date && <p id="booking-date-error" role="alert" className="text-destructive text-xs mt-2">{errors.date}</p>}
             <p className="text-xs text-muted-foreground mt-2">Need someone today? <a href={SITE.phoneHref} className="text-accent font-semibold hover:underline">Call {SITE.phone}</a> — same-day slots go by phone.</p>
           </fieldset>
 
-          <fieldset>
+          <fieldset ref={windowRef} tabIndex={-1} aria-invalid={Boolean(errors.window)} aria-describedby={errors.window ? "booking-window-error" : undefined}>
             <legend className="text-sm font-bold block mb-2">Time window *</legend>
             <div className="flex flex-wrap gap-2">
               {WINDOWS.map((w) => (
@@ -170,6 +239,7 @@ const BookOnline = () => {
               ))}
             </div>
             <input type="hidden" name="window" value={form.window} />
+            {errors.window && <p id="booking-window-error" role="alert" className="text-destructive text-xs mt-2">{errors.window}</p>}
           </fieldset>
 
           <div>

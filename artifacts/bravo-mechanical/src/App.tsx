@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { createBrowserRouter, Navigate, Route, RouterProvider, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -98,18 +98,26 @@ const AppRoutes = () => {
   );
 };
 
+const AppRouterShell = () => (
+  <>
+    <NavigationEffects />
+    <Suspense fallback={<PageLoader />}>
+      <AppRoutes />
+    </Suspense>
+    {!isAppSubdomain && <StickyMobileCTA />}
+  </>
+);
+
+// A data-router shell preserves the existing JSX route table while enabling
+// useBlocker for recoverable forms rendered anywhere beneath it.
+const router = createBrowserRouter([{ path: "*", element: <AppRouterShell /> }]);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <NavigationEffects />
-        <Suspense fallback={<PageLoader />}>
-          <AppRoutes />
-        </Suspense>
-        {!isAppSubdomain && <StickyMobileCTA />}
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </TooltipProvider>
   </QueryClientProvider>
 );

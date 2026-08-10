@@ -31,7 +31,26 @@ function upsertLink(rel: string, href: string) {
   el.setAttribute("href", href);
 }
 
-const SITE_URL = "https://bravomechanicalny.com";
+const SITE_URL = "https://www.bravomechanicalny.com";
+
+function clipAtWord(value: string, maxLength: number) {
+  if (value.length <= maxLength) return value;
+  const clipped = value.slice(0, maxLength - 1);
+  const lastSpace = clipped.lastIndexOf(" ");
+  return `${clipped.slice(0, lastSpace > maxLength * 0.6 ? lastSpace : clipped.length).trim()}…`;
+}
+
+export function fitSeoTitle(value: string, maxLength = 65) {
+  const compact = value
+    .replace(" | Bravo Mechanical LLC", " | Bravo Mechanical")
+    .replace(" | Bravo Mechanical Blog", " | Bravo Mechanical");
+  if (compact.length <= maxLength) return compact;
+  const brand = " | Bravo Mechanical";
+  const topic = compact.split(" | ")[0].replace(/\s+—\s+Hablamos Español$/i, "");
+  return `${clipAtWord(topic, maxLength - brand.length)}${brand}`;
+}
+
+export const fitMetaDescription = (value: string, maxLength = 160) => clipAtWord(value, maxLength);
 
 function toCanonicalUrl(pathOrUrl?: string) {
   if (!pathOrUrl) return `${SITE_URL}${window.location.pathname}`.replace(/\/$/, "") || SITE_URL;
@@ -43,13 +62,15 @@ export function useSeo({ title, description, canonical, image, type = "website",
   const serializedJsonLd = jsonLd ? JSON.stringify(jsonLd) : "";
 
   useEffect(() => {
-    document.title = title;
-    upsertMeta('meta[name="description"]', "name", "description", description);
-    upsertMeta('meta[property="og:title"]', "property", "og:title", title);
-    upsertMeta('meta[property="og:description"]', "property", "og:description", description);
+    const fittedTitle = fitSeoTitle(title);
+    const fittedDescription = fitMetaDescription(description);
+    document.title = fittedTitle;
+    upsertMeta('meta[name="description"]', "name", "description", fittedDescription);
+    upsertMeta('meta[property="og:title"]', "property", "og:title", fittedTitle);
+    upsertMeta('meta[property="og:description"]', "property", "og:description", fittedDescription);
     upsertMeta('meta[property="og:type"]', "property", "og:type", type);
-    upsertMeta('meta[name="twitter:title"]', "name", "twitter:title", title);
-    upsertMeta('meta[name="twitter:description"]', "name", "twitter:description", description);
+    upsertMeta('meta[name="twitter:title"]', "name", "twitter:title", fittedTitle);
+    upsertMeta('meta[name="twitter:description"]', "name", "twitter:description", fittedDescription);
     if (image) {
       const absoluteImage = image.startsWith("http") ? image : window.location.origin + image;
       upsertMeta('meta[property="og:image"]', "property", "og:image", absoluteImage);
@@ -62,11 +83,13 @@ export function useSeo({ title, description, canonical, image, type = "website",
     upsertMeta('meta[name="robots"]', "name", "robots", noindex ? "noindex, nofollow" : "index, follow");
 
     let scriptEl: HTMLScriptElement | null = null;
+    document.head.querySelectorAll('script[data-seo-route="true"]').forEach((script) => script.remove());
     if (jsonLd) {
       scriptEl = document.createElement("script");
       scriptEl.type = "application/ld+json";
       scriptEl.text = serializedJsonLd;
       scriptEl.dataset.seoJsonLd = "true";
+      scriptEl.dataset.seoRoute = "true";
       document.head.appendChild(scriptEl);
     }
     document.documentElement.setAttribute("data-seo-ready", "true");

@@ -59,35 +59,15 @@ const CityPage = () => {
       ? [
           {
             "@context": "https://schema.org",
-            "@type": "HVACBusiness",
-            "@id": `${pageUrl}#localbusiness`,
-            name: SITE.legalName,
-            image: `${SITE.siteUrl}/og-image.jpg`,
-            telephone: SITE.phone,
-            email: SITE.email,
+            "@type": "Service",
+            "@id": `${pageUrl}#service`,
+            name: `HVAC service in ${city.name}, NY`,
+            serviceType: "Heating, cooling, installation, repair, and maintenance",
+            description,
             url: pageUrl,
-            priceRange: "$$",
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: city.name,
-              addressRegion: "NY",
-              addressCountry: "US",
-            },
             areaServed: { "@type": "City", name: `${city.name}, NY` },
-            openingHoursSpecification: [
-              {
-                "@type": "OpeningHoursSpecification",
-                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                opens: "00:00",
-                closes: "23:59",
-              },
-            ],
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: SITE.rating.score,
-              reviewCount: SITE.rating.count,
-              bestRating: 5,
-              worstRating: 1,
+            provider: {
+              "@id": `${SITE.siteUrl}/#localbusiness`,
             },
           },
           {

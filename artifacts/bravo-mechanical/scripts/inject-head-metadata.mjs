@@ -22,33 +22,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   buildAllRoutes,
-  loadGoogleReviews,
-  relativeDateToIso,
   SITE_URL,
   SITE_NAME,
   SITE_LEGAL,
   SITE_PHONE,
-  SITE_EMAIL,
-  SITE_RATING,
   OG_IMAGE,
   BUILD_DATE,
 } from "./route-data.mjs";
 import { PRIVACY_POLICY_HTML, TERMS_HTML } from "./legal-content.mjs";
-
-// Module-level review cache populated once per build, then read by buildJsonLd.
-let ALL_REVIEWS = [];
-let TOP_REVIEWS = [];
-
-function reviewToSchema(r) {
-  return {
-    "@type": "Review",
-    author: { "@type": "Person", name: r.reviewerName },
-    reviewRating: { "@type": "Rating", ratingValue: String(r.rating), bestRating: "5", worstRating: "1" },
-    reviewBody: r.reviewText,
-    datePublished: relativeDateToIso(r.reviewDate),
-    publisher: { "@type": "Organization", name: "Google" },
-  };
-}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -61,7 +42,7 @@ function htmlEscape(s) {
 function jsonScript(obj) {
   // Use </script splitting to defuse any "</script>" sequences in content.
   const json = JSON.stringify(obj).replace(/<\/script/gi, "<\\/script");
-  return `<script type="application/ld+json">${json}</script>`;
+  return `<script type="application/ld+json" data-seo-route="true">${json}</script>`;
 }
 
 function buildJsonLd(route) {
@@ -122,22 +103,14 @@ function buildJsonLd(route) {
     const out = [
       {
         "@context": "https://schema.org",
-        "@type": "HVACBusiness",
-        "@id": `${url}#localbusiness`,
-        name: SITE_LEGAL,
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name: `HVAC service in ${route.city.name}, NY`,
+        serviceType: "Heating, cooling, installation, repair, and maintenance",
+        description: route.description,
         url,
-        telephone: SITE_PHONE,
-        email: SITE_EMAIL,
-        image: OG_IMAGE,
-        priceRange: "$$",
-        // Real NAP everywhere — one business, one address; the city is areaServed.
-        address: { "@type": "PostalAddress", streetAddress: "1 Fowler Avenue", addressLocality: "Yonkers", addressRegion: "NY", postalCode: "10701", addressCountry: "US" },
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
-        openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" }],
-        // NOTE: no aggregateRating/review here — Google ignores self-serving
-        // review markup on LocalBusiness and it carries manual-action risk.
-        // The star rating in the map pack comes from the Google Business
-        // Profile, not from schema.
+        provider: { "@id": `${SITE_URL}/#localbusiness` },
         dateModified: BUILD_DATE,
       },
       breadcrumbs([
@@ -160,7 +133,7 @@ function buildJsonLd(route) {
         url,
         serviceType: route.service.seoTitle,
         areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
-        provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL },
+        provider: { "@id": `${SITE_URL}/#localbusiness` },
         dateModified: BUILD_DATE,
       },
       breadcrumbs([
@@ -183,7 +156,7 @@ function buildJsonLd(route) {
         description: route.description,
         url,
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
-        provider: { "@type": "HVACBusiness", "@id": `${SITE_URL}/#localbusiness`, name: SITE_LEGAL, telephone: SITE_PHONE, url: SITE_URL },
+        provider: { "@id": `${SITE_URL}/#localbusiness` },
         dateModified: BUILD_DATE,
       },
       breadcrumbs([
@@ -390,6 +363,11 @@ function buildBodyInsert(route, ctx) {
   }
 
   if (route.type === "city" && route.city) {
+    if (route.city.intro) parts.push(`<h2>Local HVAC experience in ${esc(route.city.name)}</h2><p>${esc(route.city.intro)}</p>`);
+    if (route.city.housing) parts.push(`<h2>Heating and cooling needs in ${esc(route.city.name)}</h2><p>${esc(route.city.housing)}</p>`);
+    if (route.city.climateNote) parts.push(`<h2>Local climate considerations</h2><p>${esc(route.city.climateNote)}</p>`);
+    if (route.city.neighborhoods?.length) parts.push(`<p><strong>Neighborhoods served:</strong> ${route.city.neighborhoods.map(esc).join(", ")}.</p>`);
+    if (route.city.zips?.length) parts.push(`<p><strong>ZIP codes served:</strong> ${route.city.zips.map(esc).join(", ")}.</p>`);
     parts.push(`<h2>HVAC services in ${esc(route.city.name)}, NY</h2>`);
     parts.push(linkList(ctx.services));
   } else if (route.type === "service" || route.type === "guide" || route.type === "service-city") {
@@ -428,11 +406,6 @@ async function main() {
     return;
   }
   const baseHtml = await readFile(indexPath, "utf8");
-
-  // Load Google reviews once and pick the featured top 3 for city pages.
-  ALL_REVIEWS = await loadGoogleReviews();
-  TOP_REVIEWS = ALL_REVIEWS.filter((r) => r.isFeatured).slice(0, 3);
-  console.log(`ℹ️  loaded ${ALL_REVIEWS.length} Google reviews (${TOP_REVIEWS.length} featured for city pages).`);
 
   // Remove any self-serving review/aggregateRating markup from LocalBusiness
   // JSON-LD (see stripSelfServingReviewMarkup).

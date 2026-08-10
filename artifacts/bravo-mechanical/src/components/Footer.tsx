@@ -20,7 +20,7 @@ export const Footer = () => {
         </div>
 
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Services</h3>
+          <h2 className="text-sm font-bold uppercase tracking-wider mb-4">Services</h2>
           <ul className="space-y-2 text-sm">
             {FEATURED_SERVICE_LINKS.map((s) => (
               <li key={s.path}>
@@ -56,7 +56,7 @@ export const Footer = () => {
         </div>
 
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Service Areas</h3>
+          <h2 className="text-sm font-bold uppercase tracking-wider mb-4">Service Areas</h2>
           <ul className="space-y-2 text-sm">
             {[
               { name: "Yonkers", slug: "yonkers" },
@@ -80,7 +80,7 @@ export const Footer = () => {
         </div>
 
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Contact</h3>
+          <h2 className="text-sm font-bold uppercase tracking-wider mb-4">Contact</h2>
           <ul className="space-y-3 text-sm">
             <li className="flex items-start gap-2">
               <Phone className="h-4 w-4 mt-0.5 shrink-0" />
@@ -98,7 +98,7 @@ export const Footer = () => {
         </div>
 
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Hours</h3>
+          <h2 className="text-sm font-bold uppercase tracking-wider mb-4">Hours</h2>
           <ul className="space-y-2 text-sm">
             {SITE.hours.map((h) => (
               <li key={h.day} className="flex items-start gap-2">
@@ -111,7 +111,7 @@ export const Footer = () => {
       </div>
 
       <div className="border-t border-primary-foreground/15">
-        <div className="container mx-auto px-4 py-5 flex flex-col gap-3 text-xs text-primary-foreground/70 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container mx-auto px-4 py-5 flex flex-col gap-3 text-xs text-primary-foreground/90 sm:flex-row sm:items-center sm:justify-between">
           <div>© {year} {SITE.legalName}. All rights reserved.</div>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
             <Link to="/privacy-policy" className="hover:text-primary-foreground hover:underline">Privacy Policy</Link>

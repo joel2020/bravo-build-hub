@@ -9,7 +9,7 @@ import { SITE } from "@/lib/site";
 import { HIGH_INTENT_SERVICES } from "@/lib/highIntentServices";
 import { useSeo } from "@/lib/seo";
 
-const SITE_URL = "https://bravomechanicalny.com";
+const SITE_URL = "https://www.bravomechanicalny.com";
 
 const services = [
   {
@@ -65,18 +65,7 @@ const Services = () => {
 
   useEffect(() => {
     const provider = {
-      "@type": "HVACBusiness",
-      name: SITE.legalName,
-      telephone: SITE.phone,
-      email: SITE.email,
-      url: SITE_URL,
-      priceRange: "$$",
-      areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: SITE.rating.score,
-        reviewCount: SITE.rating.count,
-      },
+      "@id": `${SITE_URL}/#localbusiness`,
     };
 
     const breadcrumbLd = {

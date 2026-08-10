@@ -27,11 +27,7 @@ const Contact = () => {
         name: "Contact Bravo Mechanical",
         url: `${SITE.siteUrl}/contact`,
         mainEntity: {
-          "@type": "HVACBusiness",
-          name: SITE.legalName,
-          telephone: SITE.phone,
-          email: SITE.email,
-          areaServed: "Westchester County, NY",
+          "@id": `${SITE.siteUrl}/#localbusiness`,
         },
       },
       {

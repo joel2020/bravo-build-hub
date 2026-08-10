@@ -40,12 +40,18 @@ const BookOnline = () => {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
+  const [attempted, setAttempted] = useState(false);
 
   const update = (k: keyof typeof form, v: string) => setForm((p) => ({ ...p, [k]: v }));
   const valid = form.name.trim() && form.phone.replace(/\D/g, "").length >= 10 && form.service && form.date && form.window;
 
-  const submit = async () => {
-    if (!valid || submitting) return;
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setAttempted(true);
+    if (!valid || submitting) {
+      setError("Complete your name, mobile phone, service, day, and time window.");
+      return;
+    }
     setSubmitting(true);
     setError("");
     const consentStamp = `[Consent] SMS/email contact agreed at ${new Date().toISOString()} (form: online_booking)`;
@@ -103,77 +109,85 @@ const BookOnline = () => {
       />
 
       <section className="container mx-auto px-4 py-12 max-w-2xl">
-        <div className="bg-card border border-border rounded-lg p-6 md:p-8 space-y-6">
+        <form onSubmit={submit} noValidate className="bg-card border border-border rounded-lg p-6 md:p-8 space-y-6">
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-name">Name *</label>
-              <input id="bk-name" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.name} onChange={(e) => update("name", e.target.value)} autoComplete="name" />
+              <input id="bk-name" name="name" required className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.name} onChange={(e) => update("name", e.target.value)} autoComplete="name" />
             </div>
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-phone">Mobile phone *</label>
-              <input id="bk-phone" type="tel" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.phone} onChange={(e) => update("phone", e.target.value)} autoComplete="tel" placeholder="(914) 555-1234" />
+              <input id="bk-phone" name="phone" required minLength={10} inputMode="tel" type="tel" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.phone} onChange={(e) => update("phone", e.target.value)} autoComplete="tel" placeholder="(914) 555-1234" />
             </div>
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-email">Email</label>
-              <input id="bk-email" type="email" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" />
+              <input id="bk-email" name="email" type="email" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" />
             </div>
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-address">Service address</label>
-              <input id="bk-address" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.address} onChange={(e) => update("address", e.target.value)} autoComplete="street-address" placeholder="Street, town" />
+              <input id="bk-address" name="address" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.address} onChange={(e) => update("address", e.target.value)} autoComplete="street-address" placeholder="Street, town" />
             </div>
           </div>
 
-          <div>
-            <label className="text-sm font-bold block mb-2">What do you need? *</label>
+          <fieldset>
+            <legend className="text-sm font-bold block mb-2">What do you need? *</legend>
             <div className="flex flex-wrap gap-2">
               {SERVICES_OFFERED.map((s) => (
                 <button key={s} type="button" onClick={() => update("service", s)}
+                  aria-pressed={form.service === s}
                   className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition ${form.service === s ? "bg-accent text-accent-foreground border-accent" : "border-border hover:border-accent"}`}>
                   {s}
                 </button>
               ))}
             </div>
-          </div>
+            <input type="hidden" name="service" value={form.service} />
+          </fieldset>
 
-          <div>
-            <label className="text-sm font-bold block mb-2 flex items-center gap-2"><CalendarDays className="h-4 w-4" /> Pick a day *</label>
+          <fieldset>
+            <legend className="text-sm font-bold mb-2 flex items-center gap-2"><CalendarDays className="h-4 w-4" /> Pick a day *</legend>
             <div className="flex flex-wrap gap-2">
               {days.map((d) => (
                 <button key={d.iso} type="button" onClick={() => update("date", d.iso)}
+                  aria-pressed={form.date === d.iso}
                   className={`rounded-md border px-3 py-1.5 text-sm font-semibold transition ${form.date === d.iso ? "bg-accent text-accent-foreground border-accent" : "border-border hover:border-accent"}`}>
                   {d.label}
                 </button>
               ))}
             </div>
+            <input type="hidden" name="date" value={form.date} />
             <p className="text-xs text-muted-foreground mt-2">Need someone today? <a href={SITE.phoneHref} className="text-accent font-semibold hover:underline">Call {SITE.phone}</a> — same-day slots go by phone.</p>
-          </div>
+          </fieldset>
 
-          <div>
-            <label className="text-sm font-bold block mb-2">Time window *</label>
+          <fieldset>
+            <legend className="text-sm font-bold block mb-2">Time window *</legend>
             <div className="flex flex-wrap gap-2">
               {WINDOWS.map((w) => (
                 <button key={w} type="button" onClick={() => update("window", w)}
+                  aria-pressed={form.window === w}
                   className={`rounded-md border px-3 py-1.5 text-sm font-semibold transition ${form.window === w ? "bg-accent text-accent-foreground border-accent" : "border-border hover:border-accent"}`}>
                   {w}
                 </button>
               ))}
             </div>
-          </div>
+            <input type="hidden" name="window" value={form.window} />
+          </fieldset>
 
           <div>
             <label className="text-sm font-bold block mb-1" htmlFor="bk-message">Anything we should know?</label>
-            <textarea id="bk-message" rows={3} className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.message} onChange={(e) => update("message", e.target.value)} placeholder="What's the system doing? Brand, age, access notes…" />
+            <textarea id="bk-message" name="message" rows={3} className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.message} onChange={(e) => update("message", e.target.value)} placeholder="What's the system doing? Brand, age, access notes…" />
           </div>
 
-          {error && <p className="text-sm font-semibold text-destructive">{error}</p>}
+          <p id="booking-guidance" aria-live="polite" className={`text-sm font-semibold ${error ? "text-destructive" : "text-muted-foreground"}`}>
+            {error || (attempted ? "Complete all required booking choices." : "Required fields are marked with an asterisk.")}
+          </p>
 
-          <Button size="lg" disabled={!valid || submitting} onClick={submit} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
+          <Button type="submit" size="lg" disabled={submitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
             {submitting ? "Booking…" : "Book My Visit"}
           </Button>
           <p className="text-xs text-muted-foreground text-center">
             By tapping "Book My Visit" you agree that Bravo Mechanical LLC may contact you by phone, text message, and email about your service request, including via automated messages. We'll confirm the exact time by text from {SITE.smsPhone}. Consent is not a condition of service. Message frequency varies; message and data rates may apply. Reply STOP to opt out, HELP for help. See our <Link to="/privacy-policy" className="underline hover:text-accent">Privacy Policy</Link> and <Link to="/terms-and-conditions" className="underline hover:text-accent">SMS Terms</Link>.
           </p>
-        </div>
+        </form>
 
         <div className="mt-6 text-center text-sm text-muted-foreground">
           Prefer to talk? <a href={SITE.phoneHref} className="text-accent font-semibold hover:underline">Call {SITE.phone}</a> or <a href={SITE.smsHref} className="text-accent font-semibold hover:underline"><MessageSquare className="inline h-3.5 w-3.5" /> text us at {SITE.smsPhone}</a>.

@@ -28,11 +28,7 @@ const HighIntentServicePage = () => {
       url,
       areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
       provider: {
-        "@type": "HVACBusiness",
-        name: SITE.legalName,
-        telephone: SITE.phone,
-        email: SITE.email,
-        url: SITE.siteUrl,
+        "@id": `${SITE.siteUrl}/#localbusiness`,
       },
       availableChannel: service.schema.emergency
         ? {

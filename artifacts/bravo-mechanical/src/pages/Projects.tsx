@@ -6,12 +6,12 @@ import { CTABand } from "@/components/CTABand";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
-import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
-import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
+import jobBoilerBefore from "@/assets/job-boiler-before.avif";
+import jobBoilerAfter from "@/assets/job-boiler-after.avif";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
 import jobWaterHeater from "@/assets/job-water-heater.webp";
 import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
-import jobGasFurnace from "@/assets/job-gas-furnace.jpg";
+import jobGasFurnace from "@/assets/job-gas-furnace.avif";
 import jobRadiator from "@/assets/job-radiator-repair.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 

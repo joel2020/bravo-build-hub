@@ -3,7 +3,7 @@ export const SITE = {
   legalName: "Bravo Mechanical LLC",
   // Canonical origin — must match sitemap.xml, robots.txt, llms.txt, and index.html JSON-LD.
   // No "www" subdomain. If you change this, update generate-sitemap.mjs and inject-head-metadata.mjs too.
-  siteUrl: "https://bravomechanicalny.com",
+  siteUrl: "https://www.bravomechanicalny.com",
   tagline: "Reliable HVAC Service You Can Count On",
   phone: "(914) 361-9142",
   phoneHref: "tel:+19143619142",

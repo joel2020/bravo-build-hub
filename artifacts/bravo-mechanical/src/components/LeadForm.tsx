@@ -138,7 +138,8 @@ export const LeadForm = ({
   const t = FORM_STRINGS[lang];
   const schema = useMemo(() => buildSchema(t), [t]);
   const { toast } = useToast();
-  const [values, setValues] = useState({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage, consent: false });
+  const initialValues = useRef({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage, consent: false });
+  const [values, setValues] = useState(initialValues.current);
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -149,8 +150,12 @@ export const LeadForm = ({
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const consentRef = useRef<HTMLInputElement>(null);
 
-  const isDirty = values.consent || [values.name, values.phone, values.email, values.service, values.message]
-    .some((value) => value.trim().length > 0);
+  const isDirty = values.consent !== initialValues.current.consent
+    || values.name.trim() !== initialValues.current.name.trim()
+    || values.phone.trim() !== initialValues.current.phone.trim()
+    || values.email.trim() !== initialValues.current.email.trim()
+    || values.service.trim() !== initialValues.current.service.trim()
+    || values.message.trim() !== initialValues.current.message.trim();
   useUnsavedChangesGuard(isDirty && !submitting && !submitted);
 
   const tracking = useMemo<TrackingPayload>(() => {

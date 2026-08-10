@@ -425,4 +425,44 @@ describe("recoverable lead forms", () => {
     expect(document.activeElement).toBe(screen.getByLabelText(/full name/i));
     expect(screen.getByLabelText(/full name/i).getAttribute("aria-invalid")).toBe("true");
   });
+
+  it("protects a prefilled lead only after the user edits it", async () => {
+    const user = userEvent.setup();
+    const confirm = vi.spyOn(window, "confirm").mockReturnValue(false);
+    const PrefilledLeadHarness = () => {
+      const navigate = useNavigate();
+      return (
+        <>
+          <LeadForm
+            defaultService="Emergency HVAC repair"
+            defaultMessage="Urgent no-heat or no-cool issue."
+          />
+          <button type="button" onClick={() => navigate("/next")}>Leave request</button>
+        </>
+      );
+    };
+    const routes = [
+      { path: "/", element: <PrefilledLeadHarness /> },
+      { path: "/next", element: <h1>Next page</h1> },
+    ];
+
+    const pristineRouter = createMemoryRouter(routes);
+    const pristineRender = render(<RouterProvider router={pristineRouter} />);
+    await user.click(screen.getByRole("button", { name: "Leave request" }));
+
+    expect(await screen.findByRole("heading", { name: "Next page" })).toBeTruthy();
+    expect(confirm).not.toHaveBeenCalled();
+
+    pristineRender.unmount();
+    confirm.mockClear();
+    const editedRouter = createMemoryRouter(routes);
+    render(<RouterProvider router={editedRouter} />);
+    await user.type(screen.getByLabelText(/how can we help/i), " Please call.");
+    await user.click(screen.getByRole("button", { name: "Leave request" }));
+
+    expect(confirm).toHaveBeenCalledWith(
+      "You have an unfinished service request. Leave this page and discard it?",
+    );
+    expect(screen.queryByRole("heading", { name: "Next page" })).toBeNull();
+  });
 });

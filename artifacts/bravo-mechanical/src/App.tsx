@@ -44,9 +44,9 @@ const isAppSubdomain = typeof window !== "undefined" && window.location.hostname
 
 // Loading spinner shown while lazy route chunks are downloading
 const PageLoader = () => (
-  <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f8fafc" }}>
-    <div style={{ width: 40, height: 40, border: "3px solid #e2e8f0", borderTop: "3px solid #0b3a66", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-    <style>{"@keyframes spin { to { transform: rotate(360deg); } }"}</style>
+  <div className="page-loader" role="status" aria-live="polite">
+    <span className="page-loader__spinner" aria-hidden="true" />
+    <span className="sr-only">Loading page…</span>
   </div>
 );
 

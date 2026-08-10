@@ -385,7 +385,7 @@ const Index = () => {
             <Link
               key={s.slug}
               to={`/services/${s.slug}`}
-              className="bg-card border border-border rounded-lg overflow-hidden flex flex-col hover:border-accent hover:shadow-md transition-all group"
+              className="bg-card border border-border rounded-lg overflow-hidden flex flex-col hover:border-accent hover:shadow-md transition-[border-color,box-shadow] group"
             >
               <img src={s.card.img} alt={s.card.alt} width={960} height={600} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover" />
               <div className="p-6 flex flex-col flex-1">

@@ -2,7 +2,6 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { CheckCircle2, MapPin, Phone, ArrowLeft, Star, Calendar, Clock } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
-import { CTABand } from "@/components/CTABand";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getCity, CITIES } from "@/lib/cities";
@@ -103,6 +102,7 @@ const CityPage = () => {
         eyebrow={`${city.region} • Westchester County, NY`}
         title={`HVAC Services in ${city.name}, NY`}
         subtitle={`Local heating, cooling, and air-quality service for homes and businesses in ${city.name}. Licensed, insured, and dispatched from right here in Westchester County.`}
+        hideRightSlot
       />
 
       <section className="container mx-auto px-4 py-10 lg:py-14">
@@ -192,8 +192,8 @@ const CityPage = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICES.map((s) => {
               const hasCombo = isTopCity(city.slug);
-              const href = hasCombo ? `/services/${s.slug}/${city.slug}` : "/services";
-              const label = hasCombo ? `${s.title} in ${city.name} →` : "View all services →";
+              const href = hasCombo ? `/services/${s.slug}/${city.slug}` : `/services/${s.slug}`;
+              const label = hasCombo ? `${s.title} in ${city.name} →` : `${s.title} services →`;
               return (
                 <div key={s.slug} className="bg-card border border-border rounded-lg p-5 flex flex-col">
                   <h3 className="font-bold mb-2">{s.title}</h3>
@@ -321,10 +321,6 @@ const CityPage = () => {
         </section>
       )}
 
-      <CTABand
-        title={`Need HVAC service in ${city.name}?`}
-        subtitle={`Call us or request an estimate online — we'll be back to you fast.`}
-      />
     </Layout>
   );
 };

@@ -129,7 +129,7 @@ const Services = () => {
             <h2 className="text-2xl font-extrabold mb-2">{s.title}</h2>
             <p className="text-muted-foreground">{s.desc}</p>
             <Button asChild className="mt-6 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-              <Link to="/contact">Request Service</Link>
+              <Link to="/contact">Request {s.title}</Link>
             </Button>
           </div>
           <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6">

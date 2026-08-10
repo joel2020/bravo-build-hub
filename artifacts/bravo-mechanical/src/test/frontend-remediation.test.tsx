@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 
 import { lazy, Suspense } from "react";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { act, cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -21,6 +23,34 @@ import { PageHero } from "../components/PageHero";
 import { SITE } from "../lib/site";
 import BookOnline from "../pages/BookOnline";
 import Contact from "../pages/Contact";
+import CityPage from "../pages/CityPage";
+import Index from "../pages/Index";
+import Projects from "../pages/Projects";
+import Services from "../pages/Services";
+
+vi.mock("../integrations/supabase/client", () => ({
+  supabase: {
+    from: () => {
+      const query = {
+        select: () => query,
+        eq: () => query,
+        order: () => query,
+        limit: () =>
+          Promise.resolve({
+            data: [
+              {
+                id: "published-photo",
+                public_url: "https://example.com/published-job.jpg",
+                public_caption: "Published CRM project",
+                created_at: "2026-08-10T12:00:00.000Z",
+              },
+            ],
+          }),
+      };
+      return query;
+    },
+  },
+}));
 
 const TestRoutes = () => {
   const navigate = useNavigate();
@@ -293,6 +323,114 @@ describe("frontend remediation navigation shell", () => {
     expect(screen.getByRole("menuitem", { name: "About" }).getAttribute("href")).toBe("/about");
     expect(screen.getByRole("menuitem", { name: "Blog" }).getAttribute("href")).toBe("/blog");
     expect(screen.getByRole("menuitem", { name: "Español" }).getAttribute("href")).toBe("/es");
+  });
+});
+
+describe("loader, project proof, and contextual actions", () => {
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+    window.history.replaceState({}, "", "/");
+  });
+
+  it("announces a lazy route load while keeping the spinner decorative", async () => {
+    vi.stubGlobal("matchMedia", () => ({
+      matches: false,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+    }));
+    window.history.replaceState({}, "", "/services");
+    const { default: App } = await import("../App");
+
+    render(<App />);
+
+    const loader = screen.getByRole("status");
+    expect(loader.getAttribute("aria-live")).toBe("polite");
+    expect(within(loader).getByText("Loading page…")).toBeTruthy();
+    expect(loader.querySelector(".page-loader__spinner")?.getAttribute("aria-hidden")).toBe("true");
+  });
+
+  it("disables the page-loader animation when reduced motion is requested", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/index.css"), "utf8");
+
+    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+    expect(css).toMatch(/\.page-loader__spinner\s*\{[^}]*animation:\s*none/s);
+  });
+
+  it("reserves image space and presents verified proof on project cards", async () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Projects />
+      </MemoryRouter>,
+    );
+
+    const crmImage = await screen.findByAltText("Published CRM project");
+    expect(crmImage.getAttribute("width")).toBe("1200");
+    expect(crmImage.getAttribute("height")).toBe("900");
+
+    const projectImages = Array.from(container.querySelectorAll("figure img"));
+    expect(projectImages.length).toBeGreaterThan(1);
+    projectImages.forEach((image) => {
+      expect(Number(image.getAttribute("width"))).toBeGreaterThan(0);
+      expect(Number(image.getAttribute("height"))).toBeGreaterThan(0);
+    });
+
+    const boilerProof = screen.getByText(/Yonkers.*Gas boiler replacement/i).closest("figure");
+    expect(boilerProof).not.toBeNull();
+    expect(within(boilerProof!).getByText(/Aging steam boiler with uneven heat and leaks/i)).toBeTruthy();
+    expect(within(boilerProof!).getByRole("link", { name: /boiler installation service/i }).getAttribute("href")).toBe(
+      "/services/boiler-installation-westchester-county-ny",
+    );
+  });
+
+  it("uses explicit transition properties on the homeowner system cards", () => {
+    render(
+      <MemoryRouter>
+        <Index />
+      </MemoryRouter>,
+    );
+
+    const card = document.querySelector<HTMLAnchorElement>('a[href="/services/heat-pumps"]');
+    if (!card) throw new Error("Expected the heat-pump homeowner system card");
+    expect(card.classList.contains("transition-all")).toBe(false);
+    expect(card.classList.contains("transition-[border-color,box-shadow]")).toBe(true);
+  });
+
+  it("names each service request action for the service it belongs to", () => {
+    render(
+      <MemoryRouter>
+        <Services />
+      </MemoryRouter>,
+    );
+
+    [
+      "HVAC Installation",
+      "HVAC Repair",
+      "Preventive Maintenance",
+      "Indoor Air Quality",
+      "Residential HVAC",
+      "Commercial HVAC",
+    ].forEach((title) => {
+      expect(screen.getByRole("link", { name: `Request ${title}` })).toBeTruthy();
+    });
+  });
+
+  it("keeps one city estimate action and links each service card descriptively", () => {
+    render(
+      <MemoryRouter initialEntries={["/service-areas/ardsley"]}>
+        <Routes>
+          <Route path="/service-areas/:slug" element={<CityPage />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    const main = screen.getByRole("main");
+    expect(within(main).getAllByRole("link", { name: /get a free estimate/i })).toHaveLength(1);
+    expect(screen.getByRole("link", { name: "HVAC Installation services →" }).getAttribute("href")).toBe(
+      "/services/hvac-installation",
+    );
+    expect(screen.queryByRole("link", { name: "View all services →" })).toBeNull();
   });
 });
 

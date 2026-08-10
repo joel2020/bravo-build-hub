@@ -14,18 +14,92 @@ import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobGasFurnace from "@/assets/job-gas-furnace.avif";
 import jobRadiator from "@/assets/job-radiator-repair.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
+import projectBoilerAfter from "@/assets/project-boiler-after.webp";
+import projectBurnerService from "@/assets/project-burner-service.avif";
+import projectGasBoiler from "@/assets/project-gas-boiler.avif";
 
 // Baseline gallery of real completed jobs. New photos flagged "Show on
 // website" in the CRM appear above these automatically.
-const FEATURED_JOBS = [
-  { src: jobBoilerAfter, caption: "High-efficiency gas boiler replacement — Westchester County", tag: "Boiler" },
-  { src: jobBoilerBefore, caption: "The 25-year-old boiler it replaced (before)", tag: "Boiler" },
-  { src: jobMitsubishi, caption: "Mitsubishi ductless mini-split installation", tag: "Mini-Split" },
-  { src: jobMiniSplit, caption: "Cold-climate heat pump condenser install", tag: "Heat Pump" },
-  { src: jobGasFurnace, caption: "95%+ AFUE gas furnace installation", tag: "Furnace" },
-  { src: jobWaterHeater, caption: "Water heater replacement with code-compliant piping", tag: "Water Heater" },
-  { src: jobRadiator, caption: "Hydronic radiator system service", tag: "Boiler" },
-  { src: jobExteriorWhite, caption: "Clean exterior line-set routing on a mini-split retrofit", tag: "Mini-Split" },
+type FeaturedJob = {
+  src: string;
+  width: number;
+  height: number;
+  caption: string;
+  tag: string;
+  town?: string;
+  problem?: string;
+  solution?: string;
+  result?: string;
+  servicePath?: string;
+};
+
+const FEATURED_JOBS: FeaturedJob[] = [
+  {
+    src: projectBoilerAfter,
+    width: 447,
+    height: 640,
+    caption: "Gas boiler replacement",
+    tag: "Boiler Installation",
+    town: "Yonkers",
+    problem: "Aging steam boiler with uneven heat and leaks.",
+    solution: "Installed a Weil-McLain boiler with corrected near-boiler piping.",
+    result: "More even heat and improved boiler performance.",
+    servicePath: "/services/boiler-installation-westchester-county-ny",
+  },
+  {
+    src: jobMiniSplit,
+    width: 765,
+    height: 1020,
+    caption: "Mitsubishi mini-split",
+    tag: "Mini-Split Installation",
+    town: "White Plains",
+    problem: "Second floor stayed hot each summer.",
+    solution: "Added a two-zone ductless heat pump system.",
+    result: "More consistent second-floor comfort.",
+    servicePath: "/services/mini-split-installation-westchester-county-ny",
+  },
+  {
+    src: jobWaterHeater,
+    width: 765,
+    height: 1020,
+    caption: "Water heater replacement",
+    tag: "Water Heater Installation",
+    town: "New Rochelle",
+    problem: "Old tank leaking and recovering slowly.",
+    solution: "Replaced with a high-recovery AO Smith unit.",
+    result: "More reliable hot water recovery for daily use.",
+    servicePath: "/services/water-heater-installation-westchester-county-ny",
+  },
+  {
+    src: projectBurnerService,
+    width: 447,
+    height: 640,
+    caption: "Oil burner service",
+    tag: "Boiler Repair",
+    town: "Mount Vernon",
+    problem: "Hard starts and soot buildup.",
+    solution: "Performed full burner cleaning, nozzle swap, and combustion test.",
+    result: "Improved burner operation at startup.",
+    servicePath: "/services/boiler-repair-westchester-county-ny",
+  },
+  {
+    src: projectGasBoiler,
+    width: 447,
+    height: 640,
+    caption: "Gas boiler maintenance",
+    tag: "Boiler Repair",
+    town: "Scarsdale",
+    problem: "Short cycling and pressure fluctuation.",
+    solution: "Serviced controls, adjusted expansion tank, and tuned combustion.",
+    result: "More stable heat performance after service.",
+    servicePath: "/services/boiler-repair-westchester-county-ny",
+  },
+  { src: jobBoilerAfter, width: 1440, height: 1920, caption: "High-efficiency gas boiler replacement — Westchester County", tag: "Boiler" },
+  { src: jobBoilerBefore, width: 1440, height: 1920, caption: "The 25-year-old boiler it replaced (before)", tag: "Boiler" },
+  { src: jobMitsubishi, width: 765, height: 1020, caption: "Mitsubishi ductless mini-split installation", tag: "Mini-Split" },
+  { src: jobGasFurnace, width: 1086, height: 1448, caption: "95%+ AFUE gas furnace installation", tag: "Furnace" },
+  { src: jobRadiator, width: 574, height: 1020, caption: "Hydronic radiator system service", tag: "Boiler" },
+  { src: jobExteriorWhite, width: 765, height: 1020, caption: "Clean exterior line-set routing on a mini-split retrofit", tag: "Mini-Split" },
 ];
 
 type CrmPhoto = { id: string; public_url: string | null; public_caption: string | null; created_at: string };
@@ -72,16 +146,26 @@ const Projects = () => {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {crmPhotos.map((p) => (
             <figure key={p.id} className="overflow-hidden rounded-lg border border-border bg-card">
-              <img src={p.public_url!} alt={p.public_caption || "Completed HVAC job by Bravo Mechanical"} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
+              <img src={p.public_url!} alt={p.public_caption || "Completed HVAC job by Bravo Mechanical"} width={1200} height={900} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
               {p.public_caption && <figcaption className="p-3 text-sm font-semibold">{p.public_caption}</figcaption>}
             </figure>
           ))}
           {FEATURED_JOBS.map((p) => (
             <figure key={p.caption} className="overflow-hidden rounded-lg border border-border bg-card">
-              <img src={p.src} alt={p.caption} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
-              <figcaption className="flex items-start justify-between gap-2 p-3">
-                <span className="text-sm font-semibold">{p.caption}</span>
-                <span className="shrink-0 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-bold text-accent">{p.tag}</span>
+              <img src={p.src} alt={p.caption} width={p.width} height={p.height} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
+              <figcaption className="space-y-2 p-3">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="text-sm font-semibold">{p.town ? `${p.town} • ${p.caption}` : p.caption}</span>
+                  <span className="shrink-0 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-bold text-accent">{p.tag}</span>
+                </div>
+                {p.problem && <p className="text-sm"><strong>Problem:</strong> {p.problem}</p>}
+                {p.solution && <p className="text-sm"><strong>Solution:</strong> {p.solution}</p>}
+                {p.result && <p className="text-sm text-muted-foreground"><strong>Result:</strong> {p.result}</p>}
+                {p.servicePath && (
+                  <Link to={p.servicePath} className="inline-block text-sm font-semibold text-accent hover:underline">
+                    View {p.tag} service →
+                  </Link>
+                )}
               </figcaption>
             </figure>
           ))}

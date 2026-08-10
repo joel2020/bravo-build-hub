@@ -6,7 +6,16 @@ const isAppSubdomain = typeof window !== "undefined" && window.location.hostname
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   if (isAppSubdomain) {
-    return <div className="min-h-screen bg-slate-50 text-slate-950">{children}</div>;
+    return (
+      <div className="min-h-screen bg-slate-50 text-slate-950">
+        <a className="skip-link" href="#main-content">
+          Skip to main content
+        </a>
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
+      </div>
+    );
   }
 
   return (

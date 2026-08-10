@@ -193,7 +193,7 @@ describe("frontend remediation navigation shell", () => {
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
   });
 
-  it("dismisses the mobile menu when entering xl and keeps focus off the hidden trigger", async () => {
+  it("dismisses at xl without focusing the hidden trigger before effect cleanup", async () => {
     const listeners = new Set<(event: MediaQueryListEvent) => void>();
     const mediaQueryState = {
       matches: false,
@@ -236,11 +236,11 @@ describe("frontend remediation navigation shell", () => {
       listeners.forEach((listener) =>
         listener({ matches: true, media: mediaQueryState.media } as MediaQueryListEvent),
       );
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
     });
 
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
     expect(screen.queryByRole("navigation", { name: /mobile navigation/i })).toBeNull();
-    await user.keyboard("{Escape}");
     expect(document.activeElement).toBe(safeTarget);
 
     mediaQueryState.matches = false;

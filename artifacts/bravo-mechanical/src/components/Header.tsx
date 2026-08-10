@@ -44,6 +44,7 @@ const secondaryNav = [
 export const Header = () => {
   const [open, setOpen] = useState(false);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const xlBreakpointRef = useRef<MediaQueryList | null>(null);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -54,12 +55,16 @@ export const Header = () => {
     if (typeof window.matchMedia !== "function") return;
 
     const xlBreakpoint = window.matchMedia("(min-width: 1280px)");
+    xlBreakpointRef.current = xlBreakpoint;
     const closeMobileMenuAtXl = (event: MediaQueryListEvent) => {
       if (event.matches) setOpen(false);
     };
 
     xlBreakpoint.addEventListener("change", closeMobileMenuAtXl);
-    return () => xlBreakpoint.removeEventListener("change", closeMobileMenuAtXl);
+    return () => {
+      xlBreakpoint.removeEventListener("change", closeMobileMenuAtXl);
+      if (xlBreakpointRef.current === xlBreakpoint) xlBreakpointRef.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -68,7 +73,7 @@ export const Header = () => {
     const dismissMenu = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       setOpen(false);
-      menuTriggerRef.current?.focus();
+      if (!xlBreakpointRef.current?.matches) menuTriggerRef.current?.focus();
     };
 
     window.addEventListener("keydown", dismissMenu);

@@ -28,17 +28,22 @@ type BookingForm = {
   window: string;
 };
 
-type BookingErrorField = "name" | "phone" | "service" | "date" | "window";
+type BookingErrorField = "name" | "phone" | "email" | "service" | "date" | "window";
 type BookingErrors = Partial<Record<BookingErrorField, string>>;
 
-const BOOKING_ERROR_ORDER: BookingErrorField[] = ["name", "phone", "service", "date", "window"];
+const BOOKING_ERROR_ORDER: BookingErrorField[] = ["name", "phone", "email", "service", "date", "window"];
 
 export const validateBooking = (form: BookingForm): BookingErrors => {
   const errors: BookingErrors = {};
 
   if (!form.name.trim()) errors.name = "Enter your name.";
-  if (form.phone.replace(/\D/g, "").length < 10) {
+  const phone = form.phone.trim();
+  if (!/^[+()\d\s.-]+$/.test(phone) || phone.replace(/\D/g, "").length < 10) {
     errors.phone = "Enter a mobile phone number with at least 10 digits.";
+  }
+  const email = form.email.trim();
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = "Enter a valid email address.";
   }
   if (!form.service) errors.service = "Select the service you need.";
   if (!form.date) errors.date = "Choose a preferred day.";
@@ -75,6 +80,7 @@ const BookOnline = () => {
   const [errors, setErrors] = useState<BookingErrors>({});
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const serviceRef = useRef<HTMLFieldSetElement>(null);
   const dateRef = useRef<HTMLFieldSetElement>(null);
   const windowRef = useRef<HTMLFieldSetElement>(null);
@@ -83,6 +89,7 @@ const BookOnline = () => {
   useUnsavedChangesGuard(isDirty && !done);
 
   const update = (key: keyof BookingForm, value: string) => {
+    setError("");
     const nextForm = { ...form, [key]: value };
     setForm(nextForm);
 
@@ -106,11 +113,12 @@ const BookOnline = () => {
     const nextErrors = validateBooking(form);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
-      setError("Complete your name, mobile phone, service, day, and time window.");
+      setError("Correct the highlighted fields before booking.");
       const firstError = BOOKING_ERROR_ORDER.find((field) => nextErrors[field]);
       const targets = {
         name: nameRef.current,
         phone: phoneRef.current,
+        email: emailRef.current,
         service: serviceRef.current,
         date: dateRef.current,
         window: windowRef.current,
@@ -208,7 +216,8 @@ const BookOnline = () => {
             </div>
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-email">Email</label>
-              <input id="bk-email" name="email" type="email" className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" />
+              <input ref={emailRef} id="bk-email" name="email" type="email" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "booking-email-error" : undefined} className="w-full rounded-md border border-border bg-background px-3 py-2" value={form.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" />
+              {errors.email && <p id="booking-email-error" role="alert" className="text-destructive text-xs mt-1">{errors.email}</p>}
             </div>
             <div>
               <label className="text-sm font-bold block mb-1" htmlFor="bk-address">Service address</label>
@@ -268,7 +277,7 @@ const BookOnline = () => {
           </div>
 
           <p id="booking-guidance" aria-live="polite" className={`text-sm font-semibold ${error ? "text-destructive" : "text-muted-foreground"}`}>
-            {error || (attempted ? "Complete all required booking choices." : "Required fields are marked with an asterisk.")}
+            {error || (attempted && Object.keys(errors).length > 0 ? "Correct the highlighted fields before booking." : "Required fields are marked with an asterisk.")}
           </p>
 
           <Button type="submit" size="lg" disabled={submitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">

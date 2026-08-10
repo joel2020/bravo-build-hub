@@ -680,6 +680,38 @@ describe("recoverable lead forms", () => {
     expect(screen.queryByText("Enter your name.")).toBeNull();
   });
 
+  it("validates booking contact formats and clears stale guidance after correction", async () => {
+    const user = userEvent.setup();
+    const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
+    render(<RouterProvider router={router} />);
+
+    await user.type(screen.getByLabelText(/^name/i), "Jordan Lee");
+    const phone = screen.getByLabelText(/mobile phone/i);
+    const email = screen.getByLabelText(/^email/i);
+    await user.type(phone, "abc9145551234");
+    await user.type(email, "not-an-email");
+    await user.click(screen.getByRole("button", { name: "AC Repair" }));
+    await user.click(screen.getAllByRole("button", { name: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),/ })[0]);
+    await user.click(screen.getByRole("button", { name: "Morning (8am–11am)" }));
+    await user.click(screen.getByRole("button", { name: /book my visit/i }));
+
+    expect(document.activeElement).toBe(phone);
+    expect(phone.getAttribute("aria-invalid")).toBe("true");
+
+    await user.clear(phone);
+    await user.type(phone, "914-555-1234");
+    await user.click(screen.getByRole("button", { name: /book my visit/i }));
+
+    expect(document.activeElement).toBe(email);
+    expect(email.getAttribute("aria-invalid")).toBe("true");
+
+    await user.clear(email);
+    await user.type(email, "jordan@example.com");
+
+    expect(email.getAttribute("aria-invalid")).toBe("false");
+    expect(screen.getByText("Required fields are marked with an asterisk.")).toBeTruthy();
+  });
+
   it("focuses the first invalid contact field after an empty submit", async () => {
     const router = createMemoryRouter([{ path: "*", element: <LeadForm /> }]);
     render(<RouterProvider router={router} />);

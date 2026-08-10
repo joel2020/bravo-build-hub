@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import postcss from 'postcss';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -22,6 +23,19 @@ function decodeHtml(value) {
     .replace(/&gt;/g, '>');
 }
 
+function findCssRule(cssRoot, selector) {
+  let match;
+  cssRoot.walkRules((rule) => {
+    if (!match && rule.selectors?.includes(selector)) match = rule;
+  });
+  return match;
+}
+
+function hasDeclaration(rule, property, value) {
+  return Boolean(rule?.nodes?.some((node) =>
+    node.type === 'decl' && node.prop === property && node.value === value));
+}
+
 async function readDist(relativePath) {
   const file = path.join(dist, relativePath);
   assert(existsSync(file), `Missing built asset: ${relativePath}`);
@@ -39,13 +53,26 @@ for (const file of await jsAssets) {
 }
 const bundledApp = appText.join('\n');
 const bundledCss = cssText.join('\n');
+const cssRoot = postcss.parse(bundledCss);
 assert(bundledApp.includes('tel:+19143619142'), 'Built app is missing tel:+19143619142 CTA');
 assert(bundledApp.includes('mailto:info@bravomechanicalny.com'), 'Built app is missing info@bravomechanicalny.com mailto CTA');
 assert(!/Bravomechanicalllc@gmail\.com|bravomechanicalllc@gmail\.com|914-555-0100|9145550100/.test(bundledApp), 'Built app contains outdated placeholder contact info');
-assert(bundledCss.includes('.skip-link'), 'Built CSS is missing the keyboard skip-link styles');
-assert(bundledCss.includes('.page-loader'), 'Built CSS is missing the route-loader styles');
-assert(bundledCss.includes('.page-loader__spinner'), 'Built CSS is missing the route-loader spinner styles');
-assert(bundledCss.includes('prefers-reduced-motion:reduce'), 'Built CSS is missing the reduced-motion route-loader override');
+const skipLinkFocus = findCssRule(cssRoot, '.skip-link:focus');
+assert(hasDeclaration(skipLinkFocus, 'transform', 'translateY(0)'), 'Built CSS is missing the visible .skip-link:focus rule');
+assert(hasDeclaration(skipLinkFocus, 'outline-offset', '2px'), 'Built CSS is missing the skip-link focus outline');
+const pageLoader = findCssRule(cssRoot, '.page-loader');
+assert(hasDeclaration(pageLoader, 'min-height', '100vh'), 'Built CSS is missing the .page-loader viewport block');
+assert(hasDeclaration(pageLoader, 'display', 'flex'), 'Built CSS is missing the .page-loader layout rule');
+let reducedMotionSpinner;
+cssRoot.walkAtRules('media', (atRule) => {
+  if (atRule.params.replace(/\s+/g, '') !== '(prefers-reduced-motion:reduce)') return;
+  atRule.walkRules((rule) => {
+    if (!reducedMotionSpinner && rule.selectors?.includes('.page-loader__spinner')) {
+      reducedMotionSpinner = rule;
+    }
+  });
+});
+assert(hasDeclaration(reducedMotionSpinner, 'animation', 'none'), 'Built CSS is missing .page-loader__spinner { animation: none } within reduced motion');
 
 const robots = await readDist('robots.txt');
 assert(robots.includes('Allow: /'), 'robots.txt must allow crawling');

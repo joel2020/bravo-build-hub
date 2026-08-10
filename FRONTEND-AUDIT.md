@@ -44,12 +44,13 @@ The preview is protected by Vercel and intentionally sends `noindex`, so its Lig
 | Sticky CTA | 19px footer clearance on every audited route at 375px; CTA absent at wider breakpoints as designed |
 | Emergency link | `rgb(29, 37, 48)` over composited `rgb(248, 227, 224)`: 12.52:1 |
 | Runtime/console | No console errors, page errors, hydration errors, or hook-order errors in the final browser run |
-| Lighthouse | Booking: performance 73, accessibility 100, best practices 100, SEO 100, CLS 0; contact: 73/100/100/100, CLS 0 |
-| Performance trace | Contact mobile unthrottled observer: CLS 0.0000, LCP 376ms; throttled Lighthouse LCP: booking 9.46s, contact 9.16s |
+| Lighthouse | Three mobile runs per route/revision with Lighthouse 13.4.1; current median performance/accessibility: booking 72/100, contact 73/100; CLS 0 throughout |
+| LCP comparison | Booking base 9.460s → current 9.308s (−0.152s, −1.61%); contact base 9.460s → current 9.459s (−0.001s, −0.01%) |
+| Performance trace | Contact mobile unthrottled observer: CLS 0.0000, LCP 376ms |
 | Preview HTTP | Known routes 200; unknown route 404; private route 200 with noindex; canonical URLs point to `www.bravomechanicalny.com` |
 | Hydrated schema | Yonkers: one FAQPage, one HVACBusiness, zero aggregateRating; canonical unchanged after hydration |
 
-The throttled Lighthouse LCP values are slow and have no like-for-like pre-remediation baseline, so this audit does not claim a measured LCP improvement. Task 6 did not add application bundles to the booking or contact routes; the finding remains a performance follow-up.
+The like-for-like comparison used base `8ee72cebeaaaedceefc4885d13529968105962ac` and application head `7f439d9251988e8b4033c7aa60fc8cc7e90738dc`, with the same local production server, Lighthouse 13.4.1 mobile defaults, Chromium binary, flags, and three runs per route. No material median LCP regression was measured. Absolute throttled LCP remains about 9.3–9.5 seconds on both revisions and remains a performance follow-up; the small median decreases should not be interpreted as a proven user-facing improvement.
 
 ## Confirmed defects
 

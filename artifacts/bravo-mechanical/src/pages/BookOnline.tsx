@@ -101,10 +101,11 @@ const BookOnline = () => {
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (submitting) return;
     setAttempted(true);
     const nextErrors = validateBooking(form);
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0 || submitting) {
+    if (Object.keys(nextErrors).length > 0) {
       setError("Complete your name, mobile phone, service, day, and time window.");
       const firstError = BOOKING_ERROR_ORDER.find((field) => nextErrors[field]);
       const targets = {

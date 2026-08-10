@@ -57,7 +57,7 @@ const AdminComments = () => {
   const loadComments = async () => {
     const { data, error } = await supabase.rpc("admin_list_blog_comments");
     if (error) toast({ title: "Load failed", description: error.message, variant: "destructive" });
-    else setComments((data as AdminComment[]) || []);
+    else setComments(data || []);
   };
 
   const approve = async (id: string) => {

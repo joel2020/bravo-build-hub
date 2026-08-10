@@ -3,7 +3,7 @@
 import { lazy, Suspense } from "react";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { act, cleanup, render, screen, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -77,6 +77,7 @@ describe("frontend remediation navigation shell", () => {
     cleanup();
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    vi.resetModules();
   });
 
   it("offers a keyboard skip link and focusable main target", () => {
@@ -114,6 +115,40 @@ describe("frontend remediation navigation shell", () => {
 
     expect(scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: "auto" });
     expect(document.activeElement).toBe(screen.getByRole("main"));
+  });
+
+  it("stops waiting for a route main target after a bounded retry window", async () => {
+    const disconnect = vi.fn();
+    class TestMutationObserver {
+      observe() {}
+      disconnect() { disconnect(); }
+    }
+    vi.stubGlobal("MutationObserver", TestMutationObserver);
+    vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      callback(0);
+      return 1;
+    });
+    const timeout = vi.spyOn(window, "setTimeout");
+
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <NavigationEffects />
+        <TestRoutes />
+      </MemoryRouter>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Next" }));
+    const deadline = timeout.mock.calls.find(([, delay]) => delay === 2000);
+    expect(deadline).toBeDefined();
+    expect(disconnect).not.toHaveBeenCalled();
+
+    const deadlineCallback = deadline![0];
+    expect(typeof deadlineCallback).toBe("function");
+    act(() => {
+      if (typeof deadlineCallback === "function") deadlineCallback();
+    });
+    expect(disconnect).toHaveBeenCalledTimes(1);
   });
 
   it("waits for a suspended destination layout before focusing main", async () => {
@@ -340,6 +375,7 @@ describe("loader, project proof, and contextual actions", () => {
     cleanup();
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    vi.resetModules();
     window.history.replaceState({}, "", "/");
   });
 
@@ -361,7 +397,7 @@ describe("loader, project proof, and contextual actions", () => {
   });
 
   it("disables the page-loader animation when reduced motion is requested", () => {
-    const css = readFileSync(resolve(process.cwd(), "src/index.css"), "utf8");
+    const css = readFileSync(resolve(import.meta.dirname, "../index.css"), "utf8");
 
     expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
     expect(css).toMatch(/\.page-loader__spinner\s*\{[^}]*animation:\s*none/s);
@@ -509,6 +545,7 @@ describe("recoverable lead forms", () => {
   afterEach(() => {
     cleanup();
     vi.restoreAllMocks();
+    vi.resetModules();
     supabaseTestState.insert.mockReset();
   });
 
@@ -711,6 +748,10 @@ describe("recoverable lead forms", () => {
 
     expect(screen.getByRole("button", { name: /booking/i }).hasAttribute("disabled")).toBe(true);
     expectUnloadProtection(true);
+
+    fireEvent.submit(screen.getByRole("button", { name: /booking/i }).closest("form")!);
+    expect(supabaseTestState.insert).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText("Complete your name, mobile phone, service, day, and time window.")).toBeNull();
 
     firstInsert.resolve({ error: new Error("insert failed") });
     expect(await screen.findByText(/something went wrong/i)).toBeTruthy();

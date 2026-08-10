@@ -28,6 +28,7 @@ export const NavigationEffects = () => {
 
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     let observer: MutationObserver | undefined;
+    let deadline: number | undefined;
     const focusMain = () => {
       const main = Array.from(document.querySelectorAll<HTMLElement>("#main-content")).find(
         isVisible,
@@ -36,6 +37,7 @@ export const NavigationEffects = () => {
 
       main.focus({ preventScroll: true });
       observer?.disconnect();
+      if (deadline !== undefined) window.clearTimeout(deadline);
       return true;
     };
 
@@ -49,11 +51,12 @@ export const NavigationEffects = () => {
         childList: true,
         subtree: true,
       });
-      focusMain();
+      deadline = window.setTimeout(() => observer?.disconnect(), 2000);
     });
 
     return () => {
       cancelAnimationFrame(frame);
+      if (deadline !== undefined) window.clearTimeout(deadline);
       observer?.disconnect();
     };
   }, [pathname, hash, navigationType]);

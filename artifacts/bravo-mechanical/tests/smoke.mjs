@@ -59,10 +59,13 @@ assert(bundledApp.includes('mailto:info@bravomechanicalny.com'), 'Built app is m
 assert(!/Bravomechanicalllc@gmail\.com|bravomechanicalllc@gmail\.com|914-555-0100|9145550100/.test(bundledApp), 'Built app contains outdated placeholder contact info');
 const skipLinkFocus = findCssRule(cssRoot, '.skip-link:focus');
 assert(hasDeclaration(skipLinkFocus, 'transform', 'translateY(0)'), 'Built CSS is missing the visible .skip-link:focus rule');
+assert(hasDeclaration(skipLinkFocus, 'outline', '3px solid hsl(var(--ring))'), 'Built CSS is missing the skip-link focus outline');
 assert(hasDeclaration(skipLinkFocus, 'outline-offset', '2px'), 'Built CSS is missing the skip-link focus outline');
 const pageLoader = findCssRule(cssRoot, '.page-loader');
 assert(hasDeclaration(pageLoader, 'min-height', '100vh'), 'Built CSS is missing the .page-loader viewport block');
 assert(hasDeclaration(pageLoader, 'display', 'flex'), 'Built CSS is missing the .page-loader layout rule');
+assert(hasDeclaration(pageLoader, 'align-items', 'center'), 'Built CSS is missing vertical loader centering');
+assert(hasDeclaration(pageLoader, 'justify-content', 'center'), 'Built CSS is missing horizontal loader centering');
 let reducedMotionSpinner;
 cssRoot.walkAtRules('media', (atRule) => {
   if (atRule.params.replace(/\s+/g, '') !== '(prefers-reduced-motion:reduce)') return;

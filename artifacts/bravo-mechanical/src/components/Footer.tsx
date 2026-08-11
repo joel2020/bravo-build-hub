@@ -17,6 +17,14 @@ export const Footer = () => {
           </div>
           <p className="text-sm text-primary-foreground/80">Serving all of Westchester County, NY.</p>
           <p className="text-sm text-primary-foreground/80 mt-2">Reliable HVAC service for homes and businesses.</p>
+          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <Link to="/about" className="text-primary-foreground/80 hover:text-primary-foreground hover:underline">
+              About Bravo
+            </Link>
+            <Link to="/blog" className="text-primary-foreground/80 hover:text-primary-foreground hover:underline">
+              HVAC Resources
+            </Link>
+          </div>
         </div>
 
         <div>

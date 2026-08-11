@@ -71,6 +71,10 @@ describe("sitewide accessibility", () => {
     expect(html).toContain("<h2");
     expect(html).not.toContain("<h3");
     expect(html).toContain("text-primary-foreground/90");
+    expect(html).toContain('href="/about"');
+    expect(html).toContain('href="/blog"');
+    expect(html).toContain("About Bravo");
+    expect(html).toContain("HVAC Resources");
   });
 
   it("keeps sticky CTA accessible names aligned with visible labels", () => {

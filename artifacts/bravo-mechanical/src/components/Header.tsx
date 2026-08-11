@@ -156,7 +156,6 @@ export const Header = () => {
               <NavLink
                 key={item.to}
                 to={item.to}
-                end={item.to === "/"}
                 className={({ isActive }) =>
                   cn(
                     "px-3 py-2 text-sm font-semibold rounded-md transition-colors",

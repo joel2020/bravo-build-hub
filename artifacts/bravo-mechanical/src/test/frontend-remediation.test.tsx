@@ -341,7 +341,7 @@ describe("frontend remediation navigation shell", () => {
     expect(screen.queryByRole("navigation", { name: /mobile navigation/i })).toBeNull();
   });
 
-  it("shows four focused desktop choices and one request action", () => {
+  it("shows the four focused desktop choices in the approved order and one request action", () => {
     render(
       <MemoryRouter>
         <Header />
@@ -351,17 +351,18 @@ describe("frontend remediation navigation shell", () => {
     const primary = screen.getByRole("navigation", { name: /primary navigation/i });
     expect(primary.classList.contains("hidden")).toBe(true);
     expect(primary.classList.contains("xl:flex")).toBe(true);
-    expect(within(primary).getByRole("button", { name: /services/i })).toBeTruthy();
+    expect(
+      Array.from(primary.children).map((item) => item.textContent?.trim()),
+    ).toEqual(["Services", "Projects", "Reviews", "Service Areas"]);
     expect(within(primary).getByRole("link", { name: "Projects" }).getAttribute("href")).toBe("/projects");
     expect(within(primary).getByRole("link", { name: "Reviews" }).getAttribute("href")).toBe("/reviews");
-    expect(within(primary).getByRole("button", { name: /service areas/i })).toBeTruthy();
     expect(primary.textContent).not.toMatch(/Book Online|Contact|About|Blog|Español|More/);
 
     const requestService = screen.getByRole("link", { name: "Request Service" });
     expect(requestService.getAttribute("href")).toBe("/contact");
   });
 
-  it("links service and coverage dropdowns to existing destination pages", async () => {
+  it("links every service and coverage dropdown item and dismisses each menu on selection", async () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter>
@@ -371,21 +372,35 @@ describe("frontend remediation navigation shell", () => {
 
     const servicesTrigger = screen.getByRole("button", { name: /services/i });
     await user.click(servicesTrigger);
-    expect(screen.getByRole("menuitem", { name: "24/7 Emergency HVAC" }).getAttribute("href")).toBe(
-      "/services/emergency-hvac-repair-westchester-county-ny",
-    );
-    expect(screen.getByRole("menuitem", { name: "All Services" }).getAttribute("href")).toBe("/services");
-    await user.keyboard("{Escape}");
-    expect(document.activeElement).toBe(servicesTrigger);
+    expect(
+      screen.getAllByRole("menuitem").map((item) => [item.textContent, item.getAttribute("href")]),
+    ).toEqual([
+      ["24/7 Emergency HVAC", "/services/emergency-hvac-repair-westchester-county-ny"],
+      ["AC Repair", "/services/ac-repair-westchester-county-ny"],
+      ["Boiler Repair", "/services/boiler-repair-westchester-county-ny"],
+      ["HVAC Maintenance", "/services/hvac-maintenance-westchester-county-ny"],
+      ["AC Installation", "/services/ac-installation-westchester-county-ny"],
+      ["Boiler Installation", "/services/boiler-installation-westchester-county-ny"],
+      ["Heat Pump Installation", "/services/heat-pump-installation-westchester-county-ny"],
+      ["All Services", "/services"],
+    ]);
+    await user.click(screen.getByRole("menuitem", { name: "AC Repair" }));
+    expect(screen.queryByRole("menu")).toBeNull();
 
     const serviceAreasTrigger = screen.getByRole("button", { name: /service areas/i });
     await user.click(serviceAreasTrigger);
-    expect(screen.getByRole("menuitem", { name: "Yonkers" }).getAttribute("href")).toBe(
-      "/service-areas/yonkers",
-    );
-    expect(screen.getByRole("menuitem", { name: "View All Service Areas" }).getAttribute("href")).toBe(
-      "/service-areas",
-    );
+    expect(
+      screen.getAllByRole("menuitem").map((item) => [item.textContent, item.getAttribute("href")]),
+    ).toEqual([
+      ["Yonkers", "/service-areas/yonkers"],
+      ["White Plains", "/service-areas/white-plains"],
+      ["New Rochelle", "/service-areas/new-rochelle"],
+      ["Mount Vernon", "/service-areas/mount-vernon"],
+      ["Scarsdale", "/service-areas/scarsdale"],
+      ["View All Service Areas", "/service-areas"],
+    ]);
+    await user.click(screen.getByRole("menuitem", { name: "White Plains" }));
+    expect(screen.queryByRole("menu")).toBeNull();
   });
 
   it("marks a desktop group active for one of its child routes", () => {

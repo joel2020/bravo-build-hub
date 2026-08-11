@@ -6,6 +6,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE } from "@/lib/site";
@@ -26,19 +28,39 @@ const nav = [
   { to: "/es", label: "Español" },
 ];
 
-const primaryNav = [
-  { to: "/services", label: "Services" },
-  { to: "/service-areas", label: "Service Areas" },
+const desktopLinks = [
   { to: "/projects", label: "Projects" },
   { to: "/reviews", label: "Reviews" },
-  { to: "/book", label: "Book Online" },
-  { to: "/contact", label: "Contact" },
 ];
 
-const secondaryNav = [
-  { to: "/about", label: "About" },
-  { to: "/blog", label: "Blog" },
-  { to: "/es", label: "Español" },
+const serviceGroups = [
+  {
+    label: "Repair and maintain",
+    items: [
+      { to: "/services/emergency-hvac-repair-westchester-county-ny", label: "24/7 Emergency HVAC" },
+      { to: "/services/ac-repair-westchester-county-ny", label: "AC Repair" },
+      { to: "/services/boiler-repair-westchester-county-ny", label: "Boiler Repair" },
+      { to: "/services/hvac-maintenance-westchester-county-ny", label: "HVAC Maintenance" },
+    ],
+  },
+  {
+    label: "Install and upgrade",
+    items: [
+      { to: "/services/ac-installation-westchester-county-ny", label: "AC Installation" },
+      { to: "/services/boiler-installation-westchester-county-ny", label: "Boiler Installation" },
+      { to: "/services/heat-pump-installation-westchester-county-ny", label: "Heat Pump Installation" },
+      { to: "/services", label: "All Services" },
+    ],
+  },
+];
+
+const priorityServiceAreas = [
+  { to: "/service-areas/yonkers", label: "Yonkers" },
+  { to: "/service-areas/white-plains", label: "White Plains" },
+  { to: "/service-areas/new-rochelle", label: "New Rochelle" },
+  { to: "/service-areas/mount-vernon", label: "Mount Vernon" },
+  { to: "/service-areas/scarsdale", label: "Scarsdale" },
+  { to: "/service-areas", label: "View All Service Areas" },
 ];
 
 export const Header = () => {
@@ -46,6 +68,8 @@ export const Header = () => {
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const xlBreakpointRef = useRef<MediaQueryList | null>(null);
   const { pathname } = useLocation();
+  const servicesActive = pathname === "/services" || pathname.startsWith("/services/");
+  const serviceAreasActive = pathname === "/service-areas" || pathname.startsWith("/service-areas/");
 
   useEffect(() => {
     setOpen(false);
@@ -100,7 +124,35 @@ export const Header = () => {
           </Link>
 
           <nav aria-label="Primary navigation" className="hidden xl:flex items-center gap-1">
-            {primaryNav.map((item) => (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-current={servicesActive ? "page" : undefined}
+                  className={cn(
+                    "inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                    servicesActive ? "text-accent" : "text-foreground hover:text-accent",
+                  )}
+                >
+                  Services
+                  <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64">
+                {serviceGroups.map((group, groupIndex) => (
+                  <div key={group.label}>
+                    {groupIndex > 0 && <DropdownMenuSeparator />}
+                    <DropdownMenuLabel>{group.label}</DropdownMenuLabel>
+                    {group.items.map((item) => (
+                      <DropdownMenuItem key={item.to} asChild>
+                        <NavLink to={item.to}>{item.label}</NavLink>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {desktopLinks.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -119,17 +171,24 @@ export const Header = () => {
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  aria-current={serviceAreasActive ? "page" : undefined}
+                  className={cn(
+                    "inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                    serviceAreasActive ? "text-accent" : "text-foreground hover:text-accent",
+                  )}
                 >
-                  More
+                  Service Areas
                   <ChevronDown className="h-4 w-4" aria-hidden="true" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {secondaryNav.map((item) => (
-                  <DropdownMenuItem key={item.to} asChild>
-                    <NavLink to={item.to}>{item.label}</NavLink>
-                  </DropdownMenuItem>
+              <DropdownMenuContent align="start" className="w-56">
+                {priorityServiceAreas.map((item, index) => (
+                  <div key={item.to}>
+                    {index === priorityServiceAreas.length - 1 && <DropdownMenuSeparator />}
+                    <DropdownMenuItem asChild>
+                      <NavLink to={item.to}>{item.label}</NavLink>
+                    </DropdownMenuItem>
+                  </div>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
@@ -145,7 +204,7 @@ export const Header = () => {
               {SITE.phone}
             </a>
             <Button asChild size="sm" className="hidden sm:inline-flex bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-              <Link to="/contact">Get a Free Estimate</Link>
+              <Link to="/contact">Request Service</Link>
             </Button>
             <a
               href={SITE.phoneHref}

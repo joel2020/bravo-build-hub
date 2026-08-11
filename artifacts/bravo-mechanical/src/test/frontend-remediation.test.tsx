@@ -341,7 +341,27 @@ describe("frontend remediation navigation shell", () => {
     expect(screen.queryByRole("navigation", { name: /mobile navigation/i })).toBeNull();
   });
 
-  it("keeps primary navigation at xl and places secondary links in More", async () => {
+  it("shows four focused desktop choices and one request action", () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    const primary = screen.getByRole("navigation", { name: /primary navigation/i });
+    expect(primary.classList.contains("hidden")).toBe(true);
+    expect(primary.classList.contains("xl:flex")).toBe(true);
+    expect(within(primary).getByRole("button", { name: /services/i })).toBeTruthy();
+    expect(within(primary).getByRole("link", { name: "Projects" }).getAttribute("href")).toBe("/projects");
+    expect(within(primary).getByRole("link", { name: "Reviews" }).getAttribute("href")).toBe("/reviews");
+    expect(within(primary).getByRole("button", { name: /service areas/i })).toBeTruthy();
+    expect(primary.textContent).not.toMatch(/Book Online|Contact|About|Blog|Español|More/);
+
+    const requestService = screen.getByRole("link", { name: "Request Service" });
+    expect(requestService.getAttribute("href")).toBe("/contact");
+  });
+
+  it("links service and coverage dropdowns to existing destination pages", async () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter>
@@ -349,24 +369,45 @@ describe("frontend remediation navigation shell", () => {
       </MemoryRouter>,
     );
 
-    const primaryNavigation = screen.getByRole("navigation", { name: /primary navigation/i });
-    expect(primaryNavigation.classList.contains("hidden")).toBe(true);
-    expect(primaryNavigation.classList.contains("xl:flex")).toBe(true);
-    expect(primaryNavigation.textContent).toContain("Services");
-    expect(primaryNavigation.textContent).toContain("Service Areas");
-    expect(primaryNavigation.textContent).toContain("Projects");
-    expect(primaryNavigation.textContent).toContain("Reviews");
-    expect(primaryNavigation.textContent).toContain("Book Online");
-    expect(primaryNavigation.textContent).toContain("Contact");
-    expect(primaryNavigation.textContent).not.toContain("About");
-    expect(primaryNavigation.textContent).not.toContain("Blog");
-    expect(primaryNavigation.textContent).not.toContain("Español");
+    const servicesTrigger = screen.getByRole("button", { name: /services/i });
+    await user.click(servicesTrigger);
+    expect(screen.getByRole("menuitem", { name: "24/7 Emergency HVAC" }).getAttribute("href")).toBe(
+      "/services/emergency-hvac-repair-westchester-county-ny",
+    );
+    expect(screen.getByRole("menuitem", { name: "All Services" }).getAttribute("href")).toBe("/services");
+    await user.keyboard("{Escape}");
+    expect(document.activeElement).toBe(servicesTrigger);
 
-    await user.click(screen.getByRole("button", { name: "More" }));
+    const serviceAreasTrigger = screen.getByRole("button", { name: /service areas/i });
+    await user.click(serviceAreasTrigger);
+    expect(screen.getByRole("menuitem", { name: "Yonkers" }).getAttribute("href")).toBe(
+      "/service-areas/yonkers",
+    );
+    expect(screen.getByRole("menuitem", { name: "View All Service Areas" }).getAttribute("href")).toBe(
+      "/service-areas",
+    );
+  });
 
-    expect(screen.getByRole("menuitem", { name: "About" }).getAttribute("href")).toBe("/about");
-    expect(screen.getByRole("menuitem", { name: "Blog" }).getAttribute("href")).toBe("/blog");
-    expect(screen.getByRole("menuitem", { name: "Español" }).getAttribute("href")).toBe("/es");
+  it("marks a desktop group active for one of its child routes", () => {
+    render(
+      <MemoryRouter initialEntries={["/services/ac-repair-westchester-county-ny"]}>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole("button", { name: /services/i }).getAttribute("aria-current")).toBe("page");
+  });
+
+  it("marks service areas active for a city route", () => {
+    render(
+      <MemoryRouter initialEntries={["/service-areas/yonkers"]}>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole("button", { name: /service areas/i }).getAttribute("aria-current")).toBe(
+      "page",
+    );
   });
 });
 

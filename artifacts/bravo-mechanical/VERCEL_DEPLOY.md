@@ -33,7 +33,9 @@ After the first deploy works on `*.vercel.app`:
 2. Vercel shows you the DNS records to set at your registrar (usually one
    `A` record for the apex and one `CNAME` for `www`).
 3. Once DNS propagates, Vercel auto-issues an SSL cert.
-4. Add `www.bravomechanicalny.com` too and set it to redirect to the apex.
+4. Add `www.bravomechanicalny.com` too and set it as the production domain. The
+   root `vercel.json` permanently redirects the apex host to the canonical
+   `www` host.
 
 ## What happens at build time
 

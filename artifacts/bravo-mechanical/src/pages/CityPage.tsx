@@ -39,6 +39,15 @@ const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seas
   },
 };
 
+const GENERAL_SERVICE_LINKS: Record<string, string> = {
+  "hvac-installation": "/services/ac-installation-westchester-county-ny",
+  "hvac-repair": "/services/ac-repair-westchester-county-ny",
+  "preventive-maintenance": "/services/hvac-maintenance-westchester-county-ny",
+  "indoor-air-quality": "/services/indoor-air-quality-westchester-county-ny",
+  residential: "/services",
+  commercial: "/services/commercial-hvac-westchester-county-ny",
+};
+
 const CityPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const city = slug ? getCity(slug) : undefined;
@@ -192,7 +201,9 @@ const CityPage = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICES.map((s) => {
               const hasCombo = isTopCity(city.slug);
-              const href = hasCombo ? `/services/${s.slug}/${city.slug}` : `/services/${s.slug}`;
+              const href = hasCombo
+                ? `/services/${s.slug}/${city.slug}`
+                : GENERAL_SERVICE_LINKS[s.slug] ?? "/services";
               const label = hasCombo ? `${s.title} in ${city.name} →` : `${s.title} services →`;
               return (
                 <div key={s.slug} className="bg-card border border-border rounded-lg p-5 flex flex-col">

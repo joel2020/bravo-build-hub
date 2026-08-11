@@ -41,7 +41,7 @@ The result must work at 375, 768, 1024, and 1440px, satisfy WCAG 2.2 AA for the 
 
 ### 1. Shared navigation and route behavior
 
-The compact header remains active until the viewport can safely fit the logo, primary navigation, phone number, and estimate action. The full navigation moves from `lg` to `xl`. Desktop navigation is reduced to the highest-value destinations: Services, Service Areas, Projects, Reviews, Book Online, and Contact. About, Blog, and Español move into a keyboard-accessible “More” disclosure. Home remains available through the logo and may remain explicit only if the available width allows it without overflow.
+The compact header remains active until the viewport can safely fit the logo, primary navigation, phone number, and request action. The full navigation moves from `lg` to `xl`. The later desktop-header simplification design supersedes the original link set: desktop navigation now contains task-oriented Services and Service Areas disclosures, direct Projects and Reviews links, the phone action, and one Request Service action. Home remains available through the logo. About and Blog move to the footer; Book Online, Contact, and Español remain available through the comprehensive mobile navigation and supporting footer/contact paths. There is no generic “More” disclosure.
 
 The mobile menu uses a stable controlled region with `aria-expanded`, `aria-controls`, and state-specific accessible names. Escape closes it and returns focus to the trigger. It also closes on route changes. The menu remains an inline disclosure rather than a modal, so no focus trap is required.
 
@@ -87,7 +87,7 @@ The change does not introduce a multi-step intent wizard. Instead, existing serv
 
 ## Component boundaries
 
-- `Header`: responsive navigation, desktop “More” disclosure, mobile disclosure behavior.
+- `Header`: responsive task-oriented desktop navigation, grouped Services and Service Areas disclosures, and preserved comprehensive mobile behavior.
 - `Layout`: skip link and main landmark only.
 - `NavigationEffects` (new small component/hook): route scroll and focus behavior.
 - `UnsavedChangesGuard` (new reusable hook): dirty-form browser and in-app navigation protection.

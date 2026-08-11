@@ -9,6 +9,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const dist = path.join(root, 'dist', 'public');
 const canonicalOrigin = 'https://www.bravomechanicalny.com';
+const deploymentConfig = JSON.parse(
+  await readFile(path.resolve(root, '..', '..', 'vercel.json'), 'utf8'),
+);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -43,6 +46,28 @@ async function readDist(relativePath) {
 }
 
 const home = await readDist('index.html');
+assert(!existsSync(path.join(root, 'vercel.json')), 'Vercel config must remain authoritative at the repository root');
+assert(
+  !deploymentConfig.rewrites.some((rule) => rule.source === '/:path*' && !rule.has),
+  'Root Vercel config must not rewrite every public route to index.html',
+);
+for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
+  assert(
+    deploymentConfig.rewrites.some(
+      (rule) => rule.source === privateRoute && rule.destination === '/index.html',
+    ),
+    `Root Vercel config is missing the ${privateRoute} private rewrite`,
+  );
+  assert(
+    deploymentConfig.headers.some(
+      (rule) => rule.source === privateRoute
+        && rule.headers?.some(
+          (header) => header.key === 'X-Robots-Tag' && header.value === 'noindex, nofollow',
+        ),
+    ),
+    `Root Vercel config is missing noindex headers for ${privateRoute}`,
+  );
+}
 const assetDir = path.join(dist, 'assets');
 const jsAssets = (await import('node:fs/promises')).readdir(assetDir);
 const appText = [home];
@@ -87,8 +112,10 @@ for (const route of ['/', '/contact', '/services', '/about']) {
   assert(sitemap.includes(loc), `sitemap.xml missing ${loc}`);
 }
 assert(!sitemap.includes('https://bravomechanicalny.com'), 'sitemap.xml must not use the redirecting non-www host');
-assert(!sitemap.includes('/admin/'), 'sitemap.xml must not include admin routes');
-assert(!sitemap.includes('/auth'), 'sitemap.xml must not include auth routes');
+const privateSitemapEntry = sitemap.match(
+  /<loc>[^<]*\/(?:auth|admin|proposal)(?:\/[^<]*)?<\/loc>/,
+)?.[0];
+assert(!privateSitemapEntry, `sitemap.xml must not include private routes: ${privateSitemapEntry}`);
 
 const llms = await readDist('llms.txt');
 assert(llms.includes(canonicalOrigin), 'llms.txt missing canonical website');

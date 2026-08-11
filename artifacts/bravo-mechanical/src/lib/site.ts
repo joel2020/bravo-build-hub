@@ -2,7 +2,8 @@ export const SITE = {
   name: "Bravo Mechanical",
   legalName: "Bravo Mechanical LLC",
   // Canonical origin — must match sitemap.xml, robots.txt, llms.txt, and index.html JSON-LD.
-  // No "www" subdomain. If you change this, update generate-sitemap.mjs and inject-head-metadata.mjs too.
+  // The canonical origin uses www. If it changes, update route-data.mjs and
+  // inject-head-metadata.mjs too; the root vercel.json redirects the apex host.
   siteUrl: "https://www.bravomechanicalny.com",
   tagline: "Reliable HVAC Service You Can Count On",
   phone: "(914) 361-9142",

@@ -6,9 +6,21 @@
   "framework": null,
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/((?!assets/|favicon\\.png|favicon\\.webp|favicon\\.svg|og-image\\.jpg|opengraph\\.jpg|robots\\.txt|sitemap\\.xml|llms\\.txt).*)",
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "bravomechanicalny.com" }],
+      "destination": "https://www.bravomechanicalny.com/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    { "source": "/auth", "destination": "/index.html" },
+    { "source": "/admin/:path*", "destination": "/index.html" },
+    { "source": "/proposal/:path*", "destination": "/index.html" },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "app.bravomechanicalny.com" }],
       "destination": "/index.html"
     }
   ],
@@ -45,6 +57,33 @@
         {
           "key": "X-Frame-Options",
           "value": "SAMEORIGIN"
+        }
+      ]
+    },
+    {
+      "source": "/auth",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/admin/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/proposal/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
         }
       ]
     }

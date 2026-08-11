@@ -528,9 +528,16 @@ describe("loader, project proof, and contextual actions", () => {
 
     const main = screen.getByRole("main");
     expect(within(main).getAllByRole("link", { name: /get a free estimate/i })).toHaveLength(1);
-    expect(screen.getByRole("link", { name: "HVAC Installation services →" }).getAttribute("href")).toBe(
-      "/services/hvac-installation",
-    );
+    [
+      ["HVAC Installation services →", "/services/ac-installation-westchester-county-ny"],
+      ["HVAC Repair services →", "/services/ac-repair-westchester-county-ny"],
+      ["Preventive Maintenance services →", "/services/hvac-maintenance-westchester-county-ny"],
+      ["Indoor Air Quality services →", "/services/indoor-air-quality-westchester-county-ny"],
+      ["Residential HVAC services →", "/services"],
+      ["Commercial HVAC services →", "/services/commercial-hvac-westchester-county-ny"],
+    ].forEach(([name, href]) => {
+      expect(screen.getByRole("link", { name }).getAttribute("href")).toBe(href);
+    });
     expect(screen.queryByRole("link", { name: "View all services →" })).toBeNull();
   });
 });

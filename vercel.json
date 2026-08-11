@@ -15,13 +15,13 @@
     }
   ],
   "rewrites": [
-    { "source": "/auth", "destination": "/index.html" },
-    { "source": "/admin/:path*", "destination": "/index.html" },
-    { "source": "/proposal/:path*", "destination": "/index.html" },
+    { "source": "/auth", "destination": "/" },
+    { "source": "/admin/:path*", "destination": "/" },
+    { "source": "/proposal/:path*", "destination": "/" },
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "app.bravomechanicalny.com" }],
-      "destination": "/index.html"
+      "destination": "/"
     }
   ],
   "headers": [

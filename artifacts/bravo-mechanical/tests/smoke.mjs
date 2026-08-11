@@ -52,12 +52,12 @@ assert(
 );
 assert(
   !deploymentConfig.rewrites.some((rule) => rule.source === '/:path*' && !rule.has),
-  'Deployed Vercel config must not rewrite every public route to index.html',
+  'Deployed Vercel config must not rewrite every public route to the SPA entry point',
 );
 for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
   assert(
     deploymentConfig.rewrites.some(
-      (rule) => rule.source === privateRoute && rule.destination === '/index.html',
+      (rule) => rule.source === privateRoute && rule.destination === '/',
     ),
     `Root Vercel config is missing the ${privateRoute} private rewrite`,
   );

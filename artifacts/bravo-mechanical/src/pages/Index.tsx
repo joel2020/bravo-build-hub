@@ -19,13 +19,13 @@ import jobOilTank from "@/assets/job-oil-tank.webp";
 import jobRadiator from "@/assets/job-radiator-repair.webp";
 import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
-import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
-import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
+import jobBoilerBefore from "@/assets/job-boiler-before.avif";
+import jobBoilerAfter from "@/assets/job-boiler-after.avif";
 import projectBoilerBefore from "@/assets/project-boiler-before.png";
-import projectBoilerAfter from "@/assets/project-boiler-after.png";
-import projectBurnerService from "@/assets/project-burner-service.png";
+import projectBoilerAfter from "@/assets/project-boiler-after.webp";
+import projectBurnerService from "@/assets/project-burner-service.avif";
 import projectBeckettBurner from "@/assets/project-beckett-burner.png";
-import projectGasBoiler from "@/assets/project-gas-boiler.png";
+import projectGasBoiler from "@/assets/project-gas-boiler.avif";
 
 const Index = () => {
   const featuredReviews = getFeaturedGoogleReviews(3);
@@ -65,7 +65,7 @@ const Index = () => {
     },
     {
       q: "How do I contact Bravo Mechanical?",
-      a: "Call Bravo Mechanical at (914) 361-9142, email info@bravomechanicalny.com, or request an estimate at https://bravomechanicalny.com/contact. The company is open 24 hours a day, 7 days a week for emergency dispatch.",
+      a: "Call Bravo Mechanical at (914) 361-9142, email info@bravomechanicalny.com, or request an estimate at https://www.bravomechanicalny.com/contact. The company is open 24 hours a day, 7 days a week for emergency dispatch.",
     },
   ];
 
@@ -385,7 +385,7 @@ const Index = () => {
             <Link
               key={s.slug}
               to={`/services/${s.slug}`}
-              className="bg-card border border-border rounded-lg overflow-hidden flex flex-col hover:border-accent hover:shadow-md transition-all group"
+              className="bg-card border border-border rounded-lg overflow-hidden flex flex-col hover:border-accent hover:shadow-md transition-[border-color,box-shadow] group"
             >
               <img src={s.card.img} alt={s.card.alt} width={960} height={600} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover" />
               <div className="p-6 flex flex-col flex-1">

@@ -8,7 +8,7 @@ import { useSeo } from "@/lib/seo";
 import { LeadForm } from "@/components/LeadForm";
 import { trackEmergencyCtaClick } from "@/lib/analytics";
 
-const SITE_URL = "https://bravomechanicalny.com";
+const SITE_URL = "https://www.bravomechanicalny.com";
 
 const symptoms = [
   { icon: Flame, title: "No Heat / Furnace Won't Start", text: "Pilot out, ignition failure, blower not kicking on, or thermostat unresponsive." },

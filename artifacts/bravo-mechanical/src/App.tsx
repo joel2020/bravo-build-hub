@@ -1,10 +1,11 @@
 import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { createBrowserRouter, Navigate, Route, RouterProvider, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
+import { NavigationEffects } from "./components/NavigationEffects";
 import { StickyMobileCTA } from "./components/StickyMobileCTA";
 
 // Eager: home page (Index) loads immediately on first paint.
@@ -43,9 +44,9 @@ const isAppSubdomain = typeof window !== "undefined" && window.location.hostname
 
 // Loading spinner shown while lazy route chunks are downloading
 const PageLoader = () => (
-  <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f8fafc" }}>
-    <div style={{ width: 40, height: 40, border: "3px solid #e2e8f0", borderTop: "3px solid #0b3a66", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-    <style>{"@keyframes spin { to { transform: rotate(360deg); } }"}</style>
+  <div className="page-loader" role="status" aria-live="polite">
+    <span className="page-loader__spinner" aria-hidden="true" />
+    <span className="sr-only">Loading page…</span>
   </div>
 );
 
@@ -97,17 +98,26 @@ const AppRoutes = () => {
   );
 };
 
+const AppRouterShell = () => (
+  <>
+    <NavigationEffects />
+    <Suspense fallback={<PageLoader />}>
+      <AppRoutes />
+    </Suspense>
+    {!isAppSubdomain && <StickyMobileCTA />}
+  </>
+);
+
+// A data-router shell preserves the existing JSX route table while enabling
+// useBlocker for recoverable forms rendered anywhere beneath it.
+const router = createBrowserRouter([{ path: "*", element: <AppRouterShell /> }]);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Suspense fallback={<PageLoader />}>
-          <AppRoutes />
-        </Suspense>
-        {!isAppSubdomain && <StickyMobileCTA />}
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </TooltipProvider>
   </QueryClientProvider>
 );

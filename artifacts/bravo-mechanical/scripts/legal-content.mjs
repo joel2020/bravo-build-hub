@@ -10,7 +10,7 @@
 // browsers: src/pages/PrivacyPolicy.tsx and src/pages/TermsAndConditions.tsx.
 
 export const PRIVACY_POLICY_HTML = `
-<p>Bravo Mechanical LLC ("Bravo Mechanical," "we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains what we collect, how we use it, who we share it with, and the choices you have. It applies to <a href="https://bravomechanicalny.com">https://bravomechanicalny.com</a> and to phone, text, and email communications between you and Bravo Mechanical.</p>
+<p>Bravo Mechanical LLC ("Bravo Mechanical," "we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains what we collect, how we use it, who we share it with, and the choices you have. It applies to <a href="https://www.bravomechanicalny.com">https://www.bravomechanicalny.com</a> and to phone, text, and email communications between you and Bravo Mechanical.</p>
 <h2>1. Information We Collect</h2>
 <p>We collect only what we need to respond to your service request and deliver HVAC services:</p>
 <ul>
@@ -73,7 +73,7 @@ export const PRIVACY_POLICY_HTML = `
 
 export const TERMS_HTML = `
 <h2>Part A. Website Terms of Use</h2>
-<p>These Website Terms of Use ("Terms") govern your use of <a href="https://bravomechanicalny.com">https://bravomechanicalny.com</a> (the "Site"), operated by Bravo Mechanical LLC ("Bravo Mechanical," "we," "our," or "us"). By accessing or using the Site, requesting service, or submitting any form, you agree to these Terms. If you do not agree, please do not use the Site.</p>
+<p>These Website Terms of Use ("Terms") govern your use of <a href="https://www.bravomechanicalny.com">https://www.bravomechanicalny.com</a> (the "Site"), operated by Bravo Mechanical LLC ("Bravo Mechanical," "we," "our," or "us"). By accessing or using the Site, requesting service, or submitting any form, you agree to these Terms. If you do not agree, please do not use the Site.</p>
 <h3>1. Service Disclaimers</h3>
 <p>The information on this Site, including descriptions of HVAC services and pricing ranges, is provided for general informational purposes only and is subject to change without notice. The Site does not constitute professional engineering, legal, or tax advice.</p>
 <p><strong>Estimates and quotes shown on the Site are not binding offers.</strong> Final pricing depends on the specific equipment selected, site conditions, permitting, and other factors that can only be assessed after an in-person evaluation by a Bravo Mechanical technician.</p>

@@ -39,20 +39,7 @@ const ServiceCityPage = () => {
               url: pageUrl,
               areaServed: { "@type": "City", name: `${city.name}, NY` },
               provider: {
-                "@type": "HVACBusiness",
                 "@id": `${SITE.siteUrl}/#localbusiness`,
-                name: SITE.legalName,
-                telephone: SITE.phone,
-                email: SITE.email,
-                url: SITE.siteUrl,
-                priceRange: "$$",
-                aggregateRating: {
-                  "@type": "AggregateRating",
-                  ratingValue: SITE.rating.score,
-                  reviewCount: SITE.rating.count,
-                  bestRating: 5,
-                  worstRating: 1,
-                },
               },
             },
             {

@@ -4,7 +4,7 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
-import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
+import jobBoilerAfter from "@/assets/job-boiler-after.avif";
 import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobWaterHeater from "@/assets/job-water-heater.webp";
 

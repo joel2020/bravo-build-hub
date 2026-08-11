@@ -2,7 +2,6 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { CheckCircle2, MapPin, Phone, ArrowLeft, Star, Calendar, Clock } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
-import { CTABand } from "@/components/CTABand";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getCity, CITIES } from "@/lib/cities";
@@ -40,6 +39,15 @@ const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seas
   },
 };
 
+const GENERAL_SERVICE_LINKS: Record<string, string> = {
+  "hvac-installation": "/services/ac-installation-westchester-county-ny",
+  "hvac-repair": "/services/ac-repair-westchester-county-ny",
+  "preventive-maintenance": "/services/hvac-maintenance-westchester-county-ny",
+  "indoor-air-quality": "/services/indoor-air-quality-westchester-county-ny",
+  residential: "/services",
+  commercial: "/services/commercial-hvac-westchester-county-ny",
+};
+
 const CityPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const city = slug ? getCity(slug) : undefined;
@@ -59,35 +67,15 @@ const CityPage = () => {
       ? [
           {
             "@context": "https://schema.org",
-            "@type": "HVACBusiness",
-            "@id": `${pageUrl}#localbusiness`,
-            name: SITE.legalName,
-            image: `${SITE.siteUrl}/og-image.jpg`,
-            telephone: SITE.phone,
-            email: SITE.email,
+            "@type": "Service",
+            "@id": `${pageUrl}#service`,
+            name: `HVAC service in ${city.name}, NY`,
+            serviceType: "Heating, cooling, installation, repair, and maintenance",
+            description,
             url: pageUrl,
-            priceRange: "$$",
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: city.name,
-              addressRegion: "NY",
-              addressCountry: "US",
-            },
             areaServed: { "@type": "City", name: `${city.name}, NY` },
-            openingHoursSpecification: [
-              {
-                "@type": "OpeningHoursSpecification",
-                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                opens: "00:00",
-                closes: "23:59",
-              },
-            ],
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: SITE.rating.score,
-              reviewCount: SITE.rating.count,
-              bestRating: 5,
-              worstRating: 1,
+            provider: {
+              "@id": `${SITE.siteUrl}/#localbusiness`,
             },
           },
           {
@@ -123,6 +111,7 @@ const CityPage = () => {
         eyebrow={`${city.region} • Westchester County, NY`}
         title={`HVAC Services in ${city.name}, NY`}
         subtitle={`Local heating, cooling, and air-quality service for homes and businesses in ${city.name}. Licensed, insured, and dispatched from right here in Westchester County.`}
+        hideRightSlot
       />
 
       <section className="container mx-auto px-4 py-10 lg:py-14">
@@ -212,8 +201,10 @@ const CityPage = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICES.map((s) => {
               const hasCombo = isTopCity(city.slug);
-              const href = hasCombo ? `/services/${s.slug}/${city.slug}` : "/services";
-              const label = hasCombo ? `${s.title} in ${city.name} →` : "View all services →";
+              const href = hasCombo
+                ? `/services/${s.slug}/${city.slug}`
+                : GENERAL_SERVICE_LINKS[s.slug] ?? "/services";
+              const label = hasCombo ? `${s.title} in ${city.name} →` : `${s.title} services →`;
               return (
                 <div key={s.slug} className="bg-card border border-border rounded-lg p-5 flex flex-col">
                   <h3 className="font-bold mb-2">{s.title}</h3>
@@ -341,10 +332,6 @@ const CityPage = () => {
         </section>
       )}
 
-      <CTABand
-        title={`Need HVAC service in ${city.name}?`}
-        subtitle={`Call us or request an estimate online — we'll be back to you fast.`}
-      />
     </Layout>
   );
 };

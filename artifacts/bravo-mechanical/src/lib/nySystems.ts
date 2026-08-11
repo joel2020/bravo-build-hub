@@ -5,9 +5,9 @@ import jobOilTank from "@/assets/job-oil-tank.webp";
 import jobRadiator from "@/assets/job-radiator-repair.webp";
 import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
-import jobBoilerBefore from "@/assets/job-boiler-before.jpeg";
-import jobBoilerAfter from "@/assets/job-boiler-after.jpeg";
-import jobGasFurnace from "@/assets/job-gas-furnace.jpg";
+import jobBoilerBefore from "@/assets/job-boiler-before.avif";
+import jobBoilerAfter from "@/assets/job-boiler-after.avif";
+import jobGasFurnace from "@/assets/job-gas-furnace.avif";
 import heroTechnician from "@/assets/hero-technician.webp";
 
 export type NYSystem = {

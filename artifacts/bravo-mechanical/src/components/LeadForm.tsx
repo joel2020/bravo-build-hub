@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { z } from "zod";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { SERVICES } from "@/lib/site";
 import { trackLeadSubmit } from "@/lib/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useUnsavedChangesGuard } from "@/hooks/useUnsavedChangesGuard";
 
 // All user-facing form copy in both languages. The submission pipeline is
 // identical either way — Spanish leads land in the same CRM inbox.
@@ -137,10 +138,25 @@ export const LeadForm = ({
   const t = FORM_STRINGS[lang];
   const schema = useMemo(() => buildSchema(t), [t]);
   const { toast } = useToast();
-  const [values, setValues] = useState({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage, consent: false });
+  const initialValues = useRef({ name: "", phone: "", email: "", service: defaultService, message: defaultMessage, consent: false });
+  const [values, setValues] = useState(initialValues.current);
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const serviceRef = useRef<HTMLButtonElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+  const consentRef = useRef<HTMLInputElement>(null);
+
+  const isDirty = values.consent !== initialValues.current.consent
+    || values.name.trim() !== initialValues.current.name.trim()
+    || values.phone.trim() !== initialValues.current.phone.trim()
+    || values.email.trim() !== initialValues.current.email.trim()
+    || values.service.trim() !== initialValues.current.service.trim()
+    || values.message.trim() !== initialValues.current.message.trim();
+  useUnsavedChangesGuard(isDirty && !submitted);
 
   const tracking = useMemo<TrackingPayload>(() => {
     if (typeof window === "undefined") {
@@ -214,6 +230,16 @@ export const LeadForm = ({
         errs[i.path[0] as keyof Errors] = i.message;
       });
       setErrors(errs);
+      const firstError = result.error.issues[0]?.path[0] as keyof Errors | undefined;
+      const targets = {
+        name: nameRef.current,
+        phone: phoneRef.current,
+        email: emailRef.current,
+        service: serviceRef.current,
+        message: messageRef.current,
+        consent: consentRef.current,
+      };
+      if (firstError) targets[firstError]?.focus();
       return;
     }
 
@@ -288,9 +314,8 @@ export const LeadForm = ({
       leadId = newLeadId;
     }
 
-    setSubmitting(false);
-
     if (error) {
+      setSubmitting(false);
       toast({
         title: t.errorTitle,
         description: t.errorBody,
@@ -313,6 +338,7 @@ export const LeadForm = ({
     await queueOwnerNotification(leadId);
     await queueCustomerAutoReply(result.data.email);
     setSubmitted(true);
+    setSubmitting(false);
   };
 
   if (submitted) {
@@ -326,48 +352,52 @@ export const LeadForm = ({
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-lg border border-border bg-card p-6 md:p-8 space-y-5">
+    <form onSubmit={onSubmit} noValidate className="rounded-lg border border-border bg-card p-6 md:p-8 space-y-5">
       <div className="grid md:grid-cols-2 gap-5">
         <div>
           <Label htmlFor="name">{t.name}</Label>
-          <Input id="name" value={values.name} onChange={(e) => update("name", e.target.value)} className="mt-1.5" />
-          {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
+          <Input ref={nameRef} id="name" name="name" autoComplete="name" required minLength={2} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} value={values.name} onChange={(e) => update("name", e.target.value)} className="mt-1.5" />
+          {errors.name && <p id="name-error" role="alert" className="text-destructive text-xs mt-1">{errors.name}</p>}
         </div>
         <div>
           <Label htmlFor="phone">{t.phone}</Label>
-          <Input id="phone" type="tel" value={values.phone} onChange={(e) => update("phone", e.target.value)} className="mt-1.5" />
-          {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone}</p>}
+          <Input ref={phoneRef} id="phone" name="phone" type="tel" autoComplete="tel" required minLength={7} inputMode="tel" aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "phone-error" : undefined} value={values.phone} onChange={(e) => update("phone", e.target.value)} className="mt-1.5" />
+          {errors.phone && <p id="phone-error" role="alert" className="text-destructive text-xs mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
         <Label htmlFor="email">{t.email}</Label>
-        <Input id="email" type="email" value={values.email} onChange={(e) => update("email", e.target.value)} className="mt-1.5" />
-        {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
+        <Input ref={emailRef} id="email" name="email" type="email" autoComplete="email" required aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} value={values.email} onChange={(e) => update("email", e.target.value)} className="mt-1.5" />
+        {errors.email && <p id="email-error" role="alert" className="text-destructive text-xs mt-1">{errors.email}</p>}
       </div>
       <div>
         <Label htmlFor="service">{t.service}</Label>
-        <Select value={values.service} onValueChange={(v) => update("service", v)}>
-          <SelectTrigger id="service" className="mt-1.5"><SelectValue placeholder={t.servicePlaceholder} /></SelectTrigger>
+        <Select name="service" required value={values.service} onValueChange={(v) => update("service", v)}>
+          <SelectTrigger ref={serviceRef} id="service" aria-required="true" aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "service-error" : undefined} className="mt-1.5"><SelectValue placeholder={t.servicePlaceholder} /></SelectTrigger>
           <SelectContent>
             {SERVICES.map((s) => <SelectItem key={s.slug} value={s.title}>{s.title}</SelectItem>)}
             <SelectItem value="Other">{t.serviceOther}</SelectItem>
           </SelectContent>
         </Select>
-        {errors.service && <p className="text-destructive text-xs mt-1">{errors.service}</p>}
+        {errors.service && <p id="service-error" role="alert" className="text-destructive text-xs mt-1">{errors.service}</p>}
       </div>
       <div>
         <Label htmlFor="message">{t.message}</Label>
-        <Textarea id="message" rows={5} value={values.message} onChange={(e) => update("message", e.target.value)} className="mt-1.5" />
-        {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
+        <Textarea ref={messageRef} id="message" name="message" autoComplete="off" required minLength={5} aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? "message-error" : undefined} rows={5} value={values.message} onChange={(e) => update("message", e.target.value)} className="mt-1.5" />
+        {errors.message && <p id="message-error" role="alert" className="text-destructive text-xs mt-1">{errors.message}</p>}
       </div>
       <div className="rounded-md border border-border bg-secondary/40 p-3">
         <label className="flex items-start gap-3 text-xs leading-relaxed text-muted-foreground cursor-pointer">
           <input
+            ref={consentRef}
             type="checkbox"
+            name="consent"
+            required
             checked={values.consent}
             onChange={(e) => update("consent", e.target.checked)}
             className="mt-0.5 h-4 w-4 shrink-0 rounded border-border accent-accent"
-            aria-describedby="consent-help"
+            aria-invalid={Boolean(errors.consent)}
+            aria-describedby={errors.consent ? "consent-help consent-error" : "consent-help"}
           />
           <span id="consent-help">
             {t.consent}{" "}
@@ -376,7 +406,7 @@ export const LeadForm = ({
             <a href="/terms-and-conditions" className="font-semibold text-foreground underline hover:text-accent">{t.smsTerms}</a>.
           </span>
         </label>
-        {errors.consent && <p className="text-destructive text-xs mt-2">{errors.consent}</p>}
+        {errors.consent && <p id="consent-error" role="alert" className="text-destructive text-xs mt-2">{errors.consent}</p>}
       </div>
       <Button type="submit" size="lg" disabled={submitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
         {submitting ? t.submitting : t.submit}

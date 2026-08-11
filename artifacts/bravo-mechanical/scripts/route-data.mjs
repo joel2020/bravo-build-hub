@@ -11,12 +11,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const SRC = path.join(ROOT, "src");
 
-export const SITE_URL = "https://bravomechanicalny.com";
+export const SITE_URL = "https://www.bravomechanicalny.com";
 export const SITE_NAME = "Bravo Mechanical";
 export const SITE_LEGAL = "Bravo Mechanical LLC";
 export const SITE_PHONE = "(914) 361-9142";
-export const SITE_EMAIL = "info@bravomechanicalny.com";
-export const SITE_RATING = { score: 5.0, count: 7 };
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 export const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
@@ -50,47 +48,6 @@ export const HOMEPAGE_FAQS = [
     a: "A common rule of thumb is the 50% rule: if the repair cost exceeds 50% of replacement cost, or if the system is older than 12 to 15 years and breaking down repeatedly, replacement is usually more cost-effective. ENERGY STAR recommends replacing furnaces older than 15 years and central AC older than 10 years for meaningful efficiency gains.",
   },
 ];
-
-// ---- Google reviews (for prerendered Review schema) --------------------
-// Parses src/lib/googleReviews.ts so the prerendered HVACBusiness schema
-// includes real reviewer quotes — Google can show individual review
-// snippets in SERPs alongside the AggregateRating, and AI Overviews
-// quote them as social proof.
-export async function loadGoogleReviews() {
-  const txt = await readSource("lib/googleReviews.ts");
-  const reviews = [];
-  const re = /\{\s*reviewerName:\s*"([^"]+)",\s*rating:\s*(\d)[\s\S]*?reviewText:\s*\n?\s*"((?:[^"\\]|\\.)*)"[\s\S]*?(?:reviewDate:\s*"([^"]*)",[\s\S]*?)?isFeatured:\s*(true|false)/g;
-  let m;
-  while ((m = re.exec(txt)) !== null) {
-    reviews.push({
-      reviewerName: m[1],
-      rating: Number(m[2]),
-      reviewText: m[3].replace(/\\"/g, '"'),
-      reviewDate: m[4] || "",
-      isFeatured: m[5] === "true",
-    });
-  }
-  return reviews;
-}
-
-// Convert "2 months ago" / "a month ago" / "a day ago" to an ISO date
-// (relative to BUILD_DATE) so Review schema has datePublished. Approximate
-// is fine — Google only requires a date, not a precise timestamp.
-export function relativeDateToIso(rel, baseIsoDate = BUILD_DATE) {
-  const base = new Date(baseIsoDate + "T00:00:00Z");
-  const s = (rel || "").toLowerCase().trim();
-  const num = (str) => (/^a\b|^an\b/.test(str) ? 1 : parseInt(str, 10) || 0);
-  const cleaned = s.replace(/^edited\s+/, "");
-  let days = 0;
-  if (/year/.test(cleaned)) days = num(cleaned) * 365;
-  else if (/month/.test(cleaned)) days = num(cleaned) * 30;
-  else if (/week/.test(cleaned)) days = num(cleaned) * 7;
-  else if (/day/.test(cleaned)) days = num(cleaned);
-  else if (/hour|minute/.test(cleaned)) days = 0;
-  else return baseIsoDate;
-  base.setUTCDate(base.getUTCDate() - days);
-  return base.toISOString().slice(0, 10);
-}
 
 // ---- HowTo schema for step-by-step blog posts --------------------------
 // Hand-curated for posts that genuinely follow a numbered procedure.
@@ -388,17 +345,54 @@ async function readSource(rel) {
 // ---- Cities ------------------------------------------------------------
 export async function loadCities() {
   const txt = await readSource("lib/cities.ts");
+  const dataStart = txt.indexOf("const CITY_DATA");
+  const dataEnd = txt.indexOf("export const CITIES", dataStart);
+  const cityData = dataStart >= 0 && dataEnd > dataStart ? txt.slice(dataStart, dataEnd) : txt;
   const cities = [];
-  const blockRe = /"([A-Za-z][A-Za-z .'-]+)":\s*{/g;
-  let m;
-  while ((m = blockRe.exec(txt)) !== null) {
-    const name = m[1];
-    if (name === "addressLocality" || name === "addressRegion" || name === "@type") continue;
-    if (name === "PostalAddress" || name === "City") continue;
-    if (cities.find((c) => c.name === name)) continue;
-    cities.push({ name, slug: slugify(name) });
+  const matches = [...cityData.matchAll(/^\s{2}"([A-Za-z][A-Za-z .'-]+)":\s*{/gm)];
+  const readString = (block, field) => block.match(new RegExp(`${field}:\\s*"((?:[^"\\\\]|\\\\.)*)"`))?.[1]?.replace(/\\"/g, '"') || "";
+  const readArray = (block, field) => {
+    const body = block.match(new RegExp(`${field}:\\s*\\[([\\s\\S]*?)\\]`))?.[1] || "";
+    return [...body.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((item) => item[1].replace(/\\"/g, '"'));
+  };
+
+  for (let i = 0; i < matches.length; i++) {
+    const name = matches[i][1];
+    const block = cityData.slice(matches[i].index, matches[i + 1]?.index ?? cityData.length);
+    cities.push({
+      name,
+      slug: slugify(name),
+      zips: readArray(block, "zips"),
+      neighborhoods: readArray(block, "neighborhoods"),
+      region: readString(block, "region"),
+      intro: readString(block, "intro"),
+      housing: readString(block, "housing"),
+      climateNote: readString(block, "climateNote"),
+    });
   }
   return cities;
+}
+
+function clipAtWord(value, maxLength) {
+  if (value.length <= maxLength) return value;
+  const clipped = value.slice(0, maxLength - 1);
+  const lastSpace = clipped.lastIndexOf(" ");
+  return `${clipped.slice(0, lastSpace > maxLength * 0.6 ? lastSpace : clipped.length).trim()}…`;
+}
+
+export function fitSeoTitle(value, maxLength = 65) {
+  const compact = value
+    .replace(" | Bravo Mechanical LLC", " | Bravo Mechanical")
+    .replace(" | Bravo Mechanical Blog", " | Bravo Mechanical");
+  if (compact.length <= maxLength) return compact;
+
+  const brand = " | Bravo Mechanical";
+  const topic = compact.split(" | ")[0].replace(/\s+—\s+Hablamos Español$/i, "");
+  return `${clipAtWord(topic, maxLength - brand.length)}${brand}`;
+}
+
+export function fitMetaDescription(value, maxLength = 160) {
+  return clipAtWord(value, maxLength);
 }
 
 // ---- Top cities --------------------------------------------------------
@@ -596,5 +590,9 @@ export async function buildAllRoutes() {
     if (EXCLUDED_PATHS.has(r.path)) continue;
     byPath.set(r.path, r);
   }
-  return [...byPath.values()];
+  return [...byPath.values()].map((route) => ({
+    ...route,
+    title: fitSeoTitle(route.title),
+    description: fitMetaDescription(route.description),
+  }));
 }

@@ -49,4 +49,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /auth
 
-Sitemap: https://bravomechanicalny.com/sitemap.xml
+Sitemap: https://www.bravomechanicalny.com/sitemap.xml

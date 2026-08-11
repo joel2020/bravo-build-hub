@@ -1,15 +1,15 @@
 # Deploy Bravo Mechanical to Vercel
 
-The site is already built to deploy on Vercel from this monorepo as-is.
-The `vercel.json` at the repo root tells Vercel everything it needs.
+The production Vercel project deploys this app from the monorepo with
+`artifacts/bravo-mechanical` configured as its Root Directory. The deployed
+routing config is `artifacts/bravo-mechanical/vercel.json`.
 
 ## One-time setup
 
 1. **Push this repo to GitHub** (Vercel needs a Git source).
 2. In Vercel, click **Add New → Project** and import the repo.
-3. **Do not change the Root Directory.** Leave it as the repo root (`./`).
-   The `vercel.json` already points at `artifacts/bravo-mechanical`.
-4. Framework Preset: **Other** (auto-detected from `vercel.json`).
+3. Set **Root Directory** to `artifacts/bravo-mechanical`.
+4. Framework Preset: **Other** (auto-detected from the app's `vercel.json`).
 5. Add the environment variables below (Settings → Environment Variables).
 6. Click **Deploy**.
 
@@ -33,7 +33,9 @@ After the first deploy works on `*.vercel.app`:
 2. Vercel shows you the DNS records to set at your registrar (usually one
    `A` record for the apex and one `CNAME` for `www`).
 3. Once DNS propagates, Vercel auto-issues an SSL cert.
-4. Add `www.bravomechanicalny.com` too and set it to redirect to the apex.
+4. Add `www.bravomechanicalny.com` too and set it as the production domain. The
+   root `vercel.json` permanently redirects the apex host to the canonical
+   `www` host.
 
 ## What happens at build time
 

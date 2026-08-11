@@ -33,7 +33,7 @@ const NYSystem = () => {
       createdCanonical = true;
     }
     const prevHref = canonical.href;
-    const pageUrl = `https://bravomechanicalny.com/services/${system.slug}`;
+    const pageUrl = `https://www.bravomechanicalny.com/services/${system.slug}`;
     canonical.href = pageUrl;
 
     // JSON-LD: Service + FAQPage
@@ -66,8 +66,8 @@ const NYSystem = () => {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://bravomechanicalny.com/" },
-        { "@type": "ListItem", position: 2, name: "Services", item: "https://bravomechanicalny.com/services" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.bravomechanicalny.com/" },
+        { "@type": "ListItem", position: 2, name: "Services", item: "https://www.bravomechanicalny.com/services" },
         { "@type": "ListItem", position: 3, name: system.card.title, item: pageUrl },
       ],
     };

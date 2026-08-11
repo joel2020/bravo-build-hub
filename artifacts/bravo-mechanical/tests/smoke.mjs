@@ -10,7 +10,7 @@ const root = path.resolve(__dirname, '..');
 const dist = path.join(root, 'dist', 'public');
 const canonicalOrigin = 'https://www.bravomechanicalny.com';
 const deploymentConfig = JSON.parse(
-  await readFile(path.resolve(root, '..', '..', 'vercel.json'), 'utf8'),
+  await readFile(path.join(root, 'vercel.json'), 'utf8'),
 );
 
 function assert(condition, message) {
@@ -46,10 +46,13 @@ async function readDist(relativePath) {
 }
 
 const home = await readDist('index.html');
-assert(!existsSync(path.join(root, 'vercel.json')), 'Vercel config must remain authoritative at the repository root');
+assert(
+  deploymentConfig.outputDirectory === 'dist/public',
+  'Deployed Vercel config must publish dist/public',
+);
 assert(
   !deploymentConfig.rewrites.some((rule) => rule.source === '/:path*' && !rule.has),
-  'Root Vercel config must not rewrite every public route to index.html',
+  'Deployed Vercel config must not rewrite every public route to index.html',
 );
 for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
   assert(

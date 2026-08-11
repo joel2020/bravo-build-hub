@@ -1,0 +1,38 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "dist/public",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "bravomechanicalny.com" }],
+      "destination": "https://www.bravomechanicalny.com/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    { "source": "/auth", "destination": "/index.html" },
+    { "source": "/admin/:path*", "destination": "/index.html" },
+    { "source": "/proposal/:path*", "destination": "/index.html" },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "app.bravomechanicalny.com" }],
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/auth",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/admin/:path*",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/proposal/:path*",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ]
+}

@@ -50,8 +50,13 @@ assert(
   deploymentConfig.outputDirectory === 'dist/public',
   'Deployed Vercel config must publish dist/public',
 );
+const catchAllRewrites = deploymentConfig.rewrites.filter((rule) => rule.source === '/:path*');
 assert(
-  !deploymentConfig.rewrites.some((rule) => rule.source === '/:path*' && !rule.has),
+  catchAllRewrites.length === 1
+    && catchAllRewrites[0].destination === '/'
+    && catchAllRewrites[0].has?.length === 1
+    && catchAllRewrites[0].has[0].type === 'host'
+    && catchAllRewrites[0].has[0].value === 'app.bravomechanicalny.com',
   'Deployed Vercel config must not rewrite every public route to the SPA entry point',
 );
 for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
@@ -59,7 +64,7 @@ for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
     deploymentConfig.rewrites.some(
       (rule) => rule.source === privateRoute && rule.destination === '/',
     ),
-    `Root Vercel config is missing the ${privateRoute} private rewrite`,
+    `Deployed Vercel config is missing the ${privateRoute} private rewrite`,
   );
   assert(
     deploymentConfig.headers.some(
@@ -68,7 +73,7 @@ for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
           (header) => header.key === 'X-Robots-Tag' && header.value === 'noindex, nofollow',
         ),
     ),
-    `Root Vercel config is missing noindex headers for ${privateRoute}`,
+    `Deployed Vercel config is missing noindex headers for ${privateRoute}`,
   );
 }
 const assetDir = path.join(dist, 'assets');

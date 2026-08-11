@@ -1,8 +1,8 @@
 # Deploy Bravo Mechanical to Vercel
 
 The production Vercel project deploys this app from the monorepo with
-`artifacts/bravo-mechanical` configured as its Root Directory. The
-`vercel.json` in this directory is therefore the deployed routing config.
+`artifacts/bravo-mechanical` configured as its Root Directory. The deployed
+routing config is `artifacts/bravo-mechanical/vercel.json`.
 
 ## One-time setup
 

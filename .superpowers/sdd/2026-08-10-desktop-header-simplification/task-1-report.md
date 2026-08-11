@@ -29,7 +29,7 @@ DONE
 
 ## Commit
 
-Commit hash: recorded below after commit.
+Implementation commit: `42af983` (`feat: simplify desktop header navigation`).
 
 ## Concerns
 

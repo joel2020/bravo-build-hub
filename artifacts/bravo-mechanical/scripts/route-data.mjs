@@ -306,10 +306,9 @@ export const STATIC_ROUTES = [
     description: "Terms governing use of the Bravo Mechanical website and services." },
 ];
 
-// Equipment guide pages (src/lib/nySystems.ts). These were previously missing
-// from the sitemap AND competing with the matching money pages for the same
-// queries. Each guide canonicals to its money page so the money page wins;
-// water-heaters has no money page yet and stays self-canonical.
+// Equipment guide pages (src/lib/nySystems.ts). Each guide canonicals to its
+// matching money page. They are prerendered for users but sitemap generation
+// excludes them so every submitted URL self-canonicalizes.
 export const EQUIPMENT_GUIDES = [
   { slug: "gas-boilers", title: "Gas Boilers for Westchester Homes — Buyer's Guide | Bravo Mechanical",
     description: "High-efficiency gas boiler guide for Westchester County, NY: system types, AFUE ratings, brands, and what fits older hydronic homes.",

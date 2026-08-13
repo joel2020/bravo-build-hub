@@ -59,6 +59,14 @@ assert(
     && catchAllRewrites[0].has[0].value === 'app.bravomechanicalny.com',
   'Deployed Vercel config must not rewrite every public route to the SPA entry point',
 );
+assert(
+  deploymentConfig.redirects.some(
+    (rule) => rule.source === '/blog/ac-not-cooling-westchester'
+      && rule.destination === '/blog/why-is-my-ac-not-cooling-westchester'
+      && rule.permanent === true,
+  ),
+  'The duplicate AC-not-cooling article must permanently redirect to the indexed canonical article',
+);
 for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
   assert(
     deploymentConfig.rewrites.some(
@@ -120,10 +128,26 @@ for (const route of ['/', '/contact', '/services', '/about']) {
   assert(sitemap.includes(loc), `sitemap.xml missing ${loc}`);
 }
 assert(!sitemap.includes('https://bravomechanicalny.com'), 'sitemap.xml must not use the redirecting non-www host');
+assert(
+  !sitemap.includes(`${canonicalOrigin}/blog/ac-not-cooling-westchester`),
+  'sitemap.xml must exclude the redirected duplicate AC-not-cooling article',
+);
+assert(
+  sitemap.includes(`${canonicalOrigin}/blog/why-is-my-ac-not-cooling-westchester`),
+  'sitemap.xml must retain the indexed AC-not-cooling article',
+);
 const privateSitemapEntry = sitemap.match(
   /<loc>[^<]*\/(?:auth|admin|proposal)(?:\/[^<]*)?<\/loc>/,
 )?.[0];
 assert(!privateSitemapEntry, `sitemap.xml must not include private routes: ${privateSitemapEntry}`);
+
+const sitemapLocations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+for (const location of sitemapLocations) {
+  const pathname = new URL(location).pathname;
+  const routeHtml = await readDist(pathname === '/' ? 'index.html' : `${pathname.slice(1)}/index.html`);
+  const canonical = routeHtml.match(/<link rel="canonical" href="([^"]+)"/i)?.[1];
+  assert(canonical === location, `sitemap URL must self-canonicalize: ${location} -> ${canonical || 'missing'}`);
+}
 
 const llms = await readDist('llms.txt');
 assert(llms.includes(canonicalOrigin), 'llms.txt missing canonical website');
@@ -140,6 +164,11 @@ const allDistFiles = await (await import('node:fs/promises')).readdir(dist, { re
 const routeHtmlFiles = allDistFiles.filter((file) => file === 'index.html' || file.endsWith('/index.html'));
 for (const relativePath of routeHtmlFiles) {
   const html = await readDist(relativePath);
+  const primaryHeadingCount = (html.match(/<h1(?:\s|>)/gi) || []).length;
+  assert(
+    primaryHeadingCount === 1,
+    `${relativePath} must expose exactly one primary h1, found ${primaryHeadingCount}`,
+  );
   const title = decodeHtml(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '');
   const description = decodeHtml(html.match(/<meta name="description" content="([^"]*)"/i)?.[1] || '');
   assert(title.length <= 65, `${relativePath} title is ${title.length} characters`);

@@ -266,36 +266,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.bravomechanicalny.com/services/gas-boilers</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/mini-splits</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/heat-pumps</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/central-ac</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/gas-furnaces</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/water-heaters</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://www.bravomechanicalny.com/services/ac-repair-westchester-county-ny</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -477,7 +447,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.bravomechanicalny.com/blog/ac-not-cooling-westchester</loc>
+    <loc>https://www.bravomechanicalny.com/blog/why-is-my-ac-not-cooling-westchester</loc>
     <lastmod>2026-07-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -683,12 +653,6 @@
   <url>
     <loc>https://www.bravomechanicalny.com/blog/do-i-need-permit-hvac-westchester</loc>
     <lastmod>2025-12-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/blog/why-is-my-ac-not-cooling-westchester</loc>
-    <lastmod>2025-12-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

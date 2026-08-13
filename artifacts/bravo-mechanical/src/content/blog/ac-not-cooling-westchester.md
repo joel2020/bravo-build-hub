@@ -1,6 +1,6 @@
 ---
 title: AC Running but Not Cooling? 7 Things to Check Before You Call (Westchester Guide)
-slug: ac-not-cooling-westchester
+slug: why-is-my-ac-not-cooling-westchester
 date: 2026-07-14
 excerpt: Your AC is running but the house isn't getting cold. Seven checks Westchester homeowners can do in 15 minutes — thermostat, filter, breaker, outdoor unit, ice on the lines — plus the signs it's time to call a pro.
 tags: AC, Troubleshooting, Westchester

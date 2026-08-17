@@ -339,7 +339,7 @@ function buildBodyInsert(route, ctx) {
   const esc = htmlEscape;
   const h1 = esc(String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
   const parts = [];
-  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed &amp; insured HVAC contractor (License #8822) · 30+ years of combined HVAC experience · 1 Fowler Avenue, Yonkers, NY 10701 · Serving all of Westchester County · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service · <a href="/contact">Request a free written estimate</a></p></header>`);
+  parts.push(`<header><p><strong>${esc(SITE_LEGAL)}</strong> — HVAC repair, installation, emergency dispatch, and maintenance for homes and light-commercial properties in Westchester County, NY · 1 Fowler Avenue, Yonkers, NY 10701 · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · <a href="/contact">Request service online</a></p></header>`);
   parts.push(`<main>`);
   parts.push(`<h1>${h1}</h1>`);
   parts.push(`<p>${esc(route.description)}</p>`);
@@ -388,9 +388,9 @@ function buildBodyInsert(route, ctx) {
     parts.push(linkList(ctx.posts));
   }
 
-  parts.push(`<p><a href="/contact">Request service or a free written estimate</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving all of Westchester County, NY.</p>`);
+  parts.push(`<p><a href="/contact">Request service online</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving Westchester County, NY.</p>`);
   parts.push(`</main>`);
-  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/emergency-hvac-westchester">24/7 Emergency</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
+  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/emergency-hvac-westchester">Emergency HVAC</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
 
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.65;color:#0f172a">${parts.join("\n")}</div>`;
 }

@@ -1,38 +1,22 @@
-# Bravo Mechanical
+# Bravo Mechanical LLC
 
-> HVAC installation, repair, emergency service, maintenance, and indoor air quality services in Westchester County, New York.
+> HVAC repair, installation, emergency dispatch, and maintenance for homes and light-commercial properties in Westchester County, New York.
 
-Official website: https://www.bravomechanicalny.com
-Contact email: info@bravomechanicalny.com
+Official website: https://www.bravomechanicalny.com/
+Company facts: https://www.bravomechanicalny.com/company-facts
 Phone: +1-914-361-9142
+Email: info@bravomechanicalny.com
 
-## Primary Services
-- HVAC Installation
-- HVAC Repair
-- Emergency HVAC Service
-- Furnace Repair
-- AC Repair
-- Heat Pump Installation
-- Indoor Air Quality
-- Preventive Maintenance
-- Commercial HVAC
-- Residential HVAC
+## Priority services
+- [AC repair](https://www.bravomechanicalny.com/services/ac-repair-westchester-county-ny)
+- [Boiler repair](https://www.bravomechanicalny.com/services/boiler-repair-westchester-county-ny)
+- [Emergency HVAC repair](https://www.bravomechanicalny.com/services/emergency-hvac-repair-westchester-county-ny)
+- [Heat-pump installation](https://www.bravomechanicalny.com/services/heat-pump-installation-westchester-county-ny)
 
-## Service Area
-Westchester County, NY
+## Primary service area
+- [Westchester service areas](https://www.bravomechanicalny.com/service-areas)
+- [HVAC service in Yonkers](https://www.bravomechanicalny.com/service-areas/yonkers)
 
-## Pages
-- [Home](/): HVAC contractor serving Westchester County, NY.
-- [Services](/services): Heating, cooling, repair, install, and maintenance services.
-- [Service Areas](/service-areas): Towns and cities in Westchester County we cover.
-- [Reviews](/reviews): Customer reviews and 5-star Google rating.
-- [Blog](/blog): HVAC tips and guidance for Westchester homeowners.
-- [Emergency HVAC](/emergency-hvac-westchester): 24/7 emergency heating & cooling service.
-- [Financing](/financing): HVAC financing and payment options.
-- [Maintenance Plans](/maintenance-plans): Annual HVAC tune-up plans.
-- [Book Online](/book): Schedule service online.
-- [About](/about): About Bravo Mechanical LLC.
-- [Contact](/contact): Phone, email, and service request form.
-
-## Brand Summary
-Bravo Mechanical is a modern HVAC company focused on high-quality residential and commercial heating and cooling services across Westchester County. The company emphasizes fast response times, professional installations, transparent communication, and long-term customer relationships.
+## Customer actions
+- [Request an estimate](https://www.bravomechanicalny.com/contact)
+- [Book service online](https://www.bravomechanicalny.com/book)

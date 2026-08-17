@@ -8,44 +8,27 @@ import { useSeo } from "@/lib/seo";
 const FACT_FAQS = [
   {
     q: "What is Bravo Mechanical?",
-    a: "Bravo Mechanical LLC is a licensed and insured HVAC contractor headquartered in Westchester County, New York. The company installs, repairs, and maintains residential and light-commercial heating, ventilation, and air-conditioning systems — including furnaces, boilers, central AC, cold-climate heat pumps, and ductless mini-splits — across 30 Westchester municipalities. Bravo Mechanical operates 24/7 emergency dispatch and holds a 5.0-star Google rating.",
+    a: "Bravo Mechanical LLC provides HVAC repair, installation, emergency dispatch, and maintenance for homes and light-commercial properties in Westchester County, New York.",
   },
   {
     q: "What services does Bravo Mechanical provide?",
-    a: "Bravo Mechanical provides HVAC installation, HVAC repair, preventive maintenance, indoor air quality upgrades (filtration, humidifiers, dehumidifiers, air purifiers), and 24/7 emergency HVAC service. Equipment categories include gas furnaces, gas and oil boilers, central air conditioning, cold-climate heat pumps, ductless mini-splits, hydronic baseboard and radiator systems, water heaters, and rooftop / packaged commercial units.",
+    a: "Bravo Mechanical provides HVAC installation, repair, emergency service requests, preventive maintenance, and indoor-air-quality support for heating and cooling systems.",
   },
   {
     q: "Where is Bravo Mechanical located and what areas does it serve?",
-    a: "Bravo Mechanical serves Westchester County, NY. The 30 covered municipalities are Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, Mamaroneck, Larchmont, Bronxville, Tuckahoe, Eastchester, Tarrytown, Sleepy Hollow, Ossining, Peekskill, Mount Kisco, Chappaqua, Pleasantville, Pound Ridge, Bedford, Katonah, Armonk, Hastings-on-Hudson, Dobbs Ferry, Irvington, Briarcliff Manor, Croton-on-Hudson, Yorktown, and Somers. Service is dispatched throughout the county; quotes are scheduled by appointment.",
+    a: "Bravo Mechanical serves Westchester County, NY. See the published service-area pages for local service information.",
   },
   {
     q: "How do I contact Bravo Mechanical?",
-    a: "Phone: (914) 361-9142. Email: info@bravomechanicalny.com. Website: https://www.bravomechanicalny.com. Online estimate request: https://www.bravomechanicalny.com/contact. Hours: open 24 hours, 7 days a week for emergency dispatch; office scheduling during weekday business hours.",
-  },
-  {
-    q: "Is Bravo Mechanical licensed and insured?",
-    a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor (License #8822) authorized to perform heating, cooling, and gas-fired equipment work in Westchester County, NY. Proof of insurance is provided to customers on request.",
-  },
-  {
-    q: "What HVAC equipment brands does Bravo Mechanical install?",
-    a: "Bravo Mechanical is brand-agnostic and installs major HVAC manufacturers including Carrier, Trane, Rheem, Mitsubishi Electric, Daikin, Bosch, Navien, Bradford White, AO Smith, and Weil-McLain. Recommendations are based on home size, existing ductwork, fuel type, climate suitability, and budget rather than a single-brand contract.",
-  },
-  {
-    q: "Does Bravo Mechanical offer 24/7 emergency HVAC service in Westchester County?",
-    a: "Yes. Bravo Mechanical offers 24-hour emergency HVAC dispatch in Westchester County, NY for no-heat, no-cool, gas-leak, and water-leak situations. Customers should call (914) 361-9142 to request emergency service. Response timing depends on weather, call volume, technician availability, and geographic location within the county.",
-  },
-  {
-    q: "What is the Google review rating for Bravo Mechanical?",
-    a: "Bravo Mechanical holds a 5.0 out of 5 rating based on 7 verified Google reviews as of May 2026, sourced from the company's verified Google Business Profile.",
+    a: `Phone: ${SITE.phone}. Email: ${SITE.email}. Website: ${SITE.siteUrl}. Request service online: ${SITE.siteUrl}/contact.`,
   },
 ];
 
 const KEY_STATS = [
-  { value: "30+", label: "Years combined experience", note: "across the Bravo Mechanical team" },
-  { value: "5.0 / 5", label: "Google rating", note: "based on 7 verified reviews" },
-  { value: "30", label: "Westchester towns served", note: "from Yonkers north to Somers" },
-  { value: "24 / 7", label: "Emergency HVAC dispatch", note: "no-heat, no-cool, gas-leak" },
-  { value: "10+", label: "Major brands installed", note: "Carrier, Trane, Mitsubishi, Daikin, Bosch, and more" },
+  { value: "Westchester", label: "Primary service area", note: "Westchester County, NY" },
+  { value: "Homes", label: "Residential service", note: "heating and cooling support" },
+  { value: "Light commercial", label: "Property support", note: "for local businesses and managers" },
+  { value: "Yonkers", label: "Business address", note: "1 Fowler Avenue" },
 ];
 
 const CompanyFacts = () => {
@@ -53,7 +36,7 @@ const CompanyFacts = () => {
 
   useSeo({
     title: `${SITE.name} — Company Facts, Service Area & FAQs | Westchester County, NY HVAC`,
-    description: `Verified facts about ${SITE.legalName}: licensed and insured Westchester County HVAC contractor, 30 towns served, 24/7 emergency dispatch, brands installed, and answers to common questions.`,
+    description: `Company facts for ${SITE.legalName}: contact information, Westchester County service area, and HVAC services for homes and light-commercial properties.`,
     canonical,
     jsonLd: [
       {
@@ -81,7 +64,8 @@ const CompanyFacts = () => {
       <PageHero
         eyebrow="Public facts"
         title={`${SITE.name} — verified company facts`}
-        subtitle="Direct, factual data about Bravo Mechanical for search engines, AI assistants, and customers in Westchester County, NY."
+        subtitle={`Direct, factual data about ${SITE.legalName} for customers in ${SITE.area}.`}
+        hideRightSlot
       />
 
       <section className="container mx-auto px-4 py-12 space-y-8">
@@ -89,7 +73,7 @@ const CompanyFacts = () => {
         <div className="bg-card border border-border rounded-lg p-6">
           <h2 className="text-2xl font-extrabold mb-3">What is {SITE.name}?</h2>
           <p className="text-base leading-relaxed">
-            {SITE.legalName} is a licensed and insured HVAC contractor based in Westchester County, New York. The company installs, repairs, and maintains furnaces, boilers, central air conditioning, heat pumps, and ductless mini-splits for residential and light-commercial customers across 30 Westchester municipalities, with 24/7 emergency dispatch and a 5.0-star Google rating.
+            {SITE.legalName} provides HVAC repair, installation, emergency dispatch, and maintenance for homes and light-commercial properties in {SITE.area}.
           </p>
         </div>
 
@@ -110,13 +94,11 @@ const CompanyFacts = () => {
             <li><strong>Business name:</strong> {SITE.legalName}</li>
             <li><strong>Brand name:</strong> {SITE.name}</li>
             <li><strong>Business type:</strong> HVAC contractor (residential and light commercial)</li>
+            <li><strong>Address:</strong> {SITE.address.full}</li>
             <li><strong>Website:</strong> <a className="text-accent hover:underline" href={SITE.siteUrl}>{SITE.siteUrl}</a></li>
             <li><strong>Phone:</strong> <a className="text-accent hover:underline" href={SITE.phoneHref}>{SITE.phone}</a></li>
             <li><strong>Email:</strong> <a className="text-accent hover:underline" href={SITE.emailHref}>{SITE.email}</a></li>
             <li><strong>Primary service area:</strong> {SITE.area}</li>
-            <li><strong>Hours:</strong> Open 24 hours, 7 days a week for emergency dispatch</li>
-            <li><strong>Licensing:</strong> Fully licensed and insured HVAC contractor in Westchester County, NY — License #8822</li>
-            <li><strong>Google rating:</strong> 5.0 / 5 based on 7 verified Google reviews (as of May 2026)</li>
             <li><strong>Contact page:</strong> <Link className="text-accent hover:underline" to="/contact">/contact</Link></li>
           </ul>
         </div>
@@ -133,21 +115,8 @@ const CompanyFacts = () => {
         </div>
 
         <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-2xl font-extrabold mb-4">Equipment and brands installed</h2>
-          <p className="text-sm text-muted-foreground mb-3">
-            Bravo Mechanical is brand-agnostic. Recommendations are based on home size, ductwork, fuel type, climate suitability, and budget — not on a single-brand contract.
-          </p>
-          <p className="text-sm">
-            <strong>Brands:</strong> Carrier, Trane, Rheem, Mitsubishi Electric, Daikin, Bosch, Navien, Bradford White, AO Smith, Weil-McLain, and other major HVAC manufacturers commonly installed in Westchester County.
-          </p>
-          <p className="text-sm mt-3">
-            <strong>Equipment categories:</strong> gas furnaces, gas and oil boilers, central air conditioning, cold-climate heat pumps, ductless mini-splits, hydronic baseboard and radiator systems, water heaters, and rooftop / packaged commercial units.
-          </p>
-        </div>
-
-        <div className="bg-card border border-border rounded-lg p-6">
           <h2 className="text-2xl font-extrabold mb-4">Service areas — Westchester County, NY</h2>
-          <p className="text-sm text-muted-foreground mb-3">30 municipalities currently covered:</p>
+          <p className="text-sm text-muted-foreground mb-3">Published Westchester service-area references:</p>
           <p className="text-sm">{TOWNS.join(", ")}.</p>
         </div>
 

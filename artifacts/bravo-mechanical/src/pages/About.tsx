@@ -27,7 +27,7 @@ const customerExpectations = [
 const About = () => {
   useSeo({
     title: "About Bravo Mechanical | HVAC in Westchester NY",
-    description: "Licensed Westchester County HVAC contractor with 30+ years combined experience — heating, cooling, boiler, furnace, heat pump & mini-split service.",
+    description: "Bravo Mechanical LLC provides HVAC repair, installation, and maintenance for homes and light-commercial properties in Westchester County, NY.",
     canonical: `${SITE.siteUrl}/about`,
   });
 
@@ -36,7 +36,8 @@ const About = () => {
       <PageHero
         eyebrow="About Bravo Mechanical"
         title="Local HVAC service built around clear answers and clean work"
-        subtitle="Bravo Mechanical LLC serves Westchester County homeowners, property managers, and light commercial customers with practical heating, cooling, repair, installation, and maintenance support."
+        subtitle={`${SITE.legalName} serves Westchester County homeowners, property managers, and light-commercial customers with heating, cooling, repair, installation, and maintenance support.`}
+        hideRightSlot
       />
 
       <section className="container mx-auto px-4 py-16 grid lg:grid-cols-2 gap-12 items-start">
@@ -44,22 +45,22 @@ const About = () => {
           <div>
             <h2 className="text-2xl font-extrabold mb-3">Who we are</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Bravo Mechanical LLC is a Westchester County HVAC company focused on dependable service, practical diagnostics, and straightforward recommendations. Our team brings <strong className="text-foreground">over 30 years of combined HVAC experience</strong> to every job. Customers call us when they need help with no-heat calls, AC problems, aging boilers, furnace issues, heat pump upgrades, ductless mini-splits, water heaters, and ongoing maintenance.
+              {SITE.legalName} is a Westchester County HVAC company focused on practical diagnostics and straightforward recommendations. Customers call us when they need help with no-heat calls, AC problems, aging boilers, furnace issues, heat pump upgrades, ductless mini-splits, water heaters, and ongoing maintenance.
             </p>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-card border border-border rounded-lg p-4 text-center">
-              <div className="text-3xl font-extrabold text-accent">30+</div>
-              <div className="text-xs text-muted-foreground mt-1">Years combined experience</div>
+              <div className="text-3xl font-extrabold text-accent">HVAC</div>
+              <div className="text-xs text-muted-foreground mt-1">Repair and installation</div>
             </div>
             <div className="bg-card border border-border rounded-lg p-4 text-center">
-              <div className="text-3xl font-extrabold text-accent">5.0</div>
-              <div className="text-xs text-muted-foreground mt-1">Google rating</div>
+              <div className="text-3xl font-extrabold text-accent">Homes</div>
+              <div className="text-xs text-muted-foreground mt-1">Residential support</div>
             </div>
             <div className="bg-card border border-border rounded-lg p-4 text-center">
-              <div className="text-3xl font-extrabold text-accent">24/7</div>
-              <div className="text-xs text-muted-foreground mt-1">Emergency dispatch</div>
+              <div className="text-3xl font-extrabold text-accent">Local</div>
+              <div className="text-xs text-muted-foreground mt-1">Light-commercial support</div>
             </div>
           </div>
 
@@ -105,7 +106,7 @@ const About = () => {
             <img src={jobWaterHeater} alt="Water heater installation completed by Bravo Mechanical" width={600} height={600} className="aspect-square w-full rounded-lg border border-border object-cover" loading="lazy" decoding="async" />
           </div>
           <div className="bg-card border border-border rounded-lg p-5 text-sm text-muted-foreground">
-            <strong className="text-foreground">Service area:</strong> Bravo Mechanical serves Westchester County, NY, including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, Mamaroneck, and nearby towns.
+            <strong className="text-foreground">Service area:</strong> {SITE.legalName} serves {SITE.area}. See published service-area pages for local details.
           </div>
         </div>
       </section>
@@ -113,9 +114,9 @@ const About = () => {
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-16 grid md:grid-cols-2 gap-8">
           <div>
-            <h2 className="text-2xl font-extrabold mb-3">Licensing, insurance, and documentation</h2>
+            <h2 className="text-2xl font-extrabold mb-3">Clear next steps</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Bravo Mechanical LLC is a licensed and insured HVAC contractor — License #8822. Proof of insurance and project documentation are provided with every written estimate.
+              Tell us what your system is doing and we’ll help you understand the next step for repair, maintenance, or replacement planning.
             </p>
           </div>
           <div>

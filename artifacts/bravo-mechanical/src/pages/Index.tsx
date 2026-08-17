@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Phone, Wrench, Snowflake, Flame, Wind, ShieldCheck, Clock, MapPin, Award, CheckCircle2, Star } from "lucide-react";
+import { Phone, Snowflake, Flame, Wind, Clock, MapPin, Award, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Layout } from "@/components/Layout";
@@ -9,7 +9,6 @@ import { useSeo } from "@/lib/seo";
 
 import { SITE, FEATURED_SERVICE_LINKS } from "@/lib/site";
 import { NY_SYSTEMS } from "@/lib/nySystems";
-import { getFeaturedGoogleReviews } from "@/lib/googleReviews";
 import { trackRequestServiceClick } from "@/lib/analytics";
 import heroTechnician from "@/assets/hero-technician.webp";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
@@ -28,50 +27,36 @@ import projectBeckettBurner from "@/assets/project-beckett-burner.png";
 import projectGasBoiler from "@/assets/project-gas-boiler.avif";
 
 const Index = () => {
-  const featuredReviews = getFeaturedGoogleReviews(3);
-
   const homepageFaqs = [
     {
       q: "What is Bravo Mechanical?",
-      a: "Bravo Mechanical LLC is a licensed and insured HVAC contractor based in Westchester County, NY. The company installs, repairs, and maintains furnaces, boilers, central air conditioning, heat pumps, and ductless mini-splits for homes and light-commercial properties across 30 Westchester towns, with 24/7 emergency dispatch and a 5.0-star Google rating.",
+      a: `${SITE.legalName} provides HVAC repair, installation, emergency dispatch, and maintenance for homes and light-commercial properties in ${SITE.area}.`,
     },
     {
       q: "What areas does Bravo Mechanical serve?",
-      a: "Bravo Mechanical serves all of Westchester County, NY, including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Bronxville, Rye, Harrison, Mamaroneck, Larchmont, Tarrytown, Sleepy Hollow, Ossining, Peekskill, Mount Kisco, Chappaqua, Bedford, Katonah, Armonk, Hastings-on-Hudson, Dobbs Ferry, Irvington, Briarcliff Manor, Croton-on-Hudson, Yorktown, and Somers — 30 municipalities in total.",
+      a: `Bravo Mechanical serves ${SITE.area}. See the published service-area pages for local service information.`,
     },
     {
-      q: "Does Bravo Mechanical offer 24/7 emergency HVAC service?",
-      a: "Yes. Bravo Mechanical offers 24/7 emergency HVAC dispatch in Westchester County, NY for no-heat, no-cool, and gas-leak situations. Call (914) 361-9142 to request emergency service. Response times depend on weather, call volume, technician availability, and location.",
-    },
-    {
-      q: "How much does a new furnace, boiler, or AC system cost in Westchester County, NY?",
-      a: "Installed HVAC pricing in Westchester County typically ranges from about $4,500 to $9,000 for a standard high-efficiency gas furnace, $7,000 to $14,000 for a gas boiler replacement, $6,000 to $12,000 for a central AC system, and $12,000 to $25,000 for a cold-climate heat pump or whole-home ductless mini-split system, depending on home size, ductwork condition, fuel type, and equipment tier. Bravo Mechanical provides a free written estimate before any installation begins.",
+      q: "How do I request urgent HVAC help?",
+      a: `For urgent heating or cooling concerns, call ${SITE.phone} to request the next available response window. For a gas smell or immediate safety hazard, contact the appropriate emergency utility or service first.`,
     },
     {
       q: "Should I repair or replace an HVAC system?",
-      a: "A common rule of thumb used by Bravo Mechanical is the 50% rule: if the repair cost exceeds 50% of replacement cost, or if the system is older than 12 to 15 years and breaking down repeatedly, replacement is usually more cost-effective. ENERGY STAR guidance recommends replacing furnaces older than 15 years and central AC older than 10 years for meaningful efficiency gains.",
-    },
-    {
-      q: "What HVAC brands does Bravo Mechanical install?",
-      a: "Bravo Mechanical is a brand-agnostic HVAC contractor and installs Carrier, Trane, Rheem, Mitsubishi, Daikin, Bosch, Navien, Bradford White, AO Smith, Weil-McLain, and other major manufacturers. Recommendations are based on home size, ductwork, fuel type, and budget — not on a single-brand contract.",
-    },
-    {
-      q: "Is Bravo Mechanical licensed and insured?",
-      a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor authorized to perform heating, cooling, and gas-fired equipment work in Westchester County, NY. Proof of insurance is provided on request.",
+      a: "Repair-versus-replacement planning depends on the system condition, the problem found, and the property’s needs. Request service to discuss the next practical step.",
     },
     {
       q: "Does Bravo Mechanical service both residential and commercial properties?",
-      a: "Yes. Bravo Mechanical works with single-family homeowners, multi-family property managers, and light-commercial customers (offices, retail, restaurants, mixed-use buildings) across Westchester County, NY.",
+      a: `Bravo Mechanical supports homes, property managers, and light-commercial customers in ${SITE.area}.`,
     },
     {
       q: "How do I contact Bravo Mechanical?",
-      a: "Call Bravo Mechanical at (914) 361-9142, email info@bravomechanicalny.com, or request an estimate at https://www.bravomechanicalny.com/contact. The company is open 24 hours a day, 7 days a week for emergency dispatch.",
+      a: `Call ${SITE.phone}, email ${SITE.email}, or request service at ${SITE.siteUrl}/contact.`,
     },
   ];
 
   useSeo({
     title: "HVAC Contractor Westchester County, NY | Bravo Mechanical",
-    description: "5-star licensed HVAC contractor in Westchester County, NY. AC repair & install, furnace and boiler service, heat pumps, and 24/7 emergency service.",
+    description: "HVAC repair, installation, emergency service requests, and maintenance for homes and light-commercial properties in Westchester County, NY.",
     canonical: `${SITE.siteUrl}/`,
     jsonLd: [
       {
@@ -106,44 +91,26 @@ const Index = () => {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact" onClick={() => trackRequestServiceClick("home_hero")}>Get a Free Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick("home_hero")}>Request Service</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold border-foreground/20">
                 <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
               </Button>
             </div>
-            {/* Real trust strip: live Google rating + license + free-estimate price anchor. */}
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-              <a
-                href={SITE.social.google}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
-              >
-                <span className="font-extrabold text-foreground">{SITE.rating.score.toFixed(1)}</span>
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  Rated {SITE.rating.score.toFixed(1)} on {SITE.rating.source}
-                </span>
-              </a>
-              <span className="hidden sm:inline text-border">|</span>
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
-                <ShieldCheck className="h-4 w-4 text-accent" />
-                Licensed &amp; insured in NY
+                <MapPin className="h-4 w-4 text-accent" />
+                {SITE.area}
               </span>
               <span className="hidden sm:inline text-border">|</span>
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
                 <CheckCircle2 className="h-4 w-4 text-accent" />
-                30+ yrs combined experience
+                Homes and light-commercial properties
               </span>
               <span className="hidden sm:inline text-border">|</span>
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
                 <CheckCircle2 className="h-4 w-4 text-accent" />
-                Free written estimates
+                Request service online
               </span>
             </div>
             <div className="mt-6">
@@ -277,7 +244,7 @@ const Index = () => {
           <div className="space-y-6 max-w-4xl">
             <div>
               <h3 className="font-bold text-lg mb-1">Who is Bravo Mechanical?</h3>
-              <p className="text-muted-foreground">Bravo Mechanical is a licensed HVAC contractor serving Westchester County, NY with residential and commercial heating, cooling, ventilation, and indoor air quality services.</p>
+              <p className="text-muted-foreground">{SITE.legalName} provides heating, cooling, repair, installation, maintenance, and indoor-air-quality support for homes and light-commercial properties in {SITE.area}.</p>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-1">What services does Bravo Mechanical provide?</h3>
@@ -285,7 +252,7 @@ const Index = () => {
             </div>
             <div>
               <h3 className="font-bold text-lg mb-1">Where does Bravo Mechanical work?</h3>
-              <p className="text-muted-foreground">Bravo Mechanical works throughout Westchester County including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, and surrounding towns.</p>
+              <p className="text-muted-foreground">Bravo Mechanical serves {SITE.area}. See the published service-area pages for local service information.</p>
             </div>
           </div>
         </div>
@@ -299,10 +266,9 @@ const Index = () => {
             <h2 className="text-3xl md:text-4xl font-extrabold mb-6">Honest work. Straight answers. Done right.</h2>
             <ul className="space-y-5">
               {[
-                { icon: ShieldCheck, title: "Licensed & insured", text: "Fully licensed HVAC contractor with insured technicians." },
-                { icon: Clock, title: "Responsive service", text: "Prompt scheduling with after-hours support when available." },
+                { icon: Clock, title: "Service requests", text: "Tell us about the heating or cooling concern you need help with." },
                 { icon: Award, title: "Quality workmanship", text: "Clean installs, careful diagnostics, and equipment we'd put in our own homes." },
-                { icon: MapPin, title: "Local to Westchester", text: "We live and work here, with service throughout Westchester County." },
+                { icon: MapPin, title: "Westchester service area", text: `Serving ${SITE.area}.` },
               ].map((b) => (
                 <li key={b.title} className="flex gap-4">
                   <div className="h-10 w-10 rounded-md bg-accent text-accent-foreground flex items-center justify-center shrink-0">
@@ -440,43 +406,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Reviews */}
-      <section className="container mx-auto px-4 py-16 lg:py-24">
-        <div className="">
-          <div className="max-w-2xl mb-10">
-            <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">What Customers Say</div>
-            <h2 className="text-3xl md:text-4xl font-extrabold">Trusted by Westchester homeowners and businesses</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-5">
-            {featuredReviews.length > 0 ? (
-              featuredReviews.map((review, i) => (
-                <div key={`${review.reviewerName}-${i}`} className="bg-card border border-border rounded-lg p-6">
-                  <div className="flex gap-1 mb-3 text-accent">
-                    {Array.from({ length: review.rating }).map((_, s) => <Star key={s} className="h-4 w-4 fill-current" />)}
-                  </div>
-                  <p className="text-sm mb-4">"{review.reviewText}"</p>
-                  <div className="text-sm font-semibold">{review.reviewerName}</div>
-                </div>
-              ))
-            ) : (
-              <div className="md:col-span-3 bg-card border border-border rounded-lg p-6">
-                <p className="text-sm text-muted-foreground">Featured Google reviews will appear here once added to the verified reviews data file.</p>
-              </div>
-            )}
-          </div>
-          <div className="mt-6 flex flex-wrap gap-4">
-            <Link to="/reviews" className="text-sm font-semibold text-accent hover:underline">Read all reviews →</Link>
-            <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent hover:underline">Leave a Google review →</a>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ — answer-first, fact-rich blocks tuned for AI search citation */}
       <section className="container mx-auto px-4 py-16 lg:py-24">
         <div className="max-w-3xl mx-auto">
           <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">FAQ</div>
           <h2 className="text-3xl md:text-4xl font-extrabold mb-3">HVAC questions Westchester homeowners ask</h2>
-          <p className="text-muted-foreground mb-8">Direct, factual answers about pricing, brands, and emergency service in Westchester County, NY.</p>
+          <p className="text-muted-foreground mb-8">Direct answers about service, coverage, and how to contact the team in Westchester County, NY.</p>
           <Accordion type="single" collapsible className="w-full">
             {homepageFaqs.map((f, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
@@ -485,9 +420,6 @@ const Index = () => {
               </AccordionItem>
             ))}
           </Accordion>
-          <p className="text-xs text-muted-foreground mt-6">
-            Pricing ranges are typical Westchester County installed-equipment estimates and vary by home size, ductwork, fuel type, and equipment tier. Source: ENERGY STAR (energystar.gov).
-          </p>
         </div>
       </section>
 

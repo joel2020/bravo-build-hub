@@ -48,12 +48,12 @@ export const SITE = {
 // deep-link to the high-intent service pages — linking them all to /services
 // starves the pages that actually convert of internal link equity.
 export const FEATURED_SERVICE_LINKS = [
-  { title: "AC Repair", path: "/services/ac-repair-westchester-county-ny", description: "No cool air? Same-day AC diagnostics and repair across Westchester, priced in writing before the fix." },
-  { title: "AC Installation", path: "/services/ac-installation-westchester-county-ny", description: "Central AC and ductless cooling installed with honest Manual J sizing and SEER2 equipment." },
-  { title: "Boiler Repair", path: "/services/boiler-repair-westchester-county-ny", description: "Steam and hot-water boiler repair — short cycling, leaks, and no-heat calls, 24/7." },
-  { title: "Boiler Installation", path: "/services/boiler-installation-westchester-county-ny", description: "High-efficiency boiler replacement with near-boiler piping done right and a written fixed price first." },
-  { title: "Heat Pump Installation", path: "/services/heat-pump-installation-westchester-county-ny", description: "Cold-climate heat pumps sized and installed right for year-round Westchester comfort." },
-  { title: "24/7 Emergency HVAC", path: "/services/emergency-hvac-repair-westchester-county-ny", description: "No heat, no cooling, or a leaking boiler — licensed techs answering around the clock." },
+  { title: "AC Repair", path: "/services/ac-repair-westchester-county-ny", description: "AC diagnostics and repair for common cooling concerns in Westchester County." },
+  { title: "AC Installation", path: "/services/ac-installation-westchester-county-ny", description: "Central AC and ductless cooling installation for Westchester properties." },
+  { title: "Boiler Repair", path: "/services/boiler-repair-westchester-county-ny", description: "Steam and hot-water boiler repair for no-heat, leak, and cycling concerns." },
+  { title: "Boiler Installation", path: "/services/boiler-installation-westchester-county-ny", description: "Boiler replacement planning and installation for Westchester homes and properties." },
+  { title: "Heat Pump Installation", path: "/services/heat-pump-installation-westchester-county-ny", description: "Heat-pump installation for year-round heating and cooling needs." },
+  { title: "Emergency HVAC", path: "/services/emergency-hvac-repair-westchester-county-ny", description: "Urgent heating and cooling service requests with safety-first next steps." },
 ];
 
 export const SERVICES = [

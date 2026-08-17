@@ -5,7 +5,9 @@ import { Footer } from "@/components/Footer";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { LeadForm } from "@/components/LeadForm";
 import BookOnline from "@/pages/BookOnline";
+import CompanyFacts from "@/pages/CompanyFacts";
 import { trackCallClick, trackLeadSubmit } from "@/lib/analytics";
+import { SITE } from "@/lib/site";
 // Build scripts are plain ESM and intentionally do not ship TypeScript declarations.
 // @ts-expect-error test-only import of the real metadata generator
 import { buildAllRoutes } from "../../scripts/route-data.mjs";
@@ -23,6 +25,14 @@ const renderInRouter = (node: React.ReactNode) => {
 };
 
 describe("SEO generation", () => {
+  it("renders canonical company identity from SITE on the facts page", () => {
+    const html = renderInRouter(<CompanyFacts />);
+    expect(html).toContain(SITE.legalName);
+    expect(html).toContain(SITE.phone);
+    expect(html).toContain(SITE.address.full);
+    expect(html).toContain("Westchester County");
+  });
+
   it("keeps every generated search snippet within its display budget", async () => {
     const routes = await buildAllRoutes() as GeneratedRoute[];
     expect(routes.filter((route) => route.title.length > 65)).toEqual([]);

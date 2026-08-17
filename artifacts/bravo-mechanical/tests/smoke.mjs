@@ -154,6 +154,28 @@ assert(llms.includes(canonicalOrigin), 'llms.txt missing canonical website');
 assert(!llms.includes('https://bravomechanicalny.com'), 'llms.txt must not use the redirecting non-www host');
 assert(llms.includes('info@bravomechanicalny.com'), 'llms.txt missing canonical email');
 assert(llms.includes('+1-914-361-9142'), 'llms.txt missing canonical phone');
+for (const required of [
+  '/company-facts',
+  '/services/ac-repair-westchester-county-ny',
+  '/services/boiler-repair-westchester-county-ny',
+  '/services/heat-pump-installation-westchester-county-ny',
+  '/services/emergency-hvac-repair-westchester-county-ny',
+  '/service-areas/yonkers',
+]) {
+  assert(llms.includes(required), `llms.txt missing priority canonical page: ${required}`);
+}
+assert(!/guaranteed|#1|best HVAC/i.test(llms), 'llms.txt must not contain unsupported superiority claims');
+
+for (const route of ['index.html', 'about/index.html', 'company-facts/index.html']) {
+  const html = await readDist(route);
+  const fallbackIdentity = html.match(/<header><p>([\s\S]*?)<\/p><\/header>/i)?.[1] || '';
+  assert(fallbackIdentity.includes('Bravo Mechanical LLC'), `${route} fallback is missing the legal business name`);
+  assert(fallbackIdentity.includes('1 Fowler Avenue, Yonkers, NY 10701'), `${route} fallback is missing the business address`);
+  assert(fallbackIdentity.includes('(914) 361-9142'), `${route} fallback is missing the business phone`);
+  assert(!/licensed|insured|license|30\+ years|24\/7|free written estimate|rating|review/i.test(fallbackIdentity), `${route} fallback contains an unsupported business claim`);
+  const noScriptFallbacks = [...html.matchAll(/<noscript>([\s\S]*?)<\/noscript>/gi)].map((match) => match[1]);
+  assert(noScriptFallbacks.every((fallback) => !/licensed|insured|license|30\+ years|24\/7|free written estimate|rating|review/i.test(fallback)), `${route} no-JavaScript fallback contains an unsupported business claim`);
+}
 
 for (const route of ['contact/index.html', 'services/index.html', 'about/index.html']) {
   const html = await readDist(route);

@@ -374,6 +374,7 @@ function buildBodyInsert(route, ctx) {
     if (route.priorityAnswer) {
       parts.push(`<h2>What to know first</h2><p data-answer-summary>${esc(route.priorityAnswer.answer)}</p>`);
       parts.push(`<ul>${route.priorityAnswer.decisionFactors.map((factor) => `<li data-decision-factor>${esc(factor)}</li>`).join("")}</ul>`);
+      parts.push(`<h2>Supporting information</h2><ul>${route.priorityAnswer.proofLinks.map((link) => `<li><a href="${esc(link.href)}">${esc(link.label)}</a></li>`).join("")}</ul>`);
     }
     parts.push(`<h2>All Westchester HVAC services</h2>`);
     parts.push(linkList(ctx.services));

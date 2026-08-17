@@ -26,6 +26,16 @@ function decodeHtml(value) {
     .replace(/&gt;/g, '>');
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[character]));
+}
+
 function findCssRule(cssRoot, selector) {
   let match;
   cssRoot.walkRules((rule) => {
@@ -176,6 +186,9 @@ const taskTwoGeneratedRoutes = [
   'services/emergency-hvac-repair-westchester-county-ny/index.html',
   'service-areas/yonkers/index.html',
 ];
+const priorityAnswers = JSON.parse(
+  await readFile(path.join(root, 'src', 'content', 'priorityServiceAnswers.json'), 'utf8'),
+);
 for (const slug of [
   'ac-repair-westchester-county-ny',
   'boiler-repair-westchester-county-ny',
@@ -183,8 +196,25 @@ for (const slug of [
   'emergency-hvac-repair-westchester-county-ny',
 ]) {
   const html = await readDist(`services/${slug}/index.html`);
-  assert(html.includes('data-answer-summary'), `${slug} missing prerendered answer summary`);
-  assert(html.includes('data-decision-factor'), `${slug} missing prerendered decision guidance`);
+  const priorityAnswer = priorityAnswers[slug];
+  assert(priorityAnswer, `${slug} missing source answer`);
+  assert(
+    html.includes(`<p data-answer-summary>${escapeHtml(priorityAnswer.answer)}</p>`),
+    `${slug} prerendered answer differs from the shared source`,
+  );
+  for (const factor of priorityAnswer.decisionFactors) {
+    assert(
+      html.includes(`<li data-decision-factor>${escapeHtml(factor)}</li>`),
+      `${slug} missing prerendered decision factor: ${factor}`,
+    );
+  }
+  for (const proofLink of priorityAnswer.proofLinks) {
+    assert(/^\/(?!\/)/.test(proofLink.href), `${slug} proof link must use a canonical internal href: ${proofLink.href}`);
+    assert(
+      html.includes(`<a href="${escapeHtml(proofLink.href)}">${escapeHtml(proofLink.label)}</a>`),
+      `${slug} missing prerendered proof link: ${proofLink.href}`,
+    );
+  }
 }
 for (const route of taskTwoGeneratedRoutes) {
   const html = await readDist(route);

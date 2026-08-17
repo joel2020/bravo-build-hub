@@ -19,6 +19,11 @@ type GeneratedRoute = {
   title: string;
   description: string;
   city?: { intro?: string; housing?: string; climateNote?: string };
+  priorityAnswer?: {
+    answer: string;
+    decisionFactors: string[];
+    proofLinks: { label: string; href: string }[];
+  };
 };
 
 const renderInRouter = (node: React.ReactNode) => {
@@ -37,6 +42,18 @@ describe("SEO generation", () => {
     expect(content?.answer.length).toBeGreaterThan(120);
     expect(content?.decisionFactors.length).toBeGreaterThanOrEqual(3);
     expect(content?.proofLinks.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it.each([
+    "ac-repair-westchester-county-ny",
+    "boiler-repair-westchester-county-ny",
+    "heat-pump-installation-westchester-county-ny",
+    "emergency-hvac-repair-westchester-county-ny",
+  ])("uses the complete shared answer in the %s prerender route", async (slug) => {
+    const routes = await buildAllRoutes() as GeneratedRoute[];
+    const route = routes.find((item) => item.path === `/services/${slug}`);
+
+    expect(route?.priorityAnswer).toEqual(getPriorityServiceAnswer(slug));
   });
 
   it("renders canonical company identity from SITE on the facts page", () => {

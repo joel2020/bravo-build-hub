@@ -17,8 +17,8 @@ type CTABandProps = {
 
 export const CTABand = ({
   title = "Ready to get started?",
-  subtitle = "Get a fast, no-pressure estimate from Bravo Mechanical.",
-  primaryLabel = "Get a Free Estimate",
+  subtitle = "Request service from Bravo Mechanical and discuss the next practical step.",
+  primaryLabel = "Request Service",
   primaryHref = "/contact",
   phoneLabel = `Call ${SITE.phone}`,
   onPrimaryClick,

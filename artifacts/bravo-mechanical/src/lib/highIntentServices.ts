@@ -49,7 +49,7 @@ export const HIGH_INTENT_SERVICES: HighIntentService[] = [
     localOverview: [
       "When AC systems fail in Westchester summers, comfort and indoor humidity can get out of control quickly. Bravo Mechanical LLC focuses on practical diagnostics first so homeowners understand exactly what failed, what is urgent, and what can wait.",
       "We regularly service older central AC systems, newer high-efficiency equipment, and ductless cooling. Our technicians are used to local housing stock, from pre-war homes with retrofit ductwork to newer homes with multi-zone systems.",
-      "If a same-day repair is possible, we handle it on site. If replacement is the smarter long-term decision, we provide side-by-side options with no inflated claims and no rushed upsell.",
+      "Repair timing depends on the issue found, parts availability, and the current service schedule. If replacement is the smarter long-term decision, we discuss both paths without a rushed upsell.",
     ],
     symptoms: ["Warm air from supply vents", "Weak airflow in one or more rooms", "Short cycling or frequent breaker trips", "Frozen coil, water around air handler, or musty odors", "Unusual noise from outdoor condenser"],
     whatsIncluded: ["Full cooling performance test and static pressure check", "Refrigerant circuit and airflow diagnostics", "Clear written repair options before work begins", "Post-repair verification and thermostat calibration", "Recommendations to reduce repeat failures"],
@@ -59,8 +59,8 @@ export const HIGH_INTENT_SERVICES: HighIntentService[] = [
     propertyTypes: ["Single-family homes", "Condominiums and townhomes", "Small multifamily properties", "Light commercial suites"],
     faqs: [
       { q: "Do you offer emergency AC repair in Westchester County?", a: "Yes. We prioritize no-cool situations, especially during high-heat periods and medically sensitive households." },
-      { q: "Can you fix AC issues the same day?", a: "Many repairs are completed same day when parts are available. If not, we stabilize the system and schedule fast follow-up." },
-      { q: "Do you work on all brands?", a: "We service major residential and light-commercial brands and can advise if parts availability is limited on older systems." },
+      { q: "How is AC repair timing determined?", a: "Timing depends on the diagnosis, parts availability, and the current service schedule. Call to discuss the concern and request the next available response window." },
+      { q: "Which AC equipment can you evaluate?", a: "Request service with the equipment details so Bravo Mechanical can confirm the appropriate diagnostic path and discuss parts availability for older systems." },
     ],
     relatedLinks: [...sharedLinks, { label: "AC installation in Westchester", href: "/services/ac-installation-westchester-county-ny" }, { label: "Emergency HVAC repair", href: "/services/emergency-hvac-repair-westchester-county-ny" }],
     schema: { serviceType: "Air Conditioning Repair", emergency: true },

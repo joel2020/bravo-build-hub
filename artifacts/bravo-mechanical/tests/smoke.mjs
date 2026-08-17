@@ -260,14 +260,14 @@ for (const route of taskTwoGeneratedRoutes) {
   const html = await readDist(route);
   assert(!html.includes('href="/emergency-hvac-westchester"'), `${route} must not link to the redirected emergency URL`);
   assert(html.includes('href="/services/emergency-hvac-repair-westchester-county-ny"'), `${route} must link to the canonical emergency service URL`);
-  assert(!/licensed|insured|license #|24\/7|open 24|priceRange|openingHoursSpecification|free written estimate|same-day|warranty|30\+ years|5\.0|google rating|60.?120|same visit|roth|weil-mclain|mitsubishi|ao smith|carrier|trane|rheem|daikin|bosch|navien|bradford white|savings|fuel use|performance|efficien/i.test(html), `${route} publishes an evidence-required claim`);
+  assert(!/licensed|insured|license #|24\/7|open 24|priceRange|openingHoursSpecification|free (?:written )?estimate|same[- ]day|(?:service|work on) (?:all|major) brands|warranty|30\+ years|5\.0|google rating|60.?120|same visit|roth|weil-mclain|mitsubishi|ao smith|carrier|trane|rheem|daikin|bosch|navien|bradford white|savings|fuel use|performance|efficien/i.test(html), `${route} publishes an evidence-required claim`);
   const fallbackIdentity = html.match(/<header><p>([\s\S]*?)<\/p><\/header>/i)?.[1] || '';
   assert(fallbackIdentity.includes('Bravo Mechanical LLC'), `${route} fallback is missing the legal business name`);
   assert(fallbackIdentity.includes('1 Fowler Avenue, Yonkers, NY 10701'), `${route} fallback is missing the business address`);
   assert(fallbackIdentity.includes('(914) 361-9142'), `${route} fallback is missing the business phone`);
-  assert(!/licensed|insured|license|30\+ years|24\/7|free written estimate|rating|review/i.test(fallbackIdentity), `${route} fallback contains an unsupported business claim`);
+  assert(!/licensed|insured|license|30\+ years|24\/7|free (?:written )?estimate|same[- ]day|(?:service|work on) (?:all|major) brands|rating|review/i.test(fallbackIdentity), `${route} fallback contains an unsupported business claim`);
   const noScriptFallbacks = [...html.matchAll(/<noscript>([\s\S]*?)<\/noscript>/gi)].map((match) => match[1]);
-  assert(noScriptFallbacks.every((fallback) => !/licensed|insured|license|30\+ years|24\/7|free written estimate|rating|review/i.test(fallback)), `${route} no-JavaScript fallback contains an unsupported business claim`);
+  assert(noScriptFallbacks.every((fallback) => !/licensed|insured|license|30\+ years|24\/7|free (?:written )?estimate|same[- ]day|(?:service|work on) (?:all|major) brands|rating|review/i.test(fallback)), `${route} no-JavaScript fallback contains an unsupported business claim`);
 }
 
 for (const route of ['contact/index.html', 'services/index.html', 'about/index.html']) {

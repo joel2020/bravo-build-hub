@@ -66,7 +66,7 @@ const DefaultHeroTrustCard = ({ trackingContext }: Pick<PageHeroProps, "tracking
     <div className="mt-5 flex flex-col gap-2">
       <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
         <Link to="/contact" onClick={() => trackRequestServiceClick("page_hero_card", trackingContext ? { service: trackingContext } : {})}>
-          Get a Free Estimate
+          Request Service
         </Link>
       </Button>
       <a

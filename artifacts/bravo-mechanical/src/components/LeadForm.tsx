@@ -102,6 +102,23 @@ type TrackingPayload = {
 
 const getUrlParam = (params: URLSearchParams, key: string) => params.get(key) || null;
 
+const sanitizeAnalyticsIdentifier = (value: string | null) => {
+  if (!value || value.length > 100 || !/^[a-z0-9][a-z0-9._~-]*$/i.test(value)) return undefined;
+  return value;
+};
+
+const buildAnalyticsTracking = (tracking: TrackingPayload) => {
+  const analytics: Record<string, string> = {};
+  if (tracking.source_page && tracking.source_page.length <= 200 && /^\/[a-z0-9/_-]*$/i.test(tracking.source_page)) {
+    analytics.source_page = tracking.source_page;
+  }
+  for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "fbclid"] as const) {
+    const value = sanitizeAnalyticsIdentifier(tracking[key]);
+    if (value) analytics[key] = value;
+  }
+  return analytics;
+};
+
 const buildLeadNotes = (service: string, message: string, city?: string, urgency?: string) =>
   [
     `Service requested: ${service}`,
@@ -324,11 +341,7 @@ export const LeadForm = ({
       return;
     }
 
-    // GA4 EventParams disallows `null`. Coerce nullable tracking fields to undefined
-    // so they're omitted from the analytics payload rather than sent as the string "null".
-    const trackingForGa = Object.fromEntries(
-      Object.entries(tracking).map(([k, v]) => [k, v ?? undefined])
-    );
+    const trackingForGa = buildAnalyticsTracking(tracking);
     trackLeadSubmit("contact_lead_form", {
       service: result.data.service,
       source,

@@ -4,6 +4,9 @@ import { resolve } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { PageHero } from "@/components/PageHero";
+import { CTABand } from "@/components/CTABand";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { LeadForm } from "@/components/LeadForm";
 import BookOnline from "@/pages/BookOnline";
@@ -80,6 +83,24 @@ describe("SEO generation", () => {
   it("withholds evidence-required claims from shared and company-facts output", () => {
     const html = `${renderInRouter(<Footer />)}${renderInRouter(<CompanyFacts />)}`;
     expect(html).not.toMatch(/licensed|insured|license #8822|open 24|24\/7|5\.0|google rating|30\+ years|same-day|prevent breakdowns/i);
+  });
+
+  it("withholds evidence-required claims from shared CTAs and priority service output", () => {
+    const shared = [
+      renderInRouter(<Header />),
+      renderInRouter(<PageHero title="Test service" />),
+      renderInRouter(<CTABand />),
+    ].join("\n");
+    const priority = [
+      "ac-repair-westchester-county-ny",
+      "boiler-repair-westchester-county-ny",
+      "heat-pump-installation-westchester-county-ny",
+      "emergency-hvac-repair-westchester-county-ny",
+    ].map(renderServiceRoute).join("\n");
+    const prohibited = /24\/7|free estimate|same[- ]day|(?:service|work on) (?:all|major) brands|licensed|insured|license #|free written estimate/i;
+
+    expect(shared).not.toMatch(prohibited);
+    expect(priority).not.toMatch(prohibited);
   });
 
   it("withholds uncited project provenance, brand, and performance claims from the homepage", () => {

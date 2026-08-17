@@ -387,7 +387,7 @@ describe("frontend remediation navigation shell", () => {
     expect(
       screen.getAllByRole("menuitem").map((item) => [item.textContent, item.getAttribute("href")]),
     ).toEqual([
-      ["24/7 Emergency HVAC", "/services/emergency-hvac-repair-westchester-county-ny"],
+      ["Emergency HVAC", "/services/emergency-hvac-repair-westchester-county-ny"],
       ["AC Repair", "/services/ac-repair-westchester-county-ny"],
       ["Boiler Repair", "/services/boiler-repair-westchester-county-ny"],
       ["HVAC Maintenance", "/services/hvac-maintenance-westchester-county-ny"],
@@ -668,6 +668,34 @@ describe("loader, project proof, and contextual actions", () => {
     });
   });
 
+  it("keeps hydrated Yonkers metadata, schema, and body claim-safe", async () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/service-areas/yonkers"]}>
+        <Routes>
+          <Route path="/service-areas/:slug" element={<CityPage />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => expect(document.documentElement.getAttribute("data-seo-ready")).toBe("true"));
+    const description = document.head.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
+    const schema = document.head.querySelector('script[data-seo-route="true"]')?.textContent ?? "";
+    const publicOutput = `${document.title}\n${description}\n${schema}\n${container.textContent}`;
+    const prohibited = /licensed|insured|24\/7|free (?:written )?estimate|same[- ]day|we (?:coordinate|handle)[^.]*permits?|every install is permitted|fixed (?:price|pricing)|price fixed/i;
+
+    expect(publicOutput).not.toMatch(prohibited);
+    expect(description).toBe("Local HVAC service in Yonkers, NY. Heating, cooling, repair, and installation for Westchester County properties. Call (914) 361-9142.");
+    expect(schema).toContain(description);
+    [
+      "/services/ac-repair-westchester-county-ny",
+      "/services/boiler-repair-westchester-county-ny",
+      "/services/emergency-hvac-repair-westchester-county-ny",
+      "/services/heat-pump-installation-westchester-county-ny",
+    ].forEach((href) => {
+      expect(container.querySelector(`a[href="${href}"]`)).not.toBeNull();
+    });
+  });
+
   it("names each service request action for the service it belongs to", () => {
     render(
       <MemoryRouter>
@@ -697,7 +725,7 @@ describe("loader, project proof, and contextual actions", () => {
     );
 
     const main = screen.getByRole("main");
-    expect(within(main).getAllByRole("link", { name: /get a free estimate/i })).toHaveLength(1);
+    expect(within(main).getAllByRole("link", { name: /request service/i })).toHaveLength(1);
     [
       ["HVAC Installation services →", "/services/ac-installation-westchester-county-ny"],
       ["HVAC Repair services →", "/services/ac-repair-westchester-county-ny"],
@@ -1081,5 +1109,52 @@ describe("recoverable lead forms", () => {
     await user.click(screen.getByRole("button", { name: /request my estimate/i }));
     expect(await screen.findByText(/thanks — we got your request/i)).toBeTruthy();
     expectUnloadProtection(false);
+  });
+
+  it("keeps full attribution in CRM while excluding URL PII and unbounded campaign data from analytics", async () => {
+    supabaseTestState.insert.mockResolvedValueOnce({ error: null });
+    window.history.pushState(
+      {},
+      "",
+      `/contact?utm_source=google&utm_medium=cpc&utm_campaign=summer-2026&utm_term=sensitive%40invalid.test&utm_content=%3Cscript%3E&gclid=valid_click-123&fbclid=${"x".repeat(180)}&email=sensitive%40invalid.test`,
+    );
+    Object.defineProperty(document, "referrer", {
+      configurable: true,
+      value: "https://referrer.invalid/path?sensitive=sensitive%40invalid.test",
+    });
+    window.dataLayer = [];
+    const user = userEvent.setup();
+    const router = createMemoryRouter([{
+      path: "*",
+      element: <LeadForm defaultService="AC Repair" defaultMessage="The system is not cooling." />,
+    }]);
+    render(<RouterProvider router={router} />);
+
+    await user.type(screen.getByLabelText(/full name/i), "Test Customer");
+    await user.type(screen.getByLabelText(/^phone/i), "9145550000");
+    await user.type(screen.getByLabelText(/^email/i), "customer@invalid.test");
+    await user.click(screen.getByRole("checkbox"));
+    await user.click(screen.getByRole("button", { name: /request my estimate/i }));
+    await screen.findByText(/thanks — we got your request/i);
+
+    const crmPayload = supabaseTestState.insert.mock.calls.at(-1)?.[0] as Record<string, unknown>;
+    expect(crmPayload.landing_url).toContain("email=sensitive%40invalid.test");
+    expect(crmPayload.referrer).toContain("sensitive=sensitive%40invalid.test");
+
+    const analyticsPayload = window.dataLayer.at(-1) as Record<string, unknown>;
+    expect(analyticsPayload).toMatchObject({
+      event: "lead_submit",
+      source_page: "/contact",
+      utm_source: "google",
+      utm_medium: "cpc",
+      utm_campaign: "summer-2026",
+      gclid: "valid_click-123",
+    });
+    expect(analyticsPayload).not.toHaveProperty("landing_url");
+    expect(analyticsPayload).not.toHaveProperty("referrer");
+    expect(analyticsPayload).not.toHaveProperty("utm_term");
+    expect(analyticsPayload).not.toHaveProperty("utm_content");
+    expect(analyticsPayload).not.toHaveProperty("fbclid");
+    expect(JSON.stringify(analyticsPayload)).not.toContain("sensitive");
   });
 });

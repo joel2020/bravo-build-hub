@@ -350,15 +350,71 @@ export async function loadCities() {
     const body = block.match(new RegExp(`${field}:\\s*\\[([\\s\\S]*?)\\]`))?.[1] || "";
     return [...body.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((item) => item[1].replace(/\\"/g, '"'));
   };
+  const readBalanced = (source, start, open, close) => {
+    let depth = 0;
+    let quote = "";
+    let escaped = false;
+    for (let index = start; index < source.length; index++) {
+      const character = source[index];
+      if (quote) {
+        if (escaped) escaped = false;
+        else if (character === "\\") escaped = true;
+        else if (character === quote) quote = "";
+        continue;
+      }
+      if (character === '"' || character === "'" || character === "`") {
+        quote = character;
+        continue;
+      }
+      if (character === open) depth++;
+      if (character === close && --depth === 0) return source.slice(start + 1, index);
+    }
+    return null;
+  };
   const readPriorityServices = (block) => {
-    const body = block.match(/priorityServices:\s*\[([\s\S]*?)\],\s*\n\s*\}/)?.[1] || "";
-    return [...body.matchAll(/\{\s*title:\s*"((?:[^"\\]|\\.)*)",\s*description:\s*"((?:[^"\\]|\\.)*)",\s*href:\s*"((?:[^"\\]|\\.)*)",?\s*\}/g)]
-      .map(([, title, description, href]) => ({ title, description, href }));
+    const property = /\bpriorityServices\s*:\s*\[/.exec(block);
+    if (!property || property.index === undefined) return null;
+
+    const arrayStart = property.index + property[0].lastIndexOf("[");
+    const body = readBalanced(block, arrayStart, "[", "]");
+    if (body === null) throw new Error("Unable to parse configured city priority services");
+
+    const services = [];
+    for (let index = 0; index < body.length; index++) {
+      if (body[index] !== "{") continue;
+      const entry = readBalanced(body, index, "{", "}");
+      if (entry === null) throw new Error("Unable to parse configured city priority service entry");
+      const title = readString(entry, "title");
+      const description = readString(entry, "description");
+      const href = readString(entry, "href");
+      if (!title || !description || !href) {
+        throw new Error("Configured city priority service entries require title, description, and href");
+      }
+      services.push({ title, description, href });
+      index += entry.length + 1;
+    }
+    return services;
   };
 
   for (let i = 0; i < matches.length; i++) {
     const name = matches[i][1];
     const block = cityData.slice(matches[i].index, matches[i + 1]?.index ?? cityData.length);
+    const priorityServices = readPriorityServices(block);
+    if (name === "Yonkers") {
+      const expectedPriorityPaths = [
+        "/services/ac-repair-westchester-county-ny",
+        "/services/boiler-repair-westchester-county-ny",
+        "/services/emergency-hvac-repair-westchester-county-ny",
+        "/services/heat-pump-installation-westchester-county-ny",
+      ];
+      const configuredPaths = priorityServices?.map((service) => service.href) || [];
+      if (
+        configuredPaths.length !== expectedPriorityPaths.length
+        || expectedPriorityPaths.some((href) => !configuredPaths.includes(href))
+      ) {
+        throw new Error("Yonkers priority service choices must include the four canonical priority paths");
+      }
+    }
     cities.push({
       name,
       slug: slugify(name),
@@ -368,7 +424,7 @@ export async function loadCities() {
       intro: readString(block, "intro"),
       housing: readString(block, "housing"),
       climateNote: readString(block, "climateNote"),
-      priorityServices: readPriorityServices(block),
+      priorityServices: priorityServices || [],
     });
   }
   return cities;

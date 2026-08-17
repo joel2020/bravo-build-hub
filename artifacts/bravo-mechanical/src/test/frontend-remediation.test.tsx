@@ -628,6 +628,23 @@ describe("loader, project proof, and contextual actions", () => {
     ).toBe("/services/commercial-hvac-westchester-county-ny");
   });
 
+  it("renders every priority service path on the homepage", () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Index />
+      </MemoryRouter>,
+    );
+
+    [
+      "/services/ac-repair-westchester-county-ny",
+      "/services/boiler-repair-westchester-county-ny",
+      "/services/emergency-hvac-repair-westchester-county-ny",
+      "/services/heat-pump-installation-westchester-county-ny",
+    ].forEach((href) => {
+      expect(container.querySelector(`a[href="${href}"]`)).not.toBeNull();
+    });
+  });
+
   it("gives Yonkers housing-context service choices their priority paths", () => {
     render(
       <MemoryRouter initialEntries={["/service-areas/yonkers"]}>

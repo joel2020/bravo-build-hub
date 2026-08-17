@@ -41,3 +41,30 @@ Commit: `feat(seo): strengthen Westchester conversion pathways` on `codex/bravo-
 ## Concerns
 
 - The build retains a pre-existing esbuild warning in `src/components/crm/CRMMyJobs.tsx` about a redundant `||` operand; it is outside Task 6.
+
+## Fix Round 1 — durable Yonkers route parsing and homepage coverage
+
+Commit: `fix(seo): harden Yonkers pathway generation` on `codex/bravo-seo-aeo-growth`.
+
+### Red/green evidence
+
+- **RED:** `PORT=4173 pnpm test -- src/test/route-data.test.ts src/test/frontend-remediation.test.tsx` failed as expected: a Yonkers `priorityServices` field followed by another city field produced an empty route-data list, and a wrong canonical path did not reject route generation.
+- **GREEN:** Replaced the formatting-dependent parser with quote-aware, bracket-balanced extraction and order-independent service-field reads. `buildAllRoutes` now rejects missing, incomplete, or wrong Yonkers priority paths before metadata generation.
+
+### Added coverage
+
+- The new route-data test exercises the actual `buildAllRoutes` interface with a formatting variation: the priority field is followed by another city field and one service entry has reordered properties. It verifies all four canonical paths remain in the Yonkers route context.
+- A second route-data test proves an incorrect configured Yonkers path fails loudly.
+- The rendered homepage test now asserts all four exact priority hrefs, complementing the existing generated-HTML smoke checks.
+
+### Verification
+
+- `PORT=4173 pnpm test -- src/test/route-data.test.ts src/test/frontend-remediation.test.tsx` — passed (4 files, 70 tests)
+- `pnpm run build` — passed
+- `pnpm run test:e2e` — passed
+- `pnpm typecheck` — passed
+- `git diff --check` — passed
+
+### Concern
+
+- The existing CRM esbuild warning remains outside this fix round.

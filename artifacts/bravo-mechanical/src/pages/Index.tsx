@@ -287,7 +287,7 @@ const Index = () => {
         <div className="grid md:grid-cols-2 gap-6">
           {[
             { title: "Residential HVAC", img: jobBoiler, text: "Heating and cooling for single-family homes, condos, and multi-family properties across Westchester County.", points: ["Furnace & boiler service", "Central AC and ductless mini-splits", "Heat pumps & thermostats", "Air quality & humidity control"] },
-            { title: "Commercial HVAC", img: jobRadiator, text: "Reliable HVAC service for offices, retail, restaurants, and light-industrial facilities.", points: ["Rooftop units", "Service contracts", "Preventive maintenance", "Emergency response"] },
+            { title: "Commercial HVAC", img: jobRadiator, text: "Reliable HVAC service for offices, retail, restaurants, and light-industrial facilities.", points: ["Rooftop units", "Service contracts", "Preventive maintenance", "Emergency response"], servicePath: "/services/commercial-hvac-westchester-county-ny" },
           ].map((c) => (
             <div key={c.title} className="bg-card border border-border rounded-lg overflow-hidden">
               <img src={c.img} alt={c.title} width={960} height={540} loading="lazy" decoding="async" className="aspect-[16/9] w-full object-cover" />
@@ -299,6 +299,11 @@ const Index = () => {
                     <li key={p} className="flex items-center gap-2 text-sm"><CheckCircle2 className="h-4 w-4 text-accent shrink-0" />{p}</li>
                   ))}
                 </ul>
+                {c.servicePath && (
+                  <Link to={c.servicePath} className="inline-block mb-3 text-accent font-semibold hover:underline">
+                    Explore Commercial HVAC services →
+                  </Link>
+                )}
               <Button asChild variant="outline" className="font-semibold"><Link to="/contact" onClick={() => trackRequestServiceClick("home_services")}>Request Service</Link></Button>
               </div>
             </div>

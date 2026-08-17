@@ -616,6 +616,41 @@ describe("loader, project proof, and contextual actions", () => {
     expect(equipmentLabels.some((label) => /Westchester property/i.test(label || ""))).toBe(false);
   });
 
+  it("gives commercial visitors a direct service path from the homepage", () => {
+    render(
+      <MemoryRouter>
+        <Index />
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByRole("link", { name: "Explore Commercial HVAC services →" }).getAttribute("href"),
+    ).toBe("/services/commercial-hvac-westchester-county-ny");
+  });
+
+  it("gives Yonkers housing-context service choices their priority paths", () => {
+    render(
+      <MemoryRouter initialEntries={["/service-areas/yonkers"]}>
+        <Routes>
+          <Route path="/service-areas/:slug" element={<CityPage />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    const selection = screen.getByRole("heading", { name: "Choose the right HVAC service for your Yonkers property" })
+      .closest("section");
+    expect(selection).not.toBeNull();
+
+    [
+      "/services/ac-repair-westchester-county-ny",
+      "/services/boiler-repair-westchester-county-ny",
+      "/services/emergency-hvac-repair-westchester-county-ny",
+      "/services/heat-pump-installation-westchester-county-ny",
+    ].forEach((href) => {
+      expect(selection?.querySelector(`a[href="${href}"]`)).not.toBeNull();
+    });
+  });
+
   it("names each service request action for the service it belongs to", () => {
     render(
       <MemoryRouter>

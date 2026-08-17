@@ -9,6 +9,7 @@ export type City = {
   intro: string;
   housing: string;
   climateNote: string;
+  priorityServices?: { title: string; description: string; href: string }[];
   faqs: { q: string; a: string }[];
 };
 
@@ -42,6 +43,28 @@ const CITY_DATA: Record<string, Omit<City, "slug" | "name" | "faqs">> = {
     intro: "Yonkers is the largest city in Westchester County, with a mix of pre-war multi-family homes, modern high-rises, and detached single-family houses across neighborhoods like Park Hill, Bryn Mawr, and Crestwood. The housing stock here is diverse, which means HVAC needs range from boiler retrofits in 1920s row houses to ductless mini-split installs in older homes that never had central air.",
     housing: "Many Yonkers homes still use steam or hot-water boilers. Heating and cooling systems can vary with the property and existing ductwork.",
     climateNote: "Yonkers winters drop into the teens regularly, and humid summers push July temps near 90°F. Properly sized heating and dependable cooling matter — we don't oversize, and we don't undersize.",
+    priorityServices: [
+      {
+        title: "Boiler and hydronic repair",
+        description: "Older steam and hot-water boiler systems need repair guidance matched to the existing equipment and distribution.",
+        href: "/services/boiler-repair-westchester-county-ny",
+      },
+      {
+        title: "AC repair and ductless options",
+        description: "Homes without ducts can start with a cooling assessment and discuss ductless options for the property.",
+        href: "/services/ac-repair-westchester-county-ny",
+      },
+      {
+        title: "Emergency HVAC service",
+        description: "For urgent no-heat or no-cool concerns, request the next available response window.",
+        href: "/services/emergency-hvac-repair-westchester-county-ny",
+      },
+      {
+        title: "Heat-pump evaluation",
+        description: "Discuss whether a heat pump fits the building load, existing distribution, and property goals.",
+        href: "/services/heat-pump-installation-westchester-county-ny",
+      },
+    ],
   },
   "White Plains": {
     zips: ["10601","10603","10604","10605","10606","10607"],

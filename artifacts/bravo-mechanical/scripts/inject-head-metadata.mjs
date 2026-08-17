@@ -368,6 +368,10 @@ function buildBodyInsert(route, ctx) {
     if (route.city.climateNote) parts.push(`<h2>Local climate considerations</h2><p>${esc(route.city.climateNote)}</p>`);
     if (route.city.neighborhoods?.length) parts.push(`<p><strong>Neighborhoods served:</strong> ${route.city.neighborhoods.map(esc).join(", ")}.</p>`);
     if (route.city.zips?.length) parts.push(`<p><strong>ZIP codes served:</strong> ${route.city.zips.map(esc).join(", ")}.</p>`);
+    if (route.city.priorityServices?.length) {
+      parts.push(`<h2>Choose the right HVAC service for your ${esc(route.city.name)} property</h2>`);
+      parts.push(`<ul>${route.city.priorityServices.map((service) => `<li><a href="${esc(service.href)}">${esc(service.title)}</a>: ${esc(service.description)}</li>`).join("")}</ul>`);
+    }
     parts.push(`<h2>HVAC services in ${esc(route.city.name)}, NY</h2>`);
     parts.push(linkList(ctx.services));
   } else if (route.type === "service" || route.type === "guide" || route.type === "service-city") {

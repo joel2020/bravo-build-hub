@@ -350,6 +350,11 @@ export async function loadCities() {
     const body = block.match(new RegExp(`${field}:\\s*\\[([\\s\\S]*?)\\]`))?.[1] || "";
     return [...body.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((item) => item[1].replace(/\\"/g, '"'));
   };
+  const readPriorityServices = (block) => {
+    const body = block.match(/priorityServices:\s*\[([\s\S]*?)\],\s*\n\s*\}/)?.[1] || "";
+    return [...body.matchAll(/\{\s*title:\s*"((?:[^"\\]|\\.)*)",\s*description:\s*"((?:[^"\\]|\\.)*)",\s*href:\s*"((?:[^"\\]|\\.)*)",?\s*\}/g)]
+      .map(([, title, description, href]) => ({ title, description, href }));
+  };
 
   for (let i = 0; i < matches.length; i++) {
     const name = matches[i][1];
@@ -363,6 +368,7 @@ export async function loadCities() {
       intro: readString(block, "intro"),
       housing: readString(block, "housing"),
       climateNote: readString(block, "climateNote"),
+      priorityServices: readPriorityServices(block),
     });
   }
   return cities;

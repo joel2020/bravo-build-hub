@@ -183,6 +183,28 @@ const CityPage = () => {
         </section>
       )}
 
+      {city.priorityServices && (
+        <section className="container mx-auto px-4 py-6 lg:py-8">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-2xl font-extrabold mb-3">Choose the right HVAC service for your {city.name} property</h2>
+            <p className="text-sm text-muted-foreground mb-5">
+              Start with the service that best matches the property and the concern you are seeing.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {city.priorityServices.map((service) => (
+                <div key={service.href} className="border border-border rounded-lg p-4">
+                  <h3 className="font-bold mb-2">{service.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{service.description}</p>
+                  <Link to={service.href} className="text-sm text-accent font-semibold hover:underline">
+                    Explore {service.title} →
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="max-w-2xl mb-8">

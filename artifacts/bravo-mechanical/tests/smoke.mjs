@@ -87,6 +87,14 @@ assert(
 );
 assert(!home.includes('href="/emergency-hvac-westchester"'), 'generated homepage must not link to the redirected emergency URL');
 assert(home.includes('href="/services/emergency-hvac-repair-westchester-county-ny"'), 'generated homepage must link to the canonical emergency service URL');
+for (const priorityPath of [
+  '/services/ac-repair-westchester-county-ny',
+  '/services/boiler-repair-westchester-county-ny',
+  '/services/emergency-hvac-repair-westchester-county-ny',
+  '/services/heat-pump-installation-westchester-county-ny',
+]) {
+  assert(home.includes(`href="${priorityPath}"`), `generated homepage must link to ${priorityPath}`);
+}
 for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
   assert(
     deploymentConfig.rewrites.some(
@@ -294,6 +302,15 @@ for (const relativePath of routeHtmlFiles) {
 
 const yonkers = await readDist('service-areas/yonkers/index.html');
 assert(yonkers.includes('largest city in Westchester County'), 'Yonkers prerender must include its verified local content');
+assert(yonkers.includes('Choose the right HVAC service for your Yonkers property'), 'Yonkers prerender must include its service-selection context');
+for (const priorityPath of [
+  '/services/ac-repair-westchester-county-ny',
+  '/services/boiler-repair-westchester-county-ny',
+  '/services/emergency-hvac-repair-westchester-county-ny',
+  '/services/heat-pump-installation-westchester-county-ny',
+]) {
+  assert(yonkers.includes(`href="${priorityPath}"`), `Yonkers prerender must link to ${priorityPath}`);
+}
 const whitePlains = await readDist('service-areas/white-plains/index.html');
 assert(whitePlains.includes('commercial hub'), 'White Plains prerender must include its verified local content');
 

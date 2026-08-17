@@ -371,6 +371,10 @@ function buildBodyInsert(route, ctx) {
     parts.push(`<h2>HVAC services in ${esc(route.city.name)}, NY</h2>`);
     parts.push(linkList(ctx.services));
   } else if (route.type === "service" || route.type === "guide" || route.type === "service-city") {
+    if (route.priorityAnswer) {
+      parts.push(`<h2>What to know first</h2><p data-answer-summary>${esc(route.priorityAnswer.answer)}</p>`);
+      parts.push(`<ul>${route.priorityAnswer.decisionFactors.map((factor) => `<li data-decision-factor>${esc(factor)}</li>`).join("")}</ul>`);
+    }
     parts.push(`<h2>All Westchester HVAC services</h2>`);
     parts.push(linkList(ctx.services));
   } else if (route.path === "/" || route.path === "/services") {

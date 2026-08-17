@@ -482,7 +482,7 @@ export async function loadBlogPosts() {
 
 // ---- Build the full URL catalog ----------------------------------------
 export async function buildAllRoutes() {
-  const [cities, topCities, serviceSlugs, hiServices, posts, cityFaqs, serviceCityFaqs, hiServiceFaqs] =
+  const [cities, topCities, serviceSlugs, hiServices, posts, cityFaqs, serviceCityFaqs, hiServiceFaqs, priorityAnswers] =
     await Promise.all([
       loadCities(),
       loadTopCitySlugs(),
@@ -492,6 +492,7 @@ export async function buildAllRoutes() {
       loadCityFaqsBuilder(),
       loadServiceCityFaqBuildersBySlug(),
       loadHighIntentFaqsBySlug(),
+      readSource("content/priorityServiceAnswers.json").then(JSON.parse),
     ]);
 
   const services = await loadServiceContent();
@@ -543,6 +544,7 @@ export async function buildAllRoutes() {
       type: "service",
       service: s,
       faqs: hiServiceFaqs.get(s.slug) || [],
+      priorityAnswer: priorityAnswers[s.slug],
     });
   }
 

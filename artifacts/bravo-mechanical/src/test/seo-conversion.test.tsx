@@ -8,6 +8,7 @@ import BookOnline from "@/pages/BookOnline";
 import CompanyFacts from "@/pages/CompanyFacts";
 import Index from "@/pages/Index";
 import { trackCallClick, trackLeadSubmit } from "@/lib/analytics";
+import { getPriorityServiceAnswer } from "@/lib/priorityServiceAnswers";
 import { SITE } from "@/lib/site";
 // Build scripts are plain ESM and intentionally do not ship TypeScript declarations.
 // @ts-expect-error test-only import of the real metadata generator
@@ -26,6 +27,18 @@ const renderInRouter = (node: React.ReactNode) => {
 };
 
 describe("SEO generation", () => {
+  it.each([
+    "ac-repair-westchester-county-ny",
+    "boiler-repair-westchester-county-ny",
+    "heat-pump-installation-westchester-county-ny",
+    "emergency-hvac-repair-westchester-county-ny",
+  ])("provides an answer-first module for %s", (slug) => {
+    const content = getPriorityServiceAnswer(slug);
+    expect(content?.answer.length).toBeGreaterThan(120);
+    expect(content?.decisionFactors.length).toBeGreaterThanOrEqual(3);
+    expect(content?.proofLinks.length).toBeGreaterThanOrEqual(2);
+  });
+
   it("renders canonical company identity from SITE on the facts page", () => {
     const html = renderInRouter(<CompanyFacts />);
     expect(html).toContain(SITE.legalName);

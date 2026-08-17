@@ -176,6 +176,16 @@ const taskTwoGeneratedRoutes = [
   'services/emergency-hvac-repair-westchester-county-ny/index.html',
   'service-areas/yonkers/index.html',
 ];
+for (const slug of [
+  'ac-repair-westchester-county-ny',
+  'boiler-repair-westchester-county-ny',
+  'heat-pump-installation-westchester-county-ny',
+  'emergency-hvac-repair-westchester-county-ny',
+]) {
+  const html = await readDist(`services/${slug}/index.html`);
+  assert(html.includes('data-answer-summary'), `${slug} missing prerendered answer summary`);
+  assert(html.includes('data-decision-factor'), `${slug} missing prerendered decision guidance`);
+}
 for (const route of taskTwoGeneratedRoutes) {
   const html = await readDist(route);
   assert(!/licensed|insured|license #|24\/7|open 24|priceRange|openingHoursSpecification|free written estimate|same-day|warranty|30\+ years|5\.0|google rating|60.?120|same visit|roth|weil-mclain|mitsubishi|ao smith|carrier|trane|rheem|daikin|bosch|navien|bradford white|savings|fuel use|performance|efficien/i.test(html), `${route} publishes an evidence-required claim`);

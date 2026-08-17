@@ -6,6 +6,7 @@ import { CTABand } from "@/components/CTABand";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { getHighIntentService, HIGH_INTENT_SERVICES } from "@/lib/highIntentServices";
+import { getPriorityServiceAnswer } from "@/lib/priorityServiceAnswers";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 
@@ -16,6 +17,7 @@ const HighIntentServicePage = () => {
 
   const url = `${SITE.siteUrl}/services/${service.slug}`;
   const related = HIGH_INTENT_SERVICES.filter((item) => item.slug !== service.slug).slice(0, 4);
+  const priorityAnswer = getPriorityServiceAnswer(service.slug);
 
   const jsonLd: Record<string, unknown>[] = [
     {
@@ -75,6 +77,20 @@ const HighIntentServicePage = () => {
   return (
     <Layout>
       <PageHero eyebrow="Westchester HVAC Service" title={service.h1} subtitle={service.heroSubtitle} />
+
+      {priorityAnswer && (
+        <section className="container mx-auto px-4 pt-10" aria-labelledby="service-answer-heading">
+          <div className="rounded-xl border border-border bg-card p-6">
+            <h2 id="service-answer-heading" className="text-2xl font-extrabold">What to know first</h2>
+            <p data-answer-summary className="mt-3 text-muted-foreground">{priorityAnswer.answer}</p>
+            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+              {priorityAnswer.decisionFactors.map((factor) => (
+                <li data-decision-factor key={factor}>{factor}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <section className="container mx-auto px-4 py-12 grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-9">
@@ -167,6 +183,18 @@ const HighIntentServicePage = () => {
           </div>
 
           <div>
+            {priorityAnswer && (
+              <>
+                <h2 className="text-xl font-extrabold mb-3">Supporting information</h2>
+                <div className="grid sm:grid-cols-2 gap-3 mb-9">
+                  {priorityAnswer.proofLinks.map((item) => (
+                    <Link key={item.href + item.label} to={item.href} className="border border-border rounded-md p-3 hover:border-accent transition-colors font-semibold text-sm">
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
             <h2 className="text-xl font-extrabold mb-3">Related local links</h2>
             <div className="grid sm:grid-cols-2 gap-3">
               {service.relatedLinks.map((item) => (

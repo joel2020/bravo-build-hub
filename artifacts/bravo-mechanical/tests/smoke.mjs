@@ -166,9 +166,19 @@ for (const required of [
 }
 assert(!/licensed|insured|license|24\/7|open 24|price|warranty|guaranteed|#1|best HVAC|rating|review|same-day|30\+ years/i.test(llms), 'llms.txt must not contain unsupported business claims');
 
-for (const route of ['index.html', 'about/index.html', 'company-facts/index.html']) {
+const taskTwoGeneratedRoutes = [
+  'index.html',
+  'about/index.html',
+  'company-facts/index.html',
+  'services/ac-repair-westchester-county-ny/index.html',
+  'services/boiler-repair-westchester-county-ny/index.html',
+  'services/heat-pump-installation-westchester-county-ny/index.html',
+  'services/emergency-hvac-repair-westchester-county-ny/index.html',
+  'service-areas/yonkers/index.html',
+];
+for (const route of taskTwoGeneratedRoutes) {
   const html = await readDist(route);
-  assert(!/licensed|insured|license #|24\/7|open 24|priceRange|openingHoursSpecification|free written estimate|same-day|warranty|30\+ years|5\.0|google rating|60.?120|same visit/i.test(html), `${route} publishes an evidence-required claim`);
+  assert(!/licensed|insured|license #|24\/7|open 24|priceRange|openingHoursSpecification|free written estimate|same-day|warranty|30\+ years|5\.0|google rating|60.?120|same visit|roth|weil-mclain|mitsubishi|ao smith|carrier|trane|rheem|daikin|bosch|navien|bradford white|savings|fuel use|performance|efficien/i.test(html), `${route} publishes an evidence-required claim`);
   const fallbackIdentity = html.match(/<header><p>([\s\S]*?)<\/p><\/header>/i)?.[1] || '';
   assert(fallbackIdentity.includes('Bravo Mechanical LLC'), `${route} fallback is missing the legal business name`);
   assert(fallbackIdentity.includes('1 Fowler Avenue, Yonkers, NY 10701'), `${route} fallback is missing the business address`);

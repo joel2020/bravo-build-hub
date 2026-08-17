@@ -485,17 +485,18 @@ describe("loader, project proof, and contextual actions", () => {
     );
   });
 
-  it("uses explicit transition properties on the homeowner system cards", () => {
+  it("uses claim-safe labels on homepage equipment images", () => {
     render(
       <MemoryRouter>
         <Index />
       </MemoryRouter>,
     );
 
-    const card = document.querySelector<HTMLAnchorElement>('a[href="/services/heat-pumps"]');
-    if (!card) throw new Error("Expected the heat-pump homeowner system card");
-    expect(card.classList.contains("transition-all")).toBe(false);
-    expect(card.classList.contains("transition-[border-color,box-shadow]")).toBe(true);
+    const equipmentImages = Array.from(document.querySelectorAll('img[alt]'));
+    const equipmentLabels = equipmentImages.map((image) => image.getAttribute("alt"));
+    expect(equipmentLabels).toContain("Ductless HVAC equipment");
+    expect(equipmentLabels).not.toContain("Roth oil tank and boiler installation");
+    expect(equipmentLabels.some((label) => /Westchester property/i.test(label || ""))).toBe(false);
   });
 
   it("names each service request action for the service it belongs to", () => {

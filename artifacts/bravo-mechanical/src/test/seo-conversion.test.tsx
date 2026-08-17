@@ -39,9 +39,9 @@ describe("SEO generation", () => {
     expect(html).not.toMatch(/licensed|insured|license #8822|open 24|24\/7|5\.0|google rating|30\+ years|same-day|prevent breakdowns/i);
   });
 
-  it("withholds uncited project and performance claims from the homepage", () => {
+  it("withholds uncited project provenance, brand, and performance claims from the homepage", () => {
     const html = renderInRouter(<Index />);
-    expect(html).not.toMatch(/real field jobs|projected efficiency|written recommendation/i);
+    expect(html).not.toMatch(/at a westchester property|recent installs and service jobs|before & after|roth|weil-mclain|mitsubishi\s|ao smith|savings|projected efficiency|written recommendation/i);
   });
 
   it("keeps every generated search snippet within its display budget", async () => {

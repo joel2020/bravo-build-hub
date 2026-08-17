@@ -8,7 +8,6 @@ import { CTABand } from "@/components/CTABand";
 import { useSeo } from "@/lib/seo";
 
 import { SITE, FEATURED_SERVICE_LINKS } from "@/lib/site";
-import { NY_SYSTEMS } from "@/lib/nySystems";
 import { trackRequestServiceClick } from "@/lib/analytics";
 import heroTechnician from "@/assets/hero-technician.webp";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
@@ -20,10 +19,8 @@ import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobExteriorWhite from "@/assets/job-exterior-white-house.webp";
 import jobBoilerBefore from "@/assets/job-boiler-before.avif";
 import jobBoilerAfter from "@/assets/job-boiler-after.avif";
-import projectBoilerBefore from "@/assets/project-boiler-before.png";
 import projectBoilerAfter from "@/assets/project-boiler-after.webp";
 import projectBurnerService from "@/assets/project-burner-service.avif";
-import projectBeckettBurner from "@/assets/project-beckett-burner.png";
 import projectGasBoiler from "@/assets/project-gas-boiler.avif";
 
 const Index = () => {
@@ -169,20 +166,20 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Westchester HVAC photos */}
+      {/* Equipment photos */}
       <section className="container mx-auto px-4 py-14 lg:py-16">
         <div className="max-w-2xl mb-8">
-          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Our work</div>
-          <h2 className="text-3xl md:text-4xl font-extrabold">Westchester HVAC service photos</h2>
-          <p className="mt-3 text-muted-foreground">Examples of heating and cooling equipment and service work from Westchester properties.</p>
+          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Equipment photos</div>
+          <h2 className="text-3xl md:text-4xl font-extrabold">Heating and cooling equipment</h2>
+          <p className="mt-3 text-muted-foreground">Examples of heating and cooling equipment.</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { img: projectBoilerAfter, alt: "Boiler equipment at a Westchester property" },
-            { img: jobMiniSplit, alt: "Ductless HVAC equipment at a Westchester property" },
-            { img: jobWaterHeater, alt: "Water-heating equipment at a Westchester property" },
-            { img: projectBurnerService, alt: "Heating equipment service at a Westchester property" },
-            { img: projectGasBoiler, alt: "Boiler equipment at a Westchester property" },
+            { img: projectBoilerAfter, alt: "Boiler equipment" },
+            { img: jobMiniSplit, alt: "Ductless HVAC equipment" },
+            { img: jobWaterHeater, alt: "Water-heating equipment" },
+            { img: projectBurnerService, alt: "Heating equipment" },
+            { img: projectGasBoiler, alt: "Boiler equipment" },
           ].map((job, index) => (
             <article key={index} className="bg-card border border-border rounded-lg overflow-hidden">
               <img src={job.img} alt={job.alt} width={768} height={432} loading="lazy" decoding="async" className="w-full h-48 object-cover" />
@@ -277,10 +274,10 @@ const Index = () => {
             </ul>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <img src={jobBoilerAfter} alt="Boiler equipment at a Westchester property" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobMitsubishi} alt="Ductless HVAC equipment at a Westchester property" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobWaterHeater} alt="Water-heating equipment at a Westchester property" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobOilTank} alt="Heating equipment at a Westchester property" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobBoilerAfter} alt="Boiler equipment" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobMitsubishi} alt="Ductless HVAC equipment" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobWaterHeater} alt="Water-heating equipment" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobOilTank} alt="Heating equipment" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
           </div>
         </div>
       </section>
@@ -333,66 +330,26 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Top NYS residential systems */}
-      <section className="container mx-auto px-4 py-16 lg:py-24">
-        <div className="max-w-2xl mb-10">
-          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">NY Homeowner Guide</div>
-          <h2 className="text-3xl md:text-4xl font-extrabold">Top heating & AC installations for New York homes</h2>
-          <p className="mt-3 text-muted-foreground">Westchester and the Hudson Valley see frigid winters and hot, humid summers. These are the systems we install most often — and what they're best suited for.</p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {NY_SYSTEMS.map((s) => (
-            <Link
-              key={s.slug}
-              to={`/services/${s.slug}`}
-              className="bg-card border border-border rounded-lg overflow-hidden flex flex-col hover:border-accent hover:shadow-md transition-[border-color,box-shadow] group"
-            >
-              <img src={s.card.img} alt={s.card.alt} width={960} height={600} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover" />
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">{s.card.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{s.card.desc}</p>
-                <div className="text-xs font-semibold text-accent mt-auto">{s.card.best}</div>
-                <div className="text-sm text-accent font-semibold mt-3">Learn more →</div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured work */}
+      {/* Equipment gallery */}
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-16 lg:py-24">
         <div className="max-w-2xl mb-10">
-          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">Featured Work</div>
-          <h2 className="text-3xl md:text-4xl font-extrabold">Recent installs and service jobs</h2>
-        </div>
-
-        {/* Before / After boiler replacement */}
-        <div className="mb-10">
-          <div className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Boiler replacement — before & after</div>
-          <div className="grid sm:grid-cols-2 gap-3">
-            {[
-              { src: jobBoilerBefore, label: "Before", alt: "Old gas boiler before replacement, with aged piping and wiring" },
-              { src: jobBoilerAfter, label: "After", alt: "Boiler equipment at a Westchester property" },
-            ].map((p) => (
-              <figure key={p.label} className="relative rounded-lg overflow-hidden border border-border">
-                <img src={p.src} alt={p.alt} width={800} height={1000} loading="lazy" decoding="async" className="aspect-[4/5] w-full object-cover" />
-                <figcaption className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 rounded">{p.label}</figcaption>
-              </figure>
-            ))}
-          </div>
+          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-3">Equipment photos</div>
+          <h2 className="text-3xl md:text-4xl font-extrabold">Heating and cooling equipment</h2>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {[
-            { src: jobMitsubishi, alt: "Ductless HVAC equipment at a Westchester property" },
-            { src: jobBoiler, alt: "Roth oil tank and boiler installation" },
-            { src: jobWaterHeater, alt: "Water-heating equipment at a Westchester property" },
-            { src: jobOilTank, alt: "Roth oil tank piping and gauge work" },
-            { src: jobRadiator, alt: "Commercial radiator and copper piping repair" },
-            { src: jobMiniSplit, alt: "Exterior heat pump install on residential home" },
-            { src: heroTechnician, alt: "Outdoor AC condenser install on patio" },
-            { src: jobExteriorWhite, alt: "Exterior service work on a white-sided home" },
+            { src: jobBoilerBefore, alt: "Heating equipment" },
+            { src: jobBoilerAfter, alt: "Boiler equipment" },
+            { src: jobMitsubishi, alt: "Ductless HVAC equipment" },
+            { src: jobBoiler, alt: "Heating equipment" },
+            { src: jobWaterHeater, alt: "Water-heating equipment" },
+            { src: jobOilTank, alt: "Heating equipment" },
+            { src: jobRadiator, alt: "Commercial HVAC equipment" },
+            { src: jobMiniSplit, alt: "Heat-pump equipment" },
+            { src: heroTechnician, alt: "Outdoor HVAC equipment" },
+            { src: jobExteriorWhite, alt: "HVAC equipment" },
           ].map((p, i) => (
             <img key={i} src={p.src} alt={p.alt} width={600} height={600} loading="lazy" decoding="async" className="aspect-square w-full object-cover rounded border border-border" />
           ))}

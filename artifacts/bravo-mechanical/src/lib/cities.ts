@@ -17,20 +17,20 @@ export const citySlug = (name: string) =>
 
 const baseFaqs = (name: string) => [
   {
-    q: `Do you offer same-day HVAC repair in ${name}?`,
-    a: `We offer prompt appointment windows in ${name}, and after-hours emergency support when available. Response timing depends on call volume, weather, and technician availability.`,
+    q: `How do I request HVAC service in ${name}?`,
+    a: `Call Bravo Mechanical LLC or submit a service request online. We will discuss the heating or cooling concern and the next available response window for ${name}.`,
   },
   {
-    q: `Are you licensed and insured to work in ${name}, NY?`,
-    a: `Yes. Bravo Mechanical LLC is licensed and insured to perform HVAC installation, service, and repair throughout Westchester County, including ${name}. We handle permit coordination when project scope requires it.`,
+    q: `What HVAC services are available in ${name}, NY?`,
+    a: `Bravo Mechanical LLC provides HVAC repair, installation, emergency service requests, and maintenance for homes and light-commercial properties in ${name}.`,
   },
   {
-    q: `What HVAC brands do you install in ${name}?`,
-    a: `We install Carrier, Trane, Rheem, Mitsubishi, Daikin, Bosch, Navien, Bradford White, AO Smith, and other major manufacturers. We size systems to your home — we don't push one brand, we recommend what's right for your house in ${name}.`,
+    q: `Can you help with heating and cooling equipment in ${name}?`,
+    a: `Yes. Request service to discuss the condition of your heating or cooling equipment and the practical next step for your property in ${name}.`,
   },
   {
-    q: `Do you provide written estimates in ${name}?`,
-    a: `Yes. Every installation or replacement project in ${name} starts with a free written estimate — equipment options, scope, and total price fixed before any work begins.`,
+    q: `How should I plan an HVAC repair or replacement in ${name}?`,
+    a: `The practical next step depends on the concern found, equipment condition, and property needs. Request service to discuss repair and replacement options for ${name}.`,
   },
 ];
 
@@ -40,7 +40,7 @@ const CITY_DATA: Record<string, Omit<City, "slug" | "name" | "faqs">> = {
     neighborhoods: ["Getty Square","Bryn Mawr","Park Hill","Ludlow","Crestwood","Lincoln Park","Nodine Hill","Bryn Mawr Park"],
     region: "Lower Westchester",
     intro: "Yonkers is the largest city in Westchester County, with a mix of pre-war multi-family homes, modern high-rises, and detached single-family houses across neighborhoods like Park Hill, Bryn Mawr, and Crestwood. The housing stock here is diverse, which means HVAC needs range from boiler retrofits in 1920s row houses to ductless mini-split installs in older homes that never had central air.",
-    housing: "Many Yonkers homes still run on steam or hot-water boilers — some 50+ years old. We handle high-efficiency gas boiler conversions, oil-to-gas conversions, and add-on ductless cooling for homes without ductwork.",
+    housing: "Many Yonkers homes still use steam or hot-water boilers. Heating and cooling systems can vary with the property and existing ductwork.",
     climateNote: "Yonkers winters drop into the teens regularly, and humid summers push July temps near 90°F. Properly sized heating and dependable cooling matter — we don't oversize, and we don't undersize.",
   },
   "White Plains": {

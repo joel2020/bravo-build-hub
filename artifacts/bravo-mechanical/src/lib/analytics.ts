@@ -15,12 +15,17 @@ const pageContext = (): EventParams =>
 
 export function trackEvent(name: string, params: EventParams = {}) {
   if (typeof window === "undefined") return;
-  const payload = { ...pageContext(), ...params };
-  window.dataLayer = window.dataLayer || [];
-  // Push directly so events still queue if gtag.js hasn't loaded yet.
-  window.dataLayer.push({ event: name, ...payload });
-  if (typeof window.gtag === "function") {
-    window.gtag("event", name, payload);
+  try {
+    const payload = { ...pageContext(), ...params };
+    if (typeof window.gtag === "function") {
+      window.gtag("event", name, payload);
+      return;
+    }
+    window.dataLayer = window.dataLayer || [];
+    // Queue directly only while gtag is unavailable.
+    window.dataLayer.push({ event: name, ...payload });
+  } catch {
+    // Analytics must never interrupt navigation or a successful submission.
   }
 }
 

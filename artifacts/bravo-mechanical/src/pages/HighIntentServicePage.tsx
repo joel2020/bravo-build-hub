@@ -99,7 +99,7 @@ const HighIntentServicePage = () => {
             <p className="text-sm text-muted-foreground">Call Bravo Mechanical for safety-first triage and the next available response window.</p>
             <div className="mt-5 flex flex-col gap-2">
               <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <a href={SITE.phoneHref} onClick={() => trackEmergencyCall("emergency_service_hero")}>
+                <a href={SITE.phoneHref} onClick={() => trackEmergencyCall("emergency_service_hero", service.slug)}>
                   <Phone className="h-4 w-4 mr-2" />Call Bravo Mechanical
                 </a>
               </Button>

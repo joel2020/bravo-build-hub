@@ -506,6 +506,7 @@ describe("frontend remediation navigation shell", () => {
       event: "call_click",
       event_category: "engagement",
       location: "emergency_service_hero",
+      service: "emergency-hvac-repair-westchester-county-ny",
       page_path: "/",
     });
     expect(window.dataLayer).toContainEqual({
@@ -727,6 +728,7 @@ describe("recoverable lead forms", () => {
     vi.restoreAllMocks();
     vi.resetModules();
     supabaseTestState.insert.mockReset();
+    window.gtag = undefined;
   });
 
   const createDeferredInsert = () => {
@@ -972,6 +974,24 @@ describe("recoverable lead forms", () => {
     await user.click(screen.getByRole("button", { name: /book my visit/i }));
     expect(await screen.findByRole("heading", { name: /you're on the board/i })).toBeTruthy();
     expectUnloadProtection(false);
+  });
+
+  it("shows booking confirmation when analytics rejects a successful booking event", async () => {
+    supabaseTestState.insert.mockResolvedValueOnce({ error: null });
+    window.dataLayer = [];
+    window.gtag = () => { throw new Error("gtag unavailable"); };
+    const user = userEvent.setup();
+    const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
+    render(<RouterProvider router={router} />);
+
+    await user.type(screen.getByLabelText(/^name/i), "Jordan Lee");
+    await user.type(screen.getByLabelText(/mobile phone/i), "9145551234");
+    await user.click(screen.getByRole("button", { name: "AC Repair" }));
+    await user.click(screen.getAllByRole("button", { name: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),/ })[0]);
+    await user.click(screen.getByRole("button", { name: "Morning (8am–11am)" }));
+    await user.click(screen.getByRole("button", { name: /book my visit/i }));
+
+    expect(await screen.findByRole("heading", { name: /you're on the board/i })).toBeTruthy();
   });
 
   it("keeps a contact lead protected through pending and failed persistence, then releases it after success", async () => {

@@ -220,4 +220,46 @@ describe("conversion analytics", () => {
       },
     ]);
   });
+
+  it("delivers exactly one event through gtag when it is available", () => {
+    const deliveries: unknown[] = [];
+    Object.assign(globalThis, {
+      window: {
+        dataLayer: deliveries,
+        gtag: (...args: unknown[]) => deliveries.push(args),
+        location: { pathname: "/book" },
+      },
+    });
+
+    trackBookingSubmit("AC Repair");
+
+    expect(deliveries).toEqual([[
+      "event",
+      "booking_submit",
+      { event_category: "lead", service: "AC Repair", page_path: "/book" },
+    ]]);
+  });
+
+  it("does not throw when the fallback analytics queue rejects an event", () => {
+    Object.assign(globalThis, {
+      window: {
+        dataLayer: { push: () => { throw new Error("queue unavailable"); } },
+        location: { pathname: "/book" },
+      },
+    });
+
+    expect(() => trackBookingSubmit("AC Repair")).not.toThrow();
+  });
+
+  it("does not throw when gtag rejects an event", () => {
+    Object.assign(globalThis, {
+      window: {
+        dataLayer: [],
+        gtag: () => { throw new Error("gtag unavailable"); },
+        location: { pathname: "/book" },
+      },
+    });
+
+    expect(() => trackBookingSubmit("AC Repair")).not.toThrow();
+  });
 });

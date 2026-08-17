@@ -14,8 +14,8 @@ import { trackCallClick, trackEmergencyCtaClick, trackRequestServiceClick } from
 
 const EMERGENCY_SERVICE_SLUG = "emergency-hvac-repair-westchester-county-ny";
 
-const trackEmergencyCall = (location: string) => {
-  trackCallClick(location);
+const trackEmergencyCall = (location: string, service?: string) => {
+  trackCallClick(location, service ? { service } : {});
   trackEmergencyCtaClick(location);
 };
 
@@ -93,6 +93,7 @@ const HighIntentServicePage = () => {
         eyebrow="Westchester HVAC Service"
         title={service.h1}
         subtitle={service.heroSubtitle}
+        trackingContext={service.slug}
         rightSlot={isCanonicalEmergency ? (
           <aside aria-label="Emergency HVAC actions" className="bg-card border border-border rounded-xl p-6 shadow-sm">
             <p className="text-sm text-muted-foreground">Call Bravo Mechanical for safety-first triage and the next available response window.</p>
@@ -103,7 +104,7 @@ const HighIntentServicePage = () => {
                 </a>
               </Button>
               <Button asChild size="sm" variant="outline" className="font-bold">
-                <a href="#emergency-service-request" onClick={() => trackRequestServiceClick("emergency_service_hero")}>Request Emergency HVAC Service</a>
+                <a href="#emergency-service-request" onClick={() => trackRequestServiceClick("emergency_service_hero", { service: service.slug })}>Request Emergency HVAC Service</a>
               </Button>
             </div>
           </aside>
@@ -272,7 +273,9 @@ const HighIntentServicePage = () => {
             <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
               <Link
                 to={isCanonicalEmergency ? "#emergency-service-request" : "/contact"}
-                onClick={isCanonicalEmergency ? () => trackRequestServiceClick("emergency_service_sidebar") : undefined}
+                onClick={isCanonicalEmergency
+                  ? () => trackRequestServiceClick("emergency_service_sidebar", { service: service.slug })
+                  : () => trackRequestServiceClick("service_sidebar", { service: service.slug })}
               >
                 {service.primaryCta}
               </Link>
@@ -280,7 +283,9 @@ const HighIntentServicePage = () => {
             <Button asChild variant="outline" className="w-full font-bold">
               <a
                 href={SITE.phoneHref}
-                onClick={isCanonicalEmergency ? () => trackEmergencyCall("emergency_service_sidebar") : undefined}
+                onClick={isCanonicalEmergency
+                  ? () => trackEmergencyCall("emergency_service_sidebar", service.slug)
+                  : () => trackCallClick("service_sidebar", { service: service.slug })}
               >
                 <Phone className="h-4 w-4 mr-2" />{isCanonicalEmergency ? "Call Bravo Mechanical" : `Call ${SITE.phone}`}
               </a>
@@ -297,8 +302,9 @@ const HighIntentServicePage = () => {
         primaryLabel={isCanonicalEmergency ? "Request Emergency HVAC Service" : undefined}
         primaryHref={isCanonicalEmergency ? "#emergency-service-request" : undefined}
         phoneLabel={isCanonicalEmergency ? "Call Bravo Mechanical" : undefined}
-        onPrimaryClick={isCanonicalEmergency ? () => trackRequestServiceClick("emergency_service_footer") : undefined}
-        onPhoneClick={isCanonicalEmergency ? () => trackEmergencyCall("emergency_service_footer") : undefined}
+        onPrimaryClick={isCanonicalEmergency ? () => trackRequestServiceClick("emergency_service_footer", { service: service.slug }) : undefined}
+        onPhoneClick={isCanonicalEmergency ? () => trackEmergencyCall("emergency_service_footer", service.slug) : undefined}
+        trackingContext={service.slug}
       />
     </Layout>
   );

@@ -11,7 +11,7 @@ import CompanyFacts from "@/pages/CompanyFacts";
 import Index from "@/pages/Index";
 import HighIntentServicePage from "@/pages/HighIntentServicePage";
 import EsEmergency from "@/pages/es/EsEmergency";
-import { trackCallClick, trackLeadSubmit } from "@/lib/analytics";
+import { trackBookingSubmit, trackCallClick, trackLeadSubmit } from "@/lib/analytics";
 import { getPriorityServiceAnswer } from "@/lib/priorityServiceAnswers";
 import { SITE } from "@/lib/site";
 // Build scripts are plain ESM and intentionally do not ship TypeScript declarations.
@@ -177,20 +177,47 @@ describe("sitewide accessibility", () => {
 
 describe("conversion analytics", () => {
   beforeEach(() => {
-    Object.assign(globalThis, { window: { dataLayer: [] } });
+    Object.assign(globalThis, {
+      window: {
+        dataLayer: [],
+        location: { pathname: "/services/ac-repair-westchester-county-ny" },
+      },
+    });
   });
 
-  it("emits one canonical call event per click", () => {
-    trackCallClick("header");
+  it("adds page context without customer data", () => {
+    trackCallClick("service_sidebar");
     expect(window.dataLayer).toEqual([
-      { event: "call_click", event_category: "engagement", location: "header" },
+      {
+        event: "call_click",
+        event_category: "engagement",
+        location: "service_sidebar",
+        page_path: "/services/ac-repair-westchester-county-ny",
+      },
     ]);
   });
 
   it("emits one canonical lead event per successful submission", () => {
     trackLeadSubmit("contact");
     expect(window.dataLayer).toEqual([
-      { event: "lead_submit", event_category: "lead", form: "contact" },
+      {
+        event: "lead_submit",
+        event_category: "lead",
+        form: "contact",
+        page_path: "/services/ac-repair-westchester-county-ny",
+      },
+    ]);
+  });
+
+  it("records a successful booking separately", () => {
+    trackBookingSubmit("AC Repair");
+    expect(window.dataLayer).toEqual([
+      {
+        event: "booking_submit",
+        event_category: "lead",
+        service: "AC Repair",
+        page_path: "/services/ac-repair-westchester-county-ny",
+      },
     ]);
   });
 });

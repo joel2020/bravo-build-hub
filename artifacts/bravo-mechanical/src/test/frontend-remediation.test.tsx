@@ -506,11 +506,13 @@ describe("frontend remediation navigation shell", () => {
       event: "call_click",
       event_category: "engagement",
       location: "emergency_service_hero",
+      page_path: "/",
     });
     expect(window.dataLayer).toContainEqual({
       event: "emergency_cta_click",
       event_category: "engagement",
       location: "emergency_service_hero",
+      page_path: "/",
     });
   });
 

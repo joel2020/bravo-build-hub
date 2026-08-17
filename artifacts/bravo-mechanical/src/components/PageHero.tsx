@@ -20,11 +20,13 @@ type PageHeroProps = {
   hideRightSlot?: boolean;
   /** Use tighter vertical spacing for task-focused pages. */
   compact?: boolean;
+  /** Non-PII service context for the default request and call actions. */
+  trackingContext?: string;
 };
 
-export const PageHero = ({ eyebrow, title, subtitle, rightSlot, hideRightSlot, compact }: PageHeroProps) => {
+export const PageHero = ({ eyebrow, title, subtitle, rightSlot, hideRightSlot, compact, trackingContext }: PageHeroProps) => {
   const showRight = !hideRightSlot;
-  const right = rightSlot ?? <DefaultHeroTrustCard />;
+  const right = rightSlot ?? <DefaultHeroTrustCard trackingContext={trackingContext} />;
 
   return (
     <section className="bg-secondary border-b border-border">
@@ -49,7 +51,7 @@ export const PageHero = ({ eyebrow, title, subtitle, rightSlot, hideRightSlot, c
   );
 };
 
-const DefaultHeroTrustCard = () => (
+const DefaultHeroTrustCard = ({ trackingContext }: Pick<PageHeroProps, "trackingContext">) => (
   <aside
     aria-label="Bravo Mechanical trust signals"
     className="bg-card border border-border rounded-xl p-6 shadow-sm"
@@ -63,13 +65,13 @@ const DefaultHeroTrustCard = () => (
 
     <div className="mt-5 flex flex-col gap-2">
       <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-        <Link to="/contact" onClick={() => trackRequestServiceClick("page_hero_card")}>
+        <Link to="/contact" onClick={() => trackRequestServiceClick("page_hero_card", trackingContext ? { service: trackingContext } : {})}>
           Get a Free Estimate
         </Link>
       </Button>
       <a
         href={SITE.phoneHref}
-        onClick={() => trackCallClick("page_hero_card")}
+        onClick={() => trackCallClick("page_hero_card", trackingContext ? { service: trackingContext } : {})}
         className="inline-flex items-center justify-center gap-2 text-sm font-bold text-foreground hover:text-accent py-2"
       >
         <Phone className="h-4 w-4" />

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
+import { trackCallClick, trackRequestServiceClick } from "@/lib/analytics";
 
 type CTABandProps = {
   title?: string;
@@ -11,6 +12,7 @@ type CTABandProps = {
   phoneLabel?: string;
   onPrimaryClick?: () => void;
   onPhoneClick?: () => void;
+  trackingContext?: string;
 };
 
 export const CTABand = ({
@@ -21,6 +23,7 @@ export const CTABand = ({
   phoneLabel = `Call ${SITE.phone}`,
   onPrimaryClick,
   onPhoneClick,
+  trackingContext,
 }: CTABandProps) => (
   <section className="bg-primary text-primary-foreground">
     <div className="container mx-auto px-4 py-14 lg:py-20 text-center">
@@ -28,10 +31,20 @@ export const CTABand = ({
       <p className="text-primary-foreground/85 max-w-2xl mx-auto mb-8">{subtitle}</p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-          <Link to={primaryHref} onClick={onPrimaryClick}>{primaryLabel}</Link>
+          <Link
+            to={primaryHref}
+            onClick={onPrimaryClick ?? (() => trackRequestServiceClick("cta_band", trackingContext ? { service: trackingContext } : {}))}
+          >
+            {primaryLabel}
+          </Link>
         </Button>
         <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary font-bold">
-          <a href={SITE.phoneHref} onClick={onPhoneClick}><Phone className="h-4 w-4 mr-2" />{phoneLabel}</a>
+          <a
+            href={SITE.phoneHref}
+            onClick={onPhoneClick ?? (() => trackCallClick("cta_band", trackingContext ? { service: trackingContext } : {}))}
+          >
+            <Phone className="h-4 w-4 mr-2" />{phoneLabel}
+          </a>
         </Button>
       </div>
     </div>

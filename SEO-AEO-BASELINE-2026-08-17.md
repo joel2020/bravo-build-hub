@@ -17,6 +17,16 @@ This is an evidence baseline, not a ranking report. Search result placement is n
 | Sitemap | `curl -sS https://www.bravomechanicalny.com/sitemap.xml` includes the home, service, service-area, blog, and both emergency URLs. | Sitemap is reachable but currently publishes the duplicate emergency URLs. | Improve: remove the short URL when its permanent redirect ships. |
 | Search Console and Maps | No authenticated Search Console property or reliable Google Maps profile rendering was available. | Organic performance and Maps-derived claims cannot be baselined from this workspace. | Evidence-required: export dated GSC and Business Profile evidence before setting KPI targets or publishing review-count changes. |
 
+## August 17 release-candidate implementation
+
+- The verified entity source and scoped visible/generated content now retain only the supported legal name, address, phone, email, canonical `www` origin, and Westchester service area. `llms.txt` points agents to company facts, the four priority service URLs, Yonkers, and direct contact details.
+- The four priority service pages share answer-first source content across the React experience and crawler-visible generated HTML, including decision factors, safety escalation, and canonical supporting links.
+- The release candidate permanently redirects `/emergency-hvac-westchester` to `/services/emergency-hvac-repair-westchester-county-ny`, removes the legacy URL from generated routes and the sitemap, and produces a 140-URL sitemap.
+- All analytics events receive `page_path`; priority service actions receive non-PII service context; booking success records a distinct `booking_submit`; and a tracking transport failure cannot interrupt the user flow. No GA4 configuration, call connection, appointment, completed-job, or revenue attribution was verified.
+- The homepage and Yonkers generated and hydrated experiences expose canonical pathways to all four priority services; the homepage also links to commercial HVAC.
+- Local release evidence: the production build passed, Vitest passed 70/70 tests, SEO smoke checks passed, and `git diff --check` passed. A pre-existing CRM redundant-operator warning remains nonblocking. The root workspace has no test script, so Vitest was run from the Bravo application package where `test` is defined.
+- Evidence holds remain unchanged for licensing/insurance, ratings/reviews, experience, hours and response performance, pricing/financing, brands, warranties, permits, project outcomes, rebate eligibility, and NYC/Long Island scope. Search Console, Google Maps/Business Profile, rankings, review changes, and revenue outcomes were not available for verification.
+
 ## Claim verification matrix
 
 | Claim | Current source | Verification status | Publishing rule |

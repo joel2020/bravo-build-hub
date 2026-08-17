@@ -6,6 +6,7 @@ import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { LeadForm } from "@/components/LeadForm";
 import BookOnline from "@/pages/BookOnline";
 import CompanyFacts from "@/pages/CompanyFacts";
+import Index from "@/pages/Index";
 import { trackCallClick, trackLeadSubmit } from "@/lib/analytics";
 import { SITE } from "@/lib/site";
 // Build scripts are plain ESM and intentionally do not ship TypeScript declarations.
@@ -31,6 +32,16 @@ describe("SEO generation", () => {
     expect(html).toContain(SITE.phone);
     expect(html).toContain(SITE.address.full);
     expect(html).toContain("Westchester County");
+  });
+
+  it("withholds evidence-required claims from shared and company-facts output", () => {
+    const html = `${renderInRouter(<Footer />)}${renderInRouter(<CompanyFacts />)}`;
+    expect(html).not.toMatch(/licensed|insured|license #8822|open 24|24\/7|5\.0|google rating|30\+ years|same-day|prevent breakdowns/i);
+  });
+
+  it("withholds uncited project and performance claims from the homepage", () => {
+    const html = renderInRouter(<Index />);
+    expect(html).not.toMatch(/real field jobs|projected efficiency|written recommendation/i);
   });
 
   it("keeps every generated search snippet within its display budget", async () => {

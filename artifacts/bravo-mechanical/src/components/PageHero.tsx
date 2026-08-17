@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Phone, ShieldCheck, Star, Clock, FileText } from "lucide-react";
+import { Phone, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -54,39 +54,10 @@ const DefaultHeroTrustCard = () => (
     aria-label="Bravo Mechanical trust signals"
     className="bg-card border border-border rounded-xl p-6 shadow-sm"
   >
-    <a
-      href={SITE.social.google}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-3 pb-4 border-b border-border hover:opacity-90 transition-opacity"
-    >
-      <div className="flex flex-col">
-        <div className="flex items-center gap-1">
-          <span className="font-extrabold text-2xl text-foreground leading-none">{SITE.rating.score.toFixed(1)}</span>
-          <div className="flex gap-0.5 ml-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-            ))}
-          </div>
-        </div>
-        <span className="text-xs text-muted-foreground mt-1">
-          Rated {SITE.rating.score.toFixed(1)} on {SITE.rating.source}
-        </span>
-      </div>
-    </a>
-
     <ul className="mt-4 space-y-3 text-sm">
       <li className="flex items-start gap-2">
-        <ShieldCheck className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Licensed &amp; insured in NY</span>
-      </li>
-      <li className="flex items-start gap-2">
-        <FileText className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Free written estimates &middot; no obligation</span>
-      </li>
-      <li className="flex items-start gap-2">
         <Clock className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Same-day service when available</span>
+        <span className="text-foreground">Request service online or call the team</span>
       </li>
     </ul>
 

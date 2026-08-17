@@ -42,16 +42,6 @@ const Reviews = () => {
           </p>
         </div>
 
-        <a href={SITE.social.google} target="_blank" rel="noopener noreferrer" className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10 bg-card border border-border rounded-lg px-6 py-4 hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-foreground">{SITE.rating.score.toFixed(1)}</span>
-            <div className="flex gap-1">
-              {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-6 w-6 fill-amber-400 text-amber-400" />)}
-            </div>
-          </div>
-          <div className="text-muted-foreground">on Google · <span className="font-semibold text-foreground">{SITE.rating.count} verified reviews</span></div>
-        </a>
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {GOOGLE_REVIEWS.length > 0 ? GOOGLE_REVIEWS.map((review, i) => (
             <div key={`${review.reviewerName}-${i}`} className="bg-card border border-border rounded-lg p-6">

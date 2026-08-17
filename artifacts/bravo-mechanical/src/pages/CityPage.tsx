@@ -166,14 +166,6 @@ const CityPage = () => {
                 <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
               </Button>
             </div>
-            <div className="mt-5 pt-5 border-t border-border flex items-center gap-2 text-sm">
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-accent text-accent" />
-                ))}
-              </div>
-              <span className="text-muted-foreground">{SITE.rating.score} on Google</span>
-            </div>
           </aside>
         </div>
       </section>

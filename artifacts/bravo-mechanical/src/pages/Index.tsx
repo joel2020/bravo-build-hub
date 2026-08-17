@@ -169,29 +169,23 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Recent Westchester HVAC Work */}
+      {/* Westchester HVAC photos */}
       <section className="container mx-auto px-4 py-14 lg:py-16">
         <div className="max-w-2xl mb-8">
-          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Project Proof</div>
-          <h2 className="text-3xl md:text-4xl font-extrabold">Recent Westchester HVAC Work</h2>
-          <p className="mt-3 text-muted-foreground">Real field jobs completed by our team. Each project includes the issue found, what we fixed, and the outcome for the homeowner.</p>
+          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Our work</div>
+          <h2 className="text-3xl md:text-4xl font-extrabold">Westchester HVAC service photos</h2>
+          <p className="mt-3 text-muted-foreground">Examples of heating and cooling equipment and service work from Westchester properties.</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { img: projectBoilerAfter, alt: "Gas boiler replacement project in Westchester", town: "Yonkers", system: "Gas boiler replacement", problem: "Aging steam boiler with uneven heat and leaks.", solution: "Installed a Weil-McLain boiler with corrected near-boiler piping.", result: "More even heat and improved boiler performance." },
-            { img: jobMiniSplit, alt: "Mini-split installation project in Westchester", town: "White Plains", system: "Mitsubishi mini-split", problem: "Second floor stayed hot each summer.", solution: "Added a two-zone ductless heat pump system.", result: "More consistent second-floor comfort." },
-            { img: jobWaterHeater, alt: "Water heater replacement project in Westchester", town: "New Rochelle", system: "Water heater replacement", problem: "Old tank leaking and recovering slowly.", solution: "Replaced with a high-recovery AO Smith unit.", result: "More reliable hot water recovery for daily use." },
-            { img: projectBurnerService, alt: "Oil burner service project in Westchester", town: "Mount Vernon", system: "Oil burner service", problem: "Hard starts and soot buildup.", solution: "Performed full burner cleaning, nozzle swap, and combustion test.", result: "Improved burner operation at startup." },
-            { img: projectGasBoiler, alt: "Gas boiler maintenance project in Westchester", town: "Scarsdale", system: "Gas boiler maintenance", problem: "Short cycling and pressure fluctuation.", solution: "Serviced controls, adjusted expansion tank, and tuned combustion.", result: "More stable heat performance after service." },
-          ].map((job) => (
-            <article key={`${job.town}-${job.system}`} className="bg-card border border-border rounded-lg overflow-hidden">
+            { img: projectBoilerAfter, alt: "Boiler equipment at a Westchester property" },
+            { img: jobMiniSplit, alt: "Ductless HVAC equipment at a Westchester property" },
+            { img: jobWaterHeater, alt: "Water-heating equipment at a Westchester property" },
+            { img: projectBurnerService, alt: "Heating equipment service at a Westchester property" },
+            { img: projectGasBoiler, alt: "Boiler equipment at a Westchester property" },
+          ].map((job, index) => (
+            <article key={index} className="bg-card border border-border rounded-lg overflow-hidden">
               <img src={job.img} alt={job.alt} width={768} height={432} loading="lazy" decoding="async" className="w-full h-48 object-cover" />
-              <div className="p-5 space-y-2">
-                <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{job.town} • {job.system}</div>
-                <p className="text-sm"><strong>Problem:</strong> {job.problem}</p>
-                <p className="text-sm"><strong>Solution:</strong> {job.solution}</p>
-                <p className="text-sm text-muted-foreground"><strong>Result:</strong> {job.result}</p>
-              </div>
             </article>
           ))}
         </div>
@@ -232,7 +226,7 @@ const Index = () => {
           </div>
           <div className="bg-card border border-border rounded-lg p-6">
             <h2 className="text-2xl font-extrabold mb-3">Repair vs Replace: How we help you decide</h2>
-            <p className="text-muted-foreground text-sm">We compare current repair cost, equipment age, projected efficiency gains, and reliability risk. You get a written recommendation with both repair and replacement options so you can choose the smartest long-term value.</p>
+            <p className="text-muted-foreground text-sm">Repair-versus-replacement planning starts with the system condition, the problem found, and the property’s needs.</p>
             <Link to="/contact" className="inline-block mt-4 text-accent font-semibold hover:underline">Get a repair vs replace assessment →</Link>
           </div>
         </div>
@@ -283,10 +277,10 @@ const Index = () => {
             </ul>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <img src={jobBoilerAfter} alt="New Weil-McLain gas boiler installed with clean copper piping" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobMitsubishi} alt="Mitsubishi ductless mini-split exterior unit install" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobWaterHeater} alt="AO Smith water heater installation" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
-            <img src={jobOilTank} alt="Roth oil tank piping and gauge work" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobBoilerAfter} alt="Boiler equipment at a Westchester property" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobMitsubishi} alt="Ductless HVAC equipment at a Westchester property" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobWaterHeater} alt="Water-heating equipment at a Westchester property" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
+            <img src={jobOilTank} alt="Heating equipment at a Westchester property" width={900} height={1200} loading="lazy" decoding="async" className="aspect-[3/4] w-full object-cover rounded-lg border border-border" />
           </div>
         </div>
       </section>
@@ -379,7 +373,7 @@ const Index = () => {
           <div className="grid sm:grid-cols-2 gap-3">
             {[
               { src: jobBoilerBefore, label: "Before", alt: "Old gas boiler before replacement, with aged piping and wiring" },
-              { src: jobBoilerAfter, label: "After", alt: "New Weil-McLain gas boiler installed with clean copper piping and updated venting" },
+              { src: jobBoilerAfter, label: "After", alt: "Boiler equipment at a Westchester property" },
             ].map((p) => (
               <figure key={p.label} className="relative rounded-lg overflow-hidden border border-border">
                 <img src={p.src} alt={p.alt} width={800} height={1000} loading="lazy" decoding="async" className="aspect-[4/5] w-full object-cover" />
@@ -391,9 +385,9 @@ const Index = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {[
-            { src: jobMitsubishi, alt: "Mitsubishi ductless mini-split exterior unit install" },
+            { src: jobMitsubishi, alt: "Ductless HVAC equipment at a Westchester property" },
             { src: jobBoiler, alt: "Roth oil tank and boiler installation" },
-            { src: jobWaterHeater, alt: "AO Smith water heater installation" },
+            { src: jobWaterHeater, alt: "Water-heating equipment at a Westchester property" },
             { src: jobOilTank, alt: "Roth oil tank piping and gauge work" },
             { src: jobRadiator, alt: "Commercial radiator and copper piping repair" },
             { src: jobMiniSplit, alt: "Exterior heat pump install on residential home" },

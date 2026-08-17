@@ -27,6 +27,13 @@ This is an evidence baseline, not a ranking report. Search result placement is n
 - Local release evidence: the production build passed, Vitest passed 70/70 tests, SEO smoke checks passed, and `git diff --check` passed. A pre-existing CRM redundant-operator warning remains nonblocking. The root workspace has no test script, so Vitest was run from the Bravo application package where `test` is defined.
 - Evidence holds remain unchanged for licensing/insurance, ratings/reviews, experience, hours and response performance, pricing/financing, brands, warranties, permits, project outcomes, rebate eligibility, and NYC/Long Island scope. Search Console, Google Maps/Business Profile, rankings, review changes, and revenue outcomes were not available for verification.
 
+## August 17 production verification
+
+- Vercel production deployment `dpl_HwPsudx3qaCPKdHgxoCAL7pTMHcy` reached `READY`. Deployment inspection listed `https://www.bravomechanicalny.com` among its aliases. The existing apex and application aliases remain assigned; no DNS or apex redirect setting was changed.
+- `https://www.bravomechanicalny.com/sitemap.xml` returned HTTP 200 with 140 URLs. A full crawl found 140/140 HTTP 200 responses, 140/140 exact self-canonicals, exactly one H1 on every URL, and no public meta or response-header `noindex` directive.
+- `https://bravomechanicalny.com/contact` returned 308 to the same path on `www`. `/emergency-hvac-westchester` returned 308 to `/services/emergency-hvac-repair-westchester-county-ny`. `/seo-verification-nonexistent-20260817` returned 404. `/admin/crm` returned 200 with `X-Robots-Tag: noindex, nofollow`.
+- This verifies deployment and crawl contracts only. No Search Console indexing change, Google Maps/Business Profile update, ranking movement, review change, analytics configuration, lead outcome, or revenue result was observed or inferred.
+
 ## Claim verification matrix
 
 | Claim | Current source | Verification status | Publishing rule |

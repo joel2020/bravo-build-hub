@@ -7,7 +7,7 @@
 
 ## Executive conclusion
 
-The dominant indexing problem was a canonical-host migration problem, not a current crawl block. The August 11 Search Console evidence contains 155 excluded URLs, but most of those records refer to the old apex host and predate the production correction. Current production redirects the apex host to `www`, declares `www` canonicals, allows public crawling, references the correct sitemap, returns 200 for all 148 sitemap URLs, returns a real 404 for fabricated URLs, and applies `noindex, nofollow` to private app routes.
+The dominant indexing problem was a canonical-host migration problem, not a current crawl block. The August 11 Search Console evidence contains 155 excluded URLs, but most of those records refer to the old apex host and predate the production correction. Current production redirects the apex host to `www`, declares `www` canonicals, allows public crawling, references the correct sitemap, returns 200 for all 140 sitemap URLs after the August 17 consolidation, returns a real 404 for fabricated URLs, and applies `noindex, nofollow` to private app routes.
 
 The next indexing gains will come from submitting and validating the current `www` sitemap, inspecting current URLs by template, consolidating overlapping intent, refreshing stale claims, improving the weaker prerendered pages, and earning stronger local authority. Another blanket indexing-request cycle should not be the first move.
 
@@ -62,6 +62,8 @@ Bravo's strongest current search alignment is Westchester. NYC and Long Island s
 - **Homepage and Yonkers pathways:** the homepage links directly to all four priority services and commercial HVAC. The Yonkers page and generated HTML expose a locally framed selection path to AC repair, boiler repair, emergency HVAC, and heat-pump evaluation; route generation rejects missing or incorrect canonical paths.
 - **Local verification results:** repository production build passed after restoring two locally omitted Darwin native binaries excluded by workspace dependency overrides; Vitest passed 70/70 tests; SEO smoke checks passed; `git diff --check` passed; and sitemap generation reported 140 URLs. The workspace-root `PORT=4173 pnpm test` launcher has no root script and exits silently, so the required Vitest command was run from `artifacts/bravo-mechanical`, where the test interface is defined.
 - **Claims still requiring business evidence:** licensing/insurance and jurisdiction, rating/review count, combined experience, emergency hours/dispatch performance, pricing/free-estimate/financing terms, brands, warranties, permit authority, project outcomes, program eligibility, and any NYC or Long Island coverage remain held pending dated evidence. No August 17 Search Console, Maps, ranking, review, or revenue update was verified.
+- **Production release evidence:** deployed the verified prebuilt artifact to Vercel production as `dpl_HwPsudx3qaCPKdHgxoCAL7pTMHcy` (`bravo-build-28pwhd54l-joel-carias-projects.vercel.app`). Vercel reported `READY`; deployment inspection listed `www.bravomechanicalny.com`, `bravomechanicalny.com`, `app.bravomechanicalny.com`, and the project aliases. No DNS or domain redirect setting was changed.
+- **Full public audit:** the live sitemap returned 200 and contained 140 URLs. All 140 returned HTTP 200, self-canonicalized to the submitted URL, exposed exactly one H1, and had no meta or `X-Robots-Tag` `noindex` directive. The apex `/contact` path returned 308 to the matching `www` path; the legacy emergency URL returned 308 to the canonical service URL; a fabricated URL returned 404; and `/admin/crm` returned `X-Robots-Tag: noindex, nofollow`.
 
 ### Search Console baseline
 
@@ -81,14 +83,14 @@ The August 11 export, whose page-indexing data was last updated August 6, report
 |---|---|---|
 | Apex to `www` | Permanent 308 to the same path on `www` | Pass |
 | robots.txt | Public crawling allowed; correct `www` sitemap declared | Pass |
-| Sitemap | 141 unique, self-canonical `www` URLs after duplicate and alias consolidation | Pass |
-| Sitemap URL responses | 141/141 returned HTTP 200 in the final production crawl | Pass |
-| Canonicals | Sampled service, location, and blog URLs self-canonicalize to `www` | Pass |
-| Meta robots | Sampled public pages use `index, follow` | Pass |
+| Sitemap | 140 unique, self-canonical `www` URLs after duplicate and emergency-intent consolidation | Pass |
+| Sitemap URL responses | 140/140 returned HTTP 200 in the August 17 production crawl | Pass |
+| Canonicals | 140/140 sitemap URLs self-canonicalized to the submitted URL | Pass |
+| Meta robots | 140/140 sitemap URLs had no meta or response-header `noindex` directive | Pass |
 | Unknown URL | Real HTTP 404 | Pass |
 | Private routes | `/auth` and `/admin/users` return `X-Robots-Tag: noindex, nofollow` | Pass |
-| Titles | 148 distinct titles in the live sitemap crawl | Pass |
-| Raw HTML headings | Homepage and consolidated article each expose exactly one H1; automated coverage enforces the one-H1 contract across generated route HTML | Pass |
+| Titles | The prior 148-title result predates consolidation; title uniqueness was not part of the August 17 release crawl | Re-audit separately |
+| Raw HTML headings | 140/140 sitemap URLs exposed exactly one H1 in the August 17 production crawl | Pass |
 | Weak raw-HTML pages | 19 pages contained fewer than 300 visible raw-HTML words in the crawl | Review for fuller server-rendered/prerendered content |
 
 ### Confirmed or likely remaining problems

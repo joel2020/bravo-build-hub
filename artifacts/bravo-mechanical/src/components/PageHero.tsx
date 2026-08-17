@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Phone, ShieldCheck, Star, Clock, FileText } from "lucide-react";
+import { Phone, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -20,11 +20,13 @@ type PageHeroProps = {
   hideRightSlot?: boolean;
   /** Use tighter vertical spacing for task-focused pages. */
   compact?: boolean;
+  /** Non-PII service context for the default request and call actions. */
+  trackingContext?: string;
 };
 
-export const PageHero = ({ eyebrow, title, subtitle, rightSlot, hideRightSlot, compact }: PageHeroProps) => {
+export const PageHero = ({ eyebrow, title, subtitle, rightSlot, hideRightSlot, compact, trackingContext }: PageHeroProps) => {
   const showRight = !hideRightSlot;
-  const right = rightSlot ?? <DefaultHeroTrustCard />;
+  const right = rightSlot ?? <DefaultHeroTrustCard trackingContext={trackingContext} />;
 
   return (
     <section className="bg-secondary border-b border-border">
@@ -49,56 +51,27 @@ export const PageHero = ({ eyebrow, title, subtitle, rightSlot, hideRightSlot, c
   );
 };
 
-const DefaultHeroTrustCard = () => (
+const DefaultHeroTrustCard = ({ trackingContext }: Pick<PageHeroProps, "trackingContext">) => (
   <aside
     aria-label="Bravo Mechanical trust signals"
     className="bg-card border border-border rounded-xl p-6 shadow-sm"
   >
-    <a
-      href={SITE.social.google}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-3 pb-4 border-b border-border hover:opacity-90 transition-opacity"
-    >
-      <div className="flex flex-col">
-        <div className="flex items-center gap-1">
-          <span className="font-extrabold text-2xl text-foreground leading-none">{SITE.rating.score.toFixed(1)}</span>
-          <div className="flex gap-0.5 ml-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-            ))}
-          </div>
-        </div>
-        <span className="text-xs text-muted-foreground mt-1">
-          Rated {SITE.rating.score.toFixed(1)} on {SITE.rating.source}
-        </span>
-      </div>
-    </a>
-
     <ul className="mt-4 space-y-3 text-sm">
       <li className="flex items-start gap-2">
-        <ShieldCheck className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Licensed &amp; insured in NY</span>
-      </li>
-      <li className="flex items-start gap-2">
-        <FileText className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Free written estimates &middot; no obligation</span>
-      </li>
-      <li className="flex items-start gap-2">
         <Clock className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Same-day service when available</span>
+        <span className="text-foreground">Request service online or call the team</span>
       </li>
     </ul>
 
     <div className="mt-5 flex flex-col gap-2">
       <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-        <Link to="/contact" onClick={() => trackRequestServiceClick("page_hero_card")}>
-          Get a Free Estimate
+        <Link to="/contact" onClick={() => trackRequestServiceClick("page_hero_card", trackingContext ? { service: trackingContext } : {})}>
+          Request Service
         </Link>
       </Button>
       <a
         href={SITE.phoneHref}
-        onClick={() => trackCallClick("page_hero_card")}
+        onClick={() => trackCallClick("page_hero_card", trackingContext ? { service: trackingContext } : {})}
         className="inline-flex items-center justify-center gap-2 text-sm font-bold text-foreground hover:text-accent py-2"
       >
         <Phone className="h-4 w-4" />

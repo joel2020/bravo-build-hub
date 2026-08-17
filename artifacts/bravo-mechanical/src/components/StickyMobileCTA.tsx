@@ -6,7 +6,7 @@ import { trackCallClick, trackSmsClick } from "@/lib/analytics";
 // Sticky mobile bottom bar: Call + Text. Hidden on desktop and on the emergency page itself.
 export const StickyMobileCTA = () => {
   const { pathname } = useLocation();
-  const isEmergency = pathname.startsWith("/emergency-hvac-westchester");
+  const isEmergency = pathname.startsWith("/services/emergency-hvac-repair-westchester-county-ny");
 
   // Texts must go to the Twilio line (lands in the CRM + alerts the owner) —
   // the voice line can't receive SMS.

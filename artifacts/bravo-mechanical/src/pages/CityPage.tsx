@@ -13,9 +13,9 @@ import { useSeo } from "@/lib/seo";
 
 const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seasonal: string }> = {
   yonkers: {
-    housing: "Many Yonkers homes still run legacy steam or hot-water boilers. We frequently retrofit these systems with high-efficiency gas boilers and add ductless cooling where ductwork is limited.",
-    permitting: "For larger replacements, we coordinate permits and inspection timing with local requirements so homeowners have paperwork in place for resale and warranty support.",
-    seasonal: "Winter no-heat and summer no-cool calls are common in older housing stock, so we prioritize same-day triage whenever possible.",
+    housing: "Many Yonkers homes use steam or hot-water boilers, while other properties rely on central or ductless cooling. The practical service path depends on the existing equipment and distribution.",
+    permitting: "Project requirements vary by equipment, property, and local rules. The service conversation can identify what information is needed for the proposed scope.",
+    seasonal: "Winter no-heat and summer no-cool concerns can be urgent. Call to describe the situation and request the next available response window.",
   },
   "white-plains": {
     housing: "White Plains includes both high-rise condos and older single-family homes. Our work often combines airflow correction with equipment upgrades to fix uneven comfort.",
@@ -53,9 +53,10 @@ const CityPage = () => {
   const city = slug ? getCity(slug) : undefined;
 
   const pageUrl = city ? `${SITE.siteUrl}/service-areas/${city.slug}` : SITE.siteUrl;
+  const usesClaimSafeCityCopy = city?.slug === "yonkers";
   const title = city ? `HVAC ${city.name}, NY — Heating, Cooling & Repair | ${SITE.name}` : "Service Areas";
   const description = city
-    ? `Local HVAC service in ${city.name}, NY. Heating, cooling, repair, and installation by licensed Westchester County technicians. 24/7 emergency service. Call ${SITE.phone}.`
+    ? `Local HVAC service in ${city.name}, NY. Heating, cooling, repair, and installation for Westchester County properties. Call ${SITE.phone}.`
     : "";
 
   useSeo({
@@ -110,7 +111,9 @@ const CityPage = () => {
       <PageHero
         eyebrow={`${city.region} • Westchester County, NY`}
         title={`HVAC Services in ${city.name}, NY`}
-        subtitle={`Local heating, cooling, and air-quality service for homes and businesses in ${city.name}. Licensed, insured, and dispatched from right here in Westchester County.`}
+        subtitle={usesClaimSafeCityCopy
+          ? `Heating, cooling, and air-quality service requests for homes and businesses in ${city.name}. Call or request service online to discuss the concern.`
+          : `Local heating, cooling, and air-quality service for homes and businesses in ${city.name}. Licensed, insured, and dispatched from right here in Westchester County.`}
         hideRightSlot
       />
 
@@ -155,24 +158,16 @@ const CityPage = () => {
           </div>
 
           <aside className="bg-card border border-border rounded-lg p-6 h-fit">
-            <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Get a free estimate</div>
+            <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Request service</div>
             <h3 className="font-bold text-lg mb-3">Local techs serving {city.name}.</h3>
-            <p className="text-sm text-muted-foreground mb-5">No-pressure written quote. Licensed & insured. Same-day service when available.</p>
+            <p className="text-sm text-muted-foreground mb-5">Describe the concern and Bravo Mechanical will discuss the next practical step and available response window.</p>
             <div className="flex flex-col gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact" onClick={() => trackRequestServiceClick(`city_page_${city.slug}`)}>Get a Free Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick(`city_page_${city.slug}`)}>Request Service</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold">
                 <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
               </Button>
-            </div>
-            <div className="mt-5 pt-5 border-t border-border flex items-center gap-2 text-sm">
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-accent text-accent" />
-                ))}
-              </div>
-              <span className="text-muted-foreground">{SITE.rating.score} on Google</span>
             </div>
           </aside>
         </div>
@@ -191,12 +186,34 @@ const CityPage = () => {
         </section>
       )}
 
+      {city.priorityServices && (
+        <section className="container mx-auto px-4 py-6 lg:py-8">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-2xl font-extrabold mb-3">Choose the right HVAC service for your {city.name} property</h2>
+            <p className="text-sm text-muted-foreground mb-5">
+              Start with the service that best matches the property and the concern you are seeing.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {city.priorityServices.map((service) => (
+                <div key={service.href} className="border border-border rounded-lg p-4">
+                  <h3 className="font-bold mb-2">{service.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{service.description}</p>
+                  <Link to={service.href} className="text-sm text-accent font-semibold hover:underline">
+                    Explore {service.title} →
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="max-w-2xl mb-8">
             <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Services in {city.name}</div>
             <h2 className="text-2xl md:text-3xl font-extrabold">Full residential & commercial HVAC</h2>
-            <p className="mt-3 text-muted-foreground">Whatever your heating, cooling, or air-quality need in {city.name}, we handle it in-house — no subcontractors, no run-around.</p>
+            <p className="mt-3 text-muted-foreground">Explore heating, cooling, and air-quality service paths for properties in {city.name}.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICES.map((s) => {
@@ -223,12 +240,17 @@ const CityPage = () => {
           <h2 className="text-2xl md:text-3xl font-extrabold">Why {city.name} homeowners choose Bravo Mechanical</h2>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
-          {[
+          {(usesClaimSafeCityCopy ? [
+            { t: "Local property context", d: `${city.name} properties include varied housing types, equipment, and distribution systems.` },
+            { t: "Service based on the concern", d: "The diagnostic and service path starts with the equipment condition and the issue reported." },
+            { t: "Repair and replacement discussion", d: "Request service to discuss the practical options for the property and system." },
+            { t: "Clear next steps", d: "Bravo Mechanical explains the available next step after reviewing the concern." },
+          ] : [
             { t: "We live and work in Westchester", d: `Our techs know ${city.name} — the housing stock, the climate, the building codes. No guessing.` },
             { t: "Honest sizing and honest pricing", d: "We do real load calculations and quote in writing before any work begins. No bait-and-switch." },
             { t: "Licensed, insured, and code-compliant", d: "Every install is permitted when required and built to last. We protect your home." },
             { t: "Straight pricing", d: "A written, itemized estimate before any work begins — equipment options and total price fixed up front." },
-          ].map((b) => (
+          ]).map((b) => (
             <div key={b.t} className="bg-card border border-border rounded-lg p-5 flex gap-3">
               <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
               <div>

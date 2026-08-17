@@ -50,3 +50,5 @@ Thumbs.db
 
 # Local Git worktrees
 .worktrees/
+.vercel
+.env*

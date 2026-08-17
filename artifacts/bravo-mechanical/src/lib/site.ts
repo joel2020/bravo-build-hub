@@ -26,20 +26,10 @@ export const SITE = {
     zip: "10701",
     full: "1 Fowler Avenue, Yonkers, NY 10701",
   },
-  // Keep this count aligned with the verified public Google profile and src/lib/googleReviews.ts.
-  rating: { score: 5.0, count: 7, source: "Google" },
   social: {
     facebook: "https://www.facebook.com/p/Bravo-Mechanical-LLC-61576283462607/",
     google: "https://www.google.com/maps/place/Bravo+Mechanical+LLC/data=!4m2!3m1!1s0x0:0x51712bb23caf72a8",
   },
-  hours: [
-    { day: "Mon – Sun", time: "Open 24 hours" },
-  ],
-  // Provided directly by the business owner on 2026-07-14.
-  licenseNumbers: ["8822"] as string[],
-  // Owner-stated (2026-07-14): the team's combined field experience.
-  experienceYears: 30,
-  experienceLine: "Our team brings 30+ years of combined HVAC experience across Westchester County.",
   // Effective date of the latest legal-page revision. Update both when policies change.
   legalLastUpdated: "May 3, 2026",
 };
@@ -48,19 +38,19 @@ export const SITE = {
 // deep-link to the high-intent service pages — linking them all to /services
 // starves the pages that actually convert of internal link equity.
 export const FEATURED_SERVICE_LINKS = [
-  { title: "AC Repair", path: "/services/ac-repair-westchester-county-ny", description: "No cool air? Same-day AC diagnostics and repair across Westchester, priced in writing before the fix." },
-  { title: "AC Installation", path: "/services/ac-installation-westchester-county-ny", description: "Central AC and ductless cooling installed with honest Manual J sizing and SEER2 equipment." },
-  { title: "Boiler Repair", path: "/services/boiler-repair-westchester-county-ny", description: "Steam and hot-water boiler repair — short cycling, leaks, and no-heat calls, 24/7." },
-  { title: "Boiler Installation", path: "/services/boiler-installation-westchester-county-ny", description: "High-efficiency boiler replacement with near-boiler piping done right and a written fixed price first." },
-  { title: "Heat Pump Installation", path: "/services/heat-pump-installation-westchester-county-ny", description: "Cold-climate heat pumps sized and installed right for year-round Westchester comfort." },
-  { title: "24/7 Emergency HVAC", path: "/services/emergency-hvac-repair-westchester-county-ny", description: "No heat, no cooling, or a leaking boiler — licensed techs answering around the clock." },
+  { title: "AC Repair", path: "/services/ac-repair-westchester-county-ny", description: "AC diagnostics and repair for common cooling concerns in Westchester County." },
+  { title: "AC Installation", path: "/services/ac-installation-westchester-county-ny", description: "Central AC and ductless cooling installation for Westchester properties." },
+  { title: "Boiler Repair", path: "/services/boiler-repair-westchester-county-ny", description: "Steam and hot-water boiler repair for no-heat, leak, and cycling concerns." },
+  { title: "Boiler Installation", path: "/services/boiler-installation-westchester-county-ny", description: "Boiler replacement planning and installation for Westchester homes and properties." },
+  { title: "Heat Pump Installation", path: "/services/heat-pump-installation-westchester-county-ny", description: "Heat-pump installation for year-round heating and cooling needs." },
+  { title: "Emergency HVAC", path: "/services/emergency-hvac-repair-westchester-county-ny", description: "Urgent heating and cooling service requests with safety-first next steps." },
 ];
 
 export const SERVICES = [
-  { slug: "hvac-installation", title: "HVAC Installation", description: "New furnace, AC, heat pump, and ductwork installation sized and engineered for your space." },
-  { slug: "hvac-repair", title: "HVAC Repair", description: "Fast diagnostics and repair for heating and cooling systems — including same-day and emergency service." },
-  { slug: "preventive-maintenance", title: "Preventive Maintenance", description: "Seasonal tune-ups and service plans that extend equipment life and prevent breakdowns." },
-  { slug: "indoor-air-quality", title: "Indoor Air Quality", description: "Filtration, humidifiers, dehumidifiers, and air purifiers for healthier indoor environments." },
+  { slug: "hvac-installation", title: "HVAC Installation", description: "Installation planning for furnaces, AC systems, heat pumps, and ductwork." },
+  { slug: "hvac-repair", title: "HVAC Repair", description: "Diagnostics and repair for heating and cooling systems." },
+  { slug: "preventive-maintenance", title: "Preventive Maintenance", description: "Seasonal maintenance support for heating and cooling systems." },
+  { slug: "indoor-air-quality", title: "Indoor Air Quality", description: "Filtration, humidity, and air-quality support for indoor comfort." },
   { slug: "residential", title: "Residential HVAC", description: "Whole-home heating and cooling solutions for single-family homes, condos, and multi-units." },
   { slug: "commercial", title: "Commercial HVAC", description: "Reliable HVAC service for offices, retail, restaurants, and light-industrial buildings." },
 ];

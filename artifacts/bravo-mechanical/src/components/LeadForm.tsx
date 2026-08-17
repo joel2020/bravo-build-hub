@@ -44,9 +44,9 @@ const FORM_STRINGS: Record<"en" | "es", FormStrings> = {
     submit: "Request My Estimate",
     submitting: "Submitting...",
     successTitle: "Thanks — we got your request.",
-    successBody: "A member of the Bravo Mechanical team will reach out shortly. If you need emergency HVAC service, call us now at (914) 361-9142 for fastest dispatch.",
+    successBody: "Your request was submitted. For an urgent HVAC concern, call (914) 361-9142 so Bravo can triage the situation and confirm the next available response window.",
     errorTitle: "Could not submit request",
-    errorBody: "Please try again or call us directly for immediate help.",
+    errorBody: "Please try again or call us directly to discuss your service request.",
   },
   es: {
     errName: "Por favor escriba su nombre",
@@ -69,9 +69,9 @@ const FORM_STRINGS: Record<"en" | "es", FormStrings> = {
     submit: "Solicitar Mi Presupuesto",
     submitting: "Enviando...",
     successTitle: "Gracias — recibimos su solicitud.",
-    successBody: "Un miembro del equipo de Bravo Mechanical le contactará en breve. Si necesita servicio de emergencia, llámenos ahora al (914) 361-9142.",
+    successBody: "Recibimos su solicitud. Para una situación urgente de HVAC, llame al (914) 361-9142 para que Bravo evalúe la situación y confirme la próxima disponibilidad.",
     errorTitle: "No se pudo enviar la solicitud",
-    errorBody: "Por favor intente de nuevo o llámenos directamente para ayuda inmediata.",
+    errorBody: "Por favor intente de nuevo o llámenos directamente para hablar sobre su solicitud.",
   },
 };
 
@@ -101,6 +101,23 @@ type TrackingPayload = {
 };
 
 const getUrlParam = (params: URLSearchParams, key: string) => params.get(key) || null;
+
+const sanitizeAnalyticsIdentifier = (value: string | null) => {
+  if (!value || value.length > 100 || !/^[a-z0-9][a-z0-9._~-]*$/i.test(value)) return undefined;
+  return value;
+};
+
+const buildAnalyticsTracking = (tracking: TrackingPayload) => {
+  const analytics: Record<string, string> = {};
+  if (tracking.source_page && tracking.source_page.length <= 200 && /^\/[a-z0-9/_-]*$/i.test(tracking.source_page)) {
+    analytics.source_page = tracking.source_page;
+  }
+  for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "fbclid"] as const) {
+    const value = sanitizeAnalyticsIdentifier(tracking[key]);
+    if (value) analytics[key] = value;
+  }
+  return analytics;
+};
 
 const buildLeadNotes = (service: string, message: string, city?: string, urgency?: string) =>
   [
@@ -324,11 +341,7 @@ export const LeadForm = ({
       return;
     }
 
-    // GA4 EventParams disallows `null`. Coerce nullable tracking fields to undefined
-    // so they're omitted from the analytics payload rather than sent as the string "null".
-    const trackingForGa = Object.fromEntries(
-      Object.entries(tracking).map(([k, v]) => [k, v ?? undefined])
-    );
+    const trackingForGa = buildAnalyticsTracking(tracking);
     trackLeadSubmit("contact_lead_form", {
       service: result.data.service,
       source,
@@ -375,6 +388,9 @@ export const LeadForm = ({
         <Select name="service" required value={values.service} onValueChange={(v) => update("service", v)}>
           <SelectTrigger ref={serviceRef} id="service" aria-required="true" aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "service-error" : undefined} className="mt-1.5"><SelectValue placeholder={t.servicePlaceholder} /></SelectTrigger>
           <SelectContent>
+            {defaultService && !SERVICES.some((service) => service.title === defaultService) && (
+              <SelectItem value={defaultService}>{defaultService}</SelectItem>
+            )}
             {SERVICES.map((s) => <SelectItem key={s.slug} value={s.title}>{s.title}</SelectItem>)}
             <SelectItem value="Other">{t.serviceOther}</SelectItem>
           </SelectContent>

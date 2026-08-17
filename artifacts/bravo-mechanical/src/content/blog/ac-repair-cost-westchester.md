@@ -65,7 +65,7 @@ For anything over ~$1,000, yes. Any honest contractor will give you the finding 
 After-hours emergency dispatch carries a premium at most companies. If the house is safe and it's not a heat emergency, booking the [next morning's window](/book) usually costs less.
 
 **My AC is running but not cooling — do I need a repair at all?**
-Maybe not. Run through our [7-step no-cool checklist](/blog/ac-not-cooling-westchester) first — the fix is a filter or a breaker more often than you'd think.
+Maybe not. Run through our [7-step no-cool checklist](/blog/why-is-my-ac-not-cooling-westchester) first — the fix is a filter or a breaker more often than you'd think.
 
 ---
 

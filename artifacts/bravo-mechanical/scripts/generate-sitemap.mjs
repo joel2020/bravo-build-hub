@@ -31,11 +31,18 @@ function urlEntry({ path: p, changefreq, priority, lastmod }) {
 
 async function main() {
   const routes = await buildAllRoutes();
+  // Sitemaps should advertise only canonical URLs. Alias/guide routes may stay
+  // live for users and internal links, but Google should discover their chosen
+  // money page here instead of receiving a conflicting canonical signal.
+  const canonicalRoutes = routes.filter((route) => {
+    const location = `${SITE_URL}${route.path === "/" ? "/" : route.path}`;
+    return !route.canonical || route.canonical === location;
+  });
   // Only emit lastmod where we have a REAL modification date (blog posts).
   // Stamping every URL with the build date looks like fake freshness — and a
   // build that runs late in the day UTC produces a "tomorrow" date in US
   // timezones, which crawlers may treat as a spam signal.
-  const enriched = routes.map((r) => ({ ...r, lastmod: r.lastmod || undefined }));
+  const enriched = canonicalRoutes.map((r) => ({ ...r, lastmod: r.lastmod || undefined }));
 
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +

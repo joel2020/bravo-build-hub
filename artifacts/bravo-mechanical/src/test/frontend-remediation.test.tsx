@@ -3,7 +3,7 @@
 import { lazy, Suspense } from "react";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -18,15 +18,19 @@ import {
 import { Layout } from "../components/Layout";
 import { NavigationEffects } from "../components/NavigationEffects";
 import { Header } from "../components/Header";
+import { StickyMobileCTA } from "../components/StickyMobileCTA";
 import { LeadForm } from "../components/LeadForm";
 import { PageHero } from "../components/PageHero";
 import { SITE } from "../lib/site";
 import BookOnline from "../pages/BookOnline";
 import Contact from "../pages/Contact";
+import CompanyFacts from "../pages/CompanyFacts";
 import CityPage from "../pages/CityPage";
 import Index from "../pages/Index";
 import Projects from "../pages/Projects";
 import Services from "../pages/Services";
+import HighIntentServicePage from "../pages/HighIntentServicePage";
+import EsEmergency from "../pages/es/EsEmergency";
 
 const supabaseTestState = vi.hoisted(() => ({
   insert: vi.fn(),
@@ -70,6 +74,14 @@ const TestRoutes = () => {
       <Route path="/next" element={<h1>Next page</h1>} />
     </Routes>
   );
+};
+
+const renderHighIntentService = (slug: string) => {
+  const router = createMemoryRouter(
+    [{ path: "/services/:slug", element: <HighIntentServicePage /> }],
+    { initialEntries: [`/services/${slug}`] },
+  );
+  return render(<RouterProvider router={router} />);
 };
 
 describe("frontend remediation navigation shell", () => {
@@ -375,7 +387,7 @@ describe("frontend remediation navigation shell", () => {
     expect(
       screen.getAllByRole("menuitem").map((item) => [item.textContent, item.getAttribute("href")]),
     ).toEqual([
-      ["24/7 Emergency HVAC", "/services/emergency-hvac-repair-westchester-county-ny"],
+      ["Emergency HVAC", "/services/emergency-hvac-repair-westchester-county-ny"],
       ["AC Repair", "/services/ac-repair-westchester-county-ny"],
       ["Boiler Repair", "/services/boiler-repair-westchester-county-ny"],
       ["HVAC Maintenance", "/services/hvac-maintenance-westchester-county-ny"],
@@ -423,6 +435,111 @@ describe("frontend remediation navigation shell", () => {
     expect(screen.getByRole("button", { name: /service areas/i }).getAttribute("aria-current")).toBe(
       "page",
     );
+  });
+
+  it("targets the canonical service page from every emergency link in shared navigation and company facts", () => {
+    const { container } = render(
+      <MemoryRouter>
+        <CompanyFacts />
+      </MemoryRouter>,
+    );
+
+    const emergencyLinks = Array.from(container.querySelectorAll<HTMLAnchorElement>('a[href*="emergency-hvac"]'));
+    expect(emergencyLinks.length).toBeGreaterThan(0);
+    expect(
+      emergencyLinks.map((link) => new URL(link.getAttribute("href") ?? "", SITE.siteUrl).pathname),
+    ).toEqual(
+      emergencyLinks.map(() => "/services/emergency-hvac-repair-westchester-county-ny"),
+    );
+  });
+
+  it("uses emergency sticky-call treatment on the canonical emergency service page", () => {
+    render(
+      <MemoryRouter initialEntries={["/services/emergency-hvac-repair-westchester-county-ny"]}>
+        <StickyMobileCTA />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole("link", { name: "Emergency Call" })).toBeTruthy();
+    expect(screen.queryByRole("link", { name: "Call Now" })).toBeNull();
+  });
+
+  it("publishes reciprocal client hreflang on the canonical emergency service only", async () => {
+    const englishRender = renderHighIntentService("emergency-hvac-repair-westchester-county-ny");
+
+    await waitFor(() => {
+      expect(
+        Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="alternate"][hreflang]'))
+          .map((link) => [link.hreflang, link.href]),
+      ).toEqual([
+        ["en", `${SITE.siteUrl}/services/emergency-hvac-repair-westchester-county-ny`],
+        ["es", `${SITE.siteUrl}/es/emergencia`],
+      ]);
+    });
+
+    englishRender.unmount();
+    const spanishRouter = createMemoryRouter(
+      [{ path: "/es/emergencia", element: <EsEmergency /> }],
+      { initialEntries: ["/es/emergencia"] },
+    );
+    render(<RouterProvider router={spanishRouter} />);
+    await waitFor(() => {
+      expect(
+        Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="alternate"][hreflang]'))
+          .map((link) => [link.hreflang, link.href]),
+      ).toEqual([
+        ["en", `${SITE.siteUrl}/services/emergency-hvac-repair-westchester-county-ny`],
+        ["es", `${SITE.siteUrl}/es/emergencia`],
+      ]);
+    });
+  });
+
+  it("tracks canonical emergency calls with emergency context", async () => {
+    window.dataLayer = [];
+    renderHighIntentService("emergency-hvac-repair-westchester-county-ny");
+
+    const heroCall = screen.getAllByRole("link", { name: "Call Bravo Mechanical" })[0];
+    heroCall.addEventListener("click", (event) => event.preventDefault());
+    await userEvent.click(heroCall);
+
+    expect(window.dataLayer).toContainEqual({
+      event: "call_click",
+      event_category: "engagement",
+      location: "emergency_service_hero",
+      service: "emergency-hvac-repair-westchester-county-ny",
+      page_path: "/",
+    });
+    expect(window.dataLayer).toContainEqual({
+      event: "emergency_cta_click",
+      event_category: "engagement",
+      location: "emergency_service_hero",
+      page_path: "/",
+    });
+  });
+
+  it("prefills and submits urgent lead context only for the canonical emergency service slug", async () => {
+    supabaseTestState.insert.mockResolvedValueOnce({ error: null });
+    const user = userEvent.setup();
+    const emergencyRender = renderHighIntentService("emergency-hvac-repair-westchester-county-ny");
+
+    expect(screen.getByRole("heading", { name: "Request emergency HVAC service" })).toBeTruthy();
+    expect(screen.getByLabelText(/service needed/i).textContent).toContain("Emergency HVAC repair");
+    expect((screen.getByLabelText(/how can we help/i) as HTMLTextAreaElement).value).toBe("Urgent no-heat or no-cool issue.");
+    await user.type(screen.getByLabelText(/full name/i), "Jordan Lee");
+    await user.type(screen.getByLabelText(/^phone/i), "9145551234");
+    await user.type(screen.getByLabelText(/^email/i), "jordan@example.com");
+    await user.click(screen.getByRole("checkbox"));
+    await user.click(screen.getByRole("button", { name: /request my estimate/i }));
+
+    await waitFor(() => expect(supabaseTestState.insert).toHaveBeenCalled());
+    expect(supabaseTestState.insert.mock.calls.at(-1)?.[0]).toMatchObject({
+      service: "Emergency HVAC repair",
+      urgency: "emergency",
+    });
+
+    emergencyRender.unmount();
+    renderHighIntentService("ac-repair-westchester-county-ny");
+    expect(screen.queryByRole("heading", { name: "Request emergency HVAC service" })).toBeNull();
   });
 });
 
@@ -485,17 +602,98 @@ describe("loader, project proof, and contextual actions", () => {
     );
   });
 
-  it("uses explicit transition properties on the homeowner system cards", () => {
+  it("uses claim-safe labels on homepage equipment images", () => {
     render(
       <MemoryRouter>
         <Index />
       </MemoryRouter>,
     );
 
-    const card = document.querySelector<HTMLAnchorElement>('a[href="/services/heat-pumps"]');
-    if (!card) throw new Error("Expected the heat-pump homeowner system card");
-    expect(card.classList.contains("transition-all")).toBe(false);
-    expect(card.classList.contains("transition-[border-color,box-shadow]")).toBe(true);
+    const equipmentImages = Array.from(document.querySelectorAll('img[alt]'));
+    const equipmentLabels = equipmentImages.map((image) => image.getAttribute("alt"));
+    expect(equipmentLabels).toContain("Ductless HVAC equipment");
+    expect(equipmentLabels).not.toContain("Roth oil tank and boiler installation");
+    expect(equipmentLabels.some((label) => /Westchester property/i.test(label || ""))).toBe(false);
+  });
+
+  it("gives commercial visitors a direct service path from the homepage", () => {
+    render(
+      <MemoryRouter>
+        <Index />
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByRole("link", { name: "Explore Commercial HVAC services →" }).getAttribute("href"),
+    ).toBe("/services/commercial-hvac-westchester-county-ny");
+  });
+
+  it("renders every priority service path on the homepage", () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Index />
+      </MemoryRouter>,
+    );
+
+    [
+      "/services/ac-repair-westchester-county-ny",
+      "/services/boiler-repair-westchester-county-ny",
+      "/services/emergency-hvac-repair-westchester-county-ny",
+      "/services/heat-pump-installation-westchester-county-ny",
+    ].forEach((href) => {
+      expect(container.querySelector(`a[href="${href}"]`)).not.toBeNull();
+    });
+  });
+
+  it("gives Yonkers housing-context service choices their priority paths", () => {
+    render(
+      <MemoryRouter initialEntries={["/service-areas/yonkers"]}>
+        <Routes>
+          <Route path="/service-areas/:slug" element={<CityPage />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    const selection = screen.getByRole("heading", { name: "Choose the right HVAC service for your Yonkers property" })
+      .closest("section");
+    expect(selection).not.toBeNull();
+
+    [
+      "/services/ac-repair-westchester-county-ny",
+      "/services/boiler-repair-westchester-county-ny",
+      "/services/emergency-hvac-repair-westchester-county-ny",
+      "/services/heat-pump-installation-westchester-county-ny",
+    ].forEach((href) => {
+      expect(selection?.querySelector(`a[href="${href}"]`)).not.toBeNull();
+    });
+  });
+
+  it("keeps hydrated Yonkers metadata, schema, and body claim-safe", async () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/service-areas/yonkers"]}>
+        <Routes>
+          <Route path="/service-areas/:slug" element={<CityPage />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => expect(document.documentElement.getAttribute("data-seo-ready")).toBe("true"));
+    const description = document.head.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
+    const schema = document.head.querySelector('script[data-seo-route="true"]')?.textContent ?? "";
+    const publicOutput = `${document.title}\n${description}\n${schema}\n${container.textContent}`;
+    const prohibited = /licensed|insured|24\/7|free (?:written )?estimate|same[- ]day|we (?:coordinate|handle)[^.]*permits?|every install is permitted|fixed (?:price|pricing)|price fixed/i;
+
+    expect(publicOutput).not.toMatch(prohibited);
+    expect(description).toBe("Local HVAC service in Yonkers, NY. Heating, cooling, repair, and installation for Westchester County properties. Call (914) 361-9142.");
+    expect(schema).toContain(description);
+    [
+      "/services/ac-repair-westchester-county-ny",
+      "/services/boiler-repair-westchester-county-ny",
+      "/services/emergency-hvac-repair-westchester-county-ny",
+      "/services/heat-pump-installation-westchester-county-ny",
+    ].forEach((href) => {
+      expect(container.querySelector(`a[href="${href}"]`)).not.toBeNull();
+    });
   });
 
   it("names each service request action for the service it belongs to", () => {
@@ -527,7 +725,7 @@ describe("loader, project proof, and contextual actions", () => {
     );
 
     const main = screen.getByRole("main");
-    expect(within(main).getAllByRole("link", { name: /get a free estimate/i })).toHaveLength(1);
+    expect(within(main).getAllByRole("link", { name: /request service/i })).toHaveLength(1);
     [
       ["HVAC Installation services →", "/services/ac-installation-westchester-county-ny"],
       ["HVAC Repair services →", "/services/ac-repair-westchester-county-ny"],
@@ -610,6 +808,7 @@ describe("recoverable lead forms", () => {
     vi.restoreAllMocks();
     vi.resetModules();
     supabaseTestState.insert.mockReset();
+    window.gtag = undefined;
   });
 
   const createDeferredInsert = () => {
@@ -857,6 +1056,24 @@ describe("recoverable lead forms", () => {
     expectUnloadProtection(false);
   });
 
+  it("shows booking confirmation when analytics rejects a successful booking event", async () => {
+    supabaseTestState.insert.mockResolvedValueOnce({ error: null });
+    window.dataLayer = [];
+    window.gtag = () => { throw new Error("gtag unavailable"); };
+    const user = userEvent.setup();
+    const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
+    render(<RouterProvider router={router} />);
+
+    await user.type(screen.getByLabelText(/^name/i), "Jordan Lee");
+    await user.type(screen.getByLabelText(/mobile phone/i), "9145551234");
+    await user.click(screen.getByRole("button", { name: "AC Repair" }));
+    await user.click(screen.getAllByRole("button", { name: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),/ })[0]);
+    await user.click(screen.getByRole("button", { name: "Morning (8am–11am)" }));
+    await user.click(screen.getByRole("button", { name: /book my visit/i }));
+
+    expect(await screen.findByRole("heading", { name: /you're on the board/i })).toBeTruthy();
+  });
+
   it("keeps a contact lead protected through pending and failed persistence, then releases it after success", async () => {
     const firstInsert = createDeferredInsert();
     supabaseTestState.insert
@@ -892,5 +1109,52 @@ describe("recoverable lead forms", () => {
     await user.click(screen.getByRole("button", { name: /request my estimate/i }));
     expect(await screen.findByText(/thanks — we got your request/i)).toBeTruthy();
     expectUnloadProtection(false);
+  });
+
+  it("keeps full attribution in CRM while excluding URL PII and unbounded campaign data from analytics", async () => {
+    supabaseTestState.insert.mockResolvedValueOnce({ error: null });
+    window.history.pushState(
+      {},
+      "",
+      `/contact?utm_source=google&utm_medium=cpc&utm_campaign=summer-2026&utm_term=sensitive%40invalid.test&utm_content=%3Cscript%3E&gclid=valid_click-123&fbclid=${"x".repeat(180)}&email=sensitive%40invalid.test`,
+    );
+    Object.defineProperty(document, "referrer", {
+      configurable: true,
+      value: "https://referrer.invalid/path?sensitive=sensitive%40invalid.test",
+    });
+    window.dataLayer = [];
+    const user = userEvent.setup();
+    const router = createMemoryRouter([{
+      path: "*",
+      element: <LeadForm defaultService="AC Repair" defaultMessage="The system is not cooling." />,
+    }]);
+    render(<RouterProvider router={router} />);
+
+    await user.type(screen.getByLabelText(/full name/i), "Test Customer");
+    await user.type(screen.getByLabelText(/^phone/i), "9145550000");
+    await user.type(screen.getByLabelText(/^email/i), "customer@invalid.test");
+    await user.click(screen.getByRole("checkbox"));
+    await user.click(screen.getByRole("button", { name: /request my estimate/i }));
+    await screen.findByText(/thanks — we got your request/i);
+
+    const crmPayload = supabaseTestState.insert.mock.calls.at(-1)?.[0] as Record<string, unknown>;
+    expect(crmPayload.landing_url).toContain("email=sensitive%40invalid.test");
+    expect(crmPayload.referrer).toContain("sensitive=sensitive%40invalid.test");
+
+    const analyticsPayload = window.dataLayer.at(-1) as Record<string, unknown>;
+    expect(analyticsPayload).toMatchObject({
+      event: "lead_submit",
+      source_page: "/contact",
+      utm_source: "google",
+      utm_medium: "cpc",
+      utm_campaign: "summer-2026",
+      gclid: "valid_click-123",
+    });
+    expect(analyticsPayload).not.toHaveProperty("landing_url");
+    expect(analyticsPayload).not.toHaveProperty("referrer");
+    expect(analyticsPayload).not.toHaveProperty("utm_term");
+    expect(analyticsPayload).not.toHaveProperty("utm_content");
+    expect(analyticsPayload).not.toHaveProperty("fbclid");
+    expect(JSON.stringify(analyticsPayload)).not.toContain("sensitive");
   });
 });

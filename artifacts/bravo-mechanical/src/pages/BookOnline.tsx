@@ -7,7 +7,7 @@ import { PageHero } from "@/components/PageHero";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
-import { trackLeadSubmit } from "@/lib/analytics";
+import { trackBookingSubmit } from "@/lib/analytics";
 import { useUnsavedChangesGuard } from "@/hooks/useUnsavedChangesGuard";
 
 const WINDOWS = ["Morning (8am–11am)", "Midday (11am–2pm)"];
@@ -149,7 +149,7 @@ const BookOnline = () => {
       setError("Something went wrong — please call or text us instead.");
       return;
     }
-    trackLeadSubmit("online_booking", { service: form.service, source: "online_booking" });
+    trackBookingSubmit(form.service);
     setDone(true);
   };
 

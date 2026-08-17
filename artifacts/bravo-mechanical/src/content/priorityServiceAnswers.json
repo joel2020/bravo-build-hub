@@ -1,0 +1,50 @@
+{
+  "ac-repair-westchester-county-ny": {
+    "answer": "Bravo Mechanical evaluates cooling symptoms, thermostat settings, airflow concerns, and visible equipment conditions to identify the next practical step. You can expect an explanation of the findings and choices for addressing the concern. If there is an electrical burning smell, smoke, or another immediate safety hazard, turn the equipment off when safe and contact emergency services or the appropriate utility.",
+    "decisionFactors": [
+      "What symptoms you notice and when they occur",
+      "Thermostat settings, airflow, and electrical safety signs",
+      "The condition found during the evaluation"
+    ],
+    "proofLinks": [
+      { "label": "Company facts", "href": "/company-facts" },
+      { "label": "Projects", "href": "/projects" }
+    ]
+  },
+  "boiler-repair-westchester-county-ny": {
+    "answer": "Bravo Mechanical evaluates the reported heat concern, controls, circulation, and visible boiler conditions to identify the next practical step. You can expect an explanation of the findings and choices for addressing the concern. If you smell gas, see smoke, or face another immediate safety hazard, leave the area when safe and contact emergency services or the appropriate utility before requesting HVAC help.",
+    "decisionFactors": [
+      "Whether heat is absent, uneven, or intermittent",
+      "Pressure, circulation, and control symptoms you notice",
+      "Any gas smell, smoke, or other safety sign"
+    ],
+    "proofLinks": [
+      { "label": "Company facts", "href": "/company-facts" },
+      { "label": "Projects", "href": "/projects" }
+    ]
+  },
+  "heat-pump-installation-westchester-county-ny": {
+    "answer": "Bravo Mechanical evaluates the home layout, existing heating and cooling setup, comfort needs, and site conditions before discussing a heat-pump installation. You can expect an explanation of the factors that shape the next practical step and the questions to resolve before moving forward. If you notice smoke, an electrical burning smell, or another immediate safety hazard, turn the equipment off when safe and contact emergency services or the appropriate utility.",
+    "decisionFactors": [
+      "Home layout and the areas that need heating or cooling",
+      "Existing equipment and distribution setup",
+      "Site conditions and safety concerns to address first"
+    ],
+    "proofLinks": [
+      { "label": "Company facts", "href": "/company-facts" },
+      { "label": "Projects", "href": "/projects" }
+    ]
+  },
+  "emergency-hvac-repair-westchester-county-ny": {
+    "answer": "Bravo Mechanical evaluates the reported HVAC concern, the conditions at the property, and any immediate safety signs to help identify the next practical step. You can expect safety guidance and a clear conversation about the concern before service is arranged. If you smell gas, see smoke, or face another immediate safety hazard, leave the area when safe and contact emergency services or the appropriate utility before requesting HVAC help.",
+    "decisionFactors": [
+      "The heating or cooling concern and when it started",
+      "Whether smoke, a gas smell, or electrical danger is present",
+      "Property conditions that may affect the next practical step"
+    ],
+    "proofLinks": [
+      { "label": "Company facts", "href": "/company-facts" },
+      { "label": "Projects", "href": "/projects" }
+    ]
+  }
+}

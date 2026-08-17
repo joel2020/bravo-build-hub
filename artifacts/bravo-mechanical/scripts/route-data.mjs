@@ -24,28 +24,28 @@ export const BUILD_DATE = new Date().toISOString().slice(0, 10);
 // directly without rendering the React tree.
 export const HOMEPAGE_FAQS = [
   {
+    q: "What is Bravo Mechanical?",
+    a: "Bravo Mechanical LLC provides HVAC repair, installation, emergency dispatch, and maintenance for homes and light-commercial properties in Westchester County, NY.",
+  },
+  {
     q: "What areas does Bravo Mechanical serve?",
-    a: "Bravo Mechanical serves all of Westchester County, New York — 30 municipalities including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Bronxville, Rye, Tarrytown, Mount Kisco, Bedford, and Yorktown.",
+    a: "Bravo Mechanical serves Westchester County, NY. See the published service-area pages for local service information.",
   },
   {
-    q: "Is Bravo Mechanical licensed and insured?",
-    a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor in Westchester County, NY.",
+    q: "How do I request urgent HVAC help?",
+    a: "For urgent heating or cooling concerns, call (914) 361-9142 to request the next available response window. For a gas smell or immediate safety hazard, contact the appropriate emergency utility or service first.",
   },
   {
-    q: "Does Bravo Mechanical offer 24/7 emergency HVAC service?",
-    a: "Yes. Bravo Mechanical provides 24/7 emergency HVAC dispatch in Westchester County for no-heat, no-cool, and gas-leak situations. Call (914) 361-9142.",
+    q: "Should I repair or replace an HVAC system?",
+    a: "Repair-versus-replacement planning depends on the system condition, the problem found, and the property’s needs. Request service to discuss the next practical step.",
   },
   {
-    q: "How much does HVAC installation cost in Westchester County?",
-    a: "Typical installed pricing in Westchester is roughly $4,500 to $9,000 for a high-efficiency gas furnace, $7,000 to $14,000 for a gas boiler, $6,000 to $12,000 for central AC, and $12,000 to $25,000 for a cold-climate heat pump or whole-home ductless mini-split. Final cost depends on home size, ductwork, fuel type, and equipment tier. Bravo Mechanical provides a free written estimate before any work begins.",
+    q: "Does Bravo Mechanical service both residential and commercial properties?",
+    a: "Bravo Mechanical supports homes, property managers, and light-commercial customers in Westchester County, NY.",
   },
   {
-    q: "What HVAC brands does Bravo Mechanical install?",
-    a: "Bravo Mechanical is brand-agnostic and installs Carrier, Trane, Rheem, Mitsubishi Electric, Daikin, Bosch, Navien, Bradford White, AO Smith, and Weil-McLain.",
-  },
-  {
-    q: "Should I repair or replace my HVAC system?",
-    a: "A common rule of thumb is the 50% rule: if the repair cost exceeds 50% of replacement cost, or if the system is older than 12 to 15 years and breaking down repeatedly, replacement is usually more cost-effective. ENERGY STAR recommends replacing furnaces older than 15 years and central AC older than 10 years for meaningful efficiency gains.",
+    q: "How do I contact Bravo Mechanical?",
+    a: "Call (914) 361-9142, email info@bravomechanicalny.com, or request service at https://www.bravomechanicalny.com/contact.",
   },
 ];
 
@@ -242,10 +242,10 @@ export const STATIC_ROUTES = [
   { path: "/", changefreq: "weekly", priority: "1.0",
     alternates: { en: "/", es: "/es" },
     title: "HVAC Contractor Westchester County, NY | Bravo Mechanical",
-    description: "Bravo Mechanical is a local HVAC contractor in Westchester County, NY for AC repair, AC installation, furnace repair, boiler repair, heat pumps, and maintenance plans." },
+    description: "HVAC repair, installation, emergency service requests, and maintenance for homes and light-commercial properties in Westchester County, NY." },
   { path: "/about", changefreq: "monthly", priority: "0.7",
     title: "About Bravo Mechanical | Local HVAC in Westchester County, NY",
-    description: "Bravo Mechanical LLC is a licensed Westchester HVAC contractor focused on honest sizing, clear written quotes, and dependable installs." },
+    description: "Bravo Mechanical LLC provides HVAC repair, installation, and maintenance for homes and light-commercial properties in Westchester County, NY." },
   { path: "/services", changefreq: "monthly", priority: "0.9",
     title: "HVAC Services in Westchester County, NY | Bravo Mechanical",
     description: "Full HVAC services in Westchester County: AC repair and installation, boiler service, furnace repair, heat pumps, mini-splits, and indoor air quality." },
@@ -254,35 +254,31 @@ export const STATIC_ROUTES = [
     description: "Local HVAC service for cities and towns across Westchester County, NY — Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale and more." },
   { path: "/reviews", changefreq: "monthly", priority: "0.7",
     title: "Customer Reviews | Bravo Mechanical HVAC Westchester County",
-    description: "Read recent customer reviews of Bravo Mechanical LLC, a 5.0-rated HVAC contractor serving Westchester County, NY." },
+    description: "Customer review information for Bravo Mechanical LLC in Westchester County, NY." },
   { path: "/blog", changefreq: "weekly", priority: "0.8",
     title: "HVAC Blog & Guides | Bravo Mechanical Westchester County",
     description: "Practical HVAC guides for Westchester homeowners — boiler costs, heat pump advice, AC troubleshooting, and seasonal maintenance tips." },
   { path: "/contact", changefreq: "monthly", priority: "0.8",
     alternates: { en: "/contact", es: "/es/contacto" },
     title: "Contact Bravo Mechanical HVAC | Westchester County, NY",
-    description: "Request a free HVAC estimate or schedule service in Westchester County, NY. Call (914) 361-9142 or send a message — fast local response." },
-  { path: "/emergency-hvac-westchester", changefreq: "weekly", priority: "0.95",
-    alternates: { en: "/emergency-hvac-westchester", es: "/es/emergencia" },
-    title: "24/7 Emergency HVAC Repair in Westchester County, NY | Bravo Mechanical",
-    description: "Emergency HVAC repair in Westchester County, NY. No-heat and no-cool dispatch, safety-first diagnostics, and clear next steps. Call (914) 361-9142." },
+    description: "Request HVAC service in Westchester County, NY. Call (914) 361-9142 or send a message to Bravo Mechanical." },
   { path: "/book", changefreq: "monthly", priority: "0.85",
     alternates: { en: "/book", es: "/es/reservar" },
     title: "Book HVAC Service Online | Bravo Mechanical Westchester",
     description: "Pick a day and time window and book your Westchester HVAC visit online — repairs, installs, tune-ups, and estimates. We confirm by text. No phone call needed." },
   { path: "/financing", changefreq: "monthly", priority: "0.7",
     title: "HVAC Financing in Westchester County, NY | Bravo Mechanical",
-    description: "Spread the cost of a new boiler, furnace, AC, or heat pump. Financing options for qualified Westchester homeowners. Free written estimate first." },
+    description: "Contact Bravo Mechanical to discuss HVAC service options for your Westchester County property." },
   { path: "/maintenance-plans", changefreq: "monthly", priority: "0.7",
     title: "HVAC Maintenance Plans in Westchester County, NY | Bravo Mechanical",
-    description: "Annual HVAC service plans for Westchester homes and rentals: two seasonal tune-ups, priority scheduling, preferred repair pricing, and warranty-protecting service records." },
+    description: "HVAC maintenance information for Westchester homes and rentals, including seasonal tune-up options." },
   { path: "/projects", changefreq: "weekly", priority: "0.7",
     title: "Recent HVAC Projects in Westchester County, NY | Bravo Mechanical",
     description: "Real photos from recent Bravo Mechanical jobs across Westchester County: boiler replacements, mini-split installs, furnaces, heat pumps, and water heaters — before and after." },
   { path: "/es", changefreq: "monthly", priority: "0.8", lang: "es",
     alternates: { en: "/", es: "/es" },
     title: "Aire Acondicionado y Calefacción en Westchester, NY | Bravo Mechanical — Hablamos Español",
-    description: "Reparación e instalación de aire acondicionado, calderas, calefacción y calentadores de agua en el condado de Westchester, NY. Hablamos español. Emergencias 24/7. Llame al (914) 361-9142." },
+    description: "Reparación e instalación de aire acondicionado, calderas y calefacción en el condado de Westchester, NY. Hablamos español. Llame al (914) 361-9142." },
   { path: "/es/contacto", changefreq: "monthly", priority: "0.7", lang: "es",
     alternates: { en: "/contact", es: "/es/contacto" },
     title: "Contacto en Español | Bravo Mechanical — HVAC en Westchester, NY",
@@ -292,12 +288,12 @@ export const STATIC_ROUTES = [
     title: "Reservar Cita de HVAC en Línea | Bravo Mechanical Westchester — En Español",
     description: "Elija día y horario y reserve su visita de aire acondicionado o calefacción en Westchester, NY — en español. Le confirmamos por mensaje de texto. Sin llamadas." },
   { path: "/es/emergencia", changefreq: "weekly", priority: "0.75", lang: "es",
-    alternates: { en: "/emergency-hvac-westchester", es: "/es/emergencia" },
-    title: "Emergencias de Calefacción y Aire 24/7 en Westchester, NY | Bravo Mechanical",
-    description: "Servicio de emergencia de HVAC 24/7 en el condado de Westchester, NY — en español. Sin calefacción, sin aire, fugas de gas. Llame ahora al (914) 361-9142." },
+    alternates: { en: "/services/emergency-hvac-repair-westchester-county-ny", es: "/es/emergencia" },
+    title: "Emergencias de Calefacción y Aire en Westchester, NY | Bravo Mechanical",
+    description: "Solicitudes de servicio de emergencia de HVAC en el condado de Westchester, NY — en español. Llame al (914) 361-9142." },
   { path: "/company-facts", changefreq: "monthly", priority: "0.5",
     title: "Company Facts | Bravo Mechanical LLC",
-    description: "Public reference page for Bravo Mechanical LLC — service areas, licensing notes, and how to verify our HVAC business in Westchester County, NY." },
+    description: "Company facts for Bravo Mechanical LLC: contact information, Westchester County service area, and HVAC services for homes and light-commercial properties." },
   { path: "/privacy-policy", changefreq: "yearly", priority: "0.4",
     title: "Privacy Policy | Bravo Mechanical",
     description: "How Bravo Mechanical LLC collects, uses, and protects your information." },
@@ -306,10 +302,9 @@ export const STATIC_ROUTES = [
     description: "Terms governing use of the Bravo Mechanical website and services." },
 ];
 
-// Equipment guide pages (src/lib/nySystems.ts). These were previously missing
-// from the sitemap AND competing with the matching money pages for the same
-// queries. Each guide canonicals to its money page so the money page wins;
-// water-heaters has no money page yet and stays self-canonical.
+// Equipment guide pages (src/lib/nySystems.ts). Each guide canonicals to its
+// matching money page. They are prerendered for users but sitemap generation
+// excludes them so every submitted URL self-canonicalizes.
 export const EQUIPMENT_GUIDES = [
   { slug: "gas-boilers", title: "Gas Boilers for Westchester Homes — Buyer's Guide | Bravo Mechanical",
     description: "High-efficiency gas boiler guide for Westchester County, NY: system types, AFUE ratings, brands, and what fits older hydronic homes.",
@@ -355,10 +350,71 @@ export async function loadCities() {
     const body = block.match(new RegExp(`${field}:\\s*\\[([\\s\\S]*?)\\]`))?.[1] || "";
     return [...body.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((item) => item[1].replace(/\\"/g, '"'));
   };
+  const readBalanced = (source, start, open, close) => {
+    let depth = 0;
+    let quote = "";
+    let escaped = false;
+    for (let index = start; index < source.length; index++) {
+      const character = source[index];
+      if (quote) {
+        if (escaped) escaped = false;
+        else if (character === "\\") escaped = true;
+        else if (character === quote) quote = "";
+        continue;
+      }
+      if (character === '"' || character === "'" || character === "`") {
+        quote = character;
+        continue;
+      }
+      if (character === open) depth++;
+      if (character === close && --depth === 0) return source.slice(start + 1, index);
+    }
+    return null;
+  };
+  const readPriorityServices = (block) => {
+    const property = /\bpriorityServices\s*:\s*\[/.exec(block);
+    if (!property || property.index === undefined) return null;
+
+    const arrayStart = property.index + property[0].lastIndexOf("[");
+    const body = readBalanced(block, arrayStart, "[", "]");
+    if (body === null) throw new Error("Unable to parse configured city priority services");
+
+    const services = [];
+    for (let index = 0; index < body.length; index++) {
+      if (body[index] !== "{") continue;
+      const entry = readBalanced(body, index, "{", "}");
+      if (entry === null) throw new Error("Unable to parse configured city priority service entry");
+      const title = readString(entry, "title");
+      const description = readString(entry, "description");
+      const href = readString(entry, "href");
+      if (!title || !description || !href) {
+        throw new Error("Configured city priority service entries require title, description, and href");
+      }
+      services.push({ title, description, href });
+      index += entry.length + 1;
+    }
+    return services;
+  };
 
   for (let i = 0; i < matches.length; i++) {
     const name = matches[i][1];
     const block = cityData.slice(matches[i].index, matches[i + 1]?.index ?? cityData.length);
+    const priorityServices = readPriorityServices(block);
+    if (name === "Yonkers") {
+      const expectedPriorityPaths = [
+        "/services/ac-repair-westchester-county-ny",
+        "/services/boiler-repair-westchester-county-ny",
+        "/services/emergency-hvac-repair-westchester-county-ny",
+        "/services/heat-pump-installation-westchester-county-ny",
+      ];
+      const configuredPaths = priorityServices?.map((service) => service.href) || [];
+      if (
+        configuredPaths.length !== expectedPriorityPaths.length
+        || expectedPriorityPaths.some((href) => !configuredPaths.includes(href))
+      ) {
+        throw new Error("Yonkers priority service choices must include the four canonical priority paths");
+      }
+    }
     cities.push({
       name,
       slug: slugify(name),
@@ -368,6 +424,7 @@ export async function loadCities() {
       intro: readString(block, "intro"),
       housing: readString(block, "housing"),
       climateNote: readString(block, "climateNote"),
+      priorityServices: priorityServices || [],
     });
   }
   return cities;
@@ -483,7 +540,7 @@ export async function loadBlogPosts() {
 
 // ---- Build the full URL catalog ----------------------------------------
 export async function buildAllRoutes() {
-  const [cities, topCities, serviceSlugs, hiServices, posts, cityFaqs, serviceCityFaqs, hiServiceFaqs] =
+  const [cities, topCities, serviceSlugs, hiServices, posts, cityFaqs, serviceCityFaqs, hiServiceFaqs, priorityAnswers] =
     await Promise.all([
       loadCities(),
       loadTopCitySlugs(),
@@ -493,6 +550,7 @@ export async function buildAllRoutes() {
       loadCityFaqsBuilder(),
       loadServiceCityFaqBuildersBySlug(),
       loadHighIntentFaqsBySlug(),
+      readSource("content/priorityServiceAnswers.json").then(JSON.parse),
     ]);
 
   const services = await loadServiceContent();
@@ -513,7 +571,7 @@ export async function buildAllRoutes() {
       changefreq: "monthly",
       priority: topCities.includes(c.slug) ? "0.85" : "0.7",
       title: `HVAC ${c.name}, NY — Heating, Cooling & Repair | ${SITE_NAME}`,
-      description: `Local HVAC service in ${c.name}, NY. Heating, cooling, repair, and installation by licensed Westchester County technicians. 24/7 emergency service. Call ${SITE_PHONE}.`,
+      description: `Local HVAC service in ${c.name}, NY. Heating, cooling, repair, and installation for Westchester County properties. Call ${SITE_PHONE}.`,
       type: "city",
       city: c,
       faqs: cityFaqs(c.name),
@@ -544,6 +602,10 @@ export async function buildAllRoutes() {
       type: "service",
       service: s,
       faqs: hiServiceFaqs.get(s.slug) || [],
+      priorityAnswer: priorityAnswers[s.slug],
+      alternates: s.slug === "emergency-hvac-repair-westchester-county-ny"
+        ? { en: "/services/emergency-hvac-repair-westchester-county-ny", es: "/es/emergencia" }
+        : undefined,
     });
   }
 

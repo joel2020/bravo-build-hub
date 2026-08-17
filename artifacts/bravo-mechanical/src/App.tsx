@@ -20,7 +20,6 @@ const Reviews = lazy(() => import("./pages/Reviews.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
 const Blog = lazy(() => import("./pages/Blog.tsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.tsx"));
-const EmergencyHVAC = lazy(() => import("./pages/EmergencyHVAC.tsx"));
 const Financing = lazy(() => import("./pages/Financing.tsx"));
 const BookOnline = lazy(() => import("./pages/BookOnline.tsx"));
 const Projects = lazy(() => import("./pages/Projects.tsx"));
@@ -81,7 +80,7 @@ const AppRoutes = () => {
       <Route path="/proposal/:token" element={<ProposalView />} />
       <Route path="/admin/comments" element={<AdminComments />} />
       <Route path="/admin/crm" element={<CRM />} />
-      <Route path="/emergency-hvac-westchester" element={<EmergencyHVAC />} />
+      <Route path="/emergency-hvac-westchester" element={<Navigate to="/services/emergency-hvac-repair-westchester-county-ny" replace />} />
       <Route path="/financing" element={<Financing />} />
       <Route path="/book" element={<BookOnline />} />
       <Route path="/projects" element={<Projects />} />

@@ -8,7 +8,7 @@ city: Westchester County
 author: Bravo Mechanical Team
 ---
 
-**Quick answer:** If water is pooling around your water heater: **(1) close the cold-water shutoff valve on the pipe entering the top of the tank, (2) turn off the power (breaker) or gas (dial to OFF), and (3) call a pro** — in Westchester, that's us at (914) 361-9142, any hour. A tank that's leaking **from the tank body itself is finished** — the steel has rusted through and no repair holds. Leaks from a valve or fitting are often repairable. Either way, shutting the water off first protects your basement; a failed tank can dump its 40–50 gallons plus keep feeding from the supply line indefinitely.
+**Quick answer:** If water is pooling around your water heater: **(1) close the cold-water shutoff valve on the pipe entering the top of the tank, (2) turn off the power (breaker) or gas (dial to OFF), and (3) call a pro** — in Westchester, call Bravo at (914) 361-9142 to discuss the next available response window. A tank-body leak can indicate internal corrosion and should be professionally evaluated. Leaks from a valve or fitting may have different repair options. Either way, shutting the water off first helps protect the surrounding space.
 
 ## The 3 steps, in order
 
@@ -40,7 +40,7 @@ Towels and a wet-vac for small leaks. If the tank is actively draining and threa
 - **Any leak on a tank 10+ years old:** replace — you'd be putting new parts on borrowed time.
 - **Valve/fitting leak on a tank under 8 years:** repair is usually the smart money.
 
-If it's replacement time, you'll choose between a like-for-like tank, a tankless unit, or a hybrid heat-pump water heater — we compare them honestly (recovery, space, operating cost) on our [water heater installation page](/services/water-heater-installation-westchester-county-ny). Most standard replacements are done in **half a day**, and we keep common sizes in stock for same-day or next-morning swaps.
+If replacement is one of the options, the choice may include a like-for-like tank, a tankless unit, or a hybrid heat-pump water heater. Review the planning factors on our [water heater installation page](/services/water-heater-installation-westchester-county-ny); timing and equipment availability depend on the installation scope and current availability.
 
 ## Don't skip this after any leak
 
@@ -52,11 +52,11 @@ Check what the water reached. Basement water finds furnace bases, stored boxes, 
 You're on borrowed time with a tank-body leak; the rusted spot only grows, and failures love 2 a.m. Shut off, replace on your schedule this week — not the tank's schedule.
 
 **How much does a replacement cost in Westchester?**
-It depends on fuel type, venting, and code items (expansion tank, pan, piping). We quote a **fixed written price before any work** — [request one here](/services/water-heater-installation-westchester-county-ny) or call (914) 361-9142.
+It depends on fuel type, venting, the equipment selected, and site conditions. [Request water-heater service](/services/water-heater-installation-westchester-county-ny) or call (914) 361-9142 to discuss the applicable scope.
 
 **Is a leaking water heater an emergency?**
-An actively draining tank, yes — that's a [24/7 call](/emergency-hvac-westchester). A slow drip with the water shut off can wait for a normal [booked window](/book).
+An actively draining tank warrants an [urgent HVAC service request](/services/emergency-hvac-repair-westchester-county-ny). A slow drip with the water shut off can use the normal [service request](/book).
 
 ---
 
-*Water on the floor right now? Shut the cold valve, kill the power or gas, and call **(914) 361-9142** — we answer around the clock across Westchester County.*
+*Water on the floor right now? Shut the cold valve, turn off the power or gas when safe, and call **(914) 361-9142** so Bravo can triage the situation and confirm the next available response window.*

@@ -1,6 +1,6 @@
 ---
 title: AC Running but Not Cooling? 7 Things to Check Before You Call (Westchester Guide)
-slug: ac-not-cooling-westchester
+slug: why-is-my-ac-not-cooling-westchester
 date: 2026-07-14
 excerpt: Your AC is running but the house isn't getting cold. Seven checks Westchester homeowners can do in 15 minutes — thermostat, filter, breaker, outdoor unit, ice on the lines — plus the signs it's time to call a pro.
 tags: AC, Troubleshooting, Westchester
@@ -51,7 +51,7 @@ Low refrigerant is the big one homeowners can't fix: refrigerant doesn't get "us
 
 ## Repair or replace?
 
-If your system is under 10 years old, a repair is almost always the right call. Past 12–15 years — especially on R-22 systems that can no longer get cheap refrigerant — put the repair money toward a [new AC installation](/services/ac-installation-westchester-county-ny) instead. We give you both numbers in writing and let you decide.
+Repair-or-replace guidance depends on the condition found, equipment age, and available options. See our [AC installation information](/services/ac-installation-westchester-county-ny) when replacement is one of the choices under discussion.
 
 ## FAQs
 
@@ -59,11 +59,11 @@ If your system is under 10 years old, a repair is almost always the right call. 
 That's a capacity or efficiency problem, not a failure — a dirty coil, low refrigerant, or an undersized/aging system that can't keep up with peak heat load. It will get worse, not better.
 
 **How fast can someone come out in Westchester?**
-During heat waves we triage no-cool calls first. Call (914) 361-9142 — phone calls get dispatched faster than any form. For genuine emergencies we offer [24/7 emergency service](/emergency-hvac-westchester).
+For an urgent no-cooling concern, call (914) 361-9142 so Bravo can triage the situation and confirm the next available response window. See our [emergency HVAC guidance](/services/emergency-hvac-repair-westchester-county-ny).
 
 **How much does an AC repair visit cost?**
-Diagnostic fees and common repair ranges are covered in our [Westchester AC repair cost guide](/blog/ac-repair-cost-westchester). You approve the written price before we fix anything.
+Cost depends on the concern found and the repair options available. See our [Westchester AC repair cost guide](/blog/ac-repair-cost-westchester) for general planning questions, then ask Bravo what applies to your system.
 
 ---
 
-*Still stuck after the 7 checks? [Request AC repair](/services/ac-repair-westchester-county-ny) or call **(914) 361-9142** — we serve all of Westchester County and answer 24/7.*
+*Still stuck after the 7 checks? [Request AC repair](/services/ac-repair-westchester-county-ny) or call **(914) 361-9142** to discuss the concern and the next available response window.*

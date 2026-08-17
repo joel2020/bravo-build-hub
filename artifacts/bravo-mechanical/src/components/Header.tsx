@@ -37,7 +37,7 @@ const serviceGroups = [
   {
     label: "Repair and maintain",
     items: [
-      { to: "/services/emergency-hvac-repair-westchester-county-ny", label: "24/7 Emergency HVAC" },
+      { to: "/services/emergency-hvac-repair-westchester-county-ny", label: "Emergency HVAC" },
       { to: "/services/ac-repair-westchester-county-ny", label: "AC Repair" },
       { to: "/services/boiler-repair-westchester-county-ny", label: "Boiler Repair" },
       { to: "/services/hvac-maintenance-westchester-county-ny", label: "HVAC Maintenance" },
@@ -247,7 +247,7 @@ export const Header = () => {
                 </NavLink>
               ))}
               <Button asChild className="mt-4 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                <Link to="/contact" onClick={() => setOpen(false)}>Get a Free Estimate</Link>
+                <Link to="/contact" onClick={() => setOpen(false)}>Request Service</Link>
               </Button>
             </nav>
           </div>

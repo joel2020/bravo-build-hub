@@ -5,6 +5,16 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/blog/ac-not-cooling-westchester",
+      "destination": "/blog/why-is-my-ac-not-cooling-westchester",
+      "permanent": true
+    },
+    {
+      "source": "/emergency-hvac-westchester",
+      "destination": "/services/emergency-hvac-repair-westchester-county-ny",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "bravomechanicalny.com" }],
       "destination": "https://www.bravomechanicalny.com/:path*",

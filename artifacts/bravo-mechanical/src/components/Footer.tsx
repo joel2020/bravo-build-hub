@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Clock, Lock } from "lucide-react";
+import { Phone, Mail, MapPin, Lock } from "lucide-react";
 import { SITE, FEATURED_SERVICE_LINKS } from "@/lib/site";
 import logo from "@/assets/logo-bravo.webp";
 
@@ -36,8 +36,8 @@ export const Footer = () => {
               </li>
             ))}
             <li>
-              <Link to="/emergency-hvac-westchester" className="text-primary-foreground font-semibold hover:underline">
-                Emergency? We answer 24/7 →
+              <Link to="/services/emergency-hvac-repair-westchester-county-ny" className="text-primary-foreground font-semibold hover:underline">
+                Emergency HVAC →
               </Link>
             </li>
             <li>
@@ -105,17 +105,6 @@ export const Footer = () => {
           </ul>
         </div>
 
-        <div>
-          <h2 className="text-sm font-bold uppercase tracking-wider mb-4">Hours</h2>
-          <ul className="space-y-2 text-sm">
-            {SITE.hours.map((h) => (
-              <li key={h.day} className="flex items-start gap-2">
-                <Clock className="h-4 w-4 mt-0.5 shrink-0" />
-                <span><span className="font-semibold">{h.day}:</span> {h.time}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
 
       <div className="border-t border-primary-foreground/15">
@@ -127,7 +116,7 @@ export const Footer = () => {
             <Link to="/auth" rel="nofollow" className="inline-flex items-center gap-1 hover:text-primary-foreground hover:underline">
               <Lock className="h-3 w-3" /> CRM Login
             </Link>
-            <span>License #8822 · Licensed & insured HVAC contractor serving Westchester County, NY.</span>
+            <span>Serving {SITE.area}.</span>
           </div>
         </div>
       </div>

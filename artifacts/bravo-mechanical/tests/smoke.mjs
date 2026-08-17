@@ -26,6 +26,16 @@ function decodeHtml(value) {
     .replace(/&gt;/g, '>');
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[character]));
+}
+
 function findCssRule(cssRoot, selector) {
   let match;
   cssRoot.walkRules((rule) => {
@@ -59,6 +69,32 @@ assert(
     && catchAllRewrites[0].has[0].value === 'app.bravomechanicalny.com',
   'Deployed Vercel config must not rewrite every public route to the SPA entry point',
 );
+assert(
+  deploymentConfig.redirects.some(
+    (rule) => rule.source === '/blog/ac-not-cooling-westchester'
+      && rule.destination === '/blog/why-is-my-ac-not-cooling-westchester'
+      && rule.permanent === true,
+  ),
+  'The duplicate AC-not-cooling article must permanently redirect to the indexed canonical article',
+);
+const emergencyRedirect = deploymentConfig.redirects?.find(
+  (rule) => rule.source === '/emergency-hvac-westchester',
+);
+assert(
+  emergencyRedirect?.destination === '/services/emergency-hvac-repair-westchester-county-ny'
+    && emergencyRedirect.permanent === true,
+  'legacy emergency URL must permanently redirect to the canonical emergency service page',
+);
+assert(!home.includes('href="/emergency-hvac-westchester"'), 'generated homepage must not link to the redirected emergency URL');
+assert(home.includes('href="/services/emergency-hvac-repair-westchester-county-ny"'), 'generated homepage must link to the canonical emergency service URL');
+for (const priorityPath of [
+  '/services/ac-repair-westchester-county-ny',
+  '/services/boiler-repair-westchester-county-ny',
+  '/services/emergency-hvac-repair-westchester-county-ny',
+  '/services/heat-pump-installation-westchester-county-ny',
+]) {
+  assert(home.includes(`href="${priorityPath}"`), `generated homepage must link to ${priorityPath}`);
+}
 for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
   assert(
     deploymentConfig.rewrites.some(
@@ -120,16 +156,119 @@ for (const route of ['/', '/contact', '/services', '/about']) {
   assert(sitemap.includes(loc), `sitemap.xml missing ${loc}`);
 }
 assert(!sitemap.includes('https://bravomechanicalny.com'), 'sitemap.xml must not use the redirecting non-www host');
+assert(
+  !sitemap.includes(`${canonicalOrigin}/blog/ac-not-cooling-westchester`),
+  'sitemap.xml must exclude the redirected duplicate AC-not-cooling article',
+);
+assert(
+  sitemap.includes(`${canonicalOrigin}/blog/why-is-my-ac-not-cooling-westchester`),
+  'sitemap.xml must retain the indexed AC-not-cooling article',
+);
+assert(
+  !sitemap.includes(`${canonicalOrigin}/emergency-hvac-westchester`),
+  'sitemap must exclude redirected emergency URL',
+);
+assert(
+  sitemap.includes(`${canonicalOrigin}/services/emergency-hvac-repair-westchester-county-ny`),
+  'sitemap must retain canonical emergency service URL',
+);
 const privateSitemapEntry = sitemap.match(
   /<loc>[^<]*\/(?:auth|admin|proposal)(?:\/[^<]*)?<\/loc>/,
 )?.[0];
 assert(!privateSitemapEntry, `sitemap.xml must not include private routes: ${privateSitemapEntry}`);
+
+const sitemapLocations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+for (const location of sitemapLocations) {
+  const pathname = new URL(location).pathname;
+  const routeHtml = await readDist(pathname === '/' ? 'index.html' : `${pathname.slice(1)}/index.html`);
+  const canonical = routeHtml.match(/<link rel="canonical" href="([^"]+)"/i)?.[1];
+  assert(canonical === location, `sitemap URL must self-canonicalize: ${location} -> ${canonical || 'missing'}`);
+}
+
+const emergencyAlternateTags = [
+  `<link rel="alternate" hreflang="en" href="${canonicalOrigin}/services/emergency-hvac-repair-westchester-county-ny" />`,
+  `<link rel="alternate" hreflang="es" href="${canonicalOrigin}/es/emergencia" />`,
+];
+for (const route of [
+  'services/emergency-hvac-repair-westchester-county-ny/index.html',
+  'es/emergencia/index.html',
+]) {
+  const html = await readDist(route);
+  for (const tag of emergencyAlternateTags) {
+    assert(html.includes(tag), `${route} missing reciprocal emergency alternate: ${tag}`);
+  }
+}
 
 const llms = await readDist('llms.txt');
 assert(llms.includes(canonicalOrigin), 'llms.txt missing canonical website');
 assert(!llms.includes('https://bravomechanicalny.com'), 'llms.txt must not use the redirecting non-www host');
 assert(llms.includes('info@bravomechanicalny.com'), 'llms.txt missing canonical email');
 assert(llms.includes('+1-914-361-9142'), 'llms.txt missing canonical phone');
+for (const required of [
+  '/company-facts',
+  '/services/ac-repair-westchester-county-ny',
+  '/services/boiler-repair-westchester-county-ny',
+  '/services/heat-pump-installation-westchester-county-ny',
+  '/services/emergency-hvac-repair-westchester-county-ny',
+  '/service-areas/yonkers',
+]) {
+  assert(llms.includes(required), `llms.txt missing priority canonical page: ${required}`);
+}
+assert(!/licensed|insured|license|24\/7|open 24|price|warranty|guaranteed|#1|best HVAC|rating|review|same-day|30\+ years/i.test(llms), 'llms.txt must not contain unsupported business claims');
+
+const taskTwoGeneratedRoutes = [
+  'index.html',
+  'about/index.html',
+  'company-facts/index.html',
+  'services/ac-repair-westchester-county-ny/index.html',
+  'services/boiler-repair-westchester-county-ny/index.html',
+  'services/heat-pump-installation-westchester-county-ny/index.html',
+  'services/emergency-hvac-repair-westchester-county-ny/index.html',
+  'service-areas/yonkers/index.html',
+];
+const priorityAnswers = JSON.parse(
+  await readFile(path.join(root, 'src', 'content', 'priorityServiceAnswers.json'), 'utf8'),
+);
+for (const slug of [
+  'ac-repair-westchester-county-ny',
+  'boiler-repair-westchester-county-ny',
+  'heat-pump-installation-westchester-county-ny',
+  'emergency-hvac-repair-westchester-county-ny',
+]) {
+  const html = await readDist(`services/${slug}/index.html`);
+  const priorityAnswer = priorityAnswers[slug];
+  assert(priorityAnswer, `${slug} missing source answer`);
+  assert(
+    html.includes(`<p data-answer-summary>${escapeHtml(priorityAnswer.answer)}</p>`),
+    `${slug} prerendered answer differs from the shared source`,
+  );
+  for (const factor of priorityAnswer.decisionFactors) {
+    assert(
+      html.includes(`<li data-decision-factor>${escapeHtml(factor)}</li>`),
+      `${slug} missing prerendered decision factor: ${factor}`,
+    );
+  }
+  for (const proofLink of priorityAnswer.proofLinks) {
+    assert(/^\/(?!\/)/.test(proofLink.href), `${slug} proof link must use a canonical internal href: ${proofLink.href}`);
+    assert(
+      html.includes(`<a href="${escapeHtml(proofLink.href)}">${escapeHtml(proofLink.label)}</a>`),
+      `${slug} missing prerendered proof link: ${proofLink.href}`,
+    );
+  }
+}
+for (const route of taskTwoGeneratedRoutes) {
+  const html = await readDist(route);
+  assert(!html.includes('href="/emergency-hvac-westchester"'), `${route} must not link to the redirected emergency URL`);
+  assert(html.includes('href="/services/emergency-hvac-repair-westchester-county-ny"'), `${route} must link to the canonical emergency service URL`);
+  assert(!/licensed|insured|license #|24\/7|open 24|priceRange|openingHoursSpecification|free (?:written )?estimate|same[- ]day|(?:service|work on) (?:all|major) brands|warranty|30\+ years|5\.0|google rating|60.?120|same visit|roth|weil-mclain|mitsubishi|ao smith|carrier|trane|rheem|daikin|bosch|navien|bradford white|savings|fuel use|performance|efficien/i.test(html), `${route} publishes an evidence-required claim`);
+  const fallbackIdentity = html.match(/<header><p>([\s\S]*?)<\/p><\/header>/i)?.[1] || '';
+  assert(fallbackIdentity.includes('Bravo Mechanical LLC'), `${route} fallback is missing the legal business name`);
+  assert(fallbackIdentity.includes('1 Fowler Avenue, Yonkers, NY 10701'), `${route} fallback is missing the business address`);
+  assert(fallbackIdentity.includes('(914) 361-9142'), `${route} fallback is missing the business phone`);
+  assert(!/licensed|insured|license|30\+ years|24\/7|free (?:written )?estimate|same[- ]day|(?:service|work on) (?:all|major) brands|rating|review/i.test(fallbackIdentity), `${route} fallback contains an unsupported business claim`);
+  const noScriptFallbacks = [...html.matchAll(/<noscript>([\s\S]*?)<\/noscript>/gi)].map((match) => match[1]);
+  assert(noScriptFallbacks.every((fallback) => !/licensed|insured|license|30\+ years|24\/7|free (?:written )?estimate|same[- ]day|(?:service|work on) (?:all|major) brands|rating|review/i.test(fallback)), `${route} no-JavaScript fallback contains an unsupported business claim`);
+}
 
 for (const route of ['contact/index.html', 'services/index.html', 'about/index.html']) {
   const html = await readDist(route);
@@ -140,6 +279,11 @@ const allDistFiles = await (await import('node:fs/promises')).readdir(dist, { re
 const routeHtmlFiles = allDistFiles.filter((file) => file === 'index.html' || file.endsWith('/index.html'));
 for (const relativePath of routeHtmlFiles) {
   const html = await readDist(relativePath);
+  const primaryHeadingCount = (html.match(/<h1(?:\s|>)/gi) || []).length;
+  assert(
+    primaryHeadingCount === 1,
+    `${relativePath} must expose exactly one primary h1, found ${primaryHeadingCount}`,
+  );
   const title = decodeHtml(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '');
   const description = decodeHtml(html.match(/<meta name="description" content="([^"]*)"/i)?.[1] || '');
   assert(title.length <= 65, `${relativePath} title is ${title.length} characters`);
@@ -158,6 +302,15 @@ for (const relativePath of routeHtmlFiles) {
 
 const yonkers = await readDist('service-areas/yonkers/index.html');
 assert(yonkers.includes('largest city in Westchester County'), 'Yonkers prerender must include its verified local content');
+assert(yonkers.includes('Choose the right HVAC service for your Yonkers property'), 'Yonkers prerender must include its service-selection context');
+for (const priorityPath of [
+  '/services/ac-repair-westchester-county-ny',
+  '/services/boiler-repair-westchester-county-ny',
+  '/services/emergency-hvac-repair-westchester-county-ny',
+  '/services/heat-pump-installation-westchester-county-ny',
+]) {
+  assert(yonkers.includes(`href="${priorityPath}"`), `Yonkers prerender must link to ${priorityPath}`);
+}
 const whitePlains = await readDist('service-areas/white-plains/index.html');
 assert(whitePlains.includes('commercial hub'), 'White Plains prerender must include its verified local content');
 

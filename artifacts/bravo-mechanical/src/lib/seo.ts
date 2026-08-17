@@ -9,6 +9,7 @@ type SeoOptions = {
   type?: "website" | "article";
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
+  alternates?: Record<string, string>;
 };
 
 function upsertMeta(selector: string, attr: "name" | "property", key: string, content: string) {
@@ -58,8 +59,9 @@ function toCanonicalUrl(pathOrUrl?: string) {
   return `${SITE_URL}${pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`}`.replace(/\/$/, "");
 }
 
-export function useSeo({ title, description, canonical, image, type = "website", jsonLd, noindex = false }: SeoOptions) {
+export function useSeo({ title, description, canonical, image, type = "website", jsonLd, noindex = false, alternates }: SeoOptions) {
   const serializedJsonLd = jsonLd ? JSON.stringify(jsonLd) : "";
+  const serializedAlternates = JSON.stringify(alternates ?? {});
 
   useEffect(() => {
     const fittedTitle = fitSeoTitle(title);
@@ -82,6 +84,21 @@ export function useSeo({ title, description, canonical, image, type = "website",
     upsertMeta('meta[property="og:url"]', "property", "og:url", url);
     upsertMeta('meta[name="robots"]', "name", "robots", noindex ? "noindex, nofollow" : "index, follow");
 
+    document.head.querySelectorAll('link[data-seo-alternate="true"]').forEach((link) => link.remove());
+    const alternateEntries = Object.entries(JSON.parse(serializedAlternates) as Record<string, string>);
+    if (alternateEntries.length) {
+      document.head.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
+    }
+    const alternateLinks = alternateEntries.map(([hreflang, href]) => {
+      const link = document.createElement("link");
+      link.rel = "alternate";
+      link.hreflang = hreflang;
+      link.href = toCanonicalUrl(href);
+      link.dataset.seoAlternate = "true";
+      document.head.appendChild(link);
+      return link;
+    });
+
     let scriptEl: HTMLScriptElement | null = null;
     document.head.querySelectorAll('script[data-seo-route="true"]').forEach((script) => script.remove());
     if (jsonLd) {
@@ -95,7 +112,8 @@ export function useSeo({ title, description, canonical, image, type = "website",
     document.documentElement.setAttribute("data-seo-ready", "true");
     return () => {
       if (scriptEl && scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl);
+      alternateLinks.forEach((link) => link.remove());
       document.documentElement.removeAttribute("data-seo-ready");
     };
-  }, [title, description, canonical, image, type, noindex, jsonLd, serializedJsonLd]);
+  }, [title, description, canonical, image, type, noindex, jsonLd, serializedJsonLd, serializedAlternates]);
 }

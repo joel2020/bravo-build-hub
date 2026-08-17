@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, MessageSquare, AlertTriangle, Clock, ShieldCheck, Thermometer } from "lucide-react";
+import { Phone, MessageSquare, AlertTriangle, ShieldCheck, Thermometer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EsLayout } from "@/components/EsLayout";
 import { SITE } from "@/lib/site";
@@ -16,16 +16,20 @@ const EMERGENCIAS = [
 ];
 
 const PASOS = [
-  { title: "1. Llámenos", desc: "Llamar es más rápido que cualquier formulario. Describa el problema — le hacemos preguntas de seguridad primero." },
-  { title: "2. Despacho", desc: "Priorizamos emergencias reales: sin calefacción, sin aire, fugas y riesgos de seguridad." },
-  { title: "3. Diagnóstico seguro", desc: "El técnico revisa la seguridad del sistema, encuentra la causa y le explica las opciones con precio antes de reparar." },
+  { title: "1. Llámenos", desc: "Describa el problema y cualquier señal de peligro para que Bravo pueda evaluar la situación." },
+  { title: "2. Próxima disponibilidad", desc: "Bravo confirma la próxima disponibilidad según el clima, el volumen de llamadas, la ubicación y los técnicos disponibles." },
+  { title: "3. Evaluación segura", desc: "La evaluación se enfoca primero en la seguridad y después en las opciones para el problema encontrado." },
 ];
 
 const EsEmergency = () => {
   useSeo({
-    title: "Emergencias de Calefacción y Aire 24/7 en Westchester, NY | Bravo Mechanical",
-    description: "Servicio de emergencia de HVAC 24/7 en el condado de Westchester, NY — en español. Sin calefacción, sin aire, fugas de gas. Llame ahora al (914) 361-9142.",
+    title: "Emergencias de Calefacción y Aire en Westchester, NY | Bravo Mechanical",
+    description: "Solicitudes de servicio de emergencia de HVAC en el condado de Westchester, NY, con atención en español y orientación de seguridad.",
     canonical: `${SITE.siteUrl}/es/emergencia`,
+    alternates: {
+      en: `${SITE.siteUrl}/services/emergency-hvac-repair-westchester-county-ny`,
+      es: `${SITE.siteUrl}/es/emergencia`,
+    },
   });
 
   return (
@@ -33,11 +37,11 @@ const EsEmergency = () => {
       <section className="bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-14 lg:py-20 text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-accent/20 px-4 py-1.5 text-sm font-bold text-accent mb-4">
-            <Clock className="h-4 w-4" /> Abierto 24 horas, 7 días — Hablamos español
+            <AlertTriangle className="h-4 w-4" /> Atención de emergencia — Hablamos español
           </div>
           <h1 className="text-3xl lg:text-5xl font-extrabold mb-4">¿Emergencia de calefacción o aire acondicionado?</h1>
           <p className="text-lg text-primary-foreground/85 max-w-2xl mx-auto mb-6">
-            No espere hasta mañana. Llame ahora y le atendemos en español — las emergencias se despachan por teléfono, a cualquier hora.
+            Llame para describir la situación, recibir orientación de seguridad y confirmar la próxima disponibilidad.
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg px-8">
             <a href={SITE.phoneHref} onClick={() => { trackCallClick("es_emergency_hero"); trackEmergencyCtaClick("es_emergency_hero"); }}>

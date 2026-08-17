@@ -110,17 +110,6 @@ const Contact = () => {
                 <div className="text-sm text-muted-foreground">Serving all of Westchester County, NY</div>
               </div>
             </div>
-            <div className="flex items-start gap-3">
-              <Clock className="h-5 w-5 text-accent mt-0.5 shrink-0" />
-              <div>
-                <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Hours</div>
-                <ul className="text-sm space-y-0.5 mt-1">
-                  {SITE.hours.map((h) => (
-                    <li key={h.day}><span className="font-semibold">{h.day}:</span> {h.time}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
 
           <div className="bg-accent/10 border border-accent/30 rounded-lg p-5">

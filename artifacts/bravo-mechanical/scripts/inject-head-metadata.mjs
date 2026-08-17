@@ -339,7 +339,7 @@ function buildBodyInsert(route, ctx) {
   const esc = htmlEscape;
   const h1 = esc(String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
   const parts = [];
-  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed &amp; insured HVAC contractor (License #8822) · 30+ years of combined HVAC experience · 1 Fowler Avenue, Yonkers, NY 10701 · Serving all of Westchester County · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service · <a href="/contact">Request a free written estimate</a></p></header>`);
+  parts.push(`<header><p><strong>${esc(SITE_LEGAL)}</strong> — HVAC repair, installation, emergency dispatch, and maintenance for homes and light-commercial properties in Westchester County, NY · 1 Fowler Avenue, Yonkers, NY 10701 · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · <a href="/contact">Request service online</a></p></header>`);
   parts.push(`<main>`);
   parts.push(`<h1>${h1}</h1>`);
   parts.push(`<p>${esc(route.description)}</p>`);
@@ -368,9 +368,18 @@ function buildBodyInsert(route, ctx) {
     if (route.city.climateNote) parts.push(`<h2>Local climate considerations</h2><p>${esc(route.city.climateNote)}</p>`);
     if (route.city.neighborhoods?.length) parts.push(`<p><strong>Neighborhoods served:</strong> ${route.city.neighborhoods.map(esc).join(", ")}.</p>`);
     if (route.city.zips?.length) parts.push(`<p><strong>ZIP codes served:</strong> ${route.city.zips.map(esc).join(", ")}.</p>`);
+    if (route.city.priorityServices?.length) {
+      parts.push(`<h2>Choose the right HVAC service for your ${esc(route.city.name)} property</h2>`);
+      parts.push(`<ul>${route.city.priorityServices.map((service) => `<li><a href="${esc(service.href)}">${esc(service.title)}</a>: ${esc(service.description)}</li>`).join("")}</ul>`);
+    }
     parts.push(`<h2>HVAC services in ${esc(route.city.name)}, NY</h2>`);
     parts.push(linkList(ctx.services));
   } else if (route.type === "service" || route.type === "guide" || route.type === "service-city") {
+    if (route.priorityAnswer) {
+      parts.push(`<h2>What to know first</h2><p data-answer-summary>${esc(route.priorityAnswer.answer)}</p>`);
+      parts.push(`<ul>${route.priorityAnswer.decisionFactors.map((factor) => `<li data-decision-factor>${esc(factor)}</li>`).join("")}</ul>`);
+      parts.push(`<h2>Supporting information</h2><ul>${route.priorityAnswer.proofLinks.map((link) => `<li><a href="${esc(link.href)}">${esc(link.label)}</a></li>`).join("")}</ul>`);
+    }
     parts.push(`<h2>All Westchester HVAC services</h2>`);
     parts.push(linkList(ctx.services));
   } else if (route.path === "/" || route.path === "/services") {
@@ -388,9 +397,9 @@ function buildBodyInsert(route, ctx) {
     parts.push(linkList(ctx.posts));
   }
 
-  parts.push(`<p><a href="/contact">Request service or a free written estimate</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving all of Westchester County, NY.</p>`);
+  parts.push(`<p><a href="/contact">Request service online</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving Westchester County, NY.</p>`);
   parts.push(`</main>`);
-  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/emergency-hvac-westchester">24/7 Emergency</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
+  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/services/emergency-hvac-repair-westchester-county-ny">Emergency HVAC</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
 
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.65;color:#0f172a">${parts.join("\n")}</div>`;
 }

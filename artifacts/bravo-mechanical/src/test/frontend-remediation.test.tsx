@@ -3,7 +3,7 @@
 import { lazy, Suspense } from "react";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -29,6 +29,8 @@ import CityPage from "../pages/CityPage";
 import Index from "../pages/Index";
 import Projects from "../pages/Projects";
 import Services from "../pages/Services";
+import HighIntentServicePage from "../pages/HighIntentServicePage";
+import EsEmergency from "../pages/es/EsEmergency";
 
 const supabaseTestState = vi.hoisted(() => ({
   insert: vi.fn(),
@@ -72,6 +74,14 @@ const TestRoutes = () => {
       <Route path="/next" element={<h1>Next page</h1>} />
     </Routes>
   );
+};
+
+const renderHighIntentService = (slug: string) => {
+  const router = createMemoryRouter(
+    [{ path: "/services/:slug", element: <HighIntentServicePage /> }],
+    { initialEntries: [`/services/${slug}`] },
+  );
+  return render(<RouterProvider router={router} />);
 };
 
 describe("frontend remediation navigation shell", () => {
@@ -452,6 +462,81 @@ describe("frontend remediation navigation shell", () => {
 
     expect(screen.getByRole("link", { name: "Emergency Call" })).toBeTruthy();
     expect(screen.queryByRole("link", { name: "Call Now" })).toBeNull();
+  });
+
+  it("publishes reciprocal client hreflang on the canonical emergency service only", async () => {
+    const englishRender = renderHighIntentService("emergency-hvac-repair-westchester-county-ny");
+
+    await waitFor(() => {
+      expect(
+        Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="alternate"][hreflang]'))
+          .map((link) => [link.hreflang, link.href]),
+      ).toEqual([
+        ["en", `${SITE.siteUrl}/services/emergency-hvac-repair-westchester-county-ny`],
+        ["es", `${SITE.siteUrl}/es/emergencia`],
+      ]);
+    });
+
+    englishRender.unmount();
+    const spanishRouter = createMemoryRouter(
+      [{ path: "/es/emergencia", element: <EsEmergency /> }],
+      { initialEntries: ["/es/emergencia"] },
+    );
+    render(<RouterProvider router={spanishRouter} />);
+    await waitFor(() => {
+      expect(
+        Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="alternate"][hreflang]'))
+          .map((link) => [link.hreflang, link.href]),
+      ).toEqual([
+        ["en", `${SITE.siteUrl}/services/emergency-hvac-repair-westchester-county-ny`],
+        ["es", `${SITE.siteUrl}/es/emergencia`],
+      ]);
+    });
+  });
+
+  it("tracks canonical emergency calls with emergency context", async () => {
+    window.dataLayer = [];
+    renderHighIntentService("emergency-hvac-repair-westchester-county-ny");
+
+    const heroCall = screen.getAllByRole("link", { name: "Call Bravo Mechanical" })[0];
+    heroCall.addEventListener("click", (event) => event.preventDefault());
+    await userEvent.click(heroCall);
+
+    expect(window.dataLayer).toContainEqual({
+      event: "call_click",
+      event_category: "engagement",
+      location: "emergency_service_hero",
+    });
+    expect(window.dataLayer).toContainEqual({
+      event: "emergency_cta_click",
+      event_category: "engagement",
+      location: "emergency_service_hero",
+    });
+  });
+
+  it("prefills and submits urgent lead context only for the canonical emergency service slug", async () => {
+    supabaseTestState.insert.mockResolvedValueOnce({ error: null });
+    const user = userEvent.setup();
+    const emergencyRender = renderHighIntentService("emergency-hvac-repair-westchester-county-ny");
+
+    expect(screen.getByRole("heading", { name: "Request emergency HVAC service" })).toBeTruthy();
+    expect(screen.getByLabelText(/service needed/i).textContent).toContain("Emergency HVAC repair");
+    expect((screen.getByLabelText(/how can we help/i) as HTMLTextAreaElement).value).toBe("Urgent no-heat or no-cool issue.");
+    await user.type(screen.getByLabelText(/full name/i), "Jordan Lee");
+    await user.type(screen.getByLabelText(/^phone/i), "9145551234");
+    await user.type(screen.getByLabelText(/^email/i), "jordan@example.com");
+    await user.click(screen.getByRole("checkbox"));
+    await user.click(screen.getByRole("button", { name: /request my estimate/i }));
+
+    await waitFor(() => expect(supabaseTestState.insert).toHaveBeenCalled());
+    expect(supabaseTestState.insert.mock.calls.at(-1)?.[0]).toMatchObject({
+      service: "Emergency HVAC repair",
+      urgency: "emergency",
+    });
+
+    emergencyRender.unmount();
+    renderHighIntentService("ac-repair-westchester-county-ny");
+    expect(screen.queryByRole("heading", { name: "Request emergency HVAC service" })).toBeNull();
   });
 });
 

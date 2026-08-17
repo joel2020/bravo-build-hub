@@ -1,4 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { Footer } from "@/components/Footer";
@@ -7,6 +9,8 @@ import { LeadForm } from "@/components/LeadForm";
 import BookOnline from "@/pages/BookOnline";
 import CompanyFacts from "@/pages/CompanyFacts";
 import Index from "@/pages/Index";
+import HighIntentServicePage from "@/pages/HighIntentServicePage";
+import EsEmergency from "@/pages/es/EsEmergency";
 import { trackCallClick, trackLeadSubmit } from "@/lib/analytics";
 import { getPriorityServiceAnswer } from "@/lib/priorityServiceAnswers";
 import { SITE } from "@/lib/site";
@@ -24,10 +28,19 @@ type GeneratedRoute = {
     decisionFactors: string[];
     proofLinks: { label: string; href: string }[];
   };
+  alternates?: Record<string, string>;
 };
 
 const renderInRouter = (node: React.ReactNode) => {
   const router = createMemoryRouter([{ path: "*", element: node }]);
+  return renderToStaticMarkup(<RouterProvider router={router} />);
+};
+
+const renderServiceRoute = (slug: string) => {
+  const router = createMemoryRouter(
+    [{ path: "/services/:slug", element: <HighIntentServicePage /> }],
+    { initialEntries: [`/services/${slug}`] },
+  );
   return renderToStaticMarkup(<RouterProvider router={router} />);
 };
 
@@ -78,6 +91,33 @@ describe("SEO generation", () => {
     const routes = await buildAllRoutes() as GeneratedRoute[];
     expect(routes.filter((route) => route.title.length > 65)).toEqual([]);
     expect(routes.filter((route) => route.description.length > 160)).toEqual([]);
+  });
+
+  it("pairs the English and Spanish emergency routes with reciprocal alternates only", async () => {
+    const routes = await buildAllRoutes() as GeneratedRoute[];
+    const expected = {
+      en: "/services/emergency-hvac-repair-westchester-county-ny",
+      es: "/es/emergencia",
+    };
+
+    expect(routes.find((route) => route.path === expected.en)?.alternates).toEqual(expected);
+    expect(routes.find((route) => route.path === expected.es)?.alternates).toEqual(expected);
+    expect(routes.find((route) => route.path === "/services/ac-repair-westchester-county-ny")?.alternates).toBeUndefined();
+  });
+
+  it("withholds unsupported availability, pricing, and completion claims from Task 4 surfaces", () => {
+    const touchedArticles = [
+      "24-7-emergency-furnace-repair-westchester.md",
+      "ac-not-cooling-westchester.md",
+      "boiler-banging-noises-westchester.md",
+      "water-heater-leaking-what-to-do.md",
+    ].map((filename) => readFileSync(resolve(import.meta.dirname, "../content/blog", filename), "utf8"));
+    const canonicalPage = renderServiceRoute("emergency-hvac-repair-westchester-county-ny")
+      .match(/<main[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+    const spanishEmergencyPage = renderInRouter(<EsEmergency />);
+    const prohibited = /free estimate|presupuesto gratis|written (?:fixed )?(?:price|quote)|fixed written price|precio antes|24\/7|24 horas|same-day|same visit|half a day|next-morning|around the clock|any hour|a cualquier hora|fast local support|más rápido|licencia|con licencia|seguro/i;
+
+    expect([canonicalPage, spanishEmergencyPage, ...touchedArticles].filter((surface) => prohibited.test(surface))).toEqual([]);
   });
 
   it("carries verified town-specific content into city prerenders", async () => {

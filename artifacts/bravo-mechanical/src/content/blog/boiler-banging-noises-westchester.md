@@ -56,8 +56,8 @@ That's when the biggest temperature swings happen (setback recovery). Deep overn
 Not immediately — modern boilers have safety controls — but it's the boiler telling you it's cooking itself. Fuel waste now, cracked exchanger later.
 
 **The boiler is 25+ years old and noisy — repair or replace?**
-Get the noise diagnosed and ask for both numbers. Past 20–25 years, major repairs rarely beat putting that money toward a [high-efficiency replacement](/services/boiler-installation-westchester-county-ny) — our written quote shows the comparison honestly.
+Get the noise diagnosed and discuss the available repair and [boiler replacement](/services/boiler-installation-westchester-county-ny) options based on the condition found.
 
 ---
 
-*Boiler talking to you? We speak fluent hydronics. Call **(914) 361-9142** or [request boiler service](/services/boiler-repair-westchester-county-ny) — all of Westchester County, 24/7 for no-heat emergencies.*
+*Boiler talking to you? Call **(914) 361-9142** or [request boiler service](/services/boiler-repair-westchester-county-ny) to discuss the concern and the next available response window.*

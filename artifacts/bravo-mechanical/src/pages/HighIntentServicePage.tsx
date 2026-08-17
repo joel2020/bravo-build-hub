@@ -5,10 +5,19 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { LeadForm } from "@/components/LeadForm";
 import { getHighIntentService, HIGH_INTENT_SERVICES } from "@/lib/highIntentServices";
 import { getPriorityServiceAnswer } from "@/lib/priorityServiceAnswers";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
+import { trackCallClick, trackEmergencyCtaClick, trackRequestServiceClick } from "@/lib/analytics";
+
+const EMERGENCY_SERVICE_SLUG = "emergency-hvac-repair-westchester-county-ny";
+
+const trackEmergencyCall = (location: string) => {
+  trackCallClick(location);
+  trackEmergencyCtaClick(location);
+};
 
 const HighIntentServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -18,6 +27,7 @@ const HighIntentServicePage = () => {
   const url = `${SITE.siteUrl}/services/${service.slug}`;
   const related = HIGH_INTENT_SERVICES.filter((item) => item.slug !== service.slug).slice(0, 4);
   const priorityAnswer = getPriorityServiceAnswer(service.slug);
+  const isCanonicalEmergency = service.slug === EMERGENCY_SERVICE_SLUG;
 
   const jsonLd: Record<string, unknown>[] = [
     {
@@ -71,12 +81,34 @@ const HighIntentServicePage = () => {
     title: service.seoTitle,
     description: service.metaDescription,
     canonical: url,
+    alternates: isCanonicalEmergency
+      ? { en: url, es: `${SITE.siteUrl}/es/emergencia` }
+      : undefined,
     jsonLd,
   });
 
   return (
     <Layout>
-      <PageHero eyebrow="Westchester HVAC Service" title={service.h1} subtitle={service.heroSubtitle} />
+      <PageHero
+        eyebrow="Westchester HVAC Service"
+        title={service.h1}
+        subtitle={service.heroSubtitle}
+        rightSlot={isCanonicalEmergency ? (
+          <aside aria-label="Emergency HVAC actions" className="bg-card border border-border rounded-xl p-6 shadow-sm">
+            <p className="text-sm text-muted-foreground">Call Bravo Mechanical for safety-first triage and the next available response window.</p>
+            <div className="mt-5 flex flex-col gap-2">
+              <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
+                <a href={SITE.phoneHref} onClick={() => trackEmergencyCall("emergency_service_hero")}>
+                  <Phone className="h-4 w-4 mr-2" />Call Bravo Mechanical
+                </a>
+              </Button>
+              <Button asChild size="sm" variant="outline" className="font-bold">
+                <a href="#emergency-service-request" onClick={() => trackRequestServiceClick("emergency_service_hero")}>Request Emergency HVAC Service</a>
+              </Button>
+            </div>
+          </aside>
+        ) : undefined}
+      />
 
       {priorityAnswer && (
         <section className="container mx-auto px-4 pt-10" aria-labelledby="service-answer-heading">
@@ -89,6 +121,18 @@ const HighIntentServicePage = () => {
               ))}
             </ul>
           </div>
+        </section>
+      )}
+
+      {isCanonicalEmergency && (
+        <section id="emergency-service-request" className="container mx-auto px-4 pt-10" aria-labelledby="emergency-service-request-heading">
+          <h2 id="emergency-service-request-heading" className="text-2xl font-extrabold mb-4">Request emergency HVAC service</h2>
+          <LeadForm
+            source="contact_form"
+            defaultService="Emergency HVAC repair"
+            urgency="emergency"
+            defaultMessage="Urgent no-heat or no-cool issue."
+          />
         </section>
       )}
 
@@ -219,19 +263,43 @@ const HighIntentServicePage = () => {
 
         <aside className="bg-card border border-border rounded-lg p-6 h-fit sticky top-24">
           <h3 className="font-bold text-lg mb-2">Need {service.h1.replace(" in Westchester County, NY", "")}?</h3>
-          <p className="text-sm text-muted-foreground mb-4">Call Bravo Mechanical LLC at {SITE.phone} or request service online for fast local support.</p>
+          <p className="text-sm text-muted-foreground mb-4">
+            {isCanonicalEmergency
+              ? "Call Bravo Mechanical for safety-first triage or use the urgent service request form on this page."
+              : `Call Bravo Mechanical LLC at ${SITE.phone} or request service online.`}
+          </p>
           <div className="space-y-3">
             <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-              <Link to="/contact">{service.primaryCta}</Link>
+              <Link
+                to={isCanonicalEmergency ? "#emergency-service-request" : "/contact"}
+                onClick={isCanonicalEmergency ? () => trackRequestServiceClick("emergency_service_sidebar") : undefined}
+              >
+                {service.primaryCta}
+              </Link>
             </Button>
             <Button asChild variant="outline" className="w-full font-bold">
-              <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
+              <a
+                href={SITE.phoneHref}
+                onClick={isCanonicalEmergency ? () => trackEmergencyCall("emergency_service_sidebar") : undefined}
+              >
+                <Phone className="h-4 w-4 mr-2" />{isCanonicalEmergency ? "Call Bravo Mechanical" : `Call ${SITE.phone}`}
+              </a>
             </Button>
           </div>
         </aside>
       </section>
 
-      <CTABand title={`Book ${service.h1}`} subtitle="Residential and commercial HVAC service throughout Westchester County, NY." />
+      <CTABand
+        title={isCanonicalEmergency ? "Request Emergency HVAC Service" : `Book ${service.h1}`}
+        subtitle={isCanonicalEmergency
+          ? "Call Bravo Mechanical for safety-first triage or submit the urgent service request form."
+          : "Residential and commercial HVAC service throughout Westchester County, NY."}
+        primaryLabel={isCanonicalEmergency ? "Request Emergency HVAC Service" : undefined}
+        primaryHref={isCanonicalEmergency ? "#emergency-service-request" : undefined}
+        phoneLabel={isCanonicalEmergency ? "Call Bravo Mechanical" : undefined}
+        onPrimaryClick={isCanonicalEmergency ? () => trackRequestServiceClick("emergency_service_footer") : undefined}
+        onPhoneClick={isCanonicalEmergency ? () => trackEmergencyCall("emergency_service_footer") : undefined}
+      />
     </Layout>
   );
 };

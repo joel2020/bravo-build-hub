@@ -541,6 +541,9 @@ export async function buildAllRoutes() {
       service: s,
       faqs: hiServiceFaqs.get(s.slug) || [],
       priorityAnswer: priorityAnswers[s.slug],
+      alternates: s.slug === "emergency-hvac-repair-westchester-county-ny"
+        ? { en: "/services/emergency-hvac-repair-westchester-county-ny", es: "/es/emergencia" }
+        : undefined,
     });
   }
 

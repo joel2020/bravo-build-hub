@@ -177,6 +177,20 @@ for (const location of sitemapLocations) {
   assert(canonical === location, `sitemap URL must self-canonicalize: ${location} -> ${canonical || 'missing'}`);
 }
 
+const emergencyAlternateTags = [
+  `<link rel="alternate" hreflang="en" href="${canonicalOrigin}/services/emergency-hvac-repair-westchester-county-ny" />`,
+  `<link rel="alternate" hreflang="es" href="${canonicalOrigin}/es/emergencia" />`,
+];
+for (const route of [
+  'services/emergency-hvac-repair-westchester-county-ny/index.html',
+  'es/emergencia/index.html',
+]) {
+  const html = await readDist(route);
+  for (const tag of emergencyAlternateTags) {
+    assert(html.includes(tag), `${route} missing reciprocal emergency alternate: ${tag}`);
+  }
+}
+
 const llms = await readDist('llms.txt');
 assert(llms.includes(canonicalOrigin), 'llms.txt missing canonical website');
 assert(!llms.includes('https://bravomechanicalny.com'), 'llms.txt must not use the redirecting non-www host');

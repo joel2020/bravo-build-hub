@@ -12,7 +12,7 @@ import logo from "@/assets/logo-bravo.webp";
 // Spanish site is the 4 pages that win jobs, not a full mirror.
 const nav = [
   { to: "/es", label: "Inicio" },
-  { to: "/es/emergencia", label: "Emergencias 24/7" },
+  { to: "/es/emergencia", label: "Emergencias" },
   { to: "/es/reservar", label: "Reservar Cita" },
   { to: "/es/contacto", label: "Contacto" },
 ];
@@ -49,7 +49,7 @@ export const EsLayout = ({ children }: { children: ReactNode }) => {
                 <Phone className="h-4 w-4" />{SITE.phone}
               </a>
               <Button asChild size="sm" className="hidden sm:inline-flex bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                <Link to="/es/contacto">Presupuesto Gratis</Link>
+                <Link to="/es/contacto">Solicitar Servicio</Link>
               </Button>
               <a href={SITE.phoneHref} onClick={() => trackCallClick("es_header_mobile_icon")} className="sm:hidden inline-flex items-center justify-center h-10 w-10 rounded-md bg-accent text-accent-foreground" aria-label="Llamar ahora">
                 <Phone className="h-5 w-5" />
@@ -71,7 +71,7 @@ export const EsLayout = ({ children }: { children: ReactNode }) => {
                 ))}
                 <Link to="/" onClick={() => setOpen(false)} className="py-3 text-base font-semibold text-muted-foreground">English</Link>
                 <Button asChild className="mt-4 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                  <Link to="/es/contacto" onClick={() => setOpen(false)}>Presupuesto Gratis</Link>
+                  <Link to="/es/contacto" onClick={() => setOpen(false)}>Solicitar Servicio</Link>
                 </Button>
               </nav>
             </div>
@@ -107,7 +107,7 @@ export const EsLayout = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="border-t border-primary-foreground/15">
           <div className="container mx-auto px-4 py-4 text-xs text-primary-foreground/70">
-            © {year} {SITE.legalName}. Licencia #8822 · Contratista de HVAC con licencia y seguro en el condado de Westchester, NY.
+            © {year} {SITE.legalName}. Servicio de HVAC para el condado de Westchester, NY.
           </div>
         </div>
       </footer>

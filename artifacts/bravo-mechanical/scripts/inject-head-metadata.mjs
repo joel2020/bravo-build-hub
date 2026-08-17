@@ -395,7 +395,7 @@ function buildBodyInsert(route, ctx) {
 
   parts.push(`<p><a href="/contact">Request service online</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving Westchester County, NY.</p>`);
   parts.push(`</main>`);
-  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/emergency-hvac-westchester">Emergency HVAC</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
+  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/services/emergency-hvac-repair-westchester-county-ny">Emergency HVAC</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
 
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.65;color:#0f172a">${parts.join("\n")}</div>`;
 }

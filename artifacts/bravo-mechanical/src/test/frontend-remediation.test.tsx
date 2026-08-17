@@ -18,11 +18,13 @@ import {
 import { Layout } from "../components/Layout";
 import { NavigationEffects } from "../components/NavigationEffects";
 import { Header } from "../components/Header";
+import { StickyMobileCTA } from "../components/StickyMobileCTA";
 import { LeadForm } from "../components/LeadForm";
 import { PageHero } from "../components/PageHero";
 import { SITE } from "../lib/site";
 import BookOnline from "../pages/BookOnline";
 import Contact from "../pages/Contact";
+import CompanyFacts from "../pages/CompanyFacts";
 import CityPage from "../pages/CityPage";
 import Index from "../pages/Index";
 import Projects from "../pages/Projects";
@@ -423,6 +425,33 @@ describe("frontend remediation navigation shell", () => {
     expect(screen.getByRole("button", { name: /service areas/i }).getAttribute("aria-current")).toBe(
       "page",
     );
+  });
+
+  it("targets the canonical service page from every emergency link in shared navigation and company facts", () => {
+    const { container } = render(
+      <MemoryRouter>
+        <CompanyFacts />
+      </MemoryRouter>,
+    );
+
+    const emergencyLinks = Array.from(container.querySelectorAll<HTMLAnchorElement>('a[href*="emergency-hvac"]'));
+    expect(emergencyLinks.length).toBeGreaterThan(0);
+    expect(
+      emergencyLinks.map((link) => new URL(link.getAttribute("href") ?? "", SITE.siteUrl).pathname),
+    ).toEqual(
+      emergencyLinks.map(() => "/services/emergency-hvac-repair-westchester-county-ny"),
+    );
+  });
+
+  it("uses emergency sticky-call treatment on the canonical emergency service page", () => {
+    render(
+      <MemoryRouter initialEntries={["/services/emergency-hvac-repair-westchester-county-ny"]}>
+        <StickyMobileCTA />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole("link", { name: "Emergency Call" })).toBeTruthy();
+    expect(screen.queryByRole("link", { name: "Call Now" })).toBeNull();
   });
 });
 

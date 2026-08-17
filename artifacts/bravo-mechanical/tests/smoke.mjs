@@ -77,6 +77,16 @@ assert(
   ),
   'The duplicate AC-not-cooling article must permanently redirect to the indexed canonical article',
 );
+const emergencyRedirect = deploymentConfig.redirects?.find(
+  (rule) => rule.source === '/emergency-hvac-westchester',
+);
+assert(
+  emergencyRedirect?.destination === '/services/emergency-hvac-repair-westchester-county-ny'
+    && emergencyRedirect.permanent === true,
+  'legacy emergency URL must permanently redirect to the canonical emergency service page',
+);
+assert(!home.includes('href="/emergency-hvac-westchester"'), 'generated homepage must not link to the redirected emergency URL');
+assert(home.includes('href="/services/emergency-hvac-repair-westchester-county-ny"'), 'generated homepage must link to the canonical emergency service URL');
 for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
   assert(
     deploymentConfig.rewrites.some(
@@ -145,6 +155,14 @@ assert(
 assert(
   sitemap.includes(`${canonicalOrigin}/blog/why-is-my-ac-not-cooling-westchester`),
   'sitemap.xml must retain the indexed AC-not-cooling article',
+);
+assert(
+  !sitemap.includes(`${canonicalOrigin}/emergency-hvac-westchester`),
+  'sitemap must exclude redirected emergency URL',
+);
+assert(
+  sitemap.includes(`${canonicalOrigin}/services/emergency-hvac-repair-westchester-county-ny`),
+  'sitemap must retain canonical emergency service URL',
 );
 const privateSitemapEntry = sitemap.match(
   /<loc>[^<]*\/(?:auth|admin|proposal)(?:\/[^<]*)?<\/loc>/,
@@ -218,6 +236,8 @@ for (const slug of [
 }
 for (const route of taskTwoGeneratedRoutes) {
   const html = await readDist(route);
+  assert(!html.includes('href="/emergency-hvac-westchester"'), `${route} must not link to the redirected emergency URL`);
+  assert(html.includes('href="/services/emergency-hvac-repair-westchester-county-ny"'), `${route} must link to the canonical emergency service URL`);
   assert(!/licensed|insured|license #|24\/7|open 24|priceRange|openingHoursSpecification|free written estimate|same-day|warranty|30\+ years|5\.0|google rating|60.?120|same visit|roth|weil-mclain|mitsubishi|ao smith|carrier|trane|rheem|daikin|bosch|navien|bradford white|savings|fuel use|performance|efficien/i.test(html), `${route} publishes an evidence-required claim`);
   const fallbackIdentity = html.match(/<header><p>([\s\S]*?)<\/p><\/header>/i)?.[1] || '';
   assert(fallbackIdentity.includes('Bravo Mechanical LLC'), `${route} fallback is missing the legal business name`);

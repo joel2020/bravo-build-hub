@@ -59,7 +59,7 @@ If your system is under 10 years old, a repair is almost always the right call. 
 That's a capacity or efficiency problem, not a failure — a dirty coil, low refrigerant, or an undersized/aging system that can't keep up with peak heat load. It will get worse, not better.
 
 **How fast can someone come out in Westchester?**
-During heat waves we triage no-cool calls first. Call (914) 361-9142 — phone calls get dispatched faster than any form. For genuine emergencies we offer [24/7 emergency service](/emergency-hvac-westchester).
+For an urgent no-cooling concern, call (914) 361-9142 so Bravo can triage the situation and confirm the next available response window. See our [emergency HVAC guidance](/services/emergency-hvac-repair-westchester-county-ny).
 
 **How much does an AC repair visit cost?**
 Diagnostic fees and common repair ranges are covered in our [Westchester AC repair cost guide](/blog/ac-repair-cost-westchester). You approve the written price before we fix anything.

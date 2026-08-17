@@ -55,7 +55,7 @@ You're on borrowed time with a tank-body leak; the rusted spot only grows, and f
 It depends on fuel type, venting, and code items (expansion tank, pan, piping). We quote a **fixed written price before any work** — [request one here](/services/water-heater-installation-westchester-county-ny) or call (914) 361-9142.
 
 **Is a leaking water heater an emergency?**
-An actively draining tank, yes — that's a [24/7 call](/emergency-hvac-westchester). A slow drip with the water shut off can wait for a normal [booked window](/book).
+An actively draining tank warrants an [urgent HVAC service request](/services/emergency-hvac-repair-westchester-county-ny). A slow drip with the water shut off can use the normal [service request](/book).
 
 ---
 

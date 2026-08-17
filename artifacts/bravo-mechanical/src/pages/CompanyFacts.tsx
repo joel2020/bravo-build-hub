@@ -151,7 +151,7 @@ const CompanyFacts = () => {
               "/",
               "/services",
               "/service-areas",
-              "/emergency-hvac-westchester",
+              "/services/emergency-hvac-repair-westchester-county-ny",
               "/reviews",
               "/blog",
               "/contact",

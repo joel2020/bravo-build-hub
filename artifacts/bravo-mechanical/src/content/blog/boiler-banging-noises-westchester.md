@@ -41,7 +41,7 @@ Rapid on/off cycling (short cycling) with relay clicks points at controls, press
 - The **relief valve pops** (discharges water/steam) — that's a pressure or temperature safety event
 - Any **gas smell**: leave the house, then call Con Edison (1-800-752-6633) and 911
 
-For any of those, turn the boiler's service switch off and call us at (914) 361-9142 — [emergency service is 24/7](/emergency-hvac-westchester).
+For any of those, turn the boiler's service switch off when safe and call us at (914) 361-9142 to [request emergency HVAC service](/services/emergency-hvac-repair-westchester-county-ny).
 
 ## The maintenance connection
 

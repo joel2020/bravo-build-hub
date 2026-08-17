@@ -36,7 +36,7 @@ export const Footer = () => {
               </li>
             ))}
             <li>
-              <Link to="/emergency-hvac-westchester" className="text-primary-foreground font-semibold hover:underline">
+              <Link to="/services/emergency-hvac-repair-westchester-county-ny" className="text-primary-foreground font-semibold hover:underline">
                 Emergency HVAC →
               </Link>
             </li>

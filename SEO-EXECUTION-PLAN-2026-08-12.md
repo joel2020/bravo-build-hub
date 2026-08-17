@@ -109,7 +109,7 @@ The August 11 export, whose page-indexing data was last updated August 6, report
 | `/services/ac-repair-westchester-county-ny` | Improve | AC repair Westchester County NY | High urgency and summer lead intent |
 | `/services/boiler-repair-westchester-county-ny` | Improve | Boiler repair Westchester County NY | Strong fit with existing reviews and local housing stock |
 | `/services/heat-pump-installation-westchester-county-ny` | Improve | Heat pump installation Westchester County NY | High-ticket growth category; competitors invest heavily here |
-| `/services/emergency-hvac-repair-westchester-county-ny` | Improve and differentiate from `/emergency-hvac-westchester` | Emergency HVAC repair Westchester County | Two pages currently risk splitting the same intent; establish one primary commercial page |
+| `/services/emergency-hvac-repair-westchester-county-ny` | Consolidated; improve the canonical page | Emergency HVAC repair Westchester County | The legacy URL now permanently redirects and is absent from the sitemap; monitor Search Console migration and canonical processing |
 | `/service-areas/yonkers` | Improve first among city pages | HVAC contractor Yonkers NY | Headquarters and strongest location proof |
 | Two “AC not cooling” posts | Merge and redirect | AC running but not cooling | Duplicate intent |
 | 2025 and 2026 rebate posts | Consolidate into one maintained evergreen URL | NY heat pump rebates | Avoid stale claims and annual URL churn |

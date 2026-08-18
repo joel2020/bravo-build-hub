@@ -8,17 +8,17 @@ import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 
 const INCLUDED = [
-  { icon: CalendarClock, title: "Two seasonal tune-ups a year", text: "A spring cooling tune-up and a fall heating tune-up — cleaning, safety checks, combustion analysis, airflow, drains, and controls, with a written condition report after each visit." },
-  { icon: Bell, title: "Priority scheduling", text: "Plan members go to the front of the line — including during the January no-heat rush and the first 90°F week of summer, when everyone else waits days." },
-  { icon: BadgePercent, title: "Preferred repair pricing", text: "Discounted repair labor for members, and no overtime premium on emergency calls. Small repairs found during tune-ups are often handled on the spot." },
-  { icon: Wrench, title: "Equipment that lasts longer", text: "Maintained systems run more efficiently, fail less, and last years longer. Most manufacturer warranties also require documented annual maintenance — the plan keeps yours valid." },
+  { icon: CalendarClock, title: "Current availability", text: "Ask whether a maintenance plan or one-time maintenance visit is currently offered for your property type and equipment." },
+  { icon: Bell, title: "Visit frequency and scope", text: "Confirm the number of visits, included equipment, inspection and cleaning tasks, records provided, exclusions, and renewal terms." },
+  { icon: BadgePercent, title: "Scheduling and repair terms", text: "Ask whether scheduling priority, repair discounts, diagnostic charges, after-hours rates, or other benefits apply. Treat only the written plan terms as authoritative." },
+  { icon: Wrench, title: "Warranty documentation", text: "Manufacturer warranty requirements vary by product and contract. Review the applicable warranty and confirm which maintenance records the service visit will provide." },
 ];
 
 const FAQS = [
-  { q: "What does a maintenance plan cost?", a: "Plan pricing depends on how many systems you have (furnace, boiler, AC, heat pump, mini-splits) and property type. Call (914) 361-9142 or request a quote online — we'll price your exact setup in writing." },
-  { q: "What's included in a tune-up visit?", a: "A full seasonal checklist: cleaning, filter review, electrical and safety checks, combustion analysis on gas equipment, refrigerant and airflow checks on cooling, condensate drains, and controls — finished with a written condition summary and photos of anything that needs attention." },
-  { q: "Do plans cover rental or multifamily properties?", a: "Yes. Landlords are some of our best plan customers — scheduled maintenance prevents the middle-of-winter tenant no-heat call, and we keep per-unit service records for you." },
-  { q: "Does maintenance really matter for warranties?", a: "Most manufacturers require proof of annual professional maintenance to honor parts warranties. Our plan visits produce dated service records that protect your claim." },
+  { q: "What does a maintenance plan cost?", a: "Plan availability, visit frequency, included tasks, scheduling terms, and pricing are confirmed in writing before enrollment. The scope can vary by equipment count, system type, access, and property type." },
+  { q: "What's included in a maintenance visit?", a: "The written scope should identify the equipment covered, inspection and cleaning tasks, measurements, records, exclusions, and any work that requires separate approval." },
+  { q: "Are rental or multifamily properties eligible?", a: "Eligibility and scope are confirmed for the specific property. Provide the equipment count, access requirements, responsible contact, and any tenant-notice constraints when requesting options." },
+  { q: "Does maintenance affect a warranty?", a: "Warranty terms differ by manufacturer, model, installer agreement, and claim. Review the applicable documents and keep the service records they require; this page does not interpret or guarantee warranty coverage." },
 ];
 
 const MaintenancePlans = () => {
@@ -39,12 +39,12 @@ const MaintenancePlans = () => {
     <Layout>
       <PageHero
         eyebrow="Maintenance Plans"
-        title="The Cheapest Repair Is the Breakdown That Never Happens"
-        subtitle="An annual plan with two seasonal tune-ups, priority scheduling, and preferred repair pricing — for homes, rentals, and light commercial across Westchester County."
+        title="Maintenance Options Built Around Your Equipment"
+        subtitle="Ask about current plan or one-time visit availability, then review the written visit scope, scheduling terms, records, exclusions, and pricing before enrolling."
       />
 
       <section className="container mx-auto px-4 py-12 lg:py-16">
-        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">What plan members get</h2>
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">What to confirm before enrolling</h2>
         <div className="grid sm:grid-cols-2 gap-5 max-w-5xl">
           {INCLUDED.map((s) => (
             <div key={s.title} className="bg-card border border-border rounded-lg p-6">
@@ -58,14 +58,14 @@ const MaintenancePlans = () => {
         <div className="mt-10 bg-secondary border border-border rounded-lg p-6 max-w-5xl">
           <h3 className="font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-accent" /> Built around your equipment</h3>
           <p className="text-sm text-muted-foreground">
-            One condo mini-split or a three-family building with separate boilers — plans are priced per system, in writing, before you commit. Tell us what you have and we'll prepare a project-specific quote.
+            One condo mini-split and a three-family building with separate boilers require different scopes. Share the equipment and property details so availability, responsibilities, and written terms can be confirmed for the actual systems.
           </p>
         </div>
       </section>
 
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16">
-          <h2 className="text-2xl md:text-3xl font-extrabold mb-6">Plan questions, answered</h2>
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-6">Maintenance questions, answered</h2>
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl">
             {FAQS.map((f) => (
               <div key={f.q} className="bg-card border border-border rounded-lg p-6">
@@ -76,7 +76,7 @@ const MaintenancePlans = () => {
           </div>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-              <Link to="/contact">Get My Plan Quote</Link>
+              <Link to="/contact">Request Maintenance Options</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
               <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>

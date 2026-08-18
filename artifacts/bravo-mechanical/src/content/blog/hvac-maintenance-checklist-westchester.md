@@ -60,7 +60,7 @@ author: Bravo Mechanical Team
 
 ## What a real maintenance plan buys you
 
-Two seasonal visits (spring cooling, fall heating), the pro checklist above, **priority scheduling** when the first heat wave or cold snap hits and the calendar fills, preferred repair pricing, and a **documented service history** — which is what the manufacturer asks for when you make a warranty claim on a $2,000 part. That's exactly what our [maintenance plan](/maintenance-plans) covers for Westchester homes and small rental buildings.
+Maintenance-plan availability and terms can change. Before enrolling, confirm the visit frequency, equipment covered, checklist, scheduling terms, repair pricing, records, exclusions, renewal terms, and any manufacturer-specific documentation requirements in writing.
 
 ## FAQs
 
@@ -75,4 +75,4 @@ About 45–90 minutes per system, longer for boilers with multiple zones.
 
 ---
 
-*Want both seasonal visits handled automatically? See our [maintenance plans](/maintenance-plans) or call **(914) 361-9142** — priority scheduling included, all of Westchester County.*
+*Want help planning seasonal maintenance? Review the current [maintenance options](/maintenance-plans) or call **(914) 361-9142** to confirm availability and written terms for your equipment.*

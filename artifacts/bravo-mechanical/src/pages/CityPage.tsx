@@ -14,17 +14,17 @@ import { useSeo } from "@/lib/seo";
 const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seasonal: string }> = {
   yonkers: {
     housing: "Many Yonkers homes still run legacy steam or hot-water boilers. We frequently retrofit these systems with high-efficiency gas boilers and add ductless cooling where ductwork is limited.",
-    permitting: "For larger replacements, we coordinate permits and inspection timing with local requirements so homeowners have paperwork in place for resale and warranty support.",
+    permitting: "Permit and inspection requirements vary by project scope. Confirm permit requirements and responsibilities in the written proposal, including filing, fees, scheduling, and closeout.",
     seasonal: "Winter no-heat and summer no-cool calls are common in older housing stock; call to request urgent triage based on current availability.",
   },
   "white-plains": {
     housing: "White Plains includes both high-rise condos and older single-family homes. Our work often combines airflow correction with equipment upgrades to fix uneven comfort.",
-    permitting: "We handle replacement documentation and permit coordination for homeowners, building managers, and light commercial properties.",
+    permitting: "Replacement documentation and permit requirements vary by equipment and building type. Confirm the required documents and responsibilities in the written proposal.",
     seasonal: "High summer humidity and shoulder-season furnace issues are the most frequent causes of emergency calls here.",
   },
   "new-rochelle": {
     housing: "New Rochelle's coastal housing often mixes boiler heat with no central AC. We commonly install multi-zone mini-splits to add cooling without major demolition.",
-    permitting: "Where permit-triggering equipment changes are required, we provide scope details and model documentation up front.",
+    permitting: "Equipment changes may trigger municipal or building requirements. Confirm the required scope details, model documents, filings, fees, and inspections before work begins.",
     seasonal: "Sound-shore humidity drives indoor air quality concerns, so dehumidification and filtration upgrades are common add-ons.",
   },
   "mount-vernon": {
@@ -34,7 +34,7 @@ const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seas
   },
   scarsdale: {
     housing: "Scarsdale homes are often larger and older, which makes zoning and load calculations critical. We design for consistent room-by-room comfort rather than one-size-fits-all sizing.",
-    permitting: "For full replacements and major retrofits, we coordinate permit-ready scopes and code-compliant final layouts.",
+    permitting: "Full replacements and major retrofits may require permit-ready scopes and inspections. Confirm the applicable requirements and responsibilities in writing for the project.",
     seasonal: "High expectations for quiet operation, clean installation details, and long-term efficiency shape most Scarsdale projects.",
   },
 };
@@ -196,7 +196,7 @@ const CityPage = () => {
           <div className="max-w-2xl mb-8">
             <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Services in {city.name}</div>
             <h2 className="text-2xl md:text-3xl font-extrabold">Full residential & commercial HVAC</h2>
-            <p className="mt-3 text-muted-foreground">Whatever your heating, cooling, or air-quality need in {city.name}, we handle it in-house — no subcontractors, no run-around.</p>
+            <p className="mt-3 text-muted-foreground">Request a project-specific scope for heating, cooling, or indoor-air-quality work in {city.name}, including who will perform each part of the approved work.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICES.map((s) => {
@@ -225,9 +225,9 @@ const CityPage = () => {
         <div className="grid md:grid-cols-2 gap-4">
           {[
             { t: "We live and work in Westchester", d: `Our techs know ${city.name} — the housing stock, the climate, the building codes. No guessing.` },
-            { t: "Honest sizing and honest pricing", d: "We do real load calculations and quote in writing before any work begins. No bait-and-switch." },
-            { t: "Licensed and permit-aware", d: "Bravo Mechanical lists Westchester HVAC license #8822 and coordinates permits when the project scope requires them." },
-            { t: "Straight pricing", d: "A written, itemized estimate before any work begins — equipment options and total price fixed up front." },
+            { t: "Project-specific sizing", d: "Ask for the load assumptions, equipment selection, and written scope used for the specific building." },
+            { t: "Credential and permit check", d: "Bravo Mechanical lists Westchester HVAC license #8822. Confirm the municipal credential, permit requirements, and each party's responsibilities for the project." },
+            { t: "Written project terms", d: "Review the equipment, labor, exclusions, responsibilities, pricing, and change-order process in the written proposal before approving work." },
           ].map((b) => (
             <div key={b.t} className="bg-card border border-border rounded-lg p-5 flex gap-3">
               <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />

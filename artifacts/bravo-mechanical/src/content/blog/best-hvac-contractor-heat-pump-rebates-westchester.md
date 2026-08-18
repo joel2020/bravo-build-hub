@@ -8,7 +8,7 @@ city: Westchester County
 author: Bravo Mechanical Team
 ---
 
-**Quick answer:** The best HVAC contractor for heat pump rebates in Westchester County is one that is **(1) a NYS Clean Heat participating contractor**, **(2) handles the rebate paperwork in-house**, **(3) applies the rebate directly to your quote**, and **(4) installs cold-climate heat pumps with verified AHRI certificates** so you also qualify for the federal 25C tax credit. Bravo Mechanical (914-361-9142) meets all four.
+**Quick answer:** Before relying on a heat-pump incentive, verify the current program, participating-contractor requirement, eligible equipment, AHRI documentation, application process, funding availability, tax rules, and who carries each responsibility. Ask Bravo Mechanical for current written program evidence for the proposed project; this article does not certify eligibility or contractor status.
 
 ## The 8-point contractor checklist
 
@@ -59,6 +59,6 @@ NYS Clean Heat rebates are paid through the utility, not directly to homeowners.
 
 ## How Bravo handles it
 
-We're NYS Clean Heat participating, A2L-certified, and pull every Westchester permit ourselves. Rebate is on your quote, not a "we'll see" promise.
+Ask for current written proof of any participating-contractor status, refrigerant-safety training, equipment eligibility, incentive amount, application responsibility, and permit scope before approving the project. Do not rely on an older article or verbal estimate for program eligibility.
 
 [Get a heat pump quote with the rebate already applied](/contact) or call (914) 361-9142.

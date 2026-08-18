@@ -51,7 +51,7 @@ Full replacement pricing is in our [central AC replacement cost guide](/blog/cen
 
 ## How to avoid the big repairs entirely
 
-Most compressor and coil failures start as small, cheap problems — dirty coils, weak capacitors, low airflow — that run undetected for a season or two. An annual spring tune-up catches them at the $200 stage instead of the $2,000 stage. That's the entire pitch for a [maintenance plan](/maintenance-plans): two seasonal visits, priority scheduling in heat waves, and documented service history that protects your manufacturer warranty.
+Some compressor and coil failures are preceded by conditions such as dirty coils, weak capacitors, or low airflow. Maintenance may identify current issues, but it cannot guarantee that a failure will be prevented or that a warranty claim will be covered. Ask what the visit includes, what records are provided, and what the applicable manufacturer warranty requires.
 
 ## FAQs
 

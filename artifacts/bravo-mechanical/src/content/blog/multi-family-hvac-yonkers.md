@@ -77,7 +77,7 @@ Yonkers Building Department requires permits for boiler/furnace replacement and 
 We offer flat-rate annual service contracts that bundle:
 - Annual tune-ups for all units
 - Discounted emergency dispatch
-- Priority scheduling during heat waves and cold snaps
+- Written scheduling terms for heat waves and cold snaps, if currently offered
 - Documentation for tenant inquiries / housing court
 
 [Request a Yonkers multi-family HVAC consultation](/contact) or call (914) 361-9142.

@@ -25,7 +25,9 @@ import { SITE } from "../lib/site";
 import BookOnline from "../pages/BookOnline";
 import Contact from "../pages/Contact";
 import CityPage from "../pages/CityPage";
+import Financing from "../pages/Financing";
 import Index from "../pages/Index";
+import MaintenancePlans from "../pages/MaintenancePlans";
 import Projects from "../pages/Projects";
 import Services from "../pages/Services";
 import { trackCallClick } from "../lib/analytics";
@@ -603,6 +605,50 @@ describe("task-specific booking and contact presentation", () => {
     expect(screen.getByRole("link", { name: /open in google maps/i }).getAttribute("href")).toBe(
       SITE.social.google,
     );
+  });
+});
+
+describe("evidence-gated public offers", () => {
+  afterEach(() => cleanup());
+
+  it("does not advertise unverified financing, payment, or fixed-price terms", () => {
+    render(
+      <MemoryRouter>
+        <Financing />
+      </MemoryRouter>,
+    );
+
+    const mainText = screen.getByRole("main").textContent || "";
+    expect(mainText).toMatch(/current financing availability and terms.*confirmed.*project/i);
+    expect(mainText).not.toMatch(/free written|price (?:is )?locked|cash, check|zelle|major credit cards/i);
+    expect(mainText).not.toMatch(/\$\d[\d,]*(?:–|-)\$\d/);
+  });
+
+  it("does not promise unverified maintenance-plan benefits or warranty outcomes", () => {
+    render(
+      <MemoryRouter>
+        <MaintenancePlans />
+      </MemoryRouter>,
+    );
+
+    const mainText = screen.getByRole("main").textContent || "";
+    expect(mainText).toMatch(/plan availability.*visit frequency.*confirmed in writing/i);
+    expect(mainText).not.toMatch(/front of the line|preferred repair pricing|no overtime premium/i);
+    expect(mainText).not.toMatch(/keeps? (?:your )?warranty valid|protects? your claim/i);
+  });
+
+  it("does not promise permit handling or fixed pricing on city pages", () => {
+    render(
+      <MemoryRouter initialEntries={["/service-areas/yonkers"]}>
+        <Routes>
+          <Route path="/service-areas/:slug" element={<CityPage />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    const mainText = screen.getByRole("main").textContent || "";
+    expect(mainText).toMatch(/permit requirements and responsibilities.*written (?:proposal|scope)/i);
+    expect(mainText).not.toMatch(/we coordinate permits|we handle (?:replacement documentation and )?permit|total price fixed|no bait-and-switch|no subcontractors|handle it in-house/i);
   });
 });
 

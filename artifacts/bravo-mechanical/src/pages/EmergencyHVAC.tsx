@@ -110,7 +110,7 @@ const EmergencyHVAC = () => {
             No Heat? Emergency Furnace Repair in Westchester, NY
           </h1>
           <p className="mt-4 text-lg text-destructive-foreground/90 max-w-2xl">
-            Same-day, after-hours, weekend, and holiday service. Licensed, insured, and answering the phone right now.
+            Call to request urgent after-hours, weekend, or holiday dispatch. Availability and timing depend on current capacity, location, weather, and the diagnosed work.
           </p>
           <div className="mt-7 flex flex-col sm:flex-row gap-3">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
@@ -126,8 +126,8 @@ const EmergencyHVAC = () => {
           </div>
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-destructive-foreground/85">
             <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> 24/7/365</span>
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Licensed & Insured</span>
-            <span className="inline-flex items-center gap-1.5"><Wrench className="h-4 w-4" /> Most no-heat calls fixed same visit</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Verify credentials for the project</span>
+            <span className="inline-flex items-center gap-1.5"><Wrench className="h-4 w-4" /> Diagnosis determines next steps</span>
           </div>
         </div>
       </section>
@@ -192,10 +192,10 @@ const EmergencyHVAC = () => {
             <ul className="mt-6 space-y-3">
               {[
                 "Upfront pricing — no surprise after-hours fees",
-                "Trucks stocked with common ignition, control, and pump parts",
+                "Parts availability confirmed after diagnosis",
                 "Gas, oil, boilers, furnaces, heat pumps, mini-splits",
                 "Repair-or-replace honest recommendation",
-                "Fully licensed and insured in NY",
+                "Westchester HVAC license #8822 listed; verify applicability",
               ].map((b) => (
                 <li key={b} className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 text-accent mt-0.5 shrink-0" />

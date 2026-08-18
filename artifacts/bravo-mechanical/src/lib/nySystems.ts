@@ -81,7 +81,7 @@ export const NY_SYSTEMS: NYSystem[] = [
       overview: [
         "Ductless mini-splits are the easiest way to add efficient heating and cooling to a home that doesn't have ductwork — older Cape Cods, Tudors, additions, finished basements, sunrooms, and attics. One outdoor condenser can feed up to eight indoor heads, each with its own thermostat.",
         "Today's cold-climate inverter heat pumps from Mitsubishi (Hyper-Heat) and Daikin (Aurora) keep full heating capacity down to 5°F and continue to operate at -13°F, making them practical primary heat for most Westchester homes.",
-        "We are factory-trained on Mitsubishi Diamond and handle line-set routing carefully so the install looks intentional, not bolted on.",
+        "Ask for current manufacturer-training evidence and a project-specific line-set routing plan before approving the installation.",
       ],
       gallery: [
         { src: jobMitsubishi, alt: "Mitsubishi ductless mini-split exterior install" },
@@ -220,7 +220,7 @@ export const NY_SYSTEMS: NYSystem[] = [
         { q: "Tank, tankless, or heat pump — which is right for me?", a: "Tankless is great for limited space and unlimited hot water on demand. Heat pump is best if you want lower bills and have a basement with 700+ cubic feet. Standard tanks are still the most affordable upfront. We walk through the trade-offs at the estimate." },
         { q: "What size do I need?", a: "Standard sizing: 40-50 gallons for 1-3 people, 65-80 gallons for 4-5 people. Tankless is sized by GPM (flow rate) and temperature rise. We size based on first-hour rating and your actual peak demand." },
         { q: "How long do water heaters last?", a: "Standard tank: 8-12 years. Tankless: 15-20 years. Heat pump: 10-15 years. Annual flush and anode rod inspection extends the life of any tank-style unit." },
-        { q: "Do you offer same-day or emergency replacement?", a: "Yes — we keep common sizes in stock and can usually replace a failed water heater the same day or next morning." },
+        { q: "What affects urgent replacement timing?", a: "Timing depends on diagnosis, equipment availability, utilities, permits, access, location, and current technician capacity. Ask for the next available project-specific schedule." },
       ],
     },
   },

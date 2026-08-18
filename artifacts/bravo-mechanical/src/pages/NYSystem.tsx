@@ -125,11 +125,11 @@ const NYSystem = () => {
           </div>
           <aside className="bg-card border border-border rounded-lg p-6 h-fit">
             <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Get an estimate</div>
-            <h3 className="font-bold text-lg mb-3">Free written quote, no pressure.</h3>
-            <p className="text-sm text-muted-foreground mb-5">Local techs, licensed & insured, serving all of {SITE.area}.</p>
+            <h3 className="font-bold text-lg mb-3">Request written project options.</h3>
+            <p className="text-sm text-muted-foreground mb-5">Confirm the project scope, terms, credentials, and permit responsibilities for work in {SITE.area}.</p>
             <div className="flex flex-col gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact" onClick={() => trackRequestServiceClick(`service_page_${system.slug}`)}>Get a Free Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick(`service_page_${system.slug}`)}>Request Project Options</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold">
                 <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>

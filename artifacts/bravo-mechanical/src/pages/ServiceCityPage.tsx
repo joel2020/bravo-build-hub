@@ -99,7 +99,7 @@ const ServiceCityPage = () => {
 
             <div className="grid sm:grid-cols-2 gap-5 pt-2">
               <div className="bg-card border border-border rounded-lg p-5">
-                <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-muted-foreground">What's included</h3>
+                <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-muted-foreground">Project scope to confirm</h3>
                 <ul className="space-y-2">
                   {service.scope.map((t) => (
                     <li key={t} className="flex gap-2 text-sm">
@@ -110,7 +110,7 @@ const ServiceCityPage = () => {
                 </ul>
               </div>
               <div className="bg-card border border-border rounded-lg p-5">
-                <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-muted-foreground">Why Bravo in {city.name}</h3>
+                <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-muted-foreground">What to verify in {city.name}</h3>
                 <ul className="space-y-2">
                   {service.signals.map((b) => (
                     <li key={b} className="flex gap-2 text-sm">
@@ -124,9 +124,9 @@ const ServiceCityPage = () => {
           </div>
 
           <aside className="bg-card border border-border rounded-lg p-6 h-fit">
-            <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Get a free quote</div>
+            <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Request project options</div>
             <h3 className="font-bold text-lg mb-3">{service.title} in {city.name}, NY</h3>
-            <p className="text-sm text-muted-foreground mb-5">Request a written, project-specific quote from a licensed Westchester HVAC contractor.</p>
+            <p className="text-sm text-muted-foreground mb-5">Request a written, project-specific scope from Bravo Mechanical and verify the applicable credential and permit requirements.</p>
             <div className="flex flex-col gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
                 <Link to="/contact" onClick={() => trackRequestServiceClick(`service_city_${service.slug}_${city.slug}`)}>Request an Estimate</Link>
@@ -221,7 +221,7 @@ const ServiceCityPage = () => {
 
       <CTABand
         title={`Need ${service.title.toLowerCase()} in ${city.name}?`}
-        subtitle={`Get a free written quote from a local Westchester HVAC team — no pressure, no run-around.`}
+        subtitle={`Request a written, project-specific scope from a Westchester HVAC team and review the terms before approving work.`}
       />
     </Layout>
   );

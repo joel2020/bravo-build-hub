@@ -15,7 +15,7 @@
 - Disabled automatic GA4 page views in code, replaced the initial loader with a privacy-gated loader, suppressed analytics on `/auth`, `/admin/*`, and `/proposal/*`, disabled analytics loading for entries containing a query string or hash, and explicitly sends only a query-free pathname, sanitized page location, and empty referrer. On August 18, 2026, Enhanced Measurement's browser-history page-change option was disabled and saved in the Bravo GA4 stream with explicit approval.
 - Added page-path measurement and SPA page views, plus tracked service-page calls and request-service placements. Form and online-booking success events remain tracked without sending the submitted contact fields.
 - Added `X-Robots-Tag: noindex, nofollow` coverage for every `app.bravomechanicalny.com` response in addition to `/auth`, `/admin/*`, and `/proposal/*`.
-- Verified the current local build: type checking passed, 52/52 tests passed, production build passed, SEO smoke checks passed, and all 140 built sitemap pages passed the crawler audit.
+- Verified the current local build: type checking passed, 55/55 tests passed, production build passed, SEO smoke checks passed, and all 140 built sitemap pages passed the crawler audit.
 
 ## Search Console findings
 
@@ -82,7 +82,7 @@ Core Web Vitals/CrUX, enhancements, and GA4 reports could not be retrieved from 
 1. **Stale host migration evidence is suppressing confidence in the commercial pages.** Current HTML is correct, but Google has not recrawled several priority URLs since May–July.
 2. **Redirect-only URLs were still in the sitemap.** Six equipment guides declared canonicals to different money pages, while the sitemap still advertised them. The old emergency URL and duplicate AC article added two more conflicting signals.
 3. **Important content was too dependent on client rendering.** Initial HTML had unique metadata and FAQs but not the full symptoms/process/safety/decision content for priority services.
-4. **Unsupported statements weakened trust and policy safety.** The site contained unverified insurance, free-estimate, same-day, response-time, brand, price, inventory, financing, and warranty statements. Priority templates and prominent sitewide claims are corrected; a second evidence audit is still warranted for legacy articles and nonpriority service copy.
+4. **Unsupported statements weakened trust and policy safety.** The site contained unverified insurance, free-estimate, same-day, response-time, brand, price, inventory, financing, permit-handling, rebate-credential, plan-benefit, and warranty statements. The local completion tree now suppresses or qualifies these statements across priority templates, financing and maintenance pages, city/service templates, and the identified legacy articles. A built-artifact regression gate blocks the reviewed first-person promises from returning.
 5. **Conversion measurement could leak attribution fields and duplicate events.** Lead-form analytics previously spread full landing/referrer/click-ID attribution into GA4. The event helper also risked sending both a direct data-layer object and a `gtag` event.
 6. **The app host needed host-wide noindex coverage.** Path-only controls protected admin/auth/proposal routes, but the root and other responses on `app.bravomechanicalny.com` lacked an explicit noindex header.
 
@@ -206,7 +206,7 @@ An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at
 - Refresh the canonical sitemap now that production has passed; request indexing once for the four commercial priorities and Yonkers, then record dates.
 - Obtain Bravo Business Profile owner/manager access and GA4 read access. Correct the GBP website/appointment URLs and confirm hours, categories, services, and service areas.
 - Approve and post the one pending review response; establish a same-week response workflow with customer privacy rules.
-- Verify or remove remaining legacy price, warranty, financing, brand, inventory, rebate, permit-handling, and response-time claims.
+- Keep evidence-gated claims suppressed; publish business-specific price, warranty, financing, brand, inventory, rebate, permit-handling, insurance, or response-time claims only after current written evidence is recorded.
 - Review the active weekly Search Console/site-health heartbeat; connect GA4, call-log, CRM, review, and revenue sources as access becomes available.
 
 ### Days 31–60
@@ -245,6 +245,7 @@ An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at
 - With explicit approval for promotion and conditional rollback, Vercel promoted corrective preview `dpl_8zQqu2oQVmFHDgg25HTPH7LiJe5Z` on August 18, 2026 at 5:29:27 PM EDT as ready production deployment `dpl_4wuEL7hxR71zTMHS4QzVmGGxzNxF`. The immediate live check confirmed `app.bravomechanicalny.com/` returns HTTP 200 with `X-Robots-Tag: noindex, nofollow`, so rollback was not triggered.
 - The final production gate passed with no failures: 140/140 sitemap URLs, 8/8 path redirects, the apex redirect, 3/3 security headers, 5/5 private/app noindex checks, immutable asset caching, one-day sitemap caching, and 6/6 analytics privacy assertions. Vercel's one-hour error-log scan returned no errors.
 - A production-dependency audit of the Bravo package then identified advisories in React Router and the Supabase WebSocket chain. The local completion tree upgrades `react-router-dom` to `^7.18.2`, `@supabase/supabase-js` to `^2.112.3`, Vite to `^7.3.6`, Vitest to `^4.1.10`, and PostCSS to `^8.5.23`; Vitest is now correctly classified as a development dependency. A pinned-pnpm production audit reports zero high/critical advisories attributable to the Bravo package. Five high advisories remain in the separate `artifacts/api-server` package and are outside this phase's application scope. This dependency-only maintenance tree has not been deployed, so the live production artifact remains `dpl_4wuEL7hxR71zTMHS4QzVmGGxzNxF` pending separate deployment approval.
+- The second-pass business-claim audit found remaining first-person promises in the public financing and maintenance pages, city/service templates, and legacy articles. The local tree replaces those promises with project-specific, evidence-gated wording and adds rendered-page plus built-bundle regression coverage. These content-safety changes are included with the undeployed dependency maintenance, so production remains technically healthy but does not yet contain this final claim-remediation pass.
 
 ## Remaining evidence holds and access blockers
 
@@ -256,14 +257,15 @@ An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at
 - **GA4/CrUX/CWV:** browser-authenticated Bravo GA4 access is available and the active stream was verified. The GSC workflow still has no Analytics OAuth scope connected, and no CrUX property was available.
 - **GA4 stream configuration — resolved August 18, 2026:** “Page changes based on browser history events” was unchecked and saved with explicit approval, then independently rechecked by reopening the advanced settings. The code suppresses automatic page views and protects private/query-bearing entries.
 - **Maps rank/backlinks:** a location-controlled map-rank tracker and backlink index were unavailable.
-- **Business proof:** provide current certificate of insurance, license verification source, written warranty/estimate policy, financing provider/terms, supported equipment brands, current price sheet, stocked inventory, rebate credentials, permit-service boundaries, project permissions, and NYC/Long Island operating evidence before those claims are published.
+- **Business proof:** the reviewed unsupported promises are suppressed in the local completion tree. Provide a current certificate of insurance, license verification source, written warranty/estimate policy, financing provider/terms, supported equipment brands, current price sheet, stocked inventory, rebate credentials, permit-service boundaries, project permissions, and NYC/Long Island operating evidence before reactivating any corresponding claim.
 
 ## Verification record
 
 - `pnpm --filter @workspace/bravo-mechanical run typecheck` — passed
-- `PORT=4173 pnpm --filter @workspace/bravo-mechanical test` — 52/52 passed, including the root-inclusive `app` host noindex regression
+- `PORT=4173 pnpm --filter @workspace/bravo-mechanical test` — 55/55 passed, including root-inclusive `app` host noindex and evidence-gated public-offer regressions
 - `pnpm --filter @workspace/bravo-mechanical run build` — passed; 140 route-specific HTML files generated
 - `pnpm --filter @workspace/bravo-mechanical run test:e2e` — passed
+- Built-artifact claim gate — passed; the reviewed unverified free-estimate, maintenance-benefit, warranty, permit-handling, rebate-credential, training, inventory, insurance, financing/payment-method, and same-day-service promises are absent from the compiled public application
 - `pnpm --filter @workspace/bravo-mechanical run audit:seo:local` against the exact static build — 140/140 passed
 - `pnpm audit --prod` scoped to the Bravo dependency graph — zero Bravo high/critical advisories after the dependency upgrade; separate `artifacts/api-server` advisories remain outside this phase
 - Initial production post-promotion audit — 140/140 sitemap URLs, 8/8 path redirects, apex redirect, global security headers, private-route noindex headers, asset/sitemap cache policies, and 6/6 corrected analytics privacy assertions passed. The separate `app` root noindex check failed and triggered the correction described above.

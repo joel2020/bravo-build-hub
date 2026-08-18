@@ -55,4 +55,4 @@ If your R-410A system is 8+ years old and needs a major repair (compressor, coil
 | R-410A, 9–14 yrs old | Get repair vs. replace quote on any major fix |
 | New install in 2025 | R-454B (or R-32 for mini-split) |
 
-We're A2L-certified and install R-454B equipment across Westchester County. [Get a free replacement quote](/contact) or call (914) 361-9142.
+Ask for current written evidence of refrigerant-safety training, equipment eligibility, and project scope before approving work. [Request project-specific replacement options](/contact) or call (914) 361-9142.

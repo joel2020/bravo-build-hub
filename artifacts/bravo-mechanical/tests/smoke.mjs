@@ -118,6 +118,20 @@ assert(bundledApp.includes('tel:+19143619142'), 'Built app is missing tel:+19143
 assert(bundledApp.includes('mailto:info@bravomechanicalny.com'), 'Built app is missing info@bravomechanicalny.com mailto CTA');
 assert(!/Bravomechanicalllc@gmail\.com|bravomechanicalllc@gmail\.com|914-555-0100|9145550100/.test(bundledApp), 'Built app contains outdated placeholder contact info');
 assert(!/\(914\) 318-7368|9143187368/.test(bundledApp), 'Built app contains the outdated alternate phone number');
+for (const [pattern, claim] of [
+  [/free written quote|get a free estimate|get a free quote/i, 'unverified free-estimate offer'],
+  [/priority scheduling|preferred repair pricing|no overtime premium|flat-rate plans|discounts on parts and repairs|reminder system.{0,20}we book it/i, 'unverified maintenance-plan benefit'],
+  [/most HVAC breakdowns.{0,30}preventable|prevents breakdowns.{0,30}lowers bills.{0,30}extends equipment life/i, 'unverified maintenance outcome'],
+  [/keeps? (?:your )?warranty valid|protects? your manufacturer warranty|protects? your claim/i, 'unverified warranty outcome'],
+  [/we (?:coordinate|handle|pull) (?:every |the )?(?:mechanical )?permits?|pull every Westchester permit/i, 'unverified permit-handling promise'],
+  [/we(?:'re| are) (?:NYS Clean Heat participating|A2L-certified)/i, 'unverified rebate credential'],
+  [/factory-trained on Mitsubishi Diamond|keep common sizes in stock/i, 'unverified training or inventory claim'],
+  [/licensed\s*(?:&|and)\s*insured|fully licensed and insured/i, 'unverified insurance claim'],
+  [/financing for qualified homeowners is available|cash, check, Zelle, and major credit cards/i, 'unverified financing or payment-method claim'],
+  [/same[- ]day repair|completed same day|same day or next morning/i, 'unverified same-day service claim'],
+]) {
+  assert(!pattern.test(bundledApp), `Built app contains ${claim}`);
+}
 const skipLinkFocus = findCssRule(cssRoot, '.skip-link:focus');
 assert(hasDeclaration(skipLinkFocus, 'transform', 'translateY(0)'), 'Built CSS is missing the visible .skip-link:focus rule');
 assert(hasDeclaration(skipLinkFocus, 'outline', '3px solid hsl(var(--ring))'), 'Built CSS is missing the skip-link focus outline');

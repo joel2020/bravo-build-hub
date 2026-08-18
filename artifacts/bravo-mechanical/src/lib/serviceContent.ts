@@ -43,7 +43,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     faqs: (c) => [
       {
         q: `How much does a new HVAC system cost in ${c}?`,
-        a: `Pricing in ${c} depends on system type (furnace, AC, heat pump, ductless), the size of your home, and whether ductwork or electrical upgrades are needed. We give a free written quote after an in-home assessment — no high-pressure sales calls.`,
+        a: `Pricing in ${c} depends on system type (furnace, AC, heat pump, ductless), the size of the building, and whether ductwork or electrical upgrades are needed. Request a written, project-specific proposal after the property assessment.`,
       },
       {
         q: `How long does installation take?`,
@@ -108,40 +108,40 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     h1: (c) => `HVAC Maintenance & Tune-Ups in ${c}, NY`,
     metaTitle: (c) => `HVAC Maintenance ${c}, NY — Tune-Ups & Service Plans | Bravo Mechanical`,
     metaDescription: (c) =>
-      `Seasonal HVAC tune-ups and maintenance plans in ${c}, NY. Spring AC and fall heating service that prevents breakdowns, lowers bills, and extends equipment life.`,
+      `HVAC maintenance in ${c}, NY, with equipment-specific inspection scope, documented findings, and project-specific scheduling and plan terms.`,
     intro: (c) =>
-      `Most HVAC breakdowns in ${c} are preventable. A 60-minute tune-up before each season catches the small issues — a weak capacitor, a clogged drain, a low refrigerant charge — before they become a no-heat call in January or a no-cool call in July. Bravo Mechanical's maintenance plans are scheduled automatically and include priority service when you do need a repair.`,
+      `Maintenance in ${c} can document current safety, airflow, drainage, electrical, and operating-condition issues, but it cannot guarantee future reliability or savings. Confirm the equipment covered, approved tasks, visit timing, records, exclusions, pricing, and any plan terms in writing.`,
     scope: [
-      "Spring AC tune-ups and refrigerant checks",
-      "Fall heating tune-ups and combustion analysis",
-      "Filter replacement and coil cleaning",
-      "Thermostat calibration and battery checks",
-      "Safety inspection (CO, gas leaks, electrical)",
-      "Annual service plan agreements",
+      "Equipment and symptoms covered",
+      "Applicable safety and electrical checks",
+      "Airflow, filter, drain, coil, and control tasks",
+      "Measurements and records provided",
+      "Excluded work requiring separate approval",
+      "Visit, pricing, and renewal terms if a plan is offered",
     ],
     signals: [
-      "Flat-rate plans — no per-visit surprises",
-      "Priority scheduling for plan members",
-      "Discounts on parts and repairs",
-      "Multi-point checklist on every visit",
-      "Reminder system — we book it, you don't have to",
+      "Current plan or one-time visit availability",
+      "Written visit frequency and scope",
+      "Scheduling and after-hours terms",
+      "Repair pricing and authorization process",
+      "Records and manufacturer-document requirements",
     ],
     faqs: (c) => [
       {
         q: `How often should I service my HVAC system in ${c}?`,
-        a: `Twice a year is the sweet spot — once in spring before AC season, once in fall before heating. ${c} winters and humid summers put real stress on equipment, and twice-yearly service usually pays for itself in lower bills and avoided repairs.`,
+        a: `Frequency depends on the equipment, manufacturer guidance, usage, environment, and applicable warranty terms. Confirm the interval for each system in ${c}.`,
       },
       {
         q: `What's included in a tune-up?`,
-        a: `A multi-point inspection: refrigerant charge, electrical connections, capacitor health, blower performance, drain line, thermostat operation, and a combustion safety check on heating systems. You get a written report after every visit.`,
+        a: `The written scope should identify the equipment, inspection and cleaning tasks, measurements, records, exclusions, and any work that requires separate approval.`,
       },
       {
         q: `Do maintenance plans really save money?`,
-        a: `Yes — for most ${c} homeowners. A well-maintained system often runs more consistently, may reduce avoidable breakdowns, and supports long-term equipment condition. Plan details vary by agreement.`,
+        a: `Maintenance may identify conditions affecting operation, but savings and future reliability depend on equipment condition, controls, weather, usage, and building load. No specific outcome is guaranteed.`,
       },
       {
         q: `Will maintenance keep my warranty valid?`,
-        a: `Many manufacturer warranties require documented maintenance. We provide service records for your files.`,
+        a: `Warranty requirements differ by manufacturer, model, installer agreement, and claim. Review the applicable documents and confirm which records an approved service visit will provide.`,
       },
     ],
   },
@@ -264,11 +264,11 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     faqs: (c) => [
       {
         q: `Do you offer commercial HVAC service contracts in ${c}?`,
-        a: `Yes — preventive maintenance agreements are a common commercial option. Quarterly or bi-annual visits, priority scheduling, and service documentation are available based on plan terms.`,
+        a: `Maintenance-agreement availability, visit frequency, scheduling terms, included equipment, documentation, exclusions, and pricing must be confirmed in the current written plan for the property.`,
       },
       {
         q: `Can you respond after hours for emergency commercial calls?`,
-        a: `Yes. Service-contract customers receive priority scheduling. We also take after-hours calls from non-contract ${c} businesses when capacity allows.`,
+        a: `Ask which scheduling terms apply to the current service agreement. Urgent and after-hours availability for ${c} businesses depends on current capacity and the written service terms.`,
       },
       {
         q: `What size commercial properties do you service?`,

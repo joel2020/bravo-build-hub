@@ -8,22 +8,22 @@ import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 
 const STEPS = [
-  { icon: FileText, title: "Get your written estimate", text: "Every project starts with a free written quote — equipment options, scope, and total price before any work begins." },
-  { icon: CalendarClock, title: "Tell us your budget reality", text: "If paying in full doesn't fit right now, say so. We'll walk you through payment options and third-party financing programs available for qualified homeowners." },
-  { icon: CheckCircle2, title: "Pick the path that fits", text: "Ask which payment and financing options are currently available for your project. Financing approval and terms are determined by the provider." },
-  { icon: ShieldCheck, title: "We start the work", text: "Once you approve, we order equipment and schedule the install. The written price is locked before work begins — no surprises when the job is done." },
+  { icon: FileText, title: "Request a project-specific scope", text: "Equipment, labor, electrical, venting, controls, permits, and site conditions can change the project. Start with a written scope for the property." },
+  { icon: CalendarClock, title: "Ask about current payment options", text: "Payment and financing availability can change. Confirm the options currently offered for the specific project before planning around them." },
+  { icon: CheckCircle2, title: "Review written terms", text: "If third-party financing is available, review the provider, approval requirements, rate, fees, payment schedule, and expiration date in the lender's current documents." },
+  { icon: ShieldCheck, title: "Approve the documented path", text: "Authorize work only after the scope, project price, payment terms, responsibilities, and schedule are documented and acceptable." },
 ];
 
 const FAQS = [
-  { q: "Do you offer financing for HVAC replacement?", a: "Yes — financing for qualified homeowners is available through third-party lending partners for larger projects like boiler, furnace, AC, and heat pump replacements. Ask when you request your estimate and we'll walk you through the current options and terms." },
-  { q: "How much does a new system cost in Westchester?", a: "Typical installed ranges: gas furnace $4,500–$9,000, gas boiler $7,000–$14,000, central AC $6,000–$12,000, cold-climate heat pump or whole-home ductless $12,000–$25,000 — depending on home size, ductwork, fuel type, and equipment tier. Your written estimate fixes the number before work starts." },
-  { q: "What payment methods do you accept?", a: "Cash, check, Zelle, and major credit cards — plus third-party financing for qualifying projects. No payment is due until the work is agreed in writing." },
+  { q: "Is financing currently available?", a: "Current financing availability and terms are confirmed for each project. Bravo Mechanical does not publish a lender, rate, payment amount, or approval promise before current written program details are available." },
+  { q: "How is a replacement price determined?", a: "The price depends on the building load, equipment configuration, distribution, electrical work, venting, controls, access, permits, and commissioning scope. Request a project-specific written proposal." },
+  { q: "What payment methods are accepted?", a: "Confirm the currently accepted payment methods and payment schedule in the written proposal before authorizing work. Availability can change and may differ by project." },
 ];
 
 const Financing = () => {
   useSeo({
     title: "HVAC Financing in Westchester County, NY | Bravo Mechanical",
-    description: "Spread the cost of a new boiler, furnace, AC, or heat pump. Financing options for qualified Westchester homeowners. Free written estimate first.",
+    description: "Ask Bravo Mechanical about current HVAC payment and financing availability, then review project-specific scope, pricing, and written provider terms.",
     canonical: `${SITE.siteUrl}/financing`,
     jsonLd: [
       {
@@ -38,8 +38,8 @@ const Financing = () => {
     <Layout>
       <PageHero
         eyebrow="Financing"
-        title="A $12,000 Boiler Shouldn't Require $12,000 Today"
-        subtitle="Financing options for qualified Westchester homeowners on heating and cooling replacements — with the written price fixed before any work begins."
+        title="Review the Project Before Choosing a Payment Path"
+        subtitle="Current payment and financing availability is confirmed per project. Review the written scope, price, provider, approval requirements, rates, fees, and schedule before deciding."
       />
 
       <section className="container mx-auto px-4 py-12 lg:py-16">
@@ -54,7 +54,7 @@ const Financing = () => {
           ))}
         </div>
         <p className="mt-6 text-sm text-muted-foreground max-w-3xl">
-          Financing is provided by third-party lenders, subject to credit approval; terms, rates, and availability vary by program and applicant. We'll go over the current options during your estimate — no obligation either way.
+          No financing provider, rate, term, or approval outcome is promised on this page. If a current third-party program is offered for your project, the lender's written disclosures control eligibility, rates, fees, and repayment terms.
         </p>
       </section>
 
@@ -71,7 +71,7 @@ const Financing = () => {
           </div>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-              <Link to="/contact">Get My Free Written Estimate</Link>
+              <Link to="/contact">Request Project Options</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
               <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>

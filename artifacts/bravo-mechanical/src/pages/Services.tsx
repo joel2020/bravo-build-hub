@@ -29,7 +29,7 @@ const services = [
   {
     icon: CheckCircle2,
     title: "Preventive Maintenance",
-    desc: "Seasonal tune-ups and service plans that extend equipment life and prevent breakdowns.",
+    desc: "Seasonal maintenance that documents system condition and helps identify avoidable reliability risks.",
     tasks: ["Spring AC tune-ups", "Fall heating tune-ups", "Filter replacement", "System cleaning & inspection", "Annual service plans"],
     benefits: ["Documented system condition", "Earlier warning of wear", "Seasonal operating checks"],
   },

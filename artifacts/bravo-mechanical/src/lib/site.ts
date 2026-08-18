@@ -59,7 +59,7 @@ export const FEATURED_SERVICE_LINKS = [
 export const SERVICES = [
   { slug: "hvac-installation", title: "HVAC Installation", description: "New furnace, AC, heat pump, and ductwork installation sized and engineered for your space." },
   { slug: "hvac-repair", title: "HVAC Repair", description: "Diagnostics and repair for heating and cooling systems, including urgent and after-hours service requests." },
-  { slug: "preventive-maintenance", title: "Preventive Maintenance", description: "Seasonal tune-ups and service plans that extend equipment life and prevent breakdowns." },
+  { slug: "preventive-maintenance", title: "Preventive Maintenance", description: "Seasonal maintenance that documents system condition and helps identify avoidable reliability risks." },
   { slug: "indoor-air-quality", title: "Indoor Air Quality", description: "Filtration, humidifiers, dehumidifiers, and air purifiers for healthier indoor environments." },
   { slug: "residential", title: "Residential HVAC", description: "Whole-home heating and cooling solutions for single-family homes, condos, and multi-units." },
   { slug: "commercial", title: "Commercial HVAC", description: "Reliable HVAC service for offices, retail, restaurants, and light-industrial buildings." },

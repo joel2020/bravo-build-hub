@@ -58,7 +58,7 @@ Often, yes. Call us as early as you can — timelines depend on your town's buil
 It depends on your municipality and whether a violation was already issued. Filing a reconciliation permit is the exact path to resolving it and closing it out.
 
 **Do you also do this for brand-new installs?**
-Absolutely. When we install a mini-split, we pull the mechanical permit as part of the job, so it's never a future problem.
+Permit requirements and responsibilities depend on the municipality and project scope. Confirm in the written proposal who will prepare and submit documents, pay fees, schedule inspections, complete corrections, and close the permit.
 
 ---
 

@@ -194,6 +194,8 @@ Gabriel Popian’s review: “I called bravo mechanical LLC for an emergency on 
 
 Use qualified calls, submitted forms, confirmed bookings, booked jobs, and collected revenue as separate funnel stages. Do not treat CTA clicks as leads or leads as revenue.
 
+An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at 9:00 AM America/New_York on the project task. It compares the latest 28 settled Search Console days with the preceding period, monitors the homepage plus the four commercial priorities and Yonkers, checks sitemap/indexing and live canonical health, and incorporates Bravo GA4 results when that connector becomes available. The heartbeat is read-only and cannot submit indexing requests, change account settings, publish, deploy, or push without fresh approval.
+
 ## 30/60/90-day plan
 
 ### Days 0–30
@@ -203,7 +205,7 @@ Use qualified calls, submitted forms, confirmed bookings, booked jobs, and colle
 - Obtain Bravo Business Profile owner/manager access and GA4 read access. Correct the GBP website/appointment URLs and confirm hours, categories, services, and service areas.
 - Approve and post the one pending review response; establish a same-week response workflow with customer privacy rules.
 - Verify or remove remaining legacy price, warranty, financing, brand, inventory, rebate, permit-handling, and response-time claims.
-- Establish weekly KPI export for Search Console, GA4 events, call logs, CRM bookings/jobs, reviews, and revenue.
+- Review the active weekly Search Console/site-health heartbeat; connect GA4, call-log, CRM, review, and revenue sources as access becomes available.
 
 ### Days 31–60
 

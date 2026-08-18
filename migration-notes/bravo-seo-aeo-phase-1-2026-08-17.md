@@ -71,6 +71,8 @@ Most exclusions are stale evidence from before the apex-to-`www` migration. Goog
 | Aug 17, 2026 | Observed active sitemap state | Only the canonical `www` sitemap was present when checked; no sitemap removal action was taken in this phase. |
 | Aug 17, 2026 | URL Inspection API read | Seven priority/reference URLs inspected; no indexing requests submitted. |
 | Aug 18, 2026 | Production crawl passed; canonical sitemap refresh is eligible | No Search Console submission made yet. |
+| Aug 18, 2026 | Fresh URL Inspection API read for four commercial priorities and Yonkers | All five allow indexing. AC repair, boiler repair, heat-pump installation, and emergency HVAC still report stale “Alternate page with proper canonical tag” decisions from May–July; Yonkers reports “Submitted and indexed.” No indexing request was submitted. |
+| Aug 18, 2026 | GSC Wizard indexing tracker created and seeded | Active tracker `ae64751b-cf51-4a9a-b474-f48b7492d416` monitors the same five URLs. Initial state: 1 indexed, 4 not indexed, 0 pending, 0 errors, and 0 warnings. |
 | 7–14 days after deployment | Re-inspect commercial URLs and record Google decision | Prioritize AC repair, boiler repair, heat-pump installation, emergency HVAC, and Yonkers. Do not repeatedly submit URLs already queued. |
 
 Core Web Vitals/CrUX, enhancements, and GA4 reports could not be retrieved from the connected Search Console workflow. No manual-action warning was surfaced by the available connector, but the connector did not expose a standalone manual-actions report; verify that screen directly before deployment sign-off.
@@ -194,7 +196,7 @@ Gabriel Popian’s review: “I called bravo mechanical LLC for an emergency on 
 
 Use qualified calls, submitted forms, confirmed bookings, booked jobs, and collected revenue as separate funnel stages. Do not treat CTA clicks as leads or leads as revenue.
 
-An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at 9:00 AM America/New_York on the project task. It compares the latest 28 settled Search Console days with the preceding period, monitors the homepage plus the four commercial priorities and Yonkers, checks sitemap/indexing and live canonical health, and incorporates Bravo GA4 results when that connector becomes available. The heartbeat is read-only and cannot submit indexing requests, change account settings, publish, deploy, or push without fresh approval.
+An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at 9:00 AM America/New_York on the project task. It compares the latest 28 settled Search Console days with the preceding period, monitors the homepage plus the four commercial priorities and Yonkers, checks sitemap/indexing and live canonical health, and incorporates Bravo GA4 results when that connector becomes available. GSC Wizard tracker `ae64751b-cf51-4a9a-b474-f48b7492d416` independently monitors the five priority URLs. The heartbeat is read-only and cannot submit indexing requests, change account settings, publish, deploy, or push without fresh approval.
 
 ## 30/60/90-day plan
 
@@ -248,7 +250,7 @@ An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at
 
 - **Deployment — resolved August 18, 2026:** corrected production deployment `dpl_4wuEL7hxR71zTMHS4QzVmGGxzNxF` is ready and passed the final production gate. `dpl_GxY56ofhDD7ikhj4FRK6EVfq9mWi` remains the rollback reference.
 - **Version control:** the phase source and local dependency-maintenance tree are preserved by the local completion commit on `codex/seo-aeo-phase1`. Root-level `.env.local` and `.vercel/` are excluded. Remote push/merge remains a separate external action.
-- **Indexing requests:** the corrected build and final production gate now qualify for the planned sitemap refresh and priority URL requests. No Search Console submission action has occurred; publishing those requests remains a separate external action.
+- **Indexing requests:** the corrected build and final production gate now qualify for the planned sitemap refresh and priority URL requests. The five priority URLs are actively tracked and their post-launch inspection baseline is recorded, but no Search Console submission action has occurred; publishing those requests remains a separate external action.
 - **Business Profile:** Bravo is not present in the connected Google account.
 - **Review publishing:** final approval is required immediately before posting.
 - **GA4/CrUX/CWV:** browser-authenticated Bravo GA4 access is available and the active stream was verified. The GSC workflow still has no Analytics OAuth scope connected, and no CrUX property was available.

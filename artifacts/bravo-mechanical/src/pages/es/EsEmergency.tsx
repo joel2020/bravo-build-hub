@@ -40,7 +40,7 @@ const EsEmergency = () => {
             No espere hasta mañana. Llame ahora y le atendemos en español — las emergencias se despachan por teléfono, a cualquier hora.
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg px-8">
-            <a href={SITE.phoneHref} onClick={() => { trackCallClick("es_emergency_hero"); trackEmergencyCtaClick("es_emergency_hero"); }}>
+            <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => { trackCallClick("es_emergency_hero"); trackEmergencyCtaClick("es_emergency_hero"); }}>
               <Phone className="h-5 w-5 mr-2" />Llamar {SITE.phone}
             </a>
           </Button>

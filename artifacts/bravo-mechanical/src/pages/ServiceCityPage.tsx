@@ -77,7 +77,7 @@ const ServiceCityPage = () => {
       <PageHero
         eyebrow={`${service.title} • ${city.name}, NY`}
         title={service.h1(city.name)}
-        subtitle={`Licensed, insured, local — ${service.title.toLowerCase()} for ${city.name} homes and businesses, dispatched from right here in Westchester County.`}
+        subtitle={`Licensed local ${service.title.toLowerCase()} for ${city.name} homes and businesses from a Westchester HVAC contractor.`}
       />
 
       <section className="container mx-auto px-4 py-10 lg:py-14">
@@ -126,10 +126,10 @@ const ServiceCityPage = () => {
           <aside className="bg-card border border-border rounded-lg p-6 h-fit">
             <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Get a free quote</div>
             <h3 className="font-bold text-lg mb-3">{service.title} in {city.name}, NY</h3>
-            <p className="text-sm text-muted-foreground mb-5">No-pressure written quote. Licensed & insured. Same-day service when available.</p>
+            <p className="text-sm text-muted-foreground mb-5">Request a written, project-specific quote from a licensed Westchester HVAC contractor.</p>
             <div className="flex flex-col gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact" onClick={() => trackRequestServiceClick(`service_city_${service.slug}_${city.slug}`)}>Get a Free Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick(`service_city_${service.slug}_${city.slug}`)}>Request an Estimate</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold">
                 <a href={SITE.phoneHref}>

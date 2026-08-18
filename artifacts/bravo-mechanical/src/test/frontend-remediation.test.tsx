@@ -16,6 +16,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { Layout } from "../components/Layout";
+import { EsLayout } from "../components/EsLayout";
 import { NavigationEffects } from "../components/NavigationEffects";
 import { Header } from "../components/Header";
 import { LeadForm } from "../components/LeadForm";
@@ -27,6 +28,7 @@ import CityPage from "../pages/CityPage";
 import Index from "../pages/Index";
 import Projects from "../pages/Projects";
 import Services from "../pages/Services";
+import { trackCallClick } from "../lib/analytics";
 
 const supabaseTestState = vi.hoisted(() => ({
   insert: vi.fn(),
@@ -492,7 +494,7 @@ describe("loader, project proof, and contextual actions", () => {
       </MemoryRouter>,
     );
 
-    const card = document.querySelector<HTMLAnchorElement>('a[href="/services/heat-pumps"]');
+    const card = document.querySelector<HTMLAnchorElement>('a[data-homeowner-system="heat-pumps"]');
     if (!card) throw new Error("Expected the heat-pump homeowner system card");
     expect(card.classList.contains("transition-all")).toBe(false);
     expect(card.classList.contains("transition-[border-color,box-shadow]")).toBe(true);
@@ -527,7 +529,7 @@ describe("loader, project proof, and contextual actions", () => {
     );
 
     const main = screen.getByRole("main");
-    expect(within(main).getAllByRole("link", { name: /get a free estimate/i })).toHaveLength(1);
+    expect(within(main).getAllByRole("link", { name: /request an estimate/i })).toHaveLength(1);
     [
       ["HVAC Installation services →", "/services/ac-installation-westchester-county-ny"],
       ["HVAC Repair services →", "/services/ac-repair-westchester-county-ny"],
@@ -601,6 +603,59 @@ describe("task-specific booking and contact presentation", () => {
     expect(screen.getByRole("link", { name: /open in google maps/i }).getAttribute("href")).toBe(
       SITE.social.google,
     );
+  });
+});
+
+describe("sitewide telephone analytics", () => {
+  afterEach(() => cleanup());
+
+  it("tracks an otherwise uninstrumented telephone link exactly once", () => {
+    window.dataLayer = [];
+    delete window.gtag;
+    render(
+      <MemoryRouter>
+        <Layout>
+          <a href={SITE.phoneHref} data-call-location="test_footer" onClick={(event) => event.preventDefault()}>Call</a>
+        </Layout>
+      </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByRole("link", { name: "Call" }));
+    expect(window.dataLayer).toEqual([
+      { event: "call_click", page_path: "/", page_location: "http://localhost:3000/", page_referrer: "", event_category: "engagement", location: "test_footer" },
+    ]);
+  });
+
+  it("does not duplicate a directly instrumented telephone link", () => {
+    window.dataLayer = [];
+    delete window.gtag;
+    render(
+      <MemoryRouter>
+        <Layout>
+          <a href={SITE.phoneHref} data-call-tracked="true" onClick={(event) => { event.preventDefault(); trackCallClick("test_direct"); }}>Call direct</a>
+        </Layout>
+      </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByRole("link", { name: "Call direct" }));
+    expect(window.dataLayer).toEqual([
+      { event: "call_click", page_path: "/", page_location: "http://localhost:3000/", page_referrer: "", event_category: "engagement", location: "test_direct" },
+    ]);
+  });
+
+  it("tracks an uninstrumented Spanish footer telephone link", () => {
+    window.dataLayer = [];
+    delete window.gtag;
+    const { container } = render(
+      <MemoryRouter>
+        <EsLayout><p>Contenido</p></EsLayout>
+      </MemoryRouter>,
+    );
+    const footerLink = container.querySelector<HTMLAnchorElement>('footer a[href^="tel:"]');
+    if (!footerLink) throw new Error("Expected the Spanish footer phone link");
+    footerLink.addEventListener("click", (event) => event.preventDefault());
+    fireEvent.click(footerLink);
+    expect(window.dataLayer).toEqual([
+      { event: "call_click", page_path: "/", page_location: "http://localhost:3000/", page_referrer: "", event_category: "engagement", location: "sitewide_tel" },
+    ]);
   });
 });
 

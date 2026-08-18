@@ -44,4 +44,4 @@ For homes with existing ductwork or open floor plans, yes — Clean Heat rebates
 
 ## Get a real White Plains quote
 
-We give itemized written quotes — boiler, piping, venting, permits, electrical, disposal — so you can compare apples to apples. Call (914) 318-7368 or [request an estimate](/contact).
+We give itemized written quotes — boiler, piping, venting, permits, electrical, disposal — so you can compare apples to apples. Call (914) 361-9142 or [request an estimate](/contact).

@@ -36,7 +36,7 @@ export const Footer = () => {
               </li>
             ))}
             <li>
-              <Link to="/emergency-hvac-westchester" className="text-primary-foreground font-semibold hover:underline">
+              <Link to="/services/emergency-hvac-repair-westchester-county-ny" className="text-primary-foreground font-semibold hover:underline">
                 Emergency? We answer 24/7 →
               </Link>
             </li>
@@ -127,7 +127,7 @@ export const Footer = () => {
             <Link to="/auth" rel="nofollow" className="inline-flex items-center gap-1 hover:text-primary-foreground hover:underline">
               <Lock className="h-3 w-3" /> CRM Login
             </Link>
-            <span>License #8822 · Licensed & insured HVAC contractor serving Westchester County, NY.</span>
+            <span>License #8822 · HVAC contractor serving Westchester County, NY.</span>
           </div>
         </div>
       </div>

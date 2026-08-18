@@ -1,3 +1,5 @@
+import priorityServiceOverrides from "./priorityServiceOverrides.json";
+
 export type HighIntentService = {
   slug: string;
   primaryKeyword: string;
@@ -32,8 +34,19 @@ const sharedLinks = [
   { label: "Company facts", href: "/company-facts" },
 ];
 
+const CANONICAL_LINK_TARGETS: Record<string, string> = {
+  "/services/gas-boilers": "/services/boiler-installation-westchester-county-ny",
+  "/services/mini-splits": "/services/mini-split-installation-westchester-county-ny",
+  "/services/heat-pumps": "/services/heat-pump-installation-westchester-county-ny",
+  "/services/central-ac": "/services/ac-installation-westchester-county-ny",
+  "/services/gas-furnaces": "/services/furnace-installation-westchester-county-ny",
+  "/services/water-heaters": "/services/water-heater-installation-westchester-county-ny",
+  "/emergency-hvac-westchester": "/services/emergency-hvac-repair-westchester-county-ny",
+};
+
 const mk = ({ serviceName, ...input }: ServiceInput): HighIntentService => ({
   ...input,
+  relatedLinks: input.relatedLinks.map((link) => ({ ...link, href: CANONICAL_LINK_TARGETS[link.href] || link.href })),
   h1: `${serviceName} in Westchester County, NY`,
 });
 
@@ -131,5 +144,10 @@ export const HIGH_INTENT_SERVICES: HighIntentService[] = [
 ];
 
 
-export const getHighIntentService = (slug?: string) =>
-  slug ? HIGH_INTENT_SERVICES.find((service) => service.slug === slug) : undefined;
+const PRIORITY_SERVICE_OVERRIDES = priorityServiceOverrides as Record<string, Partial<HighIntentService>>;
+
+export const getHighIntentService = (slug?: string) => {
+  if (!slug) return undefined;
+  const service = HIGH_INTENT_SERVICES.find((item) => item.slug === slug);
+  return service ? { ...service, ...PRIORITY_SERVICE_OVERRIDES[slug] } : undefined;
+};

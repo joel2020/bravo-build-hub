@@ -196,6 +196,7 @@ export const Header = () => {
           <div className="flex items-center gap-2">
             <a
               href={SITE.phoneHref}
+              data-call-tracked="true"
               onClick={() => trackCallClick("header_desktop")}
               className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent"
             >
@@ -207,6 +208,7 @@ export const Header = () => {
             </Button>
             <a
               href={SITE.phoneHref}
+              data-call-tracked="true"
               onClick={() => trackCallClick("header_mobile_icon")}
               className="sm:hidden inline-flex items-center justify-center h-10 w-10 rounded-md bg-accent text-accent-foreground"
               aria-label="Call now"
@@ -247,7 +249,7 @@ export const Header = () => {
                 </NavLink>
               ))}
               <Button asChild className="mt-4 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                <Link to="/contact" onClick={() => setOpen(false)}>Get a Free Estimate</Link>
+                <Link to="/contact" onClick={() => setOpen(false)}>Request an Estimate</Link>
               </Button>
             </nav>
           </div>

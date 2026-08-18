@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigationType } from "react-router-dom";
+import { trackPageView } from "@/lib/analytics";
 
 const isVisible = (element: HTMLElement) => {
   let current: HTMLElement | null = element;
@@ -21,10 +22,14 @@ export const NavigationEffects = () => {
   useEffect(() => {
     if (first.current) {
       first.current = false;
+      trackPageView();
       return;
     }
 
-    if (navigationType === "POP" || hash) return;
+    if (hash) return;
+    trackPageView();
+
+    if (navigationType === "POP") return;
 
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     let observer: MutationObserver | undefined;

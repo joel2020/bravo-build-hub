@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { getHighIntentService, HIGH_INTENT_SERVICES } from "@/lib/highIntentServices";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
+import { trackCallClick, trackRequestServiceClick } from "@/lib/analytics";
 
 const HighIntentServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -129,6 +130,18 @@ const HighIntentServicePage = () => {
             </div>
           </div>
 
+          {service.schema.emergency && (
+            <div className="border border-amber-300/60 bg-amber-50/60 rounded-lg p-5 text-slate-900">
+              <h2 className="text-2xl font-extrabold mb-3">Safety steps before HVAC service</h2>
+              <ul className="list-disc pl-5 space-y-2 text-sm">
+                <li>If you smell gas, leave the building and call 911 or your gas utility from a safe location. Do not operate switches or use a flame.</li>
+                <li>If you see smoke, sparks, or an active fire, leave the building and call 911. Shut off equipment only when it is safe to do so.</li>
+                <li>For water near electrical equipment, keep clear of the area and switch off the circuit only if the panel is dry and safely accessible.</li>
+                <li>When you call, have the service address, equipment type, symptoms, error code, and any recent work ready. Dispatch timing depends on conditions and technician availability.</li>
+              </ul>
+            </div>
+          )}
+
           <div className="grid sm:grid-cols-2 gap-6">
             <div className="bg-card border border-border rounded-lg p-5">
               <h2 className="text-xl font-extrabold mb-3">Equipment types we service</h2>
@@ -191,13 +204,13 @@ const HighIntentServicePage = () => {
 
         <aside className="bg-card border border-border rounded-lg p-6 h-fit sticky top-24">
           <h3 className="font-bold text-lg mb-2">Need {service.h1.replace(" in Westchester County, NY", "")}?</h3>
-          <p className="text-sm text-muted-foreground mb-4">Call Bravo Mechanical LLC at {SITE.phone} or request service online for fast local support.</p>
+          <p className="text-sm text-muted-foreground mb-4">Call Bravo Mechanical LLC at {SITE.phone} or request local service online. Scheduling and dispatch depend on current availability.</p>
           <div className="space-y-3">
             <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-              <Link to="/contact">{service.primaryCta}</Link>
+              <Link to="/contact" onClick={() => trackRequestServiceClick(`service_sidebar_${service.slug}`)}>{service.primaryCta}</Link>
             </Button>
             <Button asChild variant="outline" className="w-full font-bold">
-              <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
+              <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick(`service_sidebar_${service.slug}`)}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
             </Button>
           </div>
         </aside>

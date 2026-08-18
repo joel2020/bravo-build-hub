@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { trackCallClick } from "@/lib/analytics";
+import { useTelephoneAnalytics } from "@/lib/useTelephoneAnalytics";
 import logo from "@/assets/logo-bravo.webp";
 
 // Lightweight Spanish shell for the /es pages: Spanish nav + footer with a
@@ -18,6 +19,7 @@ const nav = [
 ];
 
 export const EsLayout = ({ children }: { children: ReactNode }) => {
+  useTelephoneAnalytics();
   const [open, setOpen] = useState(false);
   const year = new Date().getFullYear();
 
@@ -45,13 +47,13 @@ export const EsLayout = ({ children }: { children: ReactNode }) => {
             </nav>
 
             <div className="flex items-center gap-2">
-              <a href={SITE.phoneHref} onClick={() => trackCallClick("es_header_desktop")} className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent">
+              <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick("es_header_desktop")} className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent">
                 <Phone className="h-4 w-4" />{SITE.phone}
               </a>
               <Button asChild size="sm" className="hidden sm:inline-flex bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                <Link to="/es/contacto">Presupuesto Gratis</Link>
+                <Link to="/es/contacto">Solicitar Presupuesto</Link>
               </Button>
-              <a href={SITE.phoneHref} onClick={() => trackCallClick("es_header_mobile_icon")} className="sm:hidden inline-flex items-center justify-center h-10 w-10 rounded-md bg-accent text-accent-foreground" aria-label="Llamar ahora">
+              <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick("es_header_mobile_icon")} className="sm:hidden inline-flex items-center justify-center h-10 w-10 rounded-md bg-accent text-accent-foreground" aria-label="Llamar ahora">
                 <Phone className="h-5 w-5" />
               </a>
               <button className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-border" onClick={() => setOpen(!open)} aria-label="Abrir menú">
@@ -71,7 +73,7 @@ export const EsLayout = ({ children }: { children: ReactNode }) => {
                 ))}
                 <Link to="/" onClick={() => setOpen(false)} className="py-3 text-base font-semibold text-muted-foreground">English</Link>
                 <Button asChild className="mt-4 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                  <Link to="/es/contacto" onClick={() => setOpen(false)}>Presupuesto Gratis</Link>
+                  <Link to="/es/contacto" onClick={() => setOpen(false)}>Solicitar Presupuesto</Link>
                 </Button>
               </nav>
             </div>
@@ -107,7 +109,7 @@ export const EsLayout = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="border-t border-primary-foreground/15">
           <div className="container mx-auto px-4 py-4 text-xs text-primary-foreground/70">
-            © {year} {SITE.legalName}. Licencia #8822 · Contratista de HVAC con licencia y seguro en el condado de Westchester, NY.
+            © {year} {SITE.legalName}. Licencia de HVAC de Westchester #8822.
           </div>
         </div>
       </footer>

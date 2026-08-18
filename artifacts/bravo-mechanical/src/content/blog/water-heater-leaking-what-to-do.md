@@ -40,7 +40,7 @@ Towels and a wet-vac for small leaks. If the tank is actively draining and threa
 - **Any leak on a tank 10+ years old:** replace — you'd be putting new parts on borrowed time.
 - **Valve/fitting leak on a tank under 8 years:** repair is usually the smart money.
 
-If it's replacement time, you'll choose between a like-for-like tank, a tankless unit, or a hybrid heat-pump water heater — we compare them honestly (recovery, space, operating cost) on our [water heater installation page](/services/water-heater-installation-westchester-county-ny). Most standard replacements are done in **half a day**, and we keep common sizes in stock for same-day or next-morning swaps.
+If replacement is appropriate, the options may include a like-for-like tank, tankless unit, or hybrid heat-pump water heater. Compare recovery, space, utility requirements, operating cost, and installation scope on our [water heater installation page](/services/water-heater-installation-westchester-county-ny). Ask for a project-specific schedule and confirm current equipment availability.
 
 ## Don't skip this after any leak
 
@@ -55,7 +55,7 @@ You're on borrowed time with a tank-body leak; the rusted spot only grows, and f
 It depends on fuel type, venting, and code items (expansion tank, pan, piping). We quote a **fixed written price before any work** — [request one here](/services/water-heater-installation-westchester-county-ny) or call (914) 361-9142.
 
 **Is a leaking water heater an emergency?**
-An actively draining tank, yes — that's a [24/7 call](/emergency-hvac-westchester). A slow drip with the water shut off can wait for a normal [booked window](/book).
+An actively draining tank warrants a [24/7 emergency service request](/services/emergency-hvac-repair-westchester-county-ny). A slow drip with the water shut off can wait for a normal [booked window](/book).
 
 ---
 

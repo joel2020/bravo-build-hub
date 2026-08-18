@@ -27,13 +27,22 @@ import projectBurnerService from "@/assets/project-burner-service.avif";
 import projectBeckettBurner from "@/assets/project-beckett-burner.png";
 import projectGasBoiler from "@/assets/project-gas-boiler.avif";
 
+const NY_SYSTEM_TARGETS: Record<string, string> = {
+  "gas-boilers": "/services/boiler-installation-westchester-county-ny",
+  "mini-splits": "/services/mini-split-installation-westchester-county-ny",
+  "heat-pumps": "/services/heat-pump-installation-westchester-county-ny",
+  "central-ac": "/services/ac-installation-westchester-county-ny",
+  "gas-furnaces": "/services/furnace-installation-westchester-county-ny",
+  "water-heaters": "/services/water-heater-installation-westchester-county-ny",
+};
+
 const Index = () => {
   const featuredReviews = getFeaturedGoogleReviews(3);
 
   const homepageFaqs = [
     {
       q: "What is Bravo Mechanical?",
-      a: "Bravo Mechanical LLC is a licensed and insured HVAC contractor based in Westchester County, NY. The company installs, repairs, and maintains furnaces, boilers, central air conditioning, heat pumps, and ductless mini-splits for homes and light-commercial properties across 30 Westchester towns, with 24/7 emergency dispatch and a 5.0-star Google rating.",
+      a: "Bravo Mechanical LLC is a licensed HVAC contractor serving Westchester County, NY. The company installs, repairs, and maintains furnaces, boilers, central air conditioning, heat pumps, and ductless mini-splits for homes and light-commercial properties. Its public Google Business Profile shows a 5.0 rating from 16 reviews as of August 17, 2026.",
     },
     {
       q: "What areas does Bravo Mechanical serve?",
@@ -44,20 +53,16 @@ const Index = () => {
       a: "Yes. Bravo Mechanical offers 24/7 emergency HVAC dispatch in Westchester County, NY for no-heat, no-cool, and gas-leak situations. Call (914) 361-9142 to request emergency service. Response times depend on weather, call volume, technician availability, and location.",
     },
     {
-      q: "How much does a new furnace, boiler, or AC system cost in Westchester County, NY?",
-      a: "Installed HVAC pricing in Westchester County typically ranges from about $4,500 to $9,000 for a standard high-efficiency gas furnace, $7,000 to $14,000 for a gas boiler replacement, $6,000 to $12,000 for a central AC system, and $12,000 to $25,000 for a cold-climate heat pump or whole-home ductless mini-split system, depending on home size, ductwork condition, fuel type, and equipment tier. Bravo Mechanical provides a free written estimate before any installation begins.",
+      q: "How is an HVAC replacement estimate prepared?",
+      a: "Replacement scope depends on building load, equipment type, ductwork or piping, fuel source, electrical requirements, venting, controls, and permit needs. Bravo Mechanical reviews the property and provides project-specific options instead of publishing a price that may not fit the job.",
     },
     {
       q: "Should I repair or replace an HVAC system?",
       a: "A common rule of thumb used by Bravo Mechanical is the 50% rule: if the repair cost exceeds 50% of replacement cost, or if the system is older than 12 to 15 years and breaking down repeatedly, replacement is usually more cost-effective. ENERGY STAR guidance recommends replacing furnaces older than 15 years and central AC older than 10 years for meaningful efficiency gains.",
     },
     {
-      q: "What HVAC brands does Bravo Mechanical install?",
-      a: "Bravo Mechanical is a brand-agnostic HVAC contractor and installs Carrier, Trane, Rheem, Mitsubishi, Daikin, Bosch, Navien, Bradford White, AO Smith, Weil-McLain, and other major manufacturers. Recommendations are based on home size, ductwork, fuel type, and budget — not on a single-brand contract.",
-    },
-    {
-      q: "Is Bravo Mechanical licensed and insured?",
-      a: "Yes. Bravo Mechanical LLC is a fully licensed and insured HVAC contractor authorized to perform heating, cooling, and gas-fired equipment work in Westchester County, NY. Proof of insurance is provided on request.",
+      q: "How can I verify Bravo Mechanical's license?",
+      a: "Bravo Mechanical lists HVAC license #8822. Customers can ask the company or the applicable Westchester municipality to confirm the credential required for their project before work begins.",
     },
     {
       q: "Does Bravo Mechanical service both residential and commercial properties?",
@@ -71,7 +76,7 @@ const Index = () => {
 
   useSeo({
     title: "HVAC Contractor Westchester County, NY | Bravo Mechanical",
-    description: "5-star licensed HVAC contractor in Westchester County, NY. AC repair & install, furnace and boiler service, heat pumps, and 24/7 emergency service.",
+    description: "Licensed HVAC contractor serving Westchester County, NY with AC repair, boiler and furnace service, heat pumps, maintenance, and 24/7 emergency requests.",
     canonical: `${SITE.siteUrl}/`,
     jsonLd: [
       {
@@ -86,8 +91,8 @@ const Index = () => {
     ],
   });
 
-  // Homepage LocalBusiness + AggregateRating JSON-LD lives in static index.html
-  // so it's visible to all crawlers without JS rendering.
+  // Homepage business JSON-LD lives in static index.html so it is visible
+  // to crawlers without JavaScript. Review markup is intentionally omitted.
 
   return (
     <Layout>
@@ -106,13 +111,13 @@ const Index = () => {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact" onClick={() => trackRequestServiceClick("home_hero")}>Get a Free Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick("home_hero")}>Request an Estimate</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold border-foreground/20">
                 <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
               </Button>
             </div>
-            {/* Real trust strip: live Google rating + license + free-estimate price anchor. */}
+            {/* Evidence-backed trust strip. */}
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
               <a
                 href={SITE.social.google}
@@ -127,23 +132,18 @@ const Index = () => {
                   ))}
                 </div>
                 <span className="text-sm text-muted-foreground">
-                  Rated {SITE.rating.score.toFixed(1)} on {SITE.rating.source}
+                  {SITE.rating.score.toFixed(1)} on {SITE.rating.source} ({SITE.rating.count} reviews)
                 </span>
               </a>
               <span className="hidden sm:inline text-border">|</span>
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
                 <ShieldCheck className="h-4 w-4 text-accent" />
-                Licensed &amp; insured in NY
+                License #{SITE.licenseNumbers[0]}
               </span>
               <span className="hidden sm:inline text-border">|</span>
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
                 <CheckCircle2 className="h-4 w-4 text-accent" />
                 30+ yrs combined experience
-              </span>
-              <span className="hidden sm:inline text-border">|</span>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
-                <CheckCircle2 className="h-4 w-4 text-accent" />
-                Free written estimates
               </span>
             </div>
             <div className="mt-6">
@@ -299,7 +299,7 @@ const Index = () => {
             <h2 className="text-3xl md:text-4xl font-extrabold mb-6">Honest work. Straight answers. Done right.</h2>
             <ul className="space-y-5">
               {[
-                { icon: ShieldCheck, title: "Licensed & insured", text: "Fully licensed HVAC contractor with insured technicians." },
+                { icon: ShieldCheck, title: "Licensed HVAC contractor", text: "License #8822; ask us which municipal requirements apply to your project." },
                 { icon: Clock, title: "Responsive service", text: "Prompt scheduling with after-hours support when available." },
                 { icon: Award, title: "Quality workmanship", text: "Clean installs, careful diagnostics, and equipment we'd put in our own homes." },
                 { icon: MapPin, title: "Local to Westchester", text: "We live and work here, with service throughout Westchester County." },
@@ -384,7 +384,8 @@ const Index = () => {
           {NY_SYSTEMS.map((s) => (
             <Link
               key={s.slug}
-              to={`/services/${s.slug}`}
+              to={NY_SYSTEM_TARGETS[s.slug]}
+              data-homeowner-system={s.slug}
               className="bg-card border border-border rounded-lg overflow-hidden flex flex-col hover:border-accent hover:shadow-md transition-[border-color,box-shadow] group"
             >
               <img src={s.card.img} alt={s.card.alt} width={960} height={600} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover" />

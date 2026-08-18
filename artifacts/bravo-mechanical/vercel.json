@@ -9,6 +9,46 @@
       "has": [{ "type": "host", "value": "bravomechanicalny.com" }],
       "destination": "https://www.bravomechanicalny.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/emergency-hvac-westchester",
+      "destination": "/services/emergency-hvac-repair-westchester-county-ny",
+      "permanent": true
+    },
+    {
+      "source": "/services/gas-boilers",
+      "destination": "/services/boiler-installation-westchester-county-ny",
+      "permanent": true
+    },
+    {
+      "source": "/services/mini-splits",
+      "destination": "/services/mini-split-installation-westchester-county-ny",
+      "permanent": true
+    },
+    {
+      "source": "/services/heat-pumps",
+      "destination": "/services/heat-pump-installation-westchester-county-ny",
+      "permanent": true
+    },
+    {
+      "source": "/services/central-ac",
+      "destination": "/services/ac-installation-westchester-county-ny",
+      "permanent": true
+    },
+    {
+      "source": "/services/gas-furnaces",
+      "destination": "/services/furnace-installation-westchester-county-ny",
+      "permanent": true
+    },
+    {
+      "source": "/services/water-heaters",
+      "destination": "/services/water-heater-installation-westchester-county-ny",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ac-not-cooling-westchester",
+      "destination": "/blog/why-is-my-ac-not-cooling-westchester",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -22,6 +62,31 @@
     }
   ],
   "headers": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "app.bravomechanicalny.com" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(favicon.png|favicon.webp|favicon.svg|og-image.jpg|opengraph.jpg|robots.txt|sitemap.xml|llms.txt)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    },
     {
       "source": "/auth",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]

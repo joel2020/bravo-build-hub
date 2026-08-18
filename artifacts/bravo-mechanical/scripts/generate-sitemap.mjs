@@ -35,7 +35,11 @@ async function main() {
   // Stamping every URL with the build date looks like fake freshness — and a
   // build that runs late in the day UTC produces a "tomorrow" date in US
   // timezones, which crawlers may treat as a spam signal.
-  const enriched = routes.map((r) => ({ ...r, lastmod: r.lastmod || undefined }));
+  const canonicalRoutes = routes.filter((route) => {
+    const self = `${SITE_URL}${route.path === "/" ? "/" : route.path}`;
+    return !route.canonical || route.canonical === self || route.canonical === route.path;
+  });
+  const enriched = canonicalRoutes.map((r) => ({ ...r, lastmod: r.lastmod || undefined }));
 
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +

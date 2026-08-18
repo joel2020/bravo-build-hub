@@ -1,66 +1,65 @@
 ---
-title: Why Is My AC Not Cooling? — Westchester Homeowner Diagnostic Guide
+title: AC Running but Not Cooling? 7 Checks for Westchester Homeowners
 slug: why-is-my-ac-not-cooling-westchester
-date: 2025-12-03
-excerpt: 9 reasons your AC is running but not cooling, what you can fix yourself in 10 minutes, and which problems need a Westchester HVAC tech today.
+date: 2026-08-17
+excerpt: Seven safe checks for a Westchester AC that runs without cooling, plus warning signs that mean it is time to shut the system down and call a technician.
 tags: Repair, Cooling, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
 ---
 
-**Quick answer:** The 9 most common reasons a central AC runs but doesn't cool a Westchester home are: (1) clogged filter, (2) frozen evaporator coil, (3) dirty outdoor condenser, (4) low refrigerant from a leak, (5) failing capacitor, (6) failing contactor, (7) failed compressor, (8) wrong thermostat setting, (9) closed/blocked supply registers. Items 1, 8, and 9 are DIY fixes; the rest need a tech.
+**Quick answer:** When an AC runs but does not cool, first check the thermostat, filter, breakers, outdoor unit, visible ice, supply and return vents, and condensate pan. Stop and call a technician if a breaker trips again, ice returns after thawing, the outdoor unit buzzes without starting, or you hear hissing near a refrigerant line.
 
-## Step 1: 5-minute homeowner check
+## Seven checks you can make safely
 
-Before calling, do this:
+### 1. Confirm the thermostat settings
 
-1. **Thermostat** — set to COOL, temp 5°F below current room temp, fan on AUTO
-2. **Filter** — pull it out. If it's gray or clogged, replace it
-3. **Indoor coil** (above the furnace) — if you see ice, **shut the system off immediately**
-4. **Outdoor condenser** — running? Coil clean? 3 ft clear all around?
-5. **Supply registers** — open in every room, not blocked by furniture or rugs
-6. **Breakers** — both indoor and outdoor disconnect
+Set the thermostat to **COOL**, choose a setpoint below the current room temperature, and use **AUTO** for the fan. With the fan set to ON, the blower may move room-temperature air between cooling cycles.
 
-If steps 1, 2, 5, 6 don't fix it, call us.
+### 2. Check the air filter
 
-## The 9 causes in detail
+A clogged filter restricts airflow and can contribute to coil icing. Replace a visibly dirty filter with the size and type specified for your system.
 
-| Symptom | Likely cause | DIY? | Repair cost |
-|---|---|---|---|
-| Warm air, dirty filter | Clogged filter | Yes | $0 |
-| Ice on indoor coil | Frozen evap coil | No (shut off, call) | $250–$450 |
-| Outdoor unit hot, weak airflow | Dirty condenser coil | No | $180–$320 |
-| Warm air, hissing | Refrigerant leak | No | $400–$1,800 |
-| Outdoor unit hums but doesn't start | Bad capacitor | No | $180–$320 |
-| Outdoor unit silent, breaker tripped | Bad contactor | No | $220–$385 |
-| Outdoor unit silent, no power signs | Failed compressor | No | $1,800–$3,500 |
-| Thermostat blank | Bad batteries / wiring | Sometimes | $0–$285 |
-| Cool in some rooms, warm in others | Duct issue / blocked registers | Maybe | $0–$1,200 |
+### 3. Check the electrical panel once
 
-## The frozen coil emergency
+Central AC commonly uses separate circuits for the indoor blower and outdoor condenser. A tripped outdoor circuit can leave the indoor fan running without cooling. Reset a tripped breaker only once. If it trips again, leave it off and call a qualified technician.
 
-If you see ice on the copper coil above your furnace or on the refrigerant line at the outdoor unit:
+### 4. Look at the outdoor unit
 
-1. **Shut the system OFF** (don't run cool, don't run heat)
-2. **Set thermostat fan to ON** for 1–2 hours to thaw
-3. **Check filter** — replace if dirty
-4. **Don't restart cooling** until a tech confirms the cause
+Keep leaves, grass, and other debris away from the condenser. Do not open panels or touch wiring. If the unit buzzes, clicks repeatedly, or the fan does not start, switch cooling off and request service.
 
-Common causes: dirty filter, low refrigerant (leak), failing blower motor.
+### 5. Check for ice
 
-## Westchester-specific causes
+Ice on refrigerant tubing or the indoor coil is not normal. Turn cooling off and let the system thaw. A dirty filter may be involved, but recurring ice can indicate an airflow fault or refrigerant leak that requires diagnosis.
 
-- **Pollen-clogged outdoor coil** (April–June) — wash with garden hose monthly
-- **Salt-air corroded fins** (Sound Shore) — coil cleaning extends life
-- **Squirrel-damaged refrigerant line insulation** — common in Rivertowns and northern Westchester
-- **Undersized old systems** in expanded Yonkers/Mount Vernon homes — never were sized for the addition
+### 6. Open supply vents and uncover return grilles
 
-## When to call us today vs. tomorrow
+Closed supply registers and furniture blocking return grilles can restrict airflow. Keep the vents open and make sure rugs, curtains, or furniture do not cover returns.
 
-**Call today if:** ice anywhere, breaker keeps tripping, indoor temp 80°F+, anyone in the home is medically vulnerable.
+### 7. Look for water in the drain pan
 
-**Tomorrow is fine if:** unit just runs longer than usual but house still cools, mild discomfort only.
+Many systems have a float switch that stops cooling when the condensate drain backs up. Water around the air handler or in the auxiliary pan needs attention. Turn the system off if water could damage a ceiling or electrical components.
 
-Bravo Mechanical does same-day AC diagnostics across Westchester County. Diagnostic fee $185–$285, waived with repair.
+## When to stop troubleshooting
 
-[Schedule an AC diagnostic →](/contact) or call **(914) 361-9142**.
+Call a professional when warm air continues after the basic checks, a breaker trips more than once, ice returns, water threatens the building, or the outdoor unit makes electrical or mechanical noises. Refrigerant does not get consumed during normal operation; a low charge can indicate a leak that needs to be found rather than repeatedly topped off.
+
+## Repair or replacement?
+
+Age alone does not decide the question. A technician should consider the failed component, repair history, refrigerant type, current performance, safety, parts availability, and the cost of repair compared with a properly sized replacement. Bravo Mechanical can document the diagnosis and provide project-specific options without relying on a generic online price.
+
+For service, use the [AC repair page](/services/ac-repair-westchester-county-ny). If you are comparing a new system, see [AC installation in Westchester County](/services/ac-installation-westchester-county-ny). You can also review the [AC repair cost factors guide](/blog/ac-repair-cost-westchester).
+
+## Frequently asked questions
+
+**Why does the AC cool at night but struggle during the afternoon?**
+
+Peak outdoor heat, solar gain, restricted airflow, dirty coils, duct loss, low refrigerant, or a system that no longer matches the building load can all contribute. A performance test is needed to identify the actual constraint.
+
+**Should I keep resetting a tripped AC breaker?**
+
+No. Reset it once. If it trips again, leave the system off because repeated trips can indicate an electrical or mechanical fault.
+
+**How quickly can Bravo Mechanical respond?**
+
+Call **(914) 361-9142** to request service. Dispatch timing depends on weather, call volume, technician availability, and location. Urgent no-cool requests can also use the [emergency HVAC service page](/services/emergency-hvac-repair-westchester-county-ny).

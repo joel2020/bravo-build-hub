@@ -10,23 +10,23 @@ import heroTechnician from "@/assets/hero-technician.webp";
 const SERVICIOS = [
   { icon: Snowflake, title: "Aire acondicionado", desc: "Reparación e instalación de aire central y mini-splits. Diagnóstico honesto y precio por escrito antes de empezar." },
   { icon: Flame, title: "Calefacción", desc: "Calderas (boilers), calefactores (furnaces) y bombas de calor. Servicio de emergencia cuando no hay calefacción." },
-  { icon: Droplets, title: "Calentadores de agua", desc: "Reemplazo de calentadores de tanque y sin tanque, muchas veces el mismo día. Instalación según el código." },
-  { icon: Wrench, title: "Mantenimiento", desc: "Afinaciones de temporada que evitan averías costosas y mantienen su garantía válida." },
+  { icon: Droplets, title: "Calentadores de agua", desc: "Opciones de reemplazo para equipos de tanque, sin tanque y con bomba de calor. El alcance y el horario dependen del proyecto." },
+  { icon: Wrench, title: "Mantenimiento", desc: "Inspecciones y mantenimiento de temporada con recomendaciones por escrito para su equipo." },
 ];
 
 const RAZONES = [
-  { icon: ShieldCheck, title: "Con licencia y seguro", desc: "Licencia #8822 del condado de Westchester. Técnicos propios, no subcontratistas." },
-  { icon: Star, title: "5.0 estrellas en Google", desc: "Calificación perfecta de nuestros clientes en Westchester." },
-  { icon: Clock, title: "Emergencias 24/7", desc: "¿Sin calefacción o sin aire? Contestamos el teléfono a cualquier hora." },
-  { icon: CalendarCheck, title: "Precio fijo por escrito", desc: "Presupuesto gratis y por escrito antes de comenzar cualquier trabajo. Sin sorpresas." },
+  { icon: ShieldCheck, title: "Contratista con licencia", desc: "Bravo Mechanical publica la licencia de HVAC de Westchester #8822. Confirme los requisitos de su proyecto antes de comenzar." },
+  { icon: Star, title: "5.0 estrellas en Google", desc: "El Perfil de Empresa de Google muestra 5.0 con 16 reseñas al 17 de agosto de 2026." },
+  { icon: Clock, title: "Solicitudes de emergencia 24/7", desc: "Llame para solicitar servicio urgente. El horario de despacho depende de las condiciones y la disponibilidad." },
+  { icon: CalendarCheck, title: "Alcance por escrito", desc: "Solicite opciones y precio por escrito para el trabajo específico antes de autorizarlo." },
 ];
 
 const FAQS = [
   { q: "¿Hablan español?", a: "Sí. Puede llamarnos, mandarnos un texto o llenar el formulario en español y le atenderemos en su idioma." },
-  { q: "¿Cobran por venir a ver el trabajo?", a: "El presupuesto para instalaciones y reemplazos es gratis y por escrito. Para reparaciones aplicamos una tarifa de diagnóstico que le informamos antes de agendar." },
-  { q: "¿Atienden emergencias de noche o en fin de semana?", a: "Sí. Ofrecemos servicio de emergencia 24/7 para casos sin calefacción, sin aire acondicionado o fugas. Llame al (914) 361-9142 — es la forma más rápida." },
+  { q: "¿Cómo preparan el precio del trabajo?", a: "El alcance y el precio dependen del equipo, la falla y las condiciones del proyecto. Pida los cargos aplicables y las opciones por escrito antes de autorizar el trabajo." },
+  { q: "¿Aceptan solicitudes de emergencia de noche o en fin de semana?", a: "Sí. Llame al (914) 361-9142 para solicitar servicio urgente. El despacho depende del clima, el volumen de llamadas, la ubicación y la disponibilidad del técnico." },
   { q: "¿Qué zonas atienden?", a: "Todo el condado de Westchester, NY: Yonkers, White Plains, New Rochelle, Mount Vernon, Port Chester, Ossining, Peekskill y más de 30 municipios." },
-  { q: "¿Puedo pagar en pagos?", a: "Sí, hay opciones de financiamiento para clientes que califican en reemplazos grandes como calderas, calefactores y aire central. Pregunte al pedir su presupuesto." },
+  { q: "¿Hay opciones de financiamiento?", a: "Pregunte qué opciones están disponibles actualmente para su proyecto. La aprobación y los términos corresponden al proveedor de financiamiento." },
 ];
 
 const EsHome = () => {
@@ -55,11 +55,11 @@ const EsHome = () => {
               Aire acondicionado y calefacción en el condado de Westchester
             </h1>
             <p className="text-lg text-primary-foreground/85 mb-6">
-              Reparación, instalación y mantenimiento por técnicos locales con licencia. Presupuesto gratis por escrito y atención en español — llame, mande un texto o reserve en línea.
+              Reparación, instalación y mantenimiento por un contratista local con licencia. Solicite opciones por escrito y atención en español — llame, mande un texto o reserve en línea.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <a href={SITE.phoneHref} onClick={() => trackCallClick("es_hero")}><Phone className="h-4 w-4 mr-2" />Llamar {SITE.phone}</a>
+                <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick("es_hero")}><Phone className="h-4 w-4 mr-2" />Llamar {SITE.phone}</a>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 font-bold">
                 <Link to="/es/reservar">Reservar cita en línea</Link>
@@ -124,10 +124,10 @@ const EsHome = () => {
           <p className="text-primary-foreground/85 mb-6">Llámenos ahora o reserve su cita en línea — le confirmamos por mensaje de texto.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-              <a href={SITE.phoneHref} onClick={() => trackCallClick("es_cta_final")}><Phone className="h-4 w-4 mr-2" />{SITE.phone}</a>
+              <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick("es_cta_final")}><Phone className="h-4 w-4 mr-2" />{SITE.phone}</a>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 font-bold">
-              <Link to="/es/contacto">Pedir presupuesto gratis</Link>
+              <Link to="/es/contacto">Solicitar presupuesto</Link>
             </Button>
           </div>
         </div>

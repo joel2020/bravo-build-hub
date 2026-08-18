@@ -253,7 +253,7 @@ const BookOnline = () => {
             </div>
             <input type="hidden" name="date" value={form.date} />
             {errors.date && <p id="booking-date-error" role="alert" className="text-destructive text-xs mt-2">{errors.date}</p>}
-            <p className="text-xs text-muted-foreground mt-2">Need someone today? <a href={SITE.phoneHref} className="text-accent font-semibold hover:underline">Call {SITE.phone}</a> — same-day slots go by phone.</p>
+            <p className="text-xs text-muted-foreground mt-2">Need urgent service? <a href={SITE.phoneHref} className="text-accent font-semibold hover:underline">Call {SITE.phone}</a> to ask about current availability.</p>
           </fieldset>
 
           <fieldset ref={windowRef} tabIndex={-1} aria-invalid={Boolean(errors.window)} aria-describedby={errors.window ? "booking-window-error" : undefined}>

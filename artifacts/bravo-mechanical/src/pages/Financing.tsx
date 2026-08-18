@@ -10,7 +10,7 @@ import { useSeo } from "@/lib/seo";
 const STEPS = [
   { icon: FileText, title: "Get your written estimate", text: "Every project starts with a free written quote — equipment options, scope, and total price before any work begins." },
   { icon: CalendarClock, title: "Tell us your budget reality", text: "If paying in full doesn't fit right now, say so. We'll walk you through payment options and third-party financing programs available for qualified homeowners." },
-  { icon: CheckCircle2, title: "Pick the path that fits", text: "Pay by card, check, or Zelle — or apply for financing and spread the cost into monthly payments. Approval decisions typically come back the same day." },
+  { icon: CheckCircle2, title: "Pick the path that fits", text: "Ask which payment and financing options are currently available for your project. Financing approval and terms are determined by the provider." },
   { icon: ShieldCheck, title: "We start the work", text: "Once you approve, we order equipment and schedule the install. The written price is locked before work begins — no surprises when the job is done." },
 ];
 

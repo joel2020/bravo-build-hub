@@ -18,7 +18,7 @@ const EsContact = () => {
       <section className="bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Contacto — Hablamos español</div>
-          <h1 className="text-3xl lg:text-4xl font-extrabold mb-3">Pida su servicio o presupuesto gratis</h1>
+          <h1 className="text-3xl lg:text-4xl font-extrabold mb-3">Solicite servicio o un presupuesto</h1>
           <p className="text-primary-foreground/85 max-w-2xl">Cuéntenos qué pasa con su calefacción o aire acondicionado y le contactamos en breve — en español. Para emergencias, llamar es lo más rápido.</p>
         </div>
       </section>
@@ -30,7 +30,7 @@ const EsContact = () => {
               <Phone className="h-5 w-5 text-accent mt-0.5 shrink-0" />
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Llame — respuesta más rápida</div>
-                <a href={SITE.phoneHref} onClick={() => trackCallClick("es_contact_primary")} className="font-bold text-lg hover:text-accent">{SITE.phone}</a>
+                <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick("es_contact_primary")} className="font-bold text-lg hover:text-accent">{SITE.phone}</a>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -71,7 +71,7 @@ const EsContact = () => {
               <div>
                 <div className="font-bold mb-1">¿Emergencia?</div>
                 <p className="text-sm text-muted-foreground">
-                  ¿Sin calefacción, sin aire, olor a quemado o fuga de agua en el equipo? Llame ahora al <a href={SITE.phoneHref} onClick={() => trackCallClick("es_contact_emergency")} className="font-semibold text-accent hover:underline">{SITE.phone}</a>.
+                  ¿Sin calefacción, sin aire, olor a quemado o fuga de agua en el equipo? Llame ahora al <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick("es_contact_emergency")} className="font-semibold text-accent hover:underline">{SITE.phone}</a>.
                 </p>
               </div>
             </div>

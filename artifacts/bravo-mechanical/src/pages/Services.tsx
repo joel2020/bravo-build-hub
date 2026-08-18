@@ -22,37 +22,37 @@ const services = [
   {
     icon: Wrench,
     title: "HVAC Repair",
-    desc: "Fast diagnostics and repair for any make or model heating and cooling equipment.",
+    desc: "Diagnostics and repair options for residential and light-commercial heating and cooling equipment.",
     tasks: ["No heat / no cool calls", "Refrigerant leaks", "Blower & motor issues", "Thermostat & control problems", "Emergency service"],
-    benefits: ["Same-day appointments when available", "Clear pricing before work begins", "Repairs done right the first time"],
+    benefits: ["Scheduling based on current availability", "Clear pricing before work begins", "Post-repair operating checks"],
   },
   {
     icon: CheckCircle2,
     title: "Preventive Maintenance",
     desc: "Seasonal tune-ups and service plans that extend equipment life and prevent breakdowns.",
     tasks: ["Spring AC tune-ups", "Fall heating tune-ups", "Filter replacement", "System cleaning & inspection", "Annual service plans"],
-    benefits: ["Lower energy bills", "Fewer breakdowns", "Longer equipment life"],
+    benefits: ["Documented system condition", "Earlier warning of wear", "Seasonal operating checks"],
   },
   {
     icon: Wind,
     title: "Indoor Air Quality",
     desc: "Cleaner, healthier indoor air with filtration, humidity control, and purification solutions.",
     tasks: ["Whole-home air purifiers", "Humidifiers & dehumidifiers", "HEPA & high-efficiency filtration", "Duct cleaning coordination", "Ventilation upgrades"],
-    benefits: ["Better comfort year-round", "Allergy & dust reduction", "Healthier indoor environment"],
+    benefits: ["Options matched to the building", "Filtration and humidity evaluation", "Clear maintenance guidance"],
   },
   {
     icon: Home,
     title: "Residential HVAC",
     desc: "Whole-home heating and cooling solutions for single-family homes, condos, and multi-units.",
     tasks: ["System replacements", "Add-on cooling for older homes", "Zoning systems", "Energy-efficient upgrades", "Maintenance plans"],
-    benefits: ["Comfort in every room", "Quiet, efficient equipment", "Trusted by Westchester homeowners"],
+    benefits: ["Room-by-room comfort review", "Equipment options explained", "Westchester-focused service"],
   },
   {
     icon: Building2,
     title: "Commercial HVAC",
     desc: "Reliable HVAC service for offices, retail, restaurants, and light-industrial buildings.",
     tasks: ["Rooftop units", "Split & packaged systems", "Service contracts", "Emergency response", "Preventive maintenance"],
-    benefits: ["Minimized downtime", "Predictable service costs", "Responsive local support"],
+    benefits: ["Operational priorities documented", "Written service recommendations", "Local service requests"],
   },
 ];
 

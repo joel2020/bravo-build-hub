@@ -17,20 +17,20 @@ export const citySlug = (name: string) =>
 
 const baseFaqs = (name: string) => [
   {
-    q: `Do you offer same-day HVAC repair in ${name}?`,
-    a: `We offer prompt appointment windows in ${name}, and after-hours emergency support when available. Response timing depends on call volume, weather, and technician availability.`,
+    q: `How do I request urgent HVAC repair in ${name}?`,
+    a: `Call Bravo Mechanical to request the next available appointment in ${name}. Response timing depends on call volume, weather, location, and technician availability.`,
   },
   {
-    q: `Are you licensed and insured to work in ${name}, NY?`,
-    a: `Yes. Bravo Mechanical LLC is licensed and insured to perform HVAC installation, service, and repair throughout Westchester County, including ${name}. We handle permit coordination when project scope requires it.`,
+    q: `Is Bravo Mechanical licensed to work in ${name}, NY?`,
+    a: `Bravo Mechanical lists Westchester HVAC license #8822 and serves ${name}. Customers can confirm the credential and permit requirements that apply to their specific project before work begins.`,
   },
   {
-    q: `What HVAC brands do you install in ${name}?`,
-    a: `We install Carrier, Trane, Rheem, Mitsubishi, Daikin, Bosch, Navien, Bradford White, AO Smith, and other major manufacturers. We size systems to your home — we don't push one brand, we recommend what's right for your house in ${name}.`,
+    q: `How do you select HVAC equipment for a project in ${name}?`,
+    a: `Equipment recommendations depend on building load, existing distribution, fuel or electrical constraints, efficiency goals, serviceability, and current availability. Ask which models are supported for your project.`,
   },
   {
     q: `Do you provide written estimates in ${name}?`,
-    a: `Yes. Every installation or replacement project in ${name} starts with a free written estimate — equipment options, scope, and total price fixed before any work begins.`,
+    a: `Bravo Mechanical can prepare a written, project-specific estimate for installation or replacement work in ${name}. The scope depends on the site assessment and selected equipment.`,
   },
 ];
 

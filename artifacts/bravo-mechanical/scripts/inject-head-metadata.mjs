@@ -27,7 +27,6 @@ import {
   SITE_LEGAL,
   SITE_PHONE,
   OG_IMAGE,
-  BUILD_DATE,
 } from "./route-data.mjs";
 import { PRIVACY_POLICY_HTML, TERMS_HTML } from "./legal-content.mjs";
 
@@ -111,7 +110,6 @@ function buildJsonLd(route) {
         url,
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
         provider: { "@id": `${SITE_URL}/#localbusiness` },
-        dateModified: BUILD_DATE,
       },
       breadcrumbs([
         { name: "Home", url: `${SITE_URL}/` },
@@ -134,7 +132,6 @@ function buildJsonLd(route) {
         serviceType: route.service.seoTitle,
         areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
         provider: { "@id": `${SITE_URL}/#localbusiness` },
-        dateModified: BUILD_DATE,
       },
       breadcrumbs([
         { name: "Home", url: `${SITE_URL}/` },
@@ -157,7 +154,6 @@ function buildJsonLd(route) {
         url,
         areaServed: { "@type": "City", name: `${route.city.name}, NY` },
         provider: { "@id": `${SITE_URL}/#localbusiness` },
-        dateModified: BUILD_DATE,
       },
       breadcrumbs([
         { name: "Home", url: `${SITE_URL}/` },
@@ -287,7 +283,6 @@ function stripSelfServingReviewMarkup(html) {
       if (parsed && (parsed["@type"] === "HVACBusiness" || parsed["@type"] === "LocalBusiness")) {
         delete parsed.review;
         delete parsed.aggregateRating;
-        parsed.dateModified = BUILD_DATE;
         return `<script type="application/ld+json">${JSON.stringify(parsed).replace(/<\/script/gi, "<\\/script")}</script>`;
       }
       return full;
@@ -339,7 +334,7 @@ function buildBodyInsert(route, ctx) {
   const esc = htmlEscape;
   const h1 = esc(String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
   const parts = [];
-  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed &amp; insured HVAC contractor (License #8822) · 30+ years of combined HVAC experience · 1 Fowler Avenue, Yonkers, NY 10701 · Serving all of Westchester County · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service · <a href="/contact">Request a free written estimate</a></p></header>`);
+  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed HVAC contractor (License #8822) · 30+ years of combined HVAC experience · 1 Fowler Avenue, Yonkers, NY 10701 · Serving all of Westchester County · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service requests · <a href="/contact">Request an estimate</a></p></header>`);
   parts.push(`<main>`);
   parts.push(`<h1>${h1}</h1>`);
   parts.push(`<p>${esc(route.description)}</p>`);
@@ -347,6 +342,14 @@ function buildBodyInsert(route, ctx) {
   if (route.type === "blog" && route.post) {
     if (route.post.date) parts.push(`<p><em>Published ${esc(route.post.date)} · Bravo Mechanical, Westchester County, NY</em></p>`);
     if (route.post.body) parts.push(mdToHtml(route.post.body));
+  }
+
+  if (route.type === "service" && route.service?.crawlerCopy) {
+    const copy = route.service.crawlerCopy;
+    parts.push(`<h2>Direct answer</h2><p>${esc(copy.directAnswer)}</p>`);
+    parts.push(`<h2>Symptoms and warning signs</h2><ul>${copy.symptoms.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`);
+    parts.push(`<h2>Service process</h2><ol>${copy.process.map((item) => `<li>${esc(item)}</li>`).join("")}</ol>`);
+    parts.push(`<h2>Repair, replacement, and safety guidance</h2><p>${esc(copy.guidance)}</p>`);
   }
 
   // Legal pages must serve their FULL text to non-JS crawlers — automated
@@ -388,9 +391,9 @@ function buildBodyInsert(route, ctx) {
     parts.push(linkList(ctx.posts));
   }
 
-  parts.push(`<p><a href="/contact">Request service or a free written estimate</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving all of Westchester County, NY.</p>`);
+  parts.push(`<p><a href="/contact">Request service or an estimate</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving all of Westchester County, NY.</p>`);
   parts.push(`</main>`);
-  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/emergency-hvac-westchester">24/7 Emergency</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
+  parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/services/emergency-hvac-repair-westchester-county-ny">24/7 Emergency</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
 
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.65;color:#0f172a">${parts.join("\n")}</div>`;
 }

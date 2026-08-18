@@ -25,9 +25,9 @@ Westchester County, NY
 - [Home](/): HVAC contractor serving Westchester County, NY.
 - [Services](/services): Heating, cooling, repair, install, and maintenance services.
 - [Service Areas](/service-areas): Towns and cities in Westchester County we cover.
-- [Reviews](/reviews): Customer reviews and 5-star Google rating.
+- [Reviews](/reviews): Customer reviews and a public 5.0 Google rating from 16 reviews, verified August 17, 2026.
 - [Blog](/blog): HVAC tips and guidance for Westchester homeowners.
-- [Emergency HVAC](/emergency-hvac-westchester): 24/7 emergency heating & cooling service.
+- [Emergency HVAC](/services/emergency-hvac-repair-westchester-county-ny): 24/7 emergency heating and cooling service requests; dispatch timing depends on availability and conditions.
 - [Financing](/financing): HVAC financing and payment options.
 - [Maintenance Plans](/maintenance-plans): Annual HVAC tune-up plans.
 - [Book Online](/book): Schedule service online.
@@ -35,4 +35,4 @@ Westchester County, NY
 - [Contact](/contact): Phone, email, and service request form.
 
 ## Brand Summary
-Bravo Mechanical is a modern HVAC company focused on high-quality residential and commercial heating and cooling services across Westchester County. The company emphasizes fast response times, professional installations, transparent communication, and long-term customer relationships.
+Bravo Mechanical LLC is a licensed HVAC contractor serving residential and light-commercial customers across Westchester County. The company provides heating and cooling installation, repair, maintenance, and emergency service requests. License #8822. Public Google Business Profile facts were last checked August 17, 2026.

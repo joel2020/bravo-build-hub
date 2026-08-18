@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b3a66" />
     <title>Bravo Mechanical | HVAC Westchester County, NY</title>
-    <meta name="description" content="Licensed HVAC in Westchester County, NY. AC & heating repair, installs, and 24/7 emergency service in Yonkers, White Plains & Scarsdale. Free estimates." />
+    <meta name="description" content="Licensed HVAC contractor serving Westchester County, NY with AC and heating repair, installation, maintenance, and 24/7 emergency service requests." />
     <meta name="author" content="Bravo Mechanical" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
@@ -20,7 +20,7 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:url" content="https://www.bravomechanicalny.com/" />
     <meta property="og:title" content="Bravo Mechanical | HVAC Westchester County, NY" />
-    <meta property="og:description" content="Licensed HVAC in Westchester County, NY. AC & heating repair, installs, and 24/7 emergency service. Free estimates." />
+    <meta property="og:description" content="Licensed HVAC contractor serving Westchester County with repair, installation, maintenance, and 24/7 emergency service requests." />
     <meta property="og:image" content="https://www.bravomechanicalny.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -29,7 +29,7 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Bravo Mechanical | HVAC Westchester County, NY" />
-    <meta name="twitter:description" content="Licensed HVAC in Westchester County, NY. AC & heating repair, installs, and 24/7 emergency service. Free estimates." />
+    <meta name="twitter:description" content="Licensed HVAC contractor serving Westchester County with repair, installation, maintenance, and 24/7 emergency service requests." />
     <meta name="twitter:image" content="https://www.bravomechanicalny.com/og-image.jpg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,17 +40,31 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" /></noscript>
 
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JK03MS9MZN"></script>
+    <!-- Google Analytics 4: disabled on private routes and URL-bearing entries. -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-JK03MS9MZN', { send_page_view: true });
-      window.gtag = gtag;
+      (() => {
+        const privatePath = /^\/(?:auth(?:\/|$)|admin(?:\/|$)|proposal(?:\/|$))/i;
+        if (privatePath.test(window.location.pathname) || window.location.search || window.location.hash) return;
+        const pageLocation = `${window.location.origin}${window.location.pathname}`;
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('set', { page_location: pageLocation, page_referrer: '' });
+        gtag('config', 'G-JK03MS9MZN', {
+          send_page_view: false,
+          page_location: pageLocation,
+          page_referrer: '',
+          ignore_referrer: true
+        });
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-JK03MS9MZN';
+        document.head.appendChild(script);
+      })();
     </script>
 
-    <!-- LocalBusiness + AggregateRating JSON-LD (homepage, server-rendered for crawlers) -->
+    <!-- LocalBusiness JSON-LD (server-rendered for crawlers; no self-serving review markup) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -63,7 +77,6 @@
       "email": "info@bravomechanicalny.com",
       "image": "https://www.bravomechanicalny.com/og-image.jpg",
       "logo": "https://www.bravomechanicalny.com/favicon.webp",
-      "priceRange": "$$",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "1 Fowler Avenue",
@@ -95,24 +108,6 @@
     }
     </script>
 
-    <!-- Organization JSON-LD (helps brand entity recognition for both Google and LLMs) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "@id": "https://www.bravomechanicalny.com/#organization",
-      "name": "Bravo Mechanical LLC",
-      "url": "https://www.bravomechanicalny.com/",
-      "logo": "https://www.bravomechanicalny.com/favicon.webp",
-      "telephone": "+1-914-361-9142",
-      "email": "info@bravomechanicalny.com",
-      "sameAs": [
-        "https://www.facebook.com/p/Bravo-Mechanical-LLC-61576283462607/",
-        "https://www.google.com/maps/place/Bravo+Mechanical+LLC/data=!4m2!3m1!1s0x0:0x51712bb23caf72a8"
-      ]
-    }
-    </script>
-
     <!-- WebSite JSON-LD (sitelinks search box, brand recognition) -->
     <script type="application/ld+json">
     {
@@ -121,7 +116,7 @@
       "@id": "https://www.bravomechanicalny.com/#website",
       "url": "https://www.bravomechanicalny.com/",
       "name": "Bravo Mechanical",
-      "publisher": { "@id": "https://www.bravomechanicalny.com/#organization" },
+      "publisher": { "@id": "https://www.bravomechanicalny.com/#localbusiness" },
       "inLanguage": "en-US"
     }
     </script>
@@ -130,7 +125,7 @@
   <body>
     <div id="root"></div>
     <noscript>
-      <h1>Bravo Mechanical — HVAC in Westchester County, NY</h1>
+      <h2>Bravo Mechanical — HVAC in Westchester County, NY</h2>
       <p>Bravo Mechanical LLC is a licensed HVAC contractor serving Westchester County, New York. We provide AC repair, boiler repair, furnace repair, heat pump installation, mini-split installation, indoor air quality service, and 24/7 emergency HVAC support. Call (914) 361-9142 or visit <a href="https://www.bravomechanicalny.com/contact">www.bravomechanicalny.com/contact</a> to request service.</p>
       <p><strong>Service areas:</strong> Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, Mamaroneck, Larchmont, Bronxville, Tuckahoe, Eastchester, Tarrytown, Sleepy Hollow, Ossining, Peekskill, Mount Kisco, Chappaqua, Pleasantville, Pound Ridge, Bedford, Katonah, Armonk, Hastings-on-Hudson, Dobbs Ferry, Irvington, Briarcliff Manor, Croton-on-Hudson, Yorktown, Somers.</p>
       <p>Please <a href="https://www.bravomechanicalny.com/">enable JavaScript</a> to view the full Bravo Mechanical website.</p>

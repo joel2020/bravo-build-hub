@@ -1,0 +1,57 @@
+{
+  "ac-repair-westchester-county-ny": {
+    "metaDescription": "AC repair in Westchester County for no-cool, airflow, icing, thermostat, and condenser problems. Request a diagnosis and written repair options.",
+    "localOverview": [
+      "If an air conditioner runs without cooling, start with the thermostat, filter, vents, and a visual check of the outdoor unit. Turn the system off if a breaker trips again, ice returns, water threatens the building, or the outdoor unit buzzes without starting.",
+      "Bravo Mechanical serves Westchester homes and light-commercial properties with equipment-specific diagnosis. Share the make, model, symptoms, and any error codes when you request service.",
+      "A technician should consider the failed component, repair history, refrigerant type, safety, parts availability, and repair cost before recommending repair or replacement."
+    ],
+    "faqs": [
+      { "q": "How do I request urgent AC repair in Westchester County?", "a": "Call (914) 361-9142. Dispatch timing depends on weather, call volume, location, and technician availability." },
+      { "q": "What can I check before calling?", "a": "Confirm COOL and AUTO thermostat settings, replace a dirty filter, open vents, and check the breaker once. Leave the system off if the breaker trips again or ice returns." },
+      { "q": "Can Bravo Mechanical service my AC equipment?", "a": "Provide the make, model, age, and symptoms when you call so the team can confirm serviceability and parts considerations." }
+    ]
+  },
+  "boiler-repair-westchester-county-ny": {
+    "metaDescription": "Boiler repair in Westchester County for no-heat, pressure, circulation, ignition, and control problems. Request safety-first diagnosis and written options.",
+    "faqs": [
+      { "q": "Can you evaluate an older boiler?", "a": "Yes. Provide the boiler make, model, fuel type, age, and symptoms so serviceability and parts availability can be assessed." },
+      { "q": "Is boiler short cycling a concern?", "a": "Short cycling can increase wear and fuel use and may signal a control, circulation, sizing, or heat-transfer problem. Request diagnosis rather than repeatedly resetting the equipment." },
+      { "q": "How do I request urgent no-heat service?", "a": "Call (914) 361-9142. Emergency requests are accepted 24/7; timing depends on weather, call volume, location, and technician availability." }
+    ]
+  },
+  "heat-pump-installation-westchester-county-ny": {
+    "faqs": [
+      { "q": "Can heat pumps work in Westchester winters?", "a": "Cold-climate models are designed for low outdoor temperatures, but correct sizing, design conditions, controls, and any backup strategy must be evaluated for the building." },
+      { "q": "Can a heat pump replace both AC and a furnace?", "a": "It can in some buildings. Others may benefit from dual-fuel or auxiliary heat. The answer depends on load, distribution, electrical capacity, and comfort goals." },
+      { "q": "What determines a heat-pump installation timeline?", "a": "Equipment configuration, electrical work, distribution changes, permits, access, and inspections determine the schedule. Bravo Mechanical provides a project-specific plan after assessment." }
+    ]
+  },
+  "emergency-hvac-repair-westchester-county-ny": {
+    "metaDescription": "Request 24/7 emergency HVAC dispatch in Westchester County for urgent no-heat, no-cool, water, or equipment safety concerns. Availability varies.",
+    "heroSubtitle": "Urgent no-heat or no-cooling issue? Call Bravo Mechanical LLC to request emergency dispatch and safety-first diagnosis.",
+    "localOverview": [
+      "Bravo Mechanical accepts emergency HVAC requests 24 hours a day for Westchester homes and light-commercial properties. Call rather than relying on an online form for an urgent situation.",
+      "The phone intake covers the address, equipment type, symptoms, error codes, immediate hazards, and any recent service. Dispatch timing depends on weather, call volume, location, and technician availability.",
+      "Life-safety events come first: leave the building and call 911 or the gas utility for a suspected gas leak, active fire, smoke, or carbon-monoxide alarm."
+    ],
+    "whatsIncluded": ["Phone intake and dispatch assessment", "On-site safety and equipment checks when dispatched", "Diagnosis and written repair options", "Follow-up plan when a permanent repair cannot be completed during the visit"],
+    "process": ["Call and describe the symptoms and any hazards", "Confirm current dispatch availability", "Complete safety-first diagnosis on arrival", "Review repair, stabilization, or replacement options"],
+    "repairReplaceGuidance": ["The first goal is to identify hazards and the cause of the outage.", "Repair may be appropriate when the failed part is available and the equipment remains safe and serviceable.", "Replacement should be evaluated when safety, repeated failures, parts availability, or total repair cost make continued repair impractical."],
+    "faqs": [
+      { "q": "Are emergency requests accepted after normal business hours?", "a": "Yes. Bravo Mechanical's public Google Business Profile lists the business as open 24 hours. Actual dispatch timing depends on conditions and technician availability." },
+      { "q": "What should I do if I smell gas or a carbon-monoxide alarm sounds?", "a": "Leave the building and call 911 or your gas utility from a safe location. Do not operate switches, start a vehicle nearby, or use a flame." },
+      { "q": "What information should I have ready?", "a": "Have the service address, equipment type, make and model if visible, symptoms, error codes, and details about water, smoke, odors, or electrical trips ready." }
+    ],
+    "relatedLinks": [
+      { "label": "Schedule service", "href": "/contact" },
+      { "label": "View all services", "href": "/services" },
+      { "label": "Westchester service areas", "href": "/service-areas" },
+      { "label": "HVAC in Yonkers", "href": "/service-areas/yonkers" },
+      { "label": "HVAC in White Plains", "href": "/service-areas/white-plains" },
+      { "label": "Company facts", "href": "/company-facts" },
+      { "label": "AC repair in Westchester", "href": "/services/ac-repair-westchester-county-ny" },
+      { "label": "Boiler repair in Westchester", "href": "/services/boiler-repair-westchester-county-ny" }
+    ]
+  }
+}

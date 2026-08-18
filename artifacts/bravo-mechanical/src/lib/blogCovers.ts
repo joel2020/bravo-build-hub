@@ -24,7 +24,6 @@ export const BLOG_COVERS: Record<string, string> = {
   "what-size-central-ac-westchester": acSizing,
   "why-is-my-ac-bill-so-high-westchester": highAcBill,
   // July 2026 summer/troubleshooting series
-  "ac-not-cooling-westchester": highAcBill,
   "ac-repair-cost-westchester": centralAcCost,
   "ac-freezing-up-westchester": r410aPhaseOut,
   "hot-upstairs-cold-downstairs-westchester": acSizing,

@@ -61,11 +61,11 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     title: "HVAC Repair",
     shortTitle: "Repair",
     h1: (c) => `HVAC Repair in ${c}, NY`,
-    metaTitle: (c) => `HVAC Repair ${c}, NY — Same-Day Heating & AC Repair | Bravo Mechanical`,
+    metaTitle: (c) => `HVAC Repair ${c}, NY — Heating & AC Service | Bravo Mechanical`,
     metaDescription: (c) =>
       `Fast HVAC repair in ${c}, NY. No-heat, no-cool, refrigerant leaks, blower failures — prompt appointment windows and after-hours support when available. Licensed Westchester techs.`,
     intro: (c) =>
-      `When your heat or AC goes out in ${c}, you need a tech on site fast — not a callback in three days. Bravo Mechanical responds quickly and schedules the next available Westchester technician based on urgency and availability. We diagnose clearly, quote in writing before we touch a wrench, and get the system running right the first time.`,
+      `When your heat or AC goes out in ${c}, Bravo Mechanical schedules the next available Westchester technician based on urgency and availability. We diagnose the issue, explain the scope, and quote approved work in writing.`,
     scope: [
       "No-heat and no-cool emergency calls",
       "Refrigerant leak detection and repair",
@@ -75,24 +75,24 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "Condensate leaks and drain line clearing",
     ],
     signals: [
-      "Same-day appointments when available",
-      "After-hours emergency support when available in ${c}",
-      "Flat, written pricing before work begins",
-      "Repairs on any make or model",
+      "Appointment timing based on urgency and availability",
+      "24/7 emergency requests accepted by phone",
+      "Written pricing before approved work begins",
+      "Equipment-specific diagnosis and parts review",
       "Honest 'repair vs. replace' guidance — no upsell",
     ],
     faqs: (c) => [
       {
-        q: `Do you offer same-day HVAC repair in ${c}?`,
-        a: `We offer same-day scheduling when open slots are available. For urgent after-hours no-heat or no-cool issues, call and we'll schedule the next available technician.`,
+        q: `How do I request urgent HVAC repair in ${c}?`,
+        a: `Call to request the next available technician. Timing depends on weather, call volume, location, and current technician availability.`,
       },
       {
         q: `What does an HVAC repair cost in ${c}?`,
-        a: `We charge a flat diagnostic fee, then quote the repair in writing before doing the work. No surprise charges. Most common repairs (capacitors, ignitors, thermostats) are resolved in a single visit.`,
+        a: `Diagnostic and repair pricing depends on the equipment and fault. Bravo Mechanical provides the applicable charge and written repair scope before approved work begins.`,
       },
       {
-        q: `Will you work on my brand of equipment?`,
-        a: `Yes. Our techs are trained on every major brand — Carrier, Trane, Lennox, Goodman, Mitsubishi, Daikin, Bosch, and more. Bring us your make and model and we'll handle it.`,
+        q: `Will you work on my equipment?`,
+        a: `Provide the make, model, age, and symptoms when you call. Bravo Mechanical will confirm serviceability and parts considerations for the specific equipment.`,
       },
       {
         q: `When is it time to replace instead of repair?`,

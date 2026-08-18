@@ -70,4 +70,4 @@ Call **911 immediately** if:
 
 Bravo Mechanical provides emergency heating and HVAC support across Westchester County, including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, Mamaroneck, Larchmont, Bronxville, Tuckahoe, Eastchester, Tarrytown, Sleepy Hollow, Ossining, Peekskill, Mount Kisco, Chappaqua, Pleasantville, Bedford, Katonah, Armonk, Hastings-on-Hudson, Dobbs Ferry, Irvington, Briarcliff Manor, Croton-on-Hudson, Yorktown, Somers, and nearby communities.
 
-[Emergency HVAC details →](/emergency-hvac-westchester) or call **(914) 361-9142** now.
+[Emergency HVAC details →](/services/emergency-hvac-repair-westchester-county-ny) or call **(914) 361-9142** now.

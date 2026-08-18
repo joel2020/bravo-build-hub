@@ -46,6 +46,10 @@ async function readDist(relativePath) {
 }
 
 const home = await readDist('index.html');
+assert(home.includes('send_page_view: false'), 'GA4 automatic page views must remain disabled');
+assert(home.includes('window.location.search || window.location.hash'), 'GA4 loader must reject query- or hash-bearing entries');
+assert(home.includes("page_referrer: ''"), 'GA4 loader must explicitly redact referrers');
+assert(!home.includes('<script async src="https://www.googletagmanager.com/gtag/js'), 'GA4 must not load before the privacy gate runs');
 assert(
   deploymentConfig.outputDirectory === 'dist/public',
   'Deployed Vercel config must publish dist/public',
@@ -76,6 +80,29 @@ for (const privateRoute of ['/auth', '/admin/:path*', '/proposal/:path*']) {
     `Deployed Vercel config is missing noindex headers for ${privateRoute}`,
   );
 }
+assert(
+  deploymentConfig.headers.some(
+    (rule) => rule.source === '/(.*)'
+      && rule.has?.some((condition) => condition.type === 'host' && condition.value === 'app.bravomechanicalny.com')
+      && rule.headers?.some((header) => header.key === 'X-Robots-Tag' && header.value === 'noindex, nofollow'),
+  ),
+  'Deployed Vercel config must noindex every app.bravomechanicalny.com response',
+);
+for (const [source, destination] of Object.entries({
+  '/emergency-hvac-westchester': '/services/emergency-hvac-repair-westchester-county-ny',
+  '/services/gas-boilers': '/services/boiler-installation-westchester-county-ny',
+  '/services/mini-splits': '/services/mini-split-installation-westchester-county-ny',
+  '/services/heat-pumps': '/services/heat-pump-installation-westchester-county-ny',
+  '/services/central-ac': '/services/ac-installation-westchester-county-ny',
+  '/services/gas-furnaces': '/services/furnace-installation-westchester-county-ny',
+  '/services/water-heaters': '/services/water-heater-installation-westchester-county-ny',
+  '/blog/ac-not-cooling-westchester': '/blog/why-is-my-ac-not-cooling-westchester',
+})) {
+  assert(
+    deploymentConfig.redirects.some((redirect) => redirect.source === source && redirect.destination === destination && redirect.permanent),
+    `Deployed Vercel config is missing permanent redirect ${source} -> ${destination}`,
+  );
+}
 const assetDir = path.join(dist, 'assets');
 const jsAssets = (await import('node:fs/promises')).readdir(assetDir);
 const appText = [home];
@@ -90,6 +117,7 @@ const cssRoot = postcss.parse(bundledCss);
 assert(bundledApp.includes('tel:+19143619142'), 'Built app is missing tel:+19143619142 CTA');
 assert(bundledApp.includes('mailto:info@bravomechanicalny.com'), 'Built app is missing info@bravomechanicalny.com mailto CTA');
 assert(!/Bravomechanicalllc@gmail\.com|bravomechanicalllc@gmail\.com|914-555-0100|9145550100/.test(bundledApp), 'Built app contains outdated placeholder contact info');
+assert(!/\(914\) 318-7368|9143187368/.test(bundledApp), 'Built app contains the outdated alternate phone number');
 const skipLinkFocus = findCssRule(cssRoot, '.skip-link:focus');
 assert(hasDeclaration(skipLinkFocus, 'transform', 'translateY(0)'), 'Built CSS is missing the visible .skip-link:focus rule');
 assert(hasDeclaration(skipLinkFocus, 'outline', '3px solid hsl(var(--ring))'), 'Built CSS is missing the skip-link focus outline');
@@ -124,6 +152,9 @@ const privateSitemapEntry = sitemap.match(
   /<loc>[^<]*\/(?:auth|admin|proposal)(?:\/[^<]*)?<\/loc>/,
 )?.[0];
 assert(!privateSitemapEntry, `sitemap.xml must not include private routes: ${privateSitemapEntry}`);
+for (const redirectOnlyPath of deploymentConfig.redirects.map((redirect) => redirect.source).filter((source) => !source.includes(':'))) {
+  assert(!sitemap.includes(`<loc>${canonicalOrigin}${redirectOnlyPath}</loc>`), `sitemap.xml contains redirect-only URL ${redirectOnlyPath}`);
+}
 
 const llms = await readDist('llms.txt');
 assert(llms.includes(canonicalOrigin), 'llms.txt missing canonical website');
@@ -144,6 +175,10 @@ for (const relativePath of routeHtmlFiles) {
   const description = decodeHtml(html.match(/<meta name="description" content="([^"]*)"/i)?.[1] || '');
   assert(title.length <= 65, `${relativePath} title is ${title.length} characters`);
   assert(description.length <= 160, `${relativePath} description is ${description.length} characters`);
+  assert((html.match(/<h1(?:\s|>)/gi) || []).length === 1, `${relativePath} must contain exactly one crawler-visible H1`);
+  const expectedPath = relativePath === 'index.html' ? '/' : `/${relativePath.replace(/\/index\.html$/, '')}`;
+  const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+  assert(canonical === `${canonicalOrigin}${expectedPath}`, `${relativePath} canonical must be self-referencing`);
 
   const jsonLd = [...html.matchAll(/<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)]
     .flatMap((match) => {
@@ -160,6 +195,11 @@ const yonkers = await readDist('service-areas/yonkers/index.html');
 assert(yonkers.includes('largest city in Westchester County'), 'Yonkers prerender must include its verified local content');
 const whitePlains = await readDist('service-areas/white-plains/index.html');
 assert(whitePlains.includes('commercial hub'), 'White Plains prerender must include its verified local content');
+const acRepair = await readDist('services/ac-repair-westchester-county-ny/index.html');
+assert(acRepair.includes('How do I request urgent AC repair in Westchester County?'), 'AC repair prerender must use the reviewed priority FAQ override');
+assert(!/same[- ]day|all brands|medically sensitive/i.test(acRepair), 'AC repair prerender contains stale unsupported FAQ claims');
+const warrantyGuide = await readDist('blog/hvac-warranty-guide-westchester/index.html');
+assert(!warrantyGuide.includes('Written 2-year labor warranty'), 'Unvetted warranty claims must not be inserted into crawler-first raw HTML');
 
 const boilerAssets = (await jsAssets).filter((file) => file.startsWith('project-boiler-after-'));
 assert(boilerAssets.length === 1, 'Expected exactly one optimized boiler project asset');

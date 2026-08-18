@@ -39,9 +39,9 @@ Here's how we handle a mini-split reconciliation from first call to closed permi
 
 ## How Bravo Mechanical helps
 
-We're a **licensed and insured Westchester County HVAC contractor (License #8822)**, and our team brings **over 30 years of combined HVAC experience** — including the permit and inspection process that trips up most homeowners. We handle the building department and the inspector so you don't spend your week on hold with the town. Whether you need to legalize an existing mini-split before a closing or you're planning a new install and want it permitted correctly from day one, we manage the whole thing end to end.
+Bravo Mechanical lists **Westchester HVAC license #8822**, and our team brings **over 30 years of combined HVAC experience**. Permit requirements and filing steps vary by municipality and project scope, so we confirm what the applicable building department requires before representing a filing or inspection plan.
 
-We also install ductless systems the right way in the first place — see our [mini-split installation service](/services/mini-split-installation-westchester-county-ny) and our [ductless buyer's guide](/services/mini-splits).
+We also install ductless systems the right way in the first place — see our [mini-split installation service](/services/mini-split-installation-westchester-county-ny).
 
 ## Frequently asked questions
 
@@ -64,4 +64,4 @@ Absolutely. When we install a mini-split, we pull the mechanical permit as part 
 
 ## Don't let an unpermitted mini-split hold up your sale or your claim.
 
-Bravo Mechanical files mini-split mechanical and reconciliation permits across all of Westchester County — and handles the inspection for you. **Call [(914) 361-9142](tel:+19143619142)** or [request permit help online](/services/mini-split-permit-westchester-county-ny). Licensed, insured, and 30+ years of combined experience behind every job.
+**Call [(914) 361-9142](tel:+19143619142)** or [request permit help online](/services/mini-split-permit-westchester-county-ny) to confirm whether Bravo Mechanical can coordinate the filing and inspection steps required for your municipality and project.

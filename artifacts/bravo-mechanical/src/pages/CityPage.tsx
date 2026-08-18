@@ -15,7 +15,7 @@ const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seas
   yonkers: {
     housing: "Many Yonkers homes still run legacy steam or hot-water boilers. We frequently retrofit these systems with high-efficiency gas boilers and add ductless cooling where ductwork is limited.",
     permitting: "For larger replacements, we coordinate permits and inspection timing with local requirements so homeowners have paperwork in place for resale and warranty support.",
-    seasonal: "Winter no-heat and summer no-cool calls are common in older housing stock, so we prioritize same-day triage whenever possible.",
+    seasonal: "Winter no-heat and summer no-cool calls are common in older housing stock; call to request urgent triage based on current availability.",
   },
   "white-plains": {
     housing: "White Plains includes both high-rise condos and older single-family homes. Our work often combines airflow correction with equipment upgrades to fix uneven comfort.",
@@ -110,7 +110,7 @@ const CityPage = () => {
       <PageHero
         eyebrow={`${city.region} • Westchester County, NY`}
         title={`HVAC Services in ${city.name}, NY`}
-        subtitle={`Local heating, cooling, and air-quality service for homes and businesses in ${city.name}. Licensed, insured, and dispatched from right here in Westchester County.`}
+        subtitle={`Local heating, cooling, and air-quality service for homes and businesses in ${city.name}, provided by a licensed Westchester HVAC contractor.`}
         hideRightSlot
       />
 
@@ -155,12 +155,12 @@ const CityPage = () => {
           </div>
 
           <aside className="bg-card border border-border rounded-lg p-6 h-fit">
-            <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Get a free estimate</div>
+            <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Request an estimate</div>
             <h3 className="font-bold text-lg mb-3">Local techs serving {city.name}.</h3>
-            <p className="text-sm text-muted-foreground mb-5">No-pressure written quote. Licensed & insured. Same-day service when available.</p>
+            <p className="text-sm text-muted-foreground mb-5">Request a written, project-specific quote from a licensed Westchester HVAC contractor.</p>
             <div className="flex flex-col gap-3">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact" onClick={() => trackRequestServiceClick(`city_page_${city.slug}`)}>Get a Free Estimate</Link>
+                <Link to="/contact" onClick={() => trackRequestServiceClick(`city_page_${city.slug}`)}>Request an Estimate</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold">
                 <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
@@ -226,7 +226,7 @@ const CityPage = () => {
           {[
             { t: "We live and work in Westchester", d: `Our techs know ${city.name} — the housing stock, the climate, the building codes. No guessing.` },
             { t: "Honest sizing and honest pricing", d: "We do real load calculations and quote in writing before any work begins. No bait-and-switch." },
-            { t: "Licensed, insured, and code-compliant", d: "Every install is permitted when required and built to last. We protect your home." },
+            { t: "Licensed and permit-aware", d: "Bravo Mechanical lists Westchester HVAC license #8822 and coordinates permits when the project scope requires them." },
             { t: "Straight pricing", d: "A written, itemized estimate before any work begins — equipment options and total price fixed up front." },
           ].map((b) => (
             <div key={b.t} className="bg-card border border-border rounded-lg p-5 flex gap-3">

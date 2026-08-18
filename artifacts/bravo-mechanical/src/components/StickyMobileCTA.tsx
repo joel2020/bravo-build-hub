@@ -6,7 +6,7 @@ import { trackCallClick, trackSmsClick } from "@/lib/analytics";
 // Sticky mobile bottom bar: Call + Text. Hidden on desktop and on the emergency page itself.
 export const StickyMobileCTA = () => {
   const { pathname } = useLocation();
-  const isEmergency = pathname.startsWith("/emergency-hvac-westchester");
+  const isEmergency = pathname.startsWith("/services/emergency-hvac-repair-westchester-county-ny");
 
   // Texts must go to the Twilio line (lands in the CRM + alerts the owner) —
   // the voice line can't receive SMS.
@@ -22,6 +22,7 @@ export const StickyMobileCTA = () => {
       <div className="grid grid-cols-2 gap-2 p-2">
         <a
           href={SITE.phoneHref}
+          data-call-tracked="true"
           onClick={() => trackCallClick(isEmergency ? "sticky_mobile_emergency" : "sticky_mobile")}
           className="flex items-center justify-center gap-2 rounded-md bg-primary text-primary-foreground font-bold py-3 text-sm active:scale-[0.98] transition"
           aria-label={isEmergency ? "Emergency Call" : "Call Now"}

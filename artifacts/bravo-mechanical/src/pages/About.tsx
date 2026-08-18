@@ -115,7 +115,7 @@ const About = () => {
           <div>
             <h2 className="text-2xl font-extrabold mb-3">Licensing, insurance, and documentation</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Bravo Mechanical LLC is a licensed and insured HVAC contractor — License #8822. Proof of insurance and project documentation are provided with every written estimate.
+              Bravo Mechanical LLC lists Westchester HVAC license #8822. Customers can request the project documentation and credential details relevant to their scope before authorizing work.
             </p>
           </div>
           <div>

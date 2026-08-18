@@ -78,26 +78,27 @@ const DefaultHeroTrustCard = () => (
     <ul className="mt-4 space-y-3 text-sm">
       <li className="flex items-start gap-2">
         <ShieldCheck className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Licensed &amp; insured in NY</span>
+        <span className="text-foreground">Westchester HVAC license #{SITE.licenseNumbers[0]}</span>
       </li>
       <li className="flex items-start gap-2">
         <FileText className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Free written estimates &middot; no obligation</span>
+        <span className="text-foreground">Written, project-specific estimates</span>
       </li>
       <li className="flex items-start gap-2">
         <Clock className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-        <span className="text-foreground">Same-day service when available</span>
+        <span className="text-foreground">24/7 emergency requests accepted</span>
       </li>
     </ul>
 
     <div className="mt-5 flex flex-col gap-2">
       <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
         <Link to="/contact" onClick={() => trackRequestServiceClick("page_hero_card")}>
-          Get a Free Estimate
+          Request an Estimate
         </Link>
       </Button>
       <a
         href={SITE.phoneHref}
+        data-call-tracked="true"
         onClick={() => trackCallClick("page_hero_card")}
         className="inline-flex items-center justify-center gap-2 text-sm font-bold text-foreground hover:text-accent py-2"
       >

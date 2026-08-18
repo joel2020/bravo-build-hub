@@ -61,6 +61,6 @@ If a tech identifies a cracked heat exchanger, **the furnace gets red-tagged imm
 3. Confirm all supply registers are open.
 4. If short cycling continues — **schedule a combustion analysis**, not just a tune-up. A real diagnosis includes CO ppm readings at the flue and at supply vents.
 
-Bravo Mechanical does same-day combustion analysis across Westchester County. **24/7 emergency line: (914) 361-9142.**
+Call Bravo Mechanical at **(914) 361-9142** to request a combustion and safety assessment. Emergency requests are accepted 24/7; dispatch timing depends on current conditions and technician availability.
 
 [Schedule a furnace diagnostic →](/contact)

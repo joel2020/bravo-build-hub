@@ -1,11 +1,11 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { LeadForm } from "@/components/LeadForm";
 import BookOnline from "@/pages/BookOnline";
-import { trackCallClick, trackLeadSubmit } from "@/lib/analytics";
+import { trackCallClick, trackEvent, trackLeadSubmit, trackPageView } from "@/lib/analytics";
 // Build scripts are plain ESM and intentionally do not ship TypeScript declarations.
 // @ts-expect-error test-only import of the real metadata generator
 import { buildAllRoutes } from "../../scripts/route-data.mjs";
@@ -14,6 +14,7 @@ type GeneratedRoute = {
   path: string;
   title: string;
   description: string;
+  canonical?: string;
   city?: { intro?: string; housing?: string; climateNote?: string };
 };
 
@@ -35,6 +36,15 @@ describe("SEO generation", () => {
     expect(yonkers?.city?.intro).toContain("largest city in Westchester County");
     expect(yonkers?.city?.housing).toContain("steam or hot-water boilers");
     expect(yonkers?.city?.climateNote).toContain("humid summers");
+  });
+
+  it("does not publish redirected or noncanonical routes", async () => {
+    const routes = await buildAllRoutes() as GeneratedRoute[];
+    const paths = routes.map((route) => route.path);
+    expect(paths).not.toContain("/emergency-hvac-westchester");
+    expect(paths).not.toContain("/blog/ac-not-cooling-westchester");
+    expect(paths).not.toContain("/services/heat-pumps");
+    expect(routes.filter((route) => route.canonical && route.canonical !== route.path)).toEqual([]);
   });
 });
 
@@ -86,20 +96,68 @@ describe("sitewide accessibility", () => {
 
 describe("conversion analytics", () => {
   beforeEach(() => {
-    Object.assign(globalThis, { window: { dataLayer: [] } });
+    Object.assign(globalThis, { window: { dataLayer: [], location: { pathname: "/services/ac-repair-westchester-county-ny", search: "?email=customer@example.com", hash: "#private" } } });
   });
 
   it("emits one canonical call event per click", () => {
     trackCallClick("header");
     expect(window.dataLayer).toEqual([
-      { event: "call_click", event_category: "engagement", location: "header" },
+      { event: "call_click", page_path: "/services/ac-repair-westchester-county-ny", page_location: "https://www.bravomechanicalny.com/services/ac-repair-westchester-county-ny", page_referrer: "", event_category: "engagement", location: "header" },
     ]);
   });
 
   it("emits one canonical lead event per successful submission", () => {
     trackLeadSubmit("contact");
     expect(window.dataLayer).toEqual([
-      { event: "lead_submit", event_category: "lead", form: "contact" },
+      { event: "lead_submit", page_path: "/services/ac-repair-westchester-county-ny", page_location: "https://www.bravomechanicalny.com/services/ac-repair-westchester-county-ny", page_referrer: "", event_category: "lead", form: "contact" },
     ]);
+  });
+
+  it("strips PII, click identifiers, full URLs, and long messages", () => {
+    trackEvent("privacy_check", {
+      location: "contact_form",
+      email: "customer@example.com",
+      phone: "914-555-0100",
+      message: "Please call me",
+      referrer: "https://example.com/customer?id=123",
+      landing_url: "https://www.bravomechanicalny.com/contact?gclid=secret",
+      gclid: "secret",
+      service: "boiler_repair",
+    });
+    expect(window.dataLayer).toEqual([
+      {
+        event: "privacy_check",
+        page_path: "/services/ac-repair-westchester-county-ny",
+        page_location: "https://www.bravomechanicalny.com/services/ac-repair-westchester-county-ny",
+        page_referrer: "",
+        location: "contact_form",
+        service: "boiler_repair",
+      },
+    ]);
+  });
+
+  it("queues exactly one sanitized event when gtag is initialized", () => {
+    const gtag = vi.fn();
+    window.gtag = gtag;
+    trackCallClick("footer");
+    expect(window.dataLayer).toEqual([]);
+    expect(gtag).toHaveBeenCalledOnce();
+    expect(gtag).toHaveBeenCalledWith("event", "call_click", {
+      page_path: "/services/ac-repair-westchester-county-ny",
+      page_location: "https://www.bravomechanicalny.com/services/ac-repair-westchester-county-ny",
+      page_referrer: "",
+      event_category: "engagement",
+      location: "footer",
+    });
+  });
+
+  it("does not send private proposal, admin, or auth paths", () => {
+    for (const pathname of ["/proposal/private-bearer-token", "/admin/crm", "/auth"]) {
+      Object.assign(window.location, { pathname, search: "?email=customer@example.com" });
+      window.dataLayer = [];
+      trackPageView();
+      trackCallClick("private_route");
+      expect(window.dataLayer).toEqual([]);
+    }
   });
 });

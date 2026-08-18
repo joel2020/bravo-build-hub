@@ -69,7 +69,7 @@ These point to refrigerant, airflow, or component problems that won't fix themse
 
 On Con Edison's summer rates, AC efficiency is money. Handle the filter, coil, thermostat, and airflow basics yourself, and bring in a tech for refrigerant, ducts, or an aging system. A single tune-up plus duct sealing often pays for itself within a cooling season.
 
-Bravo Mechanical does same-day [AC repair](/services/ac-repair-westchester-county-ny) and efficiency checks across Westchester County, and a seasonal [HVAC maintenance plan](/services/hvac-maintenance-westchester-county-ny) keeps your system running efficiently all summer.
+Bravo Mechanical accepts [AC repair](/services/ac-repair-westchester-county-ny) and efficiency-check requests across Westchester County. Scheduling depends on current availability. Ask about the scope of a seasonal [HVAC maintenance visit](/services/hvac-maintenance-westchester-county-ny).
 
 ## Related guides
 

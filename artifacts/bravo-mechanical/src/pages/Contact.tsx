@@ -54,7 +54,7 @@ const Contact = () => {
               <Phone className="h-5 w-5 text-accent mt-0.5 shrink-0" aria-hidden="true" />
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Call for fastest response</div>
-                <a href={SITE.phoneHref} onClick={() => trackCallClick("contact_primary")} className="font-bold text-lg text-foreground hover:text-accent">{SITE.phone}</a>
+                <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick("contact_primary")} className="font-bold text-lg text-foreground hover:text-accent">{SITE.phone}</a>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -129,7 +129,7 @@ const Contact = () => {
               <div>
                 <div className="font-bold mb-1">Emergency HVAC service</div>
                 <p className="text-sm text-muted-foreground">
-                  No heat, no cooling, water around equipment, burning smell, or system shutdown? Call <a href={SITE.phoneHref} onClick={() => trackCallClick("contact_emergency")} className="font-semibold text-foreground underline decoration-accent underline-offset-2 hover:decoration-foreground">{SITE.phone}</a>. Emergency response depends on technician availability, weather, call volume, and location, but phone calls are the fastest way to reach us for urgent service.
+                  No heat, no cooling, water around equipment, burning smell, or system shutdown? Call <a href={SITE.phoneHref} data-call-tracked="true" onClick={() => trackCallClick("contact_emergency")} className="font-semibold text-foreground underline decoration-accent underline-offset-2 hover:decoration-foreground">{SITE.phone}</a>. Emergency response depends on technician availability, weather, call volume, and location, but phone calls are the fastest way to reach us for urgent service.
                 </p>
               </div>
             </div>

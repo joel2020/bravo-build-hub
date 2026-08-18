@@ -24,7 +24,7 @@ const FAQS = [
 const MaintenancePlans = () => {
   useSeo({
     title: "HVAC Maintenance Plans in Westchester County, NY | Bravo Mechanical",
-    description: "Annual HVAC service plans for Westchester homes and rentals: two seasonal tune-ups, priority scheduling, preferred repair pricing, and warranty-protecting service records.",
+    description: "HVAC maintenance options for Westchester homes and rentals, with project-specific visit scope, scheduling, and written service records.",
     canonical: `${SITE.siteUrl}/maintenance-plans`,
     jsonLd: [
       {
@@ -58,7 +58,7 @@ const MaintenancePlans = () => {
         <div className="mt-10 bg-secondary border border-border rounded-lg p-6 max-w-5xl">
           <h3 className="font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-accent" /> Built around your equipment</h3>
           <p className="text-sm text-muted-foreground">
-            One condo mini-split or a three-family building with separate boilers — plans are priced per system, in writing, before you commit. Tell us what you have and we'll quote it the same day.
+            One condo mini-split or a three-family building with separate boilers — plans are priced per system, in writing, before you commit. Tell us what you have and we'll prepare a project-specific quote.
           </p>
         </div>
       </section>

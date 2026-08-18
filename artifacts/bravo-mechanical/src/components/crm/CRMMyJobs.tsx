@@ -53,7 +53,7 @@ type JobPhoto = {
 
 const getSchedule = (job: Job) => job.scheduled_at || job.scheduled_date;
 const getAmount = (job: Job) => Number(job.total_amount ?? job.amount ?? 0);
-const getCustomerName = (job: Job) => job.customer_name || (job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || 'Unknown') || "Customer";
+const getCustomerName = (job: Job) => job.customer_name || job.leads?.name || [job.leads?.first_name, job.leads?.last_name].filter(Boolean).join(' ') || "Unknown";
 const getPhone = (job: Job) => job.customer_phone || job.leads?.phone || "";
 const getEmail = (job: Job) => job.customer_email || job.leads?.email || "";
 

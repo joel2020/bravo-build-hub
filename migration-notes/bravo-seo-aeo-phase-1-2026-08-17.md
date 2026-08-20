@@ -2,7 +2,7 @@
 
 **Prepared:** August 17, 2026
 **Scope:** Evidence collection, implementation, build and preview verification, GA4 configuration, production launch, corrective deployment, and post-launch validation.
-**Production state:** Completion deployment `dpl_Ao4XVeLPsTcfT9JxBj4X2yRUhutx`, built from pushed commit `4929ef5`, is live and passed the full production gate. Previous production deployment `dpl_4wuEL7hxR71zTMHS4QzVmGGxzNxF` remains the rollback target. No merge, Search Console indexing request, Business Profile edit, or public review response has been made.
+**Production state:** Completion deployment `dpl_Ao4XVeLPsTcfT9JxBj4X2yRUhutx`, built from pushed commit `4929ef5`, is live and passed the full production gate. Previous production deployment `dpl_4wuEL7hxR71zTMHS4QzVmGGxzNxF` remains the rollback target. The canonical sitemap was successfully refreshed and four commercial priority URLs were added once to Google's priority crawl queue on August 19, 2026. No merge, Business Profile edit, or public review response has been made.
 
 ## Completed outcomes
 
@@ -73,6 +73,8 @@ Most exclusions are stale evidence from before the apex-to-`www` migration. Goog
 | Aug 18, 2026 | Production crawl passed; canonical sitemap refresh is eligible | No Search Console submission made yet. |
 | Aug 18, 2026 | Fresh URL Inspection API read for four commercial priorities and Yonkers | All five allow indexing. AC repair, boiler repair, heat-pump installation, and emergency HVAC still report stale “Alternate page with proper canonical tag” decisions from May–July; Yonkers reports “Submitted and indexed.” No indexing request was submitted. |
 | Aug 18, 2026 | GSC Wizard indexing tracker created and seeded | Active tracker `ae64751b-cf51-4a9a-b474-f48b7492d416` monitors the same five URLs. Initial state: 1 indexed, 4 not indexed, 0 pending, 0 errors, and 0 warnings. |
+| Aug 19, 2026 | Resubmitted `https://www.bravomechanicalny.com/sitemap.xml` in Search Console | Google acknowledged “Sitemap submitted successfully.” The sitemap record showed Success, 140 discovered pages, and August 19 submitted/last-read dates. |
+| Aug 19, 2026 | Requested indexing once for AC repair, boiler repair, heat-pump installation, and emergency HVAC | Google acknowledged “Indexing requested” for all four and added each URL to the priority crawl queue. Yonkers was deliberately skipped because it was already indexed. |
 | 7–14 days after deployment | Re-inspect commercial URLs and record Google decision | Prioritize AC repair, boiler repair, heat-pump installation, emergency HVAC, and Yonkers. Do not repeatedly submit URLs already queued. |
 
 Core Web Vitals/CrUX, enhancements, and GA4 reports could not be retrieved from the connected Search Console workflow. No manual-action warning was surfaced by the available connector, but the connector did not expose a standalone manual-actions report; verify that screen directly before deployment sign-off.
@@ -203,7 +205,7 @@ An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at
 ### Days 0–30
 
 - Approve and deploy the exact tested build; repeat the production 140-URL crawl and redirect/header checks.
-- Refresh the canonical sitemap now that production has passed; request indexing once for the four commercial priorities and Yonkers, then record dates.
+- Completed August 19: refreshed the canonical sitemap and requested indexing once for the four non-indexed commercial priorities. Yonkers was not resubmitted because it was already indexed.
 - Obtain Bravo Business Profile owner/manager access and GA4 read access. Correct the GBP website/appointment URLs and confirm hours, categories, services, and service areas.
 - Approve and post the one pending review response; establish a same-week response workflow with customer privacy rules.
 - Keep evidence-gated claims suppressed; publish business-specific price, warranty, financing, brand, inventory, rebate, permit-handling, insurance, or response-time claims only after current written evidence is recorded.
@@ -256,7 +258,7 @@ An active Codex heartbeat, `bravo-weekly-seo-and-aeo-kpi-check`, runs Mondays at
 - **Deployment — resolved August 18, 2026:** completion production deployment `dpl_Ao4XVeLPsTcfT9JxBj4X2yRUhutx`, built from exact commit `4929ef5`, is ready and passed the full production gate. `dpl_4wuEL7hxR71zTMHS4QzVmGGxzNxF` is the immediate rollback reference.
 - **Version control — push resolved August 18, 2026:** exact completion commit `4929ef593aba900ef9510a92d3cd39b3b5cf2f12` is preserved locally and on `origin/codex/seo-aeo-phase1`. Root-level `.env.local` and `.vercel/` are excluded. No merge has been made.
 - **Completion promotion — resolved August 18, 2026:** protected preview source `dpl_GmhGn1qXwM72ocBoX8ZsRxFDgnxz` was promoted as production deployment `dpl_Ao4XVeLPsTcfT9JxBj4X2yRUhutx`; the immediate and full live gates passed, so rollback was not triggered.
-- **Indexing requests:** the corrected build and final production gate now qualify for the planned sitemap refresh and priority URL requests. The five priority URLs are actively tracked and their post-launch inspection baseline is recorded, but no Search Console submission action has occurred; publishing those requests remains a separate external action.
+- **Indexing requests — resolved August 19, 2026:** Search Console accepted the canonical sitemap refresh and showed Success with 140 discovered pages. AC repair, boiler repair, heat-pump installation, and emergency HVAC were each requested once and acknowledged in the priority crawl queue. Yonkers remained untouched because it was already indexed. Do not submit the queued URLs again; re-inspect after 7–14 days.
 - **Business Profile:** Bravo is not present in the connected Google account.
 - **Review publishing:** final approval is required immediately before posting.
 - **GA4/CrUX/CWV:** browser-authenticated Bravo GA4 access is available and the active stream was verified. The GSC workflow still has no Analytics OAuth scope connected, and no CrUX property was available.

@@ -161,6 +161,10 @@ for (const route of ['/', '/contact', '/services', '/about']) {
   const loc = `${canonicalOrigin}${route === '/' ? '/' : route}`;
   assert(sitemap.includes(loc), `sitemap.xml missing ${loc}`);
 }
+assert(
+  sitemap.includes(`${canonicalOrigin}/blog/furnace-smells-like-burning-westchester`),
+  'sitemap.xml missing the current weekly SEO article',
+);
 assert(!sitemap.includes('https://bravomechanicalny.com'), 'sitemap.xml must not use the redirecting non-www host');
 const privateSitemapEntry = sitemap.match(
   /<loc>[^<]*\/(?:auth|admin|proposal)(?:\/[^<]*)?<\/loc>/,
@@ -214,6 +218,10 @@ assert(acRepair.includes('How do I request urgent AC repair in Westchester Count
 assert(!/same[- ]day|all brands|medically sensitive/i.test(acRepair), 'AC repair prerender contains stale unsupported FAQ claims');
 const warrantyGuide = await readDist('blog/hvac-warranty-guide-westchester/index.html');
 assert(!warrantyGuide.includes('Written 2-year labor warranty'), 'Unvetted warranty claims must not be inserted into crawler-first raw HTML');
+const furnaceOdorGuide = await readDist('blog/furnace-smells-like-burning-westchester/index.html');
+assert(furnaceOdorGuide.includes('Start with the emergency signs'), 'Furnace odor guide must prerender its safety-first article body');
+assert(furnaceOdorGuide.includes('1-800-752-6633'), 'Furnace odor guide must include the reviewed Con Edison emergency number');
+assert(furnaceOdorGuide.includes('"@type":"BlogPosting"'), 'Furnace odor guide must include BlogPosting schema');
 
 const boilerAssets = (await jsAssets).filter((file) => file.startsWith('project-boiler-after-'));
 assert(boilerAssets.length === 1, 'Expected exactly one optimized boiler project asset');

@@ -479,6 +479,7 @@ export async function loadPriorityServiceOverrides() {
 
 // ---- Blog posts (markdown frontmatter) ---------------------------------
 const FULL_BODY_PRERENDER_SLUGS = new Set([
+  "furnace-smells-like-burning-westchester",
   "why-is-my-ac-not-cooling-westchester",
 ]);
 

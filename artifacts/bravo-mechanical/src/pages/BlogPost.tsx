@@ -5,7 +5,7 @@ import { Layout } from "@/components/Layout";
 import { CTABand } from "@/components/CTABand";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, MapPin, ArrowLeft, Phone, ArrowRight } from "lucide-react";
-import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { formatBlogDate, getPostBySlug, getAllPosts } from "@/lib/blog";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { CITIES } from "@/lib/cities";
@@ -97,7 +97,7 @@ const BlogPost = () => {
             <span>By {post.author}</span>
             <span className="inline-flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              {new Date(post.date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+              {formatBlogDate(post.date)}
             </span>
             <span className="inline-flex items-center gap-1">
               <Clock className="h-4 w-4" />

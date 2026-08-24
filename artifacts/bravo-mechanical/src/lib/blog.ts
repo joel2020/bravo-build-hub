@@ -67,6 +67,14 @@ export const getAllPosts = (): BlogPost[] => posts;
 export const getPostBySlug = (slug: string): BlogPost | undefined => posts.find((p) => p.slug === slug);
 export const getAllTags = (): string[] => Array.from(new Set(posts.flatMap((p) => p.tags))).sort();
 
+export const formatBlogDate = (date: string): string =>
+  new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
 // Returns posts relevant to a given city. Matches by exact city frontmatter first,
 // then falls back to posts that include the city name as a tag. Used for internal
 // SEO linking from /service-areas/:slug pages to local blog content.

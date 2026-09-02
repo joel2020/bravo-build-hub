@@ -1,5 +1,50 @@
 # Local landing-page evidence review - 2026-09-02
 
+## Task 10 production promotion and verification - 2026-09-02
+
+**Status: PASSED — approved preview promoted and production verified; rollback not needed.** The exact fully tested preview `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF` (`https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app`) was promoted without a new source build. Vercel created production copy `dpl_EBQ89q2tekUjitsHLJc3ezxUf4Ad` at `https://bravo-build-k78jdttca-joel-carias-projects.vercel.app`; its metadata records `action=promote`, `originalDeploymentId=dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF`, and source commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a`. The public production and custom-domain aliases now resolve to that READY production copy.
+
+### Production identity and timing
+
+| Field | Exact result |
+|---|---|
+| Promoted immutable artifact | `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF`; `https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app`; preview status `READY` |
+| Production deployment | `dpl_EBQ89q2tekUjitsHLJc3ezxUf4Ad`; `https://bravo-build-k78jdttca-joel-carias-projects.vercel.app`; target `production`; status `READY` |
+| Source | GitHub repository `joel2020/bravo-build-hub`, branch `codex/seo-aeo-phase1`, commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` |
+| Promotion timing | Created `2026-09-02T23:26:21.312Z` (`2026-09-02 19:26:21.312 EDT`); building `2026-09-02T23:26:22.557Z`; READY `2026-09-02T23:26:40.071Z` (`2026-09-02 19:26:40.071 EDT`). Created-to-ready was 18.759 seconds and building-to-ready was 17.514 seconds. |
+| Production aliases | `https://www.bravomechanicalny.com`, `https://bravomechanicalny.com`, `https://app.bravomechanicalny.com`, `https://bravo-build-hub.vercel.app`, and `https://bravo-build-hub-joel-carias-projects.vercel.app` |
+| Rollback target retained | `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`; source `5c99146071d9db0b873697a07da6cd3d5c27f70d` |
+| Rollback status | Not needed: zero confirmed release-critical failures. |
+
+Before promotion, the candidate was still READY at the approved SHA, `www.bravomechanicalny.com` still resolved to rollback target `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`, and both the clean worktree HEAD and `origin/codex/seo-aeo-phase1` were `cb6063009ca8942ec9d0a5cef0b51b78ab3216b4`. The only tracked difference from source commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` was this evidence document. `vercel promote dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF --yes` was the only promotion command; no rebuild, different deployment, source commit, production setting, or protection setting was used.
+
+### Immediate public production gate
+
+| Verification surface | Exact outcome |
+|---|---|
+| Deployment and alias identity | `www.bravomechanicalny.com` resolved to READY production `dpl_EBQ89q2tekUjitsHLJc3ezxUf4Ad`; Vercel metadata tied it to the approved original deployment and source SHA. |
+| Normal production crawler gate | `pnpm run audit:seo` exited 0: 141 sitemap URLs audited; 141 passed; 0 failed against `https://www.bravomechanicalny.com`. |
+| Sitemap inventory | 141/141 unique canonical URLs; 0 duplicates or noncanonical origins. |
+| Local inventory and membership | 54/54 local routes in the sitemap and live: 34 city routes and 20 service-city routes. |
+| Public HTTP and live-build integrity | 141/141 sitemap URLs returned HTTP 200. All 141 production bodies were byte-identical to the same path on the immutable approved preview after removing only Vercel's preview-only feedback-toolbar trailer; that platform trailer appeared on the protected preview homepage and is correctly absent from production. |
+| Canonicals and indexability | 141/141 exact self-referencing `https://www.bravomechanicalny.com` canonicals; 141/141 HTML `index, follow`; 141/141 public responses had no preview-level or other `noindex` header. |
+| Metadata and H1 | 141/141 had exactly one H1, a nonempty title of at most 65 decoded characters, and a nonempty description of at most 160 decoded characters. |
+| Structured data | 610 JSON-LD scripts parsed; 141 `HVACBusiness` nodes and 70 `FAQPage` nodes; 0 parse failures, duplicate `HVACBusiness`, duplicate `FAQPage`, or self-serving `aggregateRating` findings. |
+| Local rendered content and FAQ equality | 54/54 local routes contained the reviewed copy, verified contact and phone links, no visible editorial source notes, and exactly one visible copy of each reviewed FAQ; visible/source FAQs equaled `FAQPage` schema on 54/54. |
+| Internal links | 344/344 asserted local relationship links, 80/80 same-service cross-city links, and 20/20 parent-to-service-city links passed. Across the full crawl, 2,376 internal-link occurrences resolved to 122/122 unique sitemap targets; 0 extra or broken targets. |
+| Redirects | 8/8 configured path redirects returned HTTP 308 with the expected destination; the apex-host redirect functionally returned HTTP 308 from `bravomechanicalny.com` to the exact `www` path. Total: 9/9 configured redirect boundaries. |
+| Security and private-route headers | 423/423 global security-header assertions passed across the 141 sitemap responses. `/auth`, `/admin/crm`, and `/proposal/preview-gate` passed 3/3 HTTP 200 plus 3/3 `noindex, nofollow` response-header checks. |
+| Cache policies | 1/1 fingerprinted asset returned `Cache-Control: public, max-age=31536000, immutable`; 1/1 sitemap returned `Cache-Control: public, max-age=86400`. |
+| Analytics privacy | 6/6 passed: private-path rejection, query/hash rejection, automatic page views disabled, referrer redaction, `ignore_referrer`, and dynamic-only GA loading. |
+| Robots and local-content audit | `robots.txt` passed 3/3 allow/canonical-sitemap/no-root-block checks. `pnpm run audit:local-content` exited 0: 54 records audited; 0 errors. |
+| Confirmed release failures | 0. Rollback was therefore not invoked. |
+
+Vercel CLI `59.11.2` labels `vercel curl` beta. Read-only runner development produced several non-release false positives before the final assertions: raw HTML-entity length versus decoded title length; a report counter that added the separately reported 80 cross-city and 20 parent links to the 344 core relationships; an absolute-only `Location` expectation for valid relative path redirects; a source-text matcher that did not match the shipped private-path regular expression; and the expected Vercel preview feedback-toolbar trailer. Each was narrowed to runner bookkeeping or platform-only preview markup, not an application or production boundary failure. The final corrected checks above passed. No token, bypass secret, or credential was printed or persisted, and no material observability gap remains.
+
+### Search Console follow-up
+
+The **first settled Google Search Console review date is 2026-09-30**. This is 28 full days after the 2026-09-02 production release, providing one complete four-week post-release observation window for crawl, canonical-selection, indexing, and performance data to settle before comparing against the 2026-08-27 baseline. No indexing request, bulk indexing action, or sitemap resubmission was made during this release; the existing canonical sitemap remains available at `https://www.bravomechanicalny.com/sitemap.xml`.
+
 ## Task 9 protected-preview verification - 2026-09-02
 
 **Status: PASSED — protected preview verified; production unchanged.** Git integration built exact release-candidate commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` from remote branch `codex/seo-aeo-phase1` as protected Vercel preview `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF` at `https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app`. The deployment was ready at `2026-09-02T22:02:00.287Z` (`2026-09-02 18:02:00.287 EDT`) and the authenticated gate completed with zero failures. No production deployment, promotion, production or custom-domain alias, protection setting, or application setting was changed. Vercel's managed Git branch-preview alias is intentionally moving: it advances automatically to the latest preview after every push to `codex/seo-aeo-phase1`, including documentation-only evidence pushes.

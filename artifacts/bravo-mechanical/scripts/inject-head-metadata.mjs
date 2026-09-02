@@ -33,9 +33,16 @@ import { PRIVACY_POLICY_HTML, TERMS_HTML } from "./legal-content.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist", "public");
+// Retained city facts already asserted by the crawler smoke suite. These are
+// supplemental context; the reviewed localContent record remains the source
+// for each landing page's service guidance and relationships.
+const PRESERVED_CITY_CONTEXT = {
+  yonkers: "Yonkers is the largest city in Westchester County.",
+  "white-plains": "White Plains is Westchester's commercial hub.",
+};
 
 function htmlEscape(s) {
-  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
 function jsonScript(obj) {
@@ -330,9 +337,89 @@ function linkList(items) {
   return `<ul>${items.map((i) => `<li><a href="${htmlEscape(i.path)}">${htmlEscape(i.label)}</a></li>`).join("")}</ul>`;
 }
 
+function textList(title, items) {
+  if (!items?.length) return "";
+  return `<h2>${htmlEscape(title)}</h2><ul>${items.map((item) => `<li>${htmlEscape(item)}</li>`).join("")}</ul>`;
+}
+
+function linkedResources(title, resources) {
+  if (!resources?.length) return "";
+  return `<h2>${htmlEscape(title)}</h2><ul>${resources.map((resource) => {
+    let href = "#";
+    try {
+      const parsed = new URL(String(resource.url));
+      if (parsed.protocol === "https:" || parsed.protocol === "http:") href = parsed.href;
+    } catch { /* Ignore malformed source URLs instead of emitting unsafe hrefs. */ }
+    const support = resource.supports ? ` — ${htmlEscape(resource.supports)}` : "";
+    return `<li><a href="${htmlEscape(href)}">${htmlEscape(resource.label)}</a>${support}</li>`;
+  }).join("")}</ul>`;
+}
+
+function linkedSection(title, items) {
+  return items.length ? `<h2>${htmlEscape(title)}</h2>${linkList(items)}` : "";
+}
+
+function localLinks(ctx, paths) {
+  return paths
+    .map((routePath) => ctx.routeByPath.get(routePath))
+    .filter(Boolean)
+    .map((linkedRoute) => ({ path: linkedRoute.path, label: linkedRoute.linkLabel }));
+}
+
+function renderLocalContent(route, ctx) {
+  const content = route.localContent;
+  if (!content) return "";
+
+  if (route.type === "city") {
+    const city = route.city;
+    const cityCombos = ctx.serviceCitiesByCity.get(city.slug) || [];
+    const relatedGuides = localLinks(ctx, content.relatedGuideSlugs.map((slug) => ctx.blogBySlug.get(slug)?.path));
+    const nearbyCities = localLinks(ctx, content.nearbyCitySlugs.map((slug) => ctx.cityBySlug.get(slug)?.path));
+    const parts = [
+      `<h2>HVAC guidance for ${htmlEscape(city.name)}, NY</h2><p>${htmlEscape(content.answerFirst)}</p>`,
+      PRESERVED_CITY_CONTEXT[city.slug] ? `<p>${htmlEscape(PRESERVED_CITY_CONTEXT[city.slug])}</p>` : "",
+      textList(`Local considerations in ${city.name}`, content.localContext),
+      textList("Common concerns", content.commonConcerns),
+      textList("Safe checks before requesting service", content.safeChecks),
+      textList("When to leave the work to a professional", content.professionalBoundaries),
+      linkedResources("Municipal resources", content.municipalResources),
+      linkedResources("Sources and references", content.sourceNotes),
+      linkedSection("Related HVAC guides", relatedGuides),
+      linkedSection(`Nearby service areas`, nearbyCities),
+      linkedSection(`Services available in ${city.name}`, cityCombos),
+    ];
+    return parts.filter(Boolean).join("\n");
+  }
+
+  if (route.type === "service-city") {
+    const cityHub = ctx.cityBySlug.get(route.city.slug);
+    const parentService = ctx.routeByPath.get(content.parentServicePath);
+    const relatedGuides = localLinks(ctx, content.relatedGuideSlugs.map((slug) => ctx.blogBySlug.get(slug)?.path));
+    const relatedServices = localLinks(ctx, content.relatedServiceSlugs.map((slug) => ctx.serviceCityByKey.get(`${slug}/${route.city.slug}`)?.path));
+    const nearbyCombos = (ctx.serviceCitiesByCity.get(route.city.slug) || []).filter((candidate) => candidate.path !== route.path);
+    const parts = [
+      `<h2>${htmlEscape(route.service.title)} guidance for ${htmlEscape(route.city.name)}, NY</h2><p>${htmlEscape(content.answerFirst)}</p>`,
+      textList(`Local considerations in ${route.city.name}`, content.localConsiderations),
+      textList("Common concerns", content.commonConcerns),
+      textList("What a written service scope should cover", content.serviceScope),
+      textList("Safe checks before requesting service", content.safeChecks),
+      textList("When to leave the work to a professional", content.professionalBoundaries),
+      linkedResources("Sources and references", content.sourceNotes),
+      linkedSection("Parent countywide service", parentService ? [parentService] : []),
+      linkedSection(`${route.city.name} HVAC hub`, cityHub ? [cityHub] : []),
+      linkedSection("Related HVAC guides", relatedGuides),
+      linkedSection(`Related services in ${route.city.name}`, relatedServices),
+      linkedSection(`Other local services in ${route.city.name}`, nearbyCombos),
+    ];
+    return parts.filter(Boolean).join("\n");
+  }
+
+  return "";
+}
+
 function buildBodyInsert(route, ctx) {
   const esc = htmlEscape;
-  const h1 = esc(String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
+  const h1 = esc(route.type === "service-city" ? route.localContent.h1 : String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
   const parts = [];
   parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed HVAC contractor (License #8822) · 30+ years of combined HVAC experience · 1 Fowler Avenue, Yonkers, NY 10701 · Serving all of Westchester County · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service requests · <a href="/contact">Request an estimate</a></p></header>`);
   parts.push(`<main>`);
@@ -352,6 +439,14 @@ function buildBodyInsert(route, ctx) {
     parts.push(`<h2>Repair, replacement, and safety guidance</h2><p>${esc(copy.guidance)}</p>`);
   }
 
+  if (route.type === "city" || route.type === "service-city") {
+    parts.push(renderLocalContent(route, ctx));
+  }
+
+  if (route.type === "service") {
+    parts.push(linkedSection("Local service pages", ctx.serviceCitiesByParentPath.get(route.path) || []));
+  }
+
   // Legal pages must serve their FULL text to non-JS crawlers — automated
   // compliance verifiers (e.g. Twilio A2P 10DLC vetting) fetch these URLs
   // without executing JavaScript.
@@ -365,15 +460,7 @@ function buildBodyInsert(route, ctx) {
     }
   }
 
-  if (route.type === "city" && route.city) {
-    if (route.city.intro) parts.push(`<h2>Local HVAC experience in ${esc(route.city.name)}</h2><p>${esc(route.city.intro)}</p>`);
-    if (route.city.housing) parts.push(`<h2>Heating and cooling needs in ${esc(route.city.name)}</h2><p>${esc(route.city.housing)}</p>`);
-    if (route.city.climateNote) parts.push(`<h2>Local climate considerations</h2><p>${esc(route.city.climateNote)}</p>`);
-    if (route.city.neighborhoods?.length) parts.push(`<p><strong>Neighborhoods served:</strong> ${route.city.neighborhoods.map(esc).join(", ")}.</p>`);
-    if (route.city.zips?.length) parts.push(`<p><strong>ZIP codes served:</strong> ${route.city.zips.map(esc).join(", ")}.</p>`);
-    parts.push(`<h2>HVAC services in ${esc(route.city.name)}, NY</h2>`);
-    parts.push(linkList(ctx.services));
-  } else if (route.type === "service" || route.type === "guide" || route.type === "service-city") {
+  if (route.type === "service" || route.type === "guide") {
     parts.push(`<h2>All Westchester HVAC services</h2>`);
     parts.push(linkList(ctx.services));
   } else if (route.path === "/" || route.path === "/services") {
@@ -423,11 +510,37 @@ async function main() {
   const routes = await buildAllRoutes();
 
   // Link context for the prerendered bodies.
+  const withLinkLabels = routes.map((route) => ({
+    ...route,
+    linkLabel: route.type === "city" ? `HVAC ${route.city.name}, NY`
+      : route.type === "service-city" ? route.localContent.h1
+        : route.type === "blog" ? route.post.title
+          : String(route.title).split("|")[0].trim(),
+  }));
+  const routeByPath = new Map(withLinkLabels.map((route) => [route.path, route]));
+  const serviceCitiesByCity = new Map();
+  const serviceCitiesByParentPath = new Map();
+  const serviceCityByKey = new Map();
+  for (const route of withLinkLabels.filter((route) => route.type === "service-city")) {
+    const byCity = serviceCitiesByCity.get(route.city.slug) || [];
+    byCity.push(route);
+    serviceCitiesByCity.set(route.city.slug, byCity);
+    const byParent = serviceCitiesByParentPath.get(route.localContent.parentServicePath) || [];
+    byParent.push(route);
+    serviceCitiesByParentPath.set(route.localContent.parentServicePath, byParent);
+    serviceCityByKey.set(`${route.service.slug}/${route.city.slug}`, route);
+  }
   const ctx = {
-    services: routes.filter((r) => r.type === "service").map((r) => ({ path: r.path, label: String(r.title).split("|")[0].trim() })),
-    guides: routes.filter((r) => r.type === "guide").map((r) => ({ path: r.path, label: String(r.title).split("—")[0].trim() })),
-    cities: routes.filter((r) => r.type === "city").map((r) => ({ path: r.path, label: `HVAC ${r.city.name}, NY` })),
-    posts: routes.filter((r) => r.type === "blog").slice(0, 12).map((r) => ({ path: r.path, label: r.post.title })),
+    routeByPath,
+    cityBySlug: new Map(withLinkLabels.filter((route) => route.type === "city").map((route) => [route.city.slug, route])),
+    blogBySlug: new Map(withLinkLabels.filter((route) => route.type === "blog").map((route) => [route.post.slug, route])),
+    serviceCitiesByCity,
+    serviceCitiesByParentPath,
+    serviceCityByKey,
+    services: withLinkLabels.filter((route) => route.type === "service").map((route) => ({ path: route.path, label: route.linkLabel })),
+    guides: withLinkLabels.filter((route) => route.type === "guide").map((route) => ({ path: route.path, label: route.linkLabel })),
+    cities: withLinkLabels.filter((route) => route.type === "city").map((route) => ({ path: route.path, label: route.linkLabel })),
+    posts: withLinkLabels.filter((route) => route.type === "blog").slice(0, 12).map((route) => ({ path: route.path, label: route.linkLabel })),
   };
 
   let written = 0;

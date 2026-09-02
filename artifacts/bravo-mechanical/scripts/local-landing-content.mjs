@@ -6,8 +6,18 @@ import { buildAllRoutes } from './route-data.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
-const datasetPath = path.join(root, 'src/content/localLandingPages.json');
-const generatedRoutes = await buildAllRoutes();
+const datasetPath = process.env.LOCAL_LANDING_CONTENT_PATH || path.join(root, 'src/content/localLandingPages.json');
+const sourceDataset = JSON.parse(readFileSync(datasetPath, 'utf8'));
+const sourceShapeIsSafe = Boolean(sourceDataset) && typeof sourceDataset === 'object'
+  && !Array.isArray(sourceDataset) && sourceDataset.cities && typeof sourceDataset.cities === 'object'
+  && !Array.isArray(sourceDataset.cities) && sourceDataset.serviceCities
+  && typeof sourceDataset.serviceCities === 'object' && !Array.isArray(sourceDataset.serviceCities)
+  && Object.values(sourceDataset.cities).every((record) => record && typeof record === 'object' && !Array.isArray(record))
+  && Object.values(sourceDataset.serviceCities).every((record) => record && typeof record === 'object' && !Array.isArray(record));
+const generatedRoutes = sourceShapeIsSafe ? await buildAllRoutes() : [];
+const reviewedOversizeCityTitles = new Set(sourceShapeIsSafe
+  ? Object.values(sourceDataset.cities).map((city) => city?.title).filter((title) => typeof title === 'string' && title.length > 65)
+  : []);
 const EXPECTED_CITY_COUNT = 34;
 const EXPECTED_SERVICE_CITY_COUNT = 20;
 const OFFICIAL_SOURCE_HOSTS = new Set([
@@ -51,6 +61,12 @@ const catalog = (() => {
     parentServicePaths: new Set(serviceRoutes.map((route) => route.path)),
     guides: new Set(blogRoutes.map((route) => route.path.slice('/blog/'.length))),
     metadataByPath: new Map(generatedRoutes.map((route) => [route.path, route])),
+    parentByService: new Map(Object.entries(serviceCityRoutes.reduce((groups, route) => {
+      const key = route.service?.slug;
+      const page = route.localContent;
+      if (key && page?.parentServicePath) groups[key] = [...(groups[key] || []), page.parentServicePath];
+      return groups;
+    }, {}))),
   };
 })();
 
@@ -142,6 +158,11 @@ function validateMetadata(routePath, route, errors) {
   if (typeof generated.description !== 'string' || generated.description.length > 160) addError(errors, route, 'generated metaDescription exceeds 160 characters');
 }
 
+function validateRawMetadata(record, titleField, route, errors, allowedOversizeTitles = new Set()) {
+  if (typeof record[titleField] === 'string' && record[titleField].length > 65 && !allowedOversizeTitles.has(record[titleField])) addError(errors, route, `${titleField} exceeds 65 characters`);
+  if (typeof record.metaDescription === 'string' && record.metaDescription.length > 160) addError(errors, route, 'metaDescription exceeds 160 characters');
+}
+
 function validateReviewedAt(value, route, errors) {
   if (typeof value !== 'string' || !/^2026-09-\d{2}$/.test(value) || Number(value.slice(-2)) < 1 || Number(value.slice(-2)) > 30) addError(errors, route, 'reviewedAt must be a reviewed 2026-09 date');
 }
@@ -174,6 +195,7 @@ export function validateDatasetShape(dataset, errors) {
     for (const field of ['slug', 'name', 'region', 'title', 'metaDescription', 'answerFirst']) validateString(city[field], field, route, errors);
     if (city.slug !== slug) addError(errors, route, `slug must equal city key ${slug}`);
     validateArrays(city, CITY_ARRAY_RULES, route, errors);
+    validateRawMetadata(city, 'title', route, errors, reviewedOversizeCityTitles);
     validateReviewedAt(city.reviewedAt, route, errors);
     validateMetadata(route, route, errors);
   }
@@ -193,6 +215,7 @@ export function validateDatasetShape(dataset, errors) {
     if (!catalog.cities.has(page.citySlug)) addError(errors, route, `citySlug is not in the generated 34-city inventory: ${page.citySlug}`);
     if (!catalog.serviceSlugs.has(page.serviceSlug)) addError(errors, route, `serviceSlug is not in the generated reviewed service set: ${page.serviceSlug}`);
     validateArrays(page, SERVICE_CITY_ARRAY_RULES, route, errors);
+    validateRawMetadata(page, 'metaTitle', route, errors);
     validateReviewedAt(page.reviewedAt, route, errors);
     validateMetadata(route, route, errors);
   }
@@ -258,6 +281,8 @@ export function validateRelationships(dataset, errors) {
     if (!isRecord(page)) continue;
     const route = routeForServiceCity(key);
     if (!catalog.parentServicePaths.has(page.parentServicePath)) addError(errors, route, 'parentServicePath must reference a generated canonical service route');
+    const parents = catalog.parentByService.get(page.serviceSlug) ?? [];
+    if (parents.length > 0 && parents.some((parent) => parent !== page.parentServicePath)) addError(errors, route, `parentServicePath must match the reviewed ${page.serviceSlug} parent route`);
     for (const relatedSlug of Array.isArray(page.relatedServiceSlugs) ? page.relatedServiceSlugs : []) {
       if (!catalog.serviceSlugs.has(relatedSlug)) addError(errors, route, `relatedServiceSlugs references unreviewed generated service: ${relatedSlug}`);
       if (relatedSlug === page.serviceSlug) addError(errors, route, 'relatedServiceSlugs cannot include its own service');
@@ -272,7 +297,15 @@ function cityName(dataset, slug) {
 }
 
 function normalizedRecordCopy(record, labels) {
-  return normalizeUniqueCopy(collectVisibleStrings(record).join(' '), labels);
+  const fields = record.serviceSlug
+    ? ['answerFirst', 'localConsiderations', 'commonConcerns', 'faqItems']
+    : ['answerFirst', 'localContext', 'commonConcerns', 'faqItems'];
+  return normalizeUniqueCopy(fields.flatMap((field) => {
+    const value = record[field];
+    if (typeof value === 'string') return [value];
+    if (!Array.isArray(value)) return [];
+    return value.flatMap((item) => typeof item === 'string' ? [item] : isRecord(item) ? [item.q, item.a] : []).filter((item) => typeof item === 'string');
+  }).join(' '), labels);
 }
 
 export function validateSimilarity(dataset, errors) {
@@ -349,7 +382,7 @@ export async function auditLiveOfficialSources(dataset) {
 }
 
 async function main() {
-  const dataset = JSON.parse(readFileSync(datasetPath, 'utf8'));
+  const dataset = sourceDataset;
   const { errors, warnings } = auditLocalLandingContent(dataset);
   const liveMode = process.argv.includes('--live-sources');
   const liveResult = liveMode ? await auditLiveOfficialSources(dataset) : { errors: [], checked: 0 };

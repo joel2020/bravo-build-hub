@@ -72,4 +72,12 @@ for (const serviceRoute of routeByPath.values()) {
   }
 }
 
+for (const [routePath, obsoleteCopy] of Object.entries({
+  "/service-areas/yonkers": "Yonkers is the largest city in Westchester County.",
+  "/service-areas/white-plains": "White Plains is Westchester's commercial hub.",
+})) {
+  const html = await readFile(path.join(dist, routePath.slice(1), "index.html"), "utf8");
+  if (html.includes(obsoleteCopy)) throw new Error(`${routePath} must not prerender obsolete local copy outside route.localContent`);
+}
+
 console.log(`Local landing-page checks passed for ${routes.length} routes.`);

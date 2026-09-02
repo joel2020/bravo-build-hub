@@ -210,9 +210,9 @@ for (const relativePath of routeHtmlFiles) {
 }
 
 const yonkers = await readDist('service-areas/yonkers/index.html');
-assert(yonkers.includes('largest city in Westchester County'), 'Yonkers prerender must include its verified local content');
+assert(yonkers.includes('Start with the system symptom and building conditions'), 'Yonkers prerender must include reviewed localContent guidance');
 const whitePlains = await readDist('service-areas/white-plains/index.html');
-assert(whitePlains.includes('commercial hub'), 'White Plains prerender must include its verified local content');
+assert(whitePlains.includes('should fit both the equipment and the space it serves'), 'White Plains prerender must include reviewed localContent guidance');
 const acRepair = await readDist('services/ac-repair-westchester-county-ny/index.html');
 assert(acRepair.includes('How do I request urgent AC repair in Westchester County?'), 'AC repair prerender must use the reviewed priority FAQ override');
 assert(!/same[- ]day|all brands|medically sensitive/i.test(acRepair), 'AC repair prerender contains stale unsupported FAQ claims');

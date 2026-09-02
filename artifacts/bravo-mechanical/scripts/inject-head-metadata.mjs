@@ -33,13 +33,6 @@ import { PRIVACY_POLICY_HTML, TERMS_HTML } from "./legal-content.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist", "public");
-// Retained city facts already asserted by the crawler smoke suite. These are
-// supplemental context; the reviewed localContent record remains the source
-// for each landing page's service guidance and relationships.
-const PRESERVED_CITY_CONTEXT = {
-  yonkers: "Yonkers is the largest city in Westchester County.",
-  "white-plains": "White Plains is Westchester's commercial hub.",
-};
 
 function htmlEscape(s) {
   return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -377,7 +370,6 @@ function renderLocalContent(route, ctx) {
     const nearbyCities = localLinks(ctx, content.nearbyCitySlugs.map((slug) => ctx.cityBySlug.get(slug)?.path));
     const parts = [
       `<h2>HVAC guidance for ${htmlEscape(city.name)}, NY</h2><p>${htmlEscape(content.answerFirst)}</p>`,
-      PRESERVED_CITY_CONTEXT[city.slug] ? `<p>${htmlEscape(PRESERVED_CITY_CONTEXT[city.slug])}</p>` : "",
       textList(`Local considerations in ${city.name}`, content.localContext),
       textList("Common concerns", content.commonConcerns),
       textList("Safe checks before requesting service", content.safeChecks),

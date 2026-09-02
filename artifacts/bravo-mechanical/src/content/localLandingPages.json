@@ -4,50 +4,2718 @@
       "slug": "yonkers",
       "name": "Yonkers",
       "region": "Lower Westchester",
-      "zips": ["10701"],
+      "zips": [],
       "neighborhoods": [],
-      "title": "HVAC Information for Yonkers, NY | Bravo Mechanical",
-      "metaDescription": "Review practical HVAC project next steps and Yonkers municipal permit resources before planning work at your property.",
-      "answerFirst": "For a Yonkers HVAC project, begin with the system issue and scope, then verify applicable permitting requirements with the City's Department of Housing and Buildings.",
+      "title": "HVAC Yonkers, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Yonkers, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Bravo Mechanical provides heating, cooling, maintenance, and indoor-air-quality service for Yonkers homes and light-commercial properties. Start with the system symptom and building conditions, then confirm City requirements for the written scope.",
       "localContext": [
-        "The Yonkers Department of Housing and Buildings accepts applications online through the forms published on its Forms & Permits page.",
-        "The City's Forms & Permits page includes a Boiler Permit Application and a Department of Housing and Buildings fee schedule."
+        "Yonkers is a city with its own Department of Housing and Buildings, which publishes permit applications and filing resources.",
+        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
       ],
       "commonConcerns": [
-        "Whether the planned work needs a City permit.",
-        "Which City application or supporting materials apply to the project."
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
       ],
       "safeChecks": [
-        "Gather the system details and project scope before seeking an assessment.",
-        "Review the City's current forms and fee information before submitting an application."
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
       ],
       "professionalBoundaries": [
-        "Confirm permit requirements and application responsibilities with the City of Yonkers.",
-        "A general overview cannot determine code, permit, or inspection requirements for a specific property."
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
         {
-          "label": "Yonkers Department of Housing and Buildings — Forms & Permits",
+          "label": "City of Yonkers forms and permits",
           "url": "https://www.yonkersny.gov/229/Forms-Permits"
         }
       ],
-      "relatedGuideSlugs": ["hvac-permits-yonkers-guide"],
-      "nearbyCitySlugs": [],
+      "relatedGuideSlugs": [
+        "multi-family-hvac-yonkers",
+        "hvac-permits-yonkers-guide"
+      ],
+      "nearbyCitySlugs": [
+        "mount-vernon",
+        "bronxville",
+        "hastings-on-hudson",
+        "tuckahoe"
+      ],
       "faqItems": [
         {
-          "q": "Where can I find Yonkers permit forms?",
-          "a": "The Yonkers Department of Housing and Buildings publishes permit applications and related forms on its Forms & Permits page."
+          "q": "What should I check before requesting HVAC service in Yonkers?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
         },
         {
-          "q": "Does Yonkers publish a boiler permit application?",
-          "a": "Yes. The City's Forms & Permits page lists a Boiler Permit Application; confirm current project requirements with the City."
+          "q": "How are HVAC options compared for a Yonkers property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Yonkers?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
         }
       ],
       "sourceNotes": [
         {
-          "label": "Yonkers Department of Housing and Buildings — Forms & Permits",
+          "label": "City of Yonkers forms and permits",
           "url": "https://www.yonkersny.gov/229/Forms-Permits",
-          "supports": "Online application filing and the published permit forms, including a Boiler Permit Application and fee schedule."
+          "supports": "Official Yonkers permit forms and municipal filing reference."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "white-plains": {
+      "slug": "white-plains",
+      "name": "White Plains",
+      "region": "Central Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC White Plains, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in White Plains, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A White Plains HVAC recommendation should fit both the equipment and the space it serves. Bravo Mechanical can assess residential or light-commercial systems and document repair, maintenance, or replacement options for the property.",
+      "localContext": [
+        "New York State lists White Plains as a Westchester city, so City guidance is the starting point for local project requirements.",
+        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "cost-to-replace-boiler-white-plains",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "hartsdale",
+        "scarsdale",
+        "harrison",
+        "ardsley"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in White Plains?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a White Plains property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in White Plains?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "new-rochelle": {
+      "slug": "new-rochelle",
+      "name": "New Rochelle",
+      "region": "Sound Shore",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC New Rochelle, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in New Rochelle, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Before choosing a New Rochelle HVAC solution, identify how the building currently heats and cools each space. Bravo Mechanical can trace the reported problem through the equipment, distribution, controls, and access conditions.",
+      "localContext": [
+        "New York State lists New Rochelle as a Westchester city, making City sources relevant when verifying local requirements.",
+        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+      ],
+      "commonConcerns": [
+        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
+        "A replacement proposal that does not explain distribution or control changes",
+        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "ac-tune-up-checklist-new-rochelle",
+        "why-is-my-ac-not-cooling-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "pelham",
+        "larchmont",
+        "mount-vernon",
+        "mamaroneck"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in New Rochelle?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a New Rochelle property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in New Rochelle?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "mount-vernon": {
+      "slug": "mount-vernon",
+      "name": "Mount Vernon",
+      "region": "Lower Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Mount Vernon, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Mount Vernon, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "No-heat, no-cooling, and uneven-comfort concerns in Mount Vernon call for safe triage followed by a system-specific diagnosis. Bravo Mechanical can turn the findings into a written next step for the property.",
+      "localContext": [
+        "New York State lists Mount Vernon as a Westchester city; current City channels should be used for code, permit, and inspection questions.",
+        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+      ],
+      "commonConcerns": [
+        "Limited or unsuitable ductwork for spaces needing conditioning",
+        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
+        "Controls or zones that do not match how the building is occupied"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "furnace-not-igniting-mount-vernon",
+        "24-7-emergency-furnace-repair-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "yonkers",
+        "bronxville",
+        "pelham",
+        "new-rochelle"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Mount Vernon?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Mount Vernon property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Mount Vernon?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "scarsdale": {
+      "slug": "scarsdale",
+      "name": "Scarsdale",
+      "region": "Central Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Scarsdale, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Scarsdale, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "For a Scarsdale HVAC project, equipment location and distribution can matter as much as the equipment itself. Bravo Mechanical can review the installed system, controls, access, and proposed scope before options are compared.",
+      "localContext": [
+        "Scarsdale is a coterminous town-village under New York's local-government structure, so current Village/Town guidance should be checked.",
+        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+      ],
+      "commonConcerns": [
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "best-time-replace-ac-scarsdale",
+        "what-size-central-ac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "hartsdale",
+        "white-plains",
+        "eastchester",
+        "mamaroneck"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Scarsdale?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Scarsdale property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Scarsdale?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "rye": {
+      "slug": "rye",
+      "name": "Rye",
+      "region": "Sound Shore",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Rye, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Rye, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A Rye service address needs both a City-versus-Town check and a physical review of the installation. Bravo Mechanical can assess the system, outdoor placement, drainage, electrical needs, and access without presuming which scope fits.",
+      "localContext": [
+        "New York State lists Rye as a city distinct from the Town of Rye; confirm that the address is inside the City before relying on City requirements.",
+        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "ductless-mini-split-installation-rye",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "port-chester",
+        "harrison",
+        "mamaroneck",
+        "larchmont"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Rye?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Rye property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Rye?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "harrison": {
+      "slug": "harrison",
+      "name": "Harrison",
+      "region": "Sound Shore",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Harrison, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Harrison, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Harrison heating and cooling work should begin with the spaces served, the existing distribution, and the available utility capacity. Bravo Mechanical can evaluate those conditions and prepare a property-specific recommendation.",
+      "localContext": [
+        "Harrison is a coterminous town-village under New York's local-government structure, making the Town/Village the municipal reference within its boundaries.",
+        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+      ],
+      "commonConcerns": [
+        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
+        "A replacement proposal that does not explain distribution or control changes",
+        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "spring-hvac-checklist-harrison",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "white-plains",
+        "rye",
+        "port-chester",
+        "mamaroneck"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Harrison?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Harrison property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Harrison?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "mamaroneck": {
+      "slug": "mamaroneck",
+      "name": "Mamaroneck",
+      "region": "Sound Shore",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Mamaroneck, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Mamaroneck, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Because Mamaroneck may refer to the Town or Village, the address should be confirmed before municipal guidance is used. Bravo Mechanical can separately diagnose the HVAC concern and document the equipment and building constraints.",
+      "localContext": [
+        "New York State lists both a Town of Mamaroneck and a Village of Mamaroneck, so the shared place name does not establish jurisdiction.",
+        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+      ],
+      "commonConcerns": [
+        "Limited or unsuitable ductwork for spaces needing conditioning",
+        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
+        "Controls or zones that do not match how the building is occupied"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "indoor-air-quality-mamaroneck",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "larchmont",
+        "harrison",
+        "rye",
+        "new-rochelle"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Mamaroneck?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Mamaroneck property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Mamaroneck?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "larchmont": {
+      "slug": "larchmont",
+      "name": "Larchmont",
+      "region": "Sound Shore",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Larchmont, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Larchmont, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Larchmont HVAC planning is most useful when equipment access, line and condensate routing, distribution, and controls are considered together. Bravo Mechanical can assess those conditions before defining repair or replacement work.",
+      "localContext": [
+        "New York State places the Village of Larchmont within the Town of Mamaroneck; Village guidance is the starting point inside Village boundaries.",
+        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+      ],
+      "commonConcerns": [
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "smart-thermostat-installation-larchmont",
+        "mini-split-vs-window-ac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "mamaroneck",
+        "new-rochelle",
+        "rye",
+        "pelham"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Larchmont?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Larchmont property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Larchmont?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "bronxville": {
+      "slug": "bronxville",
+      "name": "Bronxville",
+      "region": "Lower Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Bronxville, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Bronxville, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A Bronxville HVAC scope should account for the installed distribution, available equipment locations, service access, and any building-level approvals. Bravo Mechanical can evaluate the technical options at the actual property.",
+      "localContext": [
+        "New York State lists Bronxville as a village within the Town of Eastchester; work inside Village boundaries should be checked against Village requirements.",
+        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "heat-pump-vs-boiler-bronxville",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "tuckahoe",
+        "eastchester",
+        "yonkers",
+        "mount-vernon"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Bronxville?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Bronxville property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Bronxville?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "tuckahoe": {
+      "slug": "tuckahoe",
+      "name": "Tuckahoe",
+      "region": "Lower Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Tuckahoe, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Tuckahoe, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "For Tuckahoe heating or cooling service, first identify the equipment, the affected spaces, and any shared access. Bravo Mechanical can diagnose the concern and state the proposed work without assuming owner or municipal responsibilities.",
+      "localContext": [
+        "New York State lists Tuckahoe as a village within the Town of Eastchester, so Village sources apply to addresses inside its boundaries.",
+        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+      ],
+      "commonConcerns": [
+        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
+        "A replacement proposal that does not explain distribution or control changes",
+        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "winter-emergency-heating-tuckahoe",
+        "furnace-smells-like-burning-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "bronxville",
+        "eastchester",
+        "yonkers",
+        "mount-vernon"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Tuckahoe?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Tuckahoe property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Tuckahoe?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "eastchester": {
+      "slug": "eastchester",
+      "name": "Eastchester",
+      "region": "Lower Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Eastchester, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Eastchester, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "An Eastchester mailing address may fall under Town or Village requirements, so jurisdiction and system conditions should be checked separately. Bravo Mechanical can handle the technical assessment and provide a written scope.",
+      "localContext": [
+        "New York State lists Eastchester as a town containing the villages of Bronxville and Tuckahoe, so the address must determine the governing municipality.",
+        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+      ],
+      "commonConcerns": [
+        "Limited or unsuitable ductwork for spaces needing conditioning",
+        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
+        "Controls or zones that do not match how the building is occupied"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "water-heater-replacement-eastchester",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "tuckahoe",
+        "bronxville",
+        "scarsdale",
+        "mount-vernon"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Eastchester?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Eastchester property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Eastchester?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "tarrytown": {
+      "slug": "tarrytown",
+      "name": "Tarrytown",
+      "region": "Rivertowns",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Tarrytown, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Tarrytown, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Tarrytown properties may involve unit-level and building-level HVAC responsibilities. Bravo Mechanical can assess the equipment, distribution, access, routing, and controls while the owner or manager confirms approvals.",
+      "localContext": [
+        "New York State lists Tarrytown as a village within the Town of Greenburgh, making Village guidance the municipal starting point.",
+        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+      ],
+      "commonConcerns": [
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "condo-hvac-tarrytown",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "sleepy-hollow",
+        "irvington",
+        "briarcliff-manor",
+        "dobbs-ferry"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Tarrytown?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Tarrytown property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Tarrytown?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "sleepy-hollow": {
+      "slug": "sleepy-hollow",
+      "name": "Sleepy Hollow",
+      "region": "Rivertowns",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Sleepy Hollow, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Sleepy Hollow, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A Sleepy Hollow HVAC decision should follow direct inspection of the equipment and the way heat or cooling reaches the occupied spaces. Bravo Mechanical can document repair or replacement choices for that specific installation.",
+      "localContext": [
+        "New York State lists Sleepy Hollow as a village within the Town of Mount Pleasant; current Village requirements should be verified.",
+        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "tarrytown",
+        "briarcliff-manor",
+        "pleasantville",
+        "ossining"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Sleepy Hollow?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Sleepy Hollow property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Sleepy Hollow?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "ossining": {
+      "slug": "ossining",
+      "name": "Ossining",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Ossining, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Ossining, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Ossining HVAC planning starts by distinguishing Town from Village jurisdiction and then examining the actual system. Bravo Mechanical can assess distribution, controls, utilities, access, and the reported problem at the property.",
+      "localContext": [
+        "New York State lists both a Town of Ossining and a Village of Ossining, so the place name alone cannot select the responsible authority.",
+        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+      ],
+      "commonConcerns": [
+        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
+        "A replacement proposal that does not explain distribution or control changes",
+        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "garage-heating-ossining",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "briarcliff-manor",
+        "croton-on-hudson",
+        "sleepy-hollow",
+        "pleasantville"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Ossining?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Ossining property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Ossining?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "peekskill": {
+      "slug": "peekskill",
+      "name": "Peekskill",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Peekskill, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Peekskill, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Bravo Mechanical can evaluate HVAC concerns in Peekskill homes and light-commercial spaces from the symptom through the installed system. The resulting scope should identify safety findings, access constraints, and items needing City verification.",
+      "localContext": [
+        "New York State lists Peekskill as a Westchester city, making City information the starting point for local approvals and inspections.",
+        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+      ],
+      "commonConcerns": [
+        "Limited or unsuitable ductwork for spaces needing conditioning",
+        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
+        "Controls or zones that do not match how the building is occupied"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "croton-on-hudson",
+        "yorktown",
+        "ossining",
+        "somers"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Peekskill?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Peekskill property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Peekskill?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "mount-kisco": {
+      "slug": "mount-kisco",
+      "name": "Mount Kisco",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Mount Kisco, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Mount Kisco, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "For Mount Kisco heating and cooling work, the building load, existing distribution, controls, and service access belong in the same conversation. Bravo Mechanical can compare options against those documented conditions.",
+      "localContext": [
+        "Mount Kisco is a coterminous town-village under New York's local-government structure, making Town/Village resources the municipal reference.",
+        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+      ],
+      "commonConcerns": [
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "bedford",
+        "katonah",
+        "chappaqua",
+        "armonk"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Mount Kisco?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Mount Kisco property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Mount Kisco?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "chappaqua": {
+      "slug": "chappaqua",
+      "name": "Chappaqua",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Chappaqua, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Chappaqua, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Chappaqua HVAC projects use Town of New Castle resources for municipal questions, but the technical recommendation still begins inside the building. Bravo Mechanical can assess zoning, distribution, equipment condition, and electrical capacity.",
+      "localContext": [
+        "The Town of New Castle's official website identifies Chappaqua as one of its hamlets and provides Town permit links.",
+        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "Town of New Castle official website and permit links",
+          "url": "https://www.mynewcastleny.gov/"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "zoning-system-installation-chappaqua",
+        "what-size-central-ac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "pleasantville",
+        "mount-kisco",
+        "armonk",
+        "briarcliff-manor"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Chappaqua?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Chappaqua property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Chappaqua?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "Town of New Castle official website and permit links",
+          "url": "https://www.mynewcastleny.gov/",
+          "supports": "Officially identifies Chappaqua as a New Castle hamlet and links to building-permit resources."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "pleasantville": {
+      "slug": "pleasantville",
+      "name": "Pleasantville",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Pleasantville, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Pleasantville, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A Pleasantville repair or replacement proposal should explain how the observed symptom relates to the equipment, distribution, controls, and routing. Bravo Mechanical can perform that assessment and identify unresolved municipal questions.",
+      "localContext": [
+        "New York State lists Pleasantville as a village within the Town of Mount Pleasant, so current Village information applies inside its boundaries.",
+        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+      ],
+      "commonConcerns": [
+        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
+        "A replacement proposal that does not explain distribution or control changes",
+        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "chappaqua",
+        "briarcliff-manor",
+        "sleepy-hollow",
+        "mount-kisco"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Pleasantville?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Pleasantville property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Pleasantville?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "pound-ridge": {
+      "slug": "pound-ridge",
+      "name": "Pound Ridge",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Pound Ridge, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Pound Ridge, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Pound Ridge HVAC options should be compared against the property's load, energy source, distribution, controls, and backup strategy. Bravo Mechanical can evaluate those factors before recommending a repair or system change.",
+      "localContext": [
+        "New York State lists Pound Ridge as a Westchester town, making Town sources the place to verify local requirements.",
+        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+      ],
+      "commonConcerns": [
+        "Limited or unsuitable ductwork for spaces needing conditioning",
+        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
+        "Controls or zones that do not match how the building is occupied"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "bedford",
+        "katonah",
+        "mount-kisco",
+        "somers"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Pound Ridge?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Pound Ridge property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Pound Ridge?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "bedford": {
+      "slug": "bedford",
+      "name": "Bedford",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Bedford, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Bedford, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A Bedford service request benefits from an exact hamlet and address check before project requirements are discussed. Bravo Mechanical can then assess the equipment, distribution, energy source, placement, and access at the building.",
+      "localContext": [
+        "New York State lists Bedford as a town, and the Town's official site identifies Bedford Village, Bedford Hills, and Katonah as its three hamlets.",
+        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+      ],
+      "commonConcerns": [
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "Town of Bedford — the hamlets of Bedford",
+          "url": "https://bedfordny.gov/1884/The-Hamlets-of-Bedford"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "katonah",
+        "mount-kisco",
+        "pound-ridge",
+        "somers"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Bedford?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Bedford property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Bedford?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "Town of Bedford — the hamlets of Bedford",
+          "url": "https://bedfordny.gov/1884/The-Hamlets-of-Bedford",
+          "supports": "Officially identifies the Town's three hamlets and Town contact context."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "katonah": {
+      "slug": "katonah",
+      "name": "Katonah",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Katonah, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Katonah, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Katonah properties use Town of Bedford resources for local project questions. Bravo Mechanical can separately evaluate the installed system, controls, distribution, access, and any exterior work needed for the proposed HVAC scope.",
+      "localContext": [
+        "The Town of Bedford's official site identifies Katonah as a hamlet, and Town building forms include HVAC work.",
+        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "Town of Bedford forms and applications",
+          "url": "https://bedfordny.gov/180/Forms-Applications"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "heat-pump-cold-weather-katonah",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "bedford",
+        "mount-kisco",
+        "somers",
+        "pound-ridge"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Katonah?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Katonah property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Katonah?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "Town of Bedford forms and applications",
+          "url": "https://bedfordny.gov/180/Forms-Applications",
+          "supports": "Official Town building forms and permit resources applicable to Katonah properties."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "armonk": {
+      "slug": "armonk",
+      "name": "Armonk",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Armonk, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Armonk, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Armonk HVAC work should connect North Castle's project process with the building's real design constraints. Bravo Mechanical can assess load, distribution, utility capacity, controls, placement, and serviceability before equipment is selected.",
+      "localContext": [
+        "The Town of North Castle identifies Armonk as one of its hamlets, and its official permit guide directs questions to the Town Building Department.",
+        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+      ],
+      "commonConcerns": [
+        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
+        "A replacement proposal that does not explain distribution or control changes",
+        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "Town of North Castle building-permit guide",
+          "url": "https://www.northcastleny.com/213/Customers-Guide-to-the-Building-Permit-P"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "new-construction-hvac-armonk",
+        "what-size-central-ac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "chappaqua",
+        "mount-kisco",
+        "harrison",
+        "white-plains"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Armonk?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Armonk property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Armonk?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "Town of North Castle building-permit guide",
+          "url": "https://www.northcastleny.com/213/Customers-Guide-to-the-Building-Permit-P",
+          "supports": "Official Town permit-process guide and Building Department contact for Armonk."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "hastings-on-hudson": {
+      "slug": "hastings-on-hudson",
+      "name": "Hastings-on-Hudson",
+      "region": "Rivertowns",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Hastings-on-Hudson, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Hastings-on-Hudson, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "For a Hastings-on-Hudson HVAC concern, Bravo Mechanical can examine the equipment and the routes used for air, water, refrigerant, drainage, or venting. That site evidence should drive the written repair or replacement scope.",
+      "localContext": [
+        "New York State lists Hastings-on-Hudson as a village within the Town of Greenburgh, so Village guidance applies inside Village boundaries.",
+        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+      ],
+      "commonConcerns": [
+        "Limited or unsuitable ductwork for spaces needing conditioning",
+        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
+        "Controls or zones that do not match how the building is occupied"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "dobbs-ferry",
+        "irvington",
+        "ardsley",
+        "yonkers"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Hastings-on-Hudson?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Hastings-on-Hudson property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Hastings-on-Hudson?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "dobbs-ferry": {
+      "slug": "dobbs-ferry",
+      "name": "Dobbs Ferry",
+      "region": "Rivertowns",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Dobbs Ferry, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Dobbs Ferry, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A Dobbs Ferry comfort problem may originate in equipment, distribution, controls, or the spaces themselves. Bravo Mechanical can evaluate those elements together and document practical next steps for the address.",
+      "localContext": [
+        "New York State lists Dobbs Ferry as a village within the Town of Greenburgh, making Village guidance the local reference.",
+        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+      ],
+      "commonConcerns": [
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "energy-saving-tips-dobbs-ferry",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "hastings-on-hudson",
+        "irvington",
+        "ardsley",
+        "tarrytown"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Dobbs Ferry?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Dobbs Ferry property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Dobbs Ferry?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "irvington": {
+      "slug": "irvington",
+      "name": "Irvington",
+      "region": "Rivertowns",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Irvington, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Irvington, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Irvington HVAC planning should account for performance, placement, routing, clearances, and future service access. Bravo Mechanical can review those conditions before narrowing repair, add-on, or replacement choices.",
+      "localContext": [
+        "New York State lists Irvington as a village within Greenburgh; current Village requirements should be verified inside municipal boundaries.",
+        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "old-house-hvac-irvington",
+        "mini-split-vs-window-ac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "dobbs-ferry",
+        "tarrytown",
+        "hastings-on-hudson",
+        "ardsley"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Irvington?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Irvington property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Irvington?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "briarcliff-manor": {
+      "slug": "briarcliff-manor",
+      "name": "Briarcliff Manor",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Briarcliff Manor, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Briarcliff Manor, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Because Briarcliff Manor spans two towns, the exact address matters before project requirements are assigned. Bravo Mechanical can assess the system and building conditions while the owner confirms the applicable municipal path.",
+      "localContext": [
+        "New York State records Briarcliff Manor as a village in both the towns of Ossining and Mount Pleasant, so the exact address matters.",
+        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+      ],
+      "commonConcerns": [
+        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
+        "A replacement proposal that does not explain distribution or control changes",
+        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State table of villages in more than one town",
+          "url": "https://www.tax.ny.gov/research/property/osc_table4.htm"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "ossining",
+        "pleasantville",
+        "sleepy-hollow",
+        "tarrytown"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Briarcliff Manor?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Briarcliff Manor property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Briarcliff Manor?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State table of villages in more than one town",
+          "url": "https://www.tax.ny.gov/research/property/osc_table4.htm",
+          "supports": "Officially identifies Briarcliff Manor as lying in Ossining and Mount Pleasant."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "croton-on-hudson": {
+      "slug": "croton-on-hudson",
+      "name": "Croton-on-Hudson",
+      "region": "Rivertowns",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Croton-on-Hudson, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Croton-on-Hudson, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A Croton-on-Hudson HVAC assessment should follow the full installation path, including distribution, controls, utility supply, drainage, routing, clearances, and access. Bravo Mechanical can use those findings to define the next step.",
+      "localContext": [
+        "New York State lists Croton-on-Hudson as a village within the Town of Cortlandt, so Village sources apply inside its boundaries.",
+        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+      ],
+      "commonConcerns": [
+        "Limited or unsuitable ductwork for spaces needing conditioning",
+        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
+        "Controls or zones that do not match how the building is occupied"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "ossining",
+        "peekskill",
+        "yorktown",
+        "briarcliff-manor"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Croton-on-Hudson?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Croton-on-Hudson property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Croton-on-Hudson?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "yorktown": {
+      "slug": "yorktown",
+      "name": "Yorktown",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Yorktown, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Yorktown, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Yorktown HVAC work should be scoped to the actual address rather than a postal label or broad town profile. Bravo Mechanical can diagnose the equipment and compare options against distribution, utilities, controls, and site access.",
+      "localContext": [
+        "New York State lists Yorktown as a Westchester town; a postal place name should not substitute for address verification.",
+        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+      ],
+      "commonConcerns": [
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "refrigerant-leak-yorktown",
+        "why-is-my-ac-not-cooling-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "peekskill",
+        "croton-on-hudson",
+        "somers",
+        "ossining"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Yorktown?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Yorktown property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Yorktown?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "somers": {
+      "slug": "somers",
+      "name": "Somers",
+      "region": "Northern Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Somers, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Somers, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "For a Somers heating or cooling project, Bravo Mechanical can review the building load, distribution, energy source, controls, outdoor location, and backup arrangements. Those findings support a property-specific decision.",
+      "localContext": [
+        "New York State lists Somers as a Westchester town, making Town information the starting point for local project questions.",
+        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "do-i-need-permit-hvac-westchester",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "katonah",
+        "bedford",
+        "pound-ridge",
+        "yorktown"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Somers?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Somers property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Somers?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "ardsley": {
+      "slug": "ardsley",
+      "name": "Ardsley",
+      "region": "Rivertowns",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Ardsley, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Ardsley, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "An Ardsley comfort concern should be traced through equipment, ductwork or piping, controls, and the affected spaces. Bravo Mechanical can document the cause found and the repair or replacement scope proposed.",
+      "localContext": [
+        "New York State lists Ardsley as a village within the Town of Greenburgh, so Village guidance should be checked for the property.",
+        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+      ],
+      "commonConcerns": [
+        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
+        "A replacement proposal that does not explain distribution or control changes",
+        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "leaky-ductwork-ardsley",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "dobbs-ferry",
+        "hastings-on-hudson",
+        "hartsdale",
+        "irvington"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Ardsley?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Ardsley property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Ardsley?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "hartsdale": {
+      "slug": "hartsdale",
+      "name": "Hartsdale",
+      "region": "Central Westchester",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Hartsdale, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Hartsdale, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "A Hartsdale mailing address should be paired with a Greenburgh jurisdiction check and a clear statement of equipment responsibility. Bravo Mechanical can assess the HVAC system while owners, landlords, or associations confirm approvals.",
+      "localContext": [
+        "Hartsdale is not separately listed as a city, town, or village in New York State's inventory; Town of Greenburgh records identify Hartsdale locations.",
+        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+      ],
+      "commonConcerns": [
+        "Limited or unsuitable ductwork for spaces needing conditioning",
+        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
+        "Controls or zones that do not match how the building is occupied"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "Town of Greenburgh official website",
+          "url": "https://www.greenburghny.com/"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "fall-furnace-tune-up-hartsdale",
+        "hvac-maintenance-checklist-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "white-plains",
+        "scarsdale",
+        "ardsley",
+        "dobbs-ferry"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Hartsdale?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Hartsdale property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Hartsdale?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "Town of Greenburgh official website",
+          "url": "https://www.greenburghny.com/",
+          "supports": "Official Town source for Greenburgh services and Hartsdale-related municipal records."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "pelham": {
+      "slug": "pelham",
+      "name": "Pelham",
+      "region": "Sound Shore",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Pelham, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Pelham, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Pelham may refer to the Town, Village of Pelham, or Pelham Manor, so the address must lead municipal research. Bravo Mechanical can separately evaluate the equipment, distribution, routing, utilities, and access.",
+      "localContext": [
+        "New York State lists a Town of Pelham containing the Village of Pelham and Village of Pelham Manor, so the address must identify the municipality.",
+        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+      ],
+      "commonConcerns": [
+        "Uneven comfort between rooms or levels",
+        "Equipment that starts inconsistently or stops before reaching the setpoint",
+        "Whether existing distribution and electrical or fuel service can support a proposed change"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "radiator-not-heating-pelham",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "new-rochelle",
+        "mount-vernon",
+        "bronxville",
+        "larchmont"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Pelham?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Pelham property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Pelham?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    },
+    "port-chester": {
+      "slug": "port-chester",
+      "name": "Port Chester",
+      "region": "Sound Shore",
+      "zips": [],
+      "neighborhoods": [],
+      "title": "HVAC Port Chester, NY — Heating, Cooling & Repair | Bravo Mechanical",
+      "metaDescription": "HVAC service in Port Chester, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "answerFirst": "Port Chester HVAC work can involve residential, shared-building, or light-commercial responsibilities. Bravo Mechanical can identify who controls the equipment and assess distribution, access, ventilation, utilities, and the reported concern.",
+      "localContext": [
+        "New York State lists Port Chester as a village within the Town of Rye, making Village requirements the starting point inside its boundaries.",
+        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+      ],
+      "commonConcerns": [
+        "A no-heat or no-cooling condition needing safe diagnosis",
+        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
+        "Access, placement, or approval constraints for repair or replacement"
+      ],
+      "safeChecks": [
+        "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
+        "Without opening equipment, check that accessible supply and return openings are not blocked and note any displayed error code"
+      ],
+      "professionalBoundaries": [
+        "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
+      ],
+      "municipalResources": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester"
+        }
+      ],
+      "relatedGuideSlugs": [
+        "heating-system-noises-port-chester",
+        "do-i-need-permit-hvac-westchester"
+      ],
+      "nearbyCitySlugs": [
+        "rye",
+        "harrison",
+        "mamaroneck",
+        "white-plains"
+      ],
+      "faqItems": [
+        {
+          "q": "What should I check before requesting HVAC service in Port Chester?",
+          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+        },
+        {
+          "q": "How are HVAC options compared for a Port Chester property?",
+          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+        },
+        {
+          "q": "Who should verify permit or inspection requirements in Port Chester?",
+          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "New York State — Westchester County municipalities",
+          "url": "https://www.ny.gov/counties/westchester",
+          "supports": "Official city, town, and village inventory and parent-municipality relationships."
+        },
+        {
+          "label": "New York State Department of State — Local Government Handbook",
+          "url": "https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf",
+          "supports": "Official explanation of city, town, village, hamlet, and coterminous town-village structures."
+        },
+        {
+          "label": "NYSERDA — heating and cooling systems",
+          "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems",
+          "supports": "Official homeowner guidance on ducted, ductless, and ground-source system configurations."
+        },
+        {
+          "label": "U.S. CPSC — carbon monoxide fact sheet",
+          "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet",
+          "supports": "Official carbon-monoxide alarm and emergency-response guidance."
         }
       ],
       "reviewedAt": "2026-09-02"

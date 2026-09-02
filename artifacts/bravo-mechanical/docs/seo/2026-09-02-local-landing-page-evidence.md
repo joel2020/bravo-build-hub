@@ -2,7 +2,7 @@
 
 ## Task 9 protected-preview verification - 2026-09-02
 
-**Status: PASSED — protected preview verified; production unchanged.** Git integration built exact release-candidate commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` from remote branch `codex/seo-aeo-phase1` as protected Vercel preview `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF` at `https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app`. The deployment was ready at `2026-09-02T22:02:00.287Z` (`2026-09-02 18:02:00.287 EDT`) and the authenticated gate completed with zero failures. No production deployment, promotion, alias, protection setting, or application setting was changed.
+**Status: PASSED — protected preview verified; production unchanged.** Git integration built exact release-candidate commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` from remote branch `codex/seo-aeo-phase1` as protected Vercel preview `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF` at `https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app`. The deployment was ready at `2026-09-02T22:02:00.287Z` (`2026-09-02 18:02:00.287 EDT`) and the authenticated gate completed with zero failures. No production deployment, promotion, production or custom-domain alias, protection setting, or application setting was changed. Vercel's managed Git branch-preview alias is intentionally moving: it advances automatically to the latest preview after every push to `codex/seo-aeo-phase1`, including documentation-only evidence pushes.
 
 ### Deployment identity and build evidence
 
@@ -10,14 +10,16 @@
 |---|---|
 | Vercel project | `bravo-build-hub` (`prj_PMkYLTbm4bRZmXPjnP4a7ENqNfbG`), team `joel-carias-projects` (`team_EMDpI0zAemC52GgIiDU4bmE9`) |
 | Authenticated CLI identity | `joelcarias23-9817`; local CLI `59.11.2` |
-| Preview deployment | `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF`; `https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app` |
+| Fully tested immutable preview | `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF`; `https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app` |
 | Target and status | `preview`; `READY` |
 | Source | GitHub repository `joel2020/bravo-build-hub`, branch `codex/seo-aeo-phase1`, commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` |
 | Framework and output | Vite; `dist/public`; Node `24.x`; pnpm `10.28.1` |
 | Timing | Created `2026-09-02T22:01:39.347Z`; building `2026-09-02T22:01:42.325Z`; ready `2026-09-02T22:02:00.287Z`. Building-to-ready was 17.962 seconds and created-to-ready was 20.940 seconds. Vercel's build log reported `Build Completed in /vercel/output [14s]` and `Deployment completed` at `2026-09-02T22:02:00.579Z`. |
 | Build output | 2,283 modules transformed; 141 sitemap URLs written; 141 route HTML files injected. No build warning or error was reported. |
 
-`vercel ls bravo-build-hub --meta githubCommitSha=44b6680f5eeb301a32880d63eddb20b14c46eb1a --json --limit 2`, `vercel inspect dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF --json`, and `vercel inspect dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF --logs` independently tied the READY preview, build log, Git branch, and exact source SHA together. The preview artifact remains the build of `44b6680f5eeb301a32880d63eddb20b14c46eb1a`; the evidence-only commit made after this section was written is not the source of that artifact.
+`vercel ls bravo-build-hub --meta githubCommitSha=44b6680f5eeb301a32880d63eddb20b14c46eb1a --json --limit 2`, `vercel inspect dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF --json`, and `vercel inspect dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF --logs` independently tied the READY preview, build log, Git branch, and exact source SHA together. The fully tested immutable preview remains the build of `44b6680f5eeb301a32880d63eddb20b14c46eb1a`; later documentation-only previews are not substitutes for that crawled artifact.
+
+After the initial evidence-only push of commit `5c78ad217d8b7a67d8bc58c16609957197a10898`, Vercel created READY documentation-only preview `dpl_9AvaYNw1aq4q1Nz43Q7Mp3YWms16` at `https://bravo-build-nx9a2u710-joel-carias-projects.vercel.app` and automatically advanced `https://bravo-build-hub-git-codex-seo-aeo-phase1-joel-carias-projects.vercel.app` to it. That moving branch alias was inspected but not subjected to the full 141-URL authenticated crawl. Any later documentation push may advance the managed alias again; the approval candidate is the immutable tested URL and deployment ID above.
 
 ### Authenticated preview gate
 
@@ -49,7 +51,7 @@ The host-conditioned `bravomechanicalny.com` redirect cannot be exercised agains
 
 The initial isolated worktree was clean on branch `codex/local-landing-pages` at `44b6680f5eeb301a32880d63eddb20b14c46eb1a`. The required command `git fetch origin codex/seo-aeo-phase1 && git merge-base --is-ancestor origin/codex/seo-aeo-phase1 HEAD && git push origin HEAD:codex/seo-aeo-phase1` exited 0 and fast-forwarded the remote branch from `5c99146` to `44b6680` without merge, rebase, or force.
 
-Before and after the preview gate, `vercel inspect www.bravomechanicalny.com --json` resolved production to the same READY deployment `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L` at `https://bravo-build-lz4b5l0cu-joel-carias-projects.vercel.app`, created from commit `5c99146071d9db0b873697a07da6cd3d5c27f70d`. Its production aliases remained `https://www.bravomechanicalny.com`, `https://bravomechanicalny.com`, `https://app.bravomechanicalny.com`, and the established project aliases. Production was not promoted or redeployed.
+Before and after the preview gate, `vercel inspect www.bravomechanicalny.com --json` resolved production to the same READY deployment `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L` at `https://bravo-build-lz4b5l0cu-joel-carias-projects.vercel.app`, created from commit `5c99146071d9db0b873697a07da6cd3d5c27f70d`. Its production and custom-domain aliases remained `https://www.bravomechanicalny.com`, `https://bravomechanicalny.com`, `https://app.bravomechanicalny.com`, and the established project production aliases. Production was not promoted or redeployed. The separately managed Git branch-preview alias did advance automatically after the evidence-only push described above; that movement did not affect production.
 
 ## Task 8 local release-candidate verification - 2026-09-02
 

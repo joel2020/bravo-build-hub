@@ -166,23 +166,8 @@ export const BLOG_HOWTOS = {
 };
 
 // ---- FAQ extraction (for prerendered FAQPage schema) -------------------
-// Mirrors the FAQ data declared in src/lib so AI/LLM crawlers that don't
-// execute JS still see structured Q&A. If the source-of-truth FAQ shapes
-// in cities.ts / serviceContent.ts / highIntentServices.ts change, the
-// regexes below may need to be updated.
-
-function extractTemplateFaqs(body, cityVar) {
-  const re = /\{\s*q:\s*`([^`]+)`,\s*a:\s*`([^`]+)`\s*,?\s*\}/g;
-  const out = [];
-  let m;
-  while ((m = re.exec(body)) !== null) out.push({ q: m[1], a: m[2] });
-  const token = "${" + cityVar + "}";
-  return (city) =>
-    out.map((f) => ({
-      q: f.q.split(token).join(city),
-      a: f.a.split(token).join(city),
-    }));
-}
+// High-intent service pages still declare their FAQ data in TypeScript. City
+// and service-city routes load reviewed FAQ records directly from JSON below.
 
 function extractStringFaqs(body) {
   const re = /\{\s*q:\s*"((?:[^"\\]|\\.)*)",\s*a:\s*"((?:[^"\\]|\\.)*)"\s*,?\s*\}/g;
@@ -195,31 +180,6 @@ function extractStringFaqs(body) {
     });
   }
   return out;
-}
-
-// City pages share a single baseFaqs(name) template in cities.ts.
-async function loadCityFaqsBuilder() {
-  const txt = await readSource("lib/cities.ts");
-  const m = txt.match(/const\s+baseFaqs\s*=\s*\([^)]*\)\s*=>\s*\[([\s\S]*?)\];/);
-  if (!m) return () => [];
-  return extractTemplateFaqs(m[1], "name");
-}
-
-// Service-city combo pages: each service has `faqs: (c) => [ ... ],`.
-async function loadServiceCityFaqBuildersBySlug() {
-  const txt = await readSource("lib/serviceContent.ts");
-  const map = new Map();
-  // Walk each top-level service block.
-  const slugRe = /^\s*"([a-z][a-z0-9-]*)":\s*\{([\s\S]*?)\n  \},/gm;
-  let m;
-  while ((m = slugRe.exec(txt)) !== null) {
-    const slug = m[1];
-    const block = m[2];
-    const faqMatch = block.match(/faqs:\s*\(c\)\s*=>\s*\[([\s\S]*?)\],/);
-    if (!faqMatch) continue;
-    map.set(slug, extractTemplateFaqs(faqMatch[1], "c"));
-  }
-  return map;
 }
 
 // High-intent service pages: faqs is a static array of double-quoted strings.
@@ -329,43 +289,27 @@ export const EQUIPMENT_GUIDES = [
 // Routes never to expose in sitemap or prerender.
 export const EXCLUDED_PATHS = new Set(["/auth", "/admin/comments", "/admin/crm"]);
 
-function slugify(name) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-}
-
 async function readSource(rel) {
   return readFile(path.join(SRC, rel), "utf8");
 }
 
-// ---- Cities ------------------------------------------------------------
-export async function loadCities() {
-  const txt = await readSource("lib/cities.ts");
-  const dataStart = txt.indexOf("const CITY_DATA");
-  const dataEnd = txt.indexOf("export const CITIES", dataStart);
-  const cityData = dataStart >= 0 && dataEnd > dataStart ? txt.slice(dataStart, dataEnd) : txt;
-  const cities = [];
-  const matches = [...cityData.matchAll(/^\s{2}"([A-Za-z][A-Za-z .'-]+)":\s*{/gm)];
-  const readString = (block, field) => block.match(new RegExp(`${field}:\\s*"((?:[^"\\\\]|\\\\.)*)"`))?.[1]?.replace(/\\"/g, '"') || "";
-  const readArray = (block, field) => {
-    const body = block.match(new RegExp(`${field}:\\s*\\[([\\s\\S]*?)\\]`))?.[1] || "";
-    return [...body.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((item) => item[1].replace(/\\"/g, '"'));
-  };
+export async function loadLocalLandingPages() {
+  const raw = await readFile(path.join(SRC, "content/localLandingPages.json"), "utf8");
+  return JSON.parse(raw);
+}
 
-  for (let i = 0; i < matches.length; i++) {
-    const name = matches[i][1];
-    const block = cityData.slice(matches[i].index, matches[i + 1]?.index ?? cityData.length);
-    cities.push({
-      name,
-      slug: slugify(name),
-      zips: readArray(block, "zips"),
-      neighborhoods: readArray(block, "neighborhoods"),
-      region: readString(block, "region"),
-      intro: readString(block, "intro"),
-      housing: readString(block, "housing"),
-      climateNote: readString(block, "climateNote"),
-    });
-  }
-  return cities;
+function toRouteCity(content) {
+  return {
+    slug: content.slug,
+    name: content.name,
+    zips: content.zips,
+    neighborhoods: content.neighborhoods,
+    region: content.region,
+    intro: content.answerFirst,
+    housing: content.localContext[0] || "",
+    climateNote: content.localContext[1] || "",
+    content,
+  };
 }
 
 function clipAtWord(value, maxLength) {
@@ -388,43 +332,6 @@ export function fitSeoTitle(value, maxLength = 65) {
 
 export function fitMetaDescription(value, maxLength = 160) {
   return clipAtWord(value, maxLength);
-}
-
-// ---- Top cities --------------------------------------------------------
-export async function loadTopCitySlugs() {
-  const txt = await readSource("lib/serviceCityCombos.ts");
-  const arrMatch = txt.match(/TOP_CITY_SLUGS\s*=\s*\[([\s\S]*?)\]/);
-  if (!arrMatch) return [];
-  return [...arrMatch[1].matchAll(/"([a-z0-9-]+)"/g)].map((m) => m[1]);
-}
-
-// ---- Service-content slugs (for combo pages) ---------------------------
-export async function loadServiceContentSlugs() {
-  const txt = await readSource("lib/serviceContent.ts");
-  const slugs = [];
-  for (const m of txt.matchAll(/^\s*"([a-z][a-z0-9-]*)":\s*\{/gm)) {
-    if (!slugs.includes(m[1])) slugs.push(m[1]);
-  }
-  return slugs;
-}
-
-// Returns { slug, title, metaTitle(name), metaDescription(name) }
-export async function loadServiceContent() {
-  const txt = await readSource("lib/serviceContent.ts");
-  const services = [];
-  // Find each top-level service entry block.
-  const slugRe = /^\s*"([a-z][a-z0-9-]*)":\s*\{[\s\S]*?slug:\s*"([a-z0-9-]+)",[\s\S]*?title:\s*"([^"]+)",[\s\S]*?metaTitle:\s*\(c\)\s*=>\s*`([^`]+)`,[\s\S]*?metaDescription:\s*\(c\)\s*=>\s*`([^`]+)`/gm;
-  let m;
-  while ((m = slugRe.exec(txt)) !== null) {
-    const [, , slug, title, metaTitleTpl, metaDescTpl] = m;
-    services.push({
-      slug,
-      title,
-      metaTitle: (city) => metaTitleTpl.replace(/\$\{c\}/g, city),
-      metaDescription: (city) => metaDescTpl.replace(/\$\{c\}/g, city),
-    });
-  }
-  return services;
 }
 
 // ---- High-intent service pages -----------------------------------------
@@ -519,21 +426,17 @@ export async function loadBlogPosts() {
 
 // ---- Build the full URL catalog ----------------------------------------
 export async function buildAllRoutes() {
-  const [cities, topCities, serviceSlugs, hiServices, posts, cityFaqs, serviceCityFaqs, hiServiceFaqs, priorityOverrides] =
+  const [dataset, hiServices, posts, hiServiceFaqs, priorityOverrides] =
     await Promise.all([
-      loadCities(),
-      loadTopCitySlugs(),
-      loadServiceContentSlugs(),
+      loadLocalLandingPages(),
       loadHighIntentServices(),
       loadBlogPosts(),
-      loadCityFaqsBuilder(),
-      loadServiceCityFaqBuildersBySlug(),
       loadHighIntentFaqsBySlug(),
       loadPriorityServiceOverrides(),
     ]);
-
-  const services = await loadServiceContent();
-  const cityByslug = new Map(cities.map((c) => [c.slug, c]));
+  const cities = Object.values(dataset.cities);
+  const serviceCities = Object.values(dataset.serviceCities);
+  const topCities = new Set(serviceCities.map((page) => page.citySlug));
 
   const routes = [];
 
@@ -544,16 +447,18 @@ export async function buildAllRoutes() {
   }
 
   // City pages
-  for (const c of cities) {
+  for (const content of cities) {
+    const city = toRouteCity(content);
     routes.push({
-      path: `/service-areas/${c.slug}`,
+      path: `/service-areas/${city.slug}`,
       changefreq: "monthly",
-      priority: topCities.includes(c.slug) ? "0.85" : "0.7",
-      title: `HVAC ${c.name}, NY — Heating, Cooling & Repair | ${SITE_NAME}`,
-      description: `Local HVAC service in ${c.name}, NY. Heating, cooling, repair, and installation from a licensed Westchester contractor. Emergency requests accepted 24/7.`,
+      priority: topCities.has(city.slug) ? "0.85" : "0.7",
+      title: content.title,
+      description: content.metaDescription,
       type: "city",
-      city: c,
-      faqs: cityFaqs(c.name),
+      city,
+      faqs: content.faqItems,
+      localContent: content,
     });
   }
 
@@ -573,25 +478,25 @@ export async function buildAllRoutes() {
   }
 
   // Service-city combo pages
-  for (const citySlug of topCities) {
-    const c = cityByslug.get(citySlug);
-    if (!c) continue;
-    for (const sSlug of serviceSlugs) {
-      const sc = services.find((s) => s.slug === sSlug);
-      if (!sc) continue;
-      const faqBuilder = serviceCityFaqs.get(sSlug);
-      routes.push({
-        path: `/services/${sSlug}/${citySlug}`,
-        changefreq: "monthly",
-        priority: "0.85",
-        title: sc.metaTitle(c.name),
-        description: sc.metaDescription(c.name),
-        type: "service-city",
-        city: c,
-        service: sc,
-        faqs: faqBuilder ? faqBuilder(c.name) : [],
-      });
-    }
+  for (const content of serviceCities) {
+    const cityContent = dataset.cities[content.citySlug];
+    if (!cityContent) continue;
+    routes.push({
+      path: `/services/${content.serviceSlug}/${content.citySlug}`,
+      changefreq: "monthly",
+      priority: "0.85",
+      title: content.metaTitle,
+      description: content.metaDescription,
+      type: "service-city",
+      city: toRouteCity(cityContent),
+      service: {
+        slug: content.serviceSlug,
+        title: content.serviceTitle,
+        shortTitle: content.shortTitle,
+      },
+      faqs: content.faqItems,
+      localContent: content,
+    });
   }
 
   // Blog posts

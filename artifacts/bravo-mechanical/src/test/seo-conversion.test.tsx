@@ -16,7 +16,12 @@ type GeneratedRoute = {
   title: string;
   description: string;
   canonical?: string;
-  city?: { intro?: string; housing?: string; climateNote?: string };
+  localContent?: {
+    answerFirst: string;
+    safeChecks: string[];
+    professionalBoundaries: string[];
+    faqItems: { q: string; a: string }[];
+  };
 };
 
 const renderInRouter = (node: React.ReactNode) => {
@@ -35,12 +40,15 @@ describe("SEO generation", () => {
     expect(routes.filter((route) => route.description.length > 160)).toEqual([]);
   });
 
-  it("carries verified town-specific content into city prerenders", async () => {
+  it("carries reviewed local content into city and service-city routes", async () => {
     const routes = await buildAllRoutes() as GeneratedRoute[];
-    const yonkers = routes.find((route) => route.path === "/service-areas/yonkers");
-    expect(yonkers?.city?.intro).toContain("largest city in Westchester County");
-    expect(yonkers?.city?.housing).toContain("steam or hot-water boilers");
-    expect(yonkers?.city?.climateNote).toContain("humid summers");
+    for (const path of ["/service-areas/yonkers", "/services/hvac-repair/yonkers"]) {
+      const route = routes.find((candidate) => candidate.path === path);
+      expect(route?.localContent?.answerFirst.length).toBeGreaterThan(80);
+      expect(route?.localContent?.safeChecks.length).toBeGreaterThanOrEqual(2);
+      expect(route?.localContent?.professionalBoundaries.length).toBeGreaterThanOrEqual(2);
+      expect(route?.localContent?.faqItems.length).toBeGreaterThanOrEqual(3);
+    }
   });
 
   it("does not publish redirected or noncanonical routes", async () => {

@@ -1,5 +1,56 @@
 # Local landing-page evidence review - 2026-09-02
 
+## Task 9 protected-preview verification - 2026-09-02
+
+**Status: PASSED — protected preview verified; production unchanged.** Git integration built exact release-candidate commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` from remote branch `codex/seo-aeo-phase1` as protected Vercel preview `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF` at `https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app`. The deployment was ready at `2026-09-02T22:02:00.287Z` (`2026-09-02 18:02:00.287 EDT`) and the authenticated gate completed with zero failures. No production deployment, promotion, alias, protection setting, or application setting was changed.
+
+### Deployment identity and build evidence
+
+| Field | Exact result |
+|---|---|
+| Vercel project | `bravo-build-hub` (`prj_PMkYLTbm4bRZmXPjnP4a7ENqNfbG`), team `joel-carias-projects` (`team_EMDpI0zAemC52GgIiDU4bmE9`) |
+| Authenticated CLI identity | `joelcarias23-9817`; local CLI `59.11.2` |
+| Preview deployment | `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF`; `https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app` |
+| Target and status | `preview`; `READY` |
+| Source | GitHub repository `joel2020/bravo-build-hub`, branch `codex/seo-aeo-phase1`, commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` |
+| Framework and output | Vite; `dist/public`; Node `24.x`; pnpm `10.28.1` |
+| Timing | Created `2026-09-02T22:01:39.347Z`; building `2026-09-02T22:01:42.325Z`; ready `2026-09-02T22:02:00.287Z`. Building-to-ready was 17.962 seconds and created-to-ready was 20.940 seconds. Vercel's build log reported `Build Completed in /vercel/output [14s]` and `Deployment completed` at `2026-09-02T22:02:00.579Z`. |
+| Build output | 2,283 modules transformed; 141 sitemap URLs written; 141 route HTML files injected. No build warning or error was reported. |
+
+`vercel ls bravo-build-hub --meta githubCommitSha=44b6680f5eeb301a32880d63eddb20b14c46eb1a --json --limit 2`, `vercel inspect dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF --json`, and `vercel inspect dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF --logs` independently tied the READY preview, build log, Git branch, and exact source SHA together. The preview artifact remains the build of `44b6680f5eeb301a32880d63eddb20b14c46eb1a`; the evidence-only commit made after this section was written is not the source of that artifact.
+
+### Authenticated preview gate
+
+Every HTTP request used the caller's existing Vercel authentication with the exact protected-deployment request form `vercel curl <path> --deployment bravo-build-pkts1wvph-joel-carias-projects.vercel.app -- --silent --show-error --max-time 30 --dump-header - --output -`. Deployment Protection remained enabled; no token or bypass secret was printed, persisted, or committed.
+
+| Verification surface | Exact outcome |
+|---|---|
+| Sitemap inventory | 141/141 unique canonical URLs present; 0 duplicate or noncanonical origins. |
+| Local inventory and membership | 54/54 local routes present in the sitemap: 34 city routes and 20 service-city routes. |
+| Authenticated HTTP crawl | 141/141 sitemap URLs returned HTTP 200. |
+| Crawler-visible page structure | 141/141 had exactly one H1; 141/141 had a nonempty title of at most 65 characters; 141/141 had a nonempty description of at most 160 characters. |
+| Canonicals and HTML robots | 141/141 had the exact self-referencing `https://www.bravomechanicalny.com` canonical; 141/141 retained crawler-intended `index, follow` HTML metadata without HTML `noindex`. |
+| Protected-preview isolation | 141/141 sitemap responses carried Vercel's preview-level `X-Robots-Tag: noindex`. |
+| Structured data | 610 JSON-LD scripts parsed; 141 `HVACBusiness` nodes and 70 `FAQPage` nodes found; 0 parse failures, duplicate `HVACBusiness`, duplicate `FAQPage`, or self-serving `aggregateRating` findings. |
+| Local rendered content | 54/54 local routes contained the reviewed copy, exactly one visible copy of every reviewed FAQ, the verified contact and phone links, and no visible editorial source notes. |
+| Internal links | 344/344 asserted local relationship links, 80/80 same-service cross-city links, and 20/20 parent-to-service-city links passed. Across the sitemap crawl, 2,376 internal-link occurrences resolved to 122/122 unique sitemap targets; 0 extra or broken targets were found. |
+| Redirects | 8/8 path redirects returned HTTP 308 with the expected destination. The exact inspected deployment config contained the one permanent apex-host redirect, so all 9/9 configured redirect boundaries passed. |
+| Security and private-route headers | 423/423 global security-header assertions passed across the 141 sitemap responses: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and `X-Frame-Options: SAMEORIGIN`. `/auth`, `/admin/crm`, and `/proposal/preview-gate` passed 3/3 HTTP 200 plus `noindex, nofollow` checks. |
+| Cache policies | 1/1 fingerprinted asset returned `Cache-Control: public, max-age=31536000, immutable`; 1/1 sitemap returned `Cache-Control: public, max-age=86400`. |
+| Analytics privacy | 6/6 passed: private-path rejection, query/hash rejection, automatic page views disabled, referrer redaction, `ignore_referrer`, and dynamic-only GA loading. |
+| Local duplicate/claim audit | `pnpm run audit:local-content` exited 0: 54 local landing-page records audited; 0 errors. |
+| Gate total | 0 confirmed boundary failures; 0 authenticated-request warnings. |
+
+Vercel CLI labels `vercel curl` as beta. Two preliminary gate-runner starts placed the optional global `--no-color` flag where this beta command forwarded it to the system curl; curl rejected the unsupported option before making a request. The final gate omitted that optional flag and passed. This was a local orchestration correction, not a preview response or application failure.
+
+The host-conditioned `bravomechanicalny.com` redirect cannot be exercised against the protected deployment hostname without reassigning a production alias. The exact deployed preview configuration was inspected instead and matched the required permanent apex-to-`www` rule. Functional production-host verification remains part of the separately approved production gate.
+
+### Version-control and production-unchanged evidence
+
+The initial isolated worktree was clean on branch `codex/local-landing-pages` at `44b6680f5eeb301a32880d63eddb20b14c46eb1a`. The required command `git fetch origin codex/seo-aeo-phase1 && git merge-base --is-ancestor origin/codex/seo-aeo-phase1 HEAD && git push origin HEAD:codex/seo-aeo-phase1` exited 0 and fast-forwarded the remote branch from `5c99146` to `44b6680` without merge, rebase, or force.
+
+Before and after the preview gate, `vercel inspect www.bravomechanicalny.com --json` resolved production to the same READY deployment `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L` at `https://bravo-build-lz4b5l0cu-joel-carias-projects.vercel.app`, created from commit `5c99146071d9db0b873697a07da6cd3d5c27f70d`. Its production aliases remained `https://www.bravomechanicalny.com`, `https://bravomechanicalny.com`, `https://app.bravomechanicalny.com`, and the established project aliases. Production was not promoted or redeployed.
+
 ## Task 8 local release-candidate verification - 2026-09-02
 
 **Status: VERIFIED — ready for protected preview.** Every required local application, live authoritative-source, build, static-page, internal-link, schema, and crawler gate passed. Verification ran against branch `codex/local-landing-pages` at candidate commit `cac8dbad3b43b7099ae84851c99ca6fa7a2c9d2e` from 17:51 through 17:53 EDT (21:51 through 21:53 UTC).

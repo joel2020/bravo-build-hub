@@ -29,7 +29,60 @@ The implementation contains no URL-specific exception, allowlist bypass, ignored
 
 ### Live authoritative-source results
 
-The required live command uses Node `fetch` with redirects enabled, transparent request-identification headers, and a 20-second timeout. It deduplicates identical URLs and treats every non-2xx response or request error as a failure for each affected route. The command checked all 29 unique authoritative URLs and exited 0 with 54 records audited and 0 errors. A read-only per-URL confirmation using the same dataset and headers recorded HTTP 200 for every URL; there were no timeouts, DNS errors, connection failures, or non-2xx responses.
+The required live command uses Node `fetch` with redirects enabled, transparent request-identification headers, and a 20-second timeout. It deduplicates identical URLs and treats every non-2xx response or request error as a failure for each affected route. The command checked all 29 unique authoritative URLs and exited 0 with 54 records audited and 0 errors.
+
+The following read-only command produced the per-URL status and redirect evidence in the table below. Run it from `artifacts/bravo-mechanical`. It reads the reviewed JSON, deduplicates sources while retaining route-reference counts, applies the production verifier's headers and redirect/timeout behavior, prints each requested and final URL, and exits non-zero if any source fails. The implementation plan authorizes only this evidence document as a tracked Task 8 artifact, so no separate result file was added; stdout was captured in the Task 8 verification tool transcript and transcribed into the table. Its summary was `UNIQUE_SOURCES=29`, `PASS=29`, and `FAIL=0`.
+
+```bash
+node --input-type=module <<'NODE'
+import { readFile } from 'node:fs/promises';
+
+const data = JSON.parse(await readFile('src/content/localLandingPages.json', 'utf8'));
+const routesByUrl = new Map();
+const add = (route, source) => {
+  if (!source?.url) return;
+  const routes = routesByUrl.get(source.url) ?? new Set();
+  routes.add(route);
+  routesByUrl.set(source.url, routes);
+};
+
+for (const [slug, city] of Object.entries(data.cities)) {
+  for (const source of city.municipalResources ?? []) add(`/service-areas/${slug}`, source);
+  for (const source of city.sourceNotes ?? []) add(`/service-areas/${slug}`, source);
+}
+for (const [key, page] of Object.entries(data.serviceCities)) {
+  for (const source of page.sourceNotes ?? []) add(`/services/${key}`, source);
+}
+
+const headers = {
+  Accept: 'text/html,application/pdf;q=0.9,*/*;q=0.8',
+  'User-Agent': 'BravoMechanicalLinkVerifier/1.0 (+https://www.bravomechanicalny.com/contact)',
+};
+const results = await Promise.all([...routesByUrl].map(async ([url, routes]) => {
+  try {
+    const response = await fetch(url, {
+      redirect: 'follow',
+      headers,
+      signal: AbortSignal.timeout(20_000),
+    });
+    return { url, routes: routes.size, status: response.status, final: response.url, ok: response.ok };
+  } catch (error) {
+    return { url, routes: routes.size, status: 'FETCH_ERROR', final: error.message, ok: false };
+  }
+}));
+
+results.sort((left, right) => left.url.localeCompare(right.url));
+console.log(`UNIQUE_SOURCES=${results.length}`);
+console.log(`PASS=${results.filter((result) => result.ok).length}`);
+console.log(`FAIL=${results.filter((result) => !result.ok).length}`);
+for (const result of results) {
+  console.log(`${result.status}\t${result.routes}\t${result.url}\t${result.final}`);
+}
+if (results.some((result) => !result.ok)) process.exitCode = 1;
+NODE
+```
+
+The captured output recorded HTTP 200 for every URL; there were no timeouts, DNS errors, connection failures, or non-2xx responses.
 
 #### HTTP 200 — 29 unique URLs
 

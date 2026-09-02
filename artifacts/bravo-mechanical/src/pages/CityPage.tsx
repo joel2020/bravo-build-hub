@@ -1,43 +1,23 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { CheckCircle2, MapPin, Phone, ArrowLeft, Star, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, CheckCircle2, MapPin, Phone, Star } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { getCity, CITIES } from "@/lib/cities";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { getPostBySlug } from "@/lib/blog";
+import {
+  getCityLanding,
+  getServiceCityLanding,
+  SERVICE_CITY_LANDING_CONTENT,
+} from "@/lib/localLandingContent";
 import { SERVICES, SITE } from "@/lib/site";
-import { isTopCity } from "@/lib/serviceCityCombos";
-import { getPostsForCity } from "@/lib/blog";
 import { trackRequestServiceClick } from "@/lib/analytics";
 import { useSeo } from "@/lib/seo";
-
-const TOP_CITY_NOTES: Record<string, { housing: string; permitting: string; seasonal: string }> = {
-  yonkers: {
-    housing: "Many Yonkers homes still run legacy steam or hot-water boilers. We frequently retrofit these systems with high-efficiency gas boilers and add ductless cooling where ductwork is limited.",
-    permitting: "Permit and inspection requirements vary by project scope. Confirm permit requirements and responsibilities in the written proposal, including filing, fees, scheduling, and closeout.",
-    seasonal: "Winter no-heat and summer no-cool calls are common in older housing stock; call to request urgent triage based on current availability.",
-  },
-  "white-plains": {
-    housing: "White Plains includes both high-rise condos and older single-family homes. Our work often combines airflow correction with equipment upgrades to fix uneven comfort.",
-    permitting: "Replacement documentation and permit requirements vary by equipment and building type. Confirm the required documents and responsibilities in the written proposal.",
-    seasonal: "High summer humidity and shoulder-season furnace issues are the most frequent causes of emergency calls here.",
-  },
-  "new-rochelle": {
-    housing: "New Rochelle's coastal housing often mixes boiler heat with no central AC. We commonly install multi-zone mini-splits to add cooling without major demolition.",
-    permitting: "Equipment changes may trigger municipal or building requirements. Confirm the required scope details, model documents, filings, fees, and inspections before work begins.",
-    seasonal: "Sound-shore humidity drives indoor air quality concerns, so dehumidification and filtration upgrades are common add-ons.",
-  },
-  "mount-vernon": {
-    housing: "Mount Vernon properties often include older boilers and oil systems. We regularly replace unsafe or inefficient components while preserving existing distribution where possible.",
-    permitting: "Our team documents safety and combustion checks clearly so owners and property managers have clean records.",
-    seasonal: "Fast-response heating repairs in winter are especially important for multi-family and older buildings.",
-  },
-  scarsdale: {
-    housing: "Scarsdale homes are often larger and older, which makes zoning and load calculations critical. We design for consistent room-by-room comfort rather than one-size-fits-all sizing.",
-    permitting: "Full replacements and major retrofits may require permit-ready scopes and inspections. Confirm the applicable requirements and responsibilities in writing for the project.",
-    seasonal: "High expectations for quiet operation, clean installation details, and long-term efficiency shape most Scarsdale projects.",
-  },
-};
 
 const GENERAL_SERVICE_LINKS: Record<string, string> = {
   "hvac-installation": "/services/ac-installation-westchester-county-ny",
@@ -50,17 +30,14 @@ const GENERAL_SERVICE_LINKS: Record<string, string> = {
 
 const CityPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const city = slug ? getCity(slug) : undefined;
-
-  const pageUrl = city ? `${SITE.siteUrl}/service-areas/${city.slug}` : SITE.siteUrl;
-  const title = city ? `HVAC ${city.name}, NY — Heating, Cooling & Repair | ${SITE.name}` : "Service Areas";
-  const description = city
-    ? `Local HVAC service in ${city.name}, NY. Heating, cooling, repair, and installation by licensed Westchester County technicians. 24/7 emergency service. Call ${SITE.phone}.`
-    : "";
+  const city = slug ? getCityLanding(slug) : undefined;
+  const pageUrl = city
+    ? `${SITE.siteUrl}/service-areas/${city.slug}`
+    : SITE.siteUrl;
 
   useSeo({
-    title,
-    description,
+    title: city ? city.title : "Service Areas",
+    description: city?.metaDescription ?? "",
     canonical: pageUrl,
     image: "/og-image.jpg",
     jsonLd: city
@@ -70,30 +47,44 @@ const CityPage = () => {
             "@type": "Service",
             "@id": `${pageUrl}#service`,
             name: `HVAC service in ${city.name}, NY`,
-            serviceType: "Heating, cooling, installation, repair, and maintenance",
-            description,
+            serviceType:
+              "Heating, cooling, installation, repair, and maintenance",
+            description: city.metaDescription,
             url: pageUrl,
             areaServed: { "@type": "City", name: `${city.name}, NY` },
-            provider: {
-              "@id": `${SITE.siteUrl}/#localbusiness`,
-            },
+            provider: { "@id": `${SITE.siteUrl}/#localbusiness` },
           },
           {
             "@context": "https://schema.org",
             "@type": "FAQPage",
-            mainEntity: city.faqs.map((f) => ({
+            mainEntity: city.faqItems.map((faq) => ({
               "@type": "Question",
-              name: f.q,
-              acceptedAnswer: { "@type": "Answer", text: f.a },
+              name: faq.q,
+              acceptedAnswer: { "@type": "Answer", text: faq.a },
             })),
           },
           {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE.siteUrl}/` },
-              { "@type": "ListItem", position: 2, name: "Service Areas", item: `${SITE.siteUrl}/service-areas` },
-              { "@type": "ListItem", position: 3, name: city.name, item: pageUrl },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: `${SITE.siteUrl}/`,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Service Areas",
+                item: `${SITE.siteUrl}/service-areas`,
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: city.name,
+                item: pageUrl,
+              },
             ],
           },
         ]
@@ -102,8 +93,12 @@ const CityPage = () => {
 
   if (!city) return <Navigate to="/service-areas" replace />;
 
-  const related = CITIES.filter((c) => c.slug !== city.slug && c.region === city.region).slice(0, 4);
-  const localPosts = getPostsForCity(city.name, 4);
+  const relatedGuides = city.relatedGuideSlugs
+    .map(getPostBySlug)
+    .filter((post): post is NonNullable<typeof post> => !!post);
+  const nearbyCities = city.nearbyCitySlugs
+    .map(getCityLanding)
+    .filter((nearby): nearby is NonNullable<typeof nearby> => !!nearby);
 
   return (
     <Layout>
@@ -116,222 +111,276 @@ const CityPage = () => {
 
       <section className="container mx-auto px-4 py-10 lg:py-14">
         <div className="mb-6">
-          <Link to="/service-areas" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+          <Link
+            to="/service-areas"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+          >
             <ArrowLeft className="h-4 w-4" /> All Westchester service areas
           </Link>
         </div>
-
         <div className="grid lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2 space-y-5">
-            <h2 className="text-2xl md:text-3xl font-extrabold">Trusted HVAC service in {city.name}</h2>
-            <p className="text-muted-foreground leading-relaxed">{city.intro}</p>
-            <p className="text-muted-foreground leading-relaxed">{city.housing}</p>
-            <p className="text-muted-foreground leading-relaxed">{city.climateNote}</p>
-
-            {(city.zips.length > 0 || city.neighborhoods.length > 0) && (
-              <div className="grid sm:grid-cols-2 gap-5 pt-2">
-                {city.neighborhoods.length > 0 && (
-                  <div className="bg-card border border-border rounded-lg p-5">
-                    <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-muted-foreground">Neighborhoods we cover</h3>
-                    <ul className="space-y-1.5">
-                      {city.neighborhoods.map((n) => (
-                        <li key={n} className="flex gap-2 text-sm"><MapPin className="h-4 w-4 text-accent shrink-0 mt-0.5" />{n}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {city.zips.length > 0 && (
-                  <div className="bg-card border border-border rounded-lg p-5">
-                    <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-muted-foreground">ZIP codes served</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {city.zips.map((z) => (
-                        <span key={z} className="text-sm font-mono bg-secondary border border-border rounded px-2 py-1">{z}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
+          <div className="lg:col-span-2 space-y-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-extrabold mb-3">
+                HVAC guidance for {city.name} properties
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                {city.answerFirst}
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-extrabold mb-4">
+                Local context in {city.name}
+              </h2>
+              <div className="space-y-3 text-muted-foreground">
+                {city.localContext.map((context) => (
+                  <p key={context}>{context}</p>
+                ))}
               </div>
-            )}
+            </div>
+            <div>
+              <h2 className="text-2xl font-extrabold mb-4">
+                Common HVAC concerns
+              </h2>
+              <ul className="space-y-2">
+                {city.commonConcerns.map((concern) => (
+                  <li key={concern} className="flex gap-2 text-sm">
+                    <CheckCircle2 className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+                    {concern}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-
           <aside className="bg-card border border-border rounded-lg p-6 h-fit">
-            <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">Request an estimate</div>
-            <h3 className="font-bold text-lg mb-3">Local techs serving {city.name}.</h3>
-            <p className="text-sm text-muted-foreground mb-5">Request a written, project-specific quote from a licensed Westchester HVAC contractor.</p>
+            <div className="text-accent font-bold uppercase tracking-wider text-xs mb-2">
+              Request service
+            </div>
+            <h2 className="font-bold text-lg mb-3">
+              Local techs serving {city.name}.
+            </h2>
+            <p className="text-sm text-muted-foreground mb-5">
+              Request a written, project-specific quote from a licensed
+              Westchester HVAC contractor.
+            </p>
             <div className="flex flex-col gap-3">
-              <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                <Link to="/contact" onClick={() => trackRequestServiceClick(`city_page_${city.slug}`)}>Request an Estimate</Link>
+              <Button
+                asChild
+                size="lg"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold"
+              >
+                <Link
+                  to="/contact"
+                  onClick={() =>
+                    trackRequestServiceClick(`city_page_${city.slug}`)
+                  }
+                >
+                  Request an Estimate
+                </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold">
-                <a href={SITE.phoneHref}><Phone className="h-4 w-4 mr-2" />Call {SITE.phone}</a>
+                <a href={SITE.phoneHref}>
+                  <Phone className="h-4 w-4 mr-2" />
+                  Call {SITE.phone}
+                </a>
               </Button>
             </div>
             <div className="mt-5 pt-5 border-t border-border flex items-center gap-2 text-sm">
               <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-accent text-accent" />
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    className="h-4 w-4 fill-accent text-accent"
+                  />
                 ))}
               </div>
-              <span className="text-muted-foreground">{SITE.rating.score} on Google</span>
+              <span className="text-muted-foreground">
+                {SITE.rating.score} on Google
+              </span>
             </div>
           </aside>
         </div>
       </section>
 
-      {TOP_CITY_NOTES[city.slug] && (
-        <section className="container mx-auto px-4 py-6 lg:py-8">
-          <div className="bg-card border border-border rounded-lg p-6">
-            <h2 className="text-2xl font-extrabold mb-3">What we see most in {city.name} homes</h2>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><strong className="text-foreground">Housing and systems:</strong> {TOP_CITY_NOTES[city.slug].housing}</li>
-              <li><strong className="text-foreground">Permits and compliance:</strong> {TOP_CITY_NOTES[city.slug].permitting}</li>
-              <li><strong className="text-foreground">Seasonal service demand:</strong> {TOP_CITY_NOTES[city.slug].seasonal}</li>
+      <section className="bg-secondary border-y border-border">
+        <div className="container mx-auto px-4 py-12 lg:py-16 grid lg:grid-cols-2 gap-10">
+          <div>
+            <h2 className="text-2xl font-extrabold mb-4">
+              What {city.name} property owners can check safely
+            </h2>
+            <ul className="space-y-2">
+              {city.safeChecks.map((check) => (
+                <li key={check} className="flex gap-2 text-sm">
+                  <CheckCircle2 className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+                  {check}
+                </li>
+              ))}
             </ul>
+          </div>
+          <div>
+            <h2 className="text-2xl font-extrabold mb-4">
+              Leave these HVAC checks to a professional
+            </h2>
+            <ul className="space-y-2">
+              {city.professionalBoundaries.map((boundary) => (
+                <li key={boundary} className="flex gap-2 text-sm">
+                  <CheckCircle2 className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+                  {boundary}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {city.municipalResources.length > 0 && (
+        <section className="container mx-auto px-4 py-12 lg:py-16">
+          <h2 className="text-2xl font-extrabold mb-4">
+            Municipal resources for {city.name}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Confirm permit requirements and responsibilities in the written
+            proposal or scope for the specific project.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {city.municipalResources.map((resource) => {
+              const label =
+                resource.label === "City of Yonkers forms and permits"
+                  ? "City of Yonkers building permits and forms"
+                  : resource.label;
+              return (
+                <a
+                  key={resource.url}
+                  href={resource.url}
+                  className="border border-border rounded-md p-4 hover:border-accent transition-colors font-semibold text-sm"
+                >
+                  {label}
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      <section className="container mx-auto px-4 py-12 lg:py-16">
+        <div className="max-w-2xl mb-8">
+          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">
+            Services in {city.name}
+          </div>
+          <h2 className="text-2xl md:text-3xl font-extrabold">
+            HVAC service pages for {city.name}
+          </h2>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {SERVICES.map((service) => {
+            const localService = getServiceCityLanding(service.slug, city.slug);
+            const href = localService
+              ? `/services/${localService.serviceSlug}/${localService.citySlug}`
+              : (GENERAL_SERVICE_LINKS[service.slug] ?? "/services");
+            const label = localService
+              ? `${localService.serviceTitle} in ${city.name} →`
+              : `${service.title} services →`;
+            return (
+              <div
+                key={service.slug}
+                className="bg-card border border-border rounded-lg p-5 flex flex-col"
+              >
+                <h3 className="font-bold mb-2">
+                  {localService?.serviceTitle ?? service.title}
+                </h3>
+                <p className="text-sm text-muted-foreground flex-1">
+                  {localService?.answerFirst ?? service.description}
+                </p>
+                <Link
+                  to={href}
+                  className="text-sm text-accent font-semibold mt-4"
+                >
+                  {label}
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {relatedGuides.length > 0 && (
+        <section className="bg-secondary border-y border-border">
+          <div className="container mx-auto px-4 py-12 lg:py-16">
+            <h2 className="text-2xl font-extrabold mb-6">
+              Related guides for {city.name}
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {relatedGuides.map((guide) => (
+                <Link
+                  key={guide.slug}
+                  to={`/blog/${guide.slug}`}
+                  className="border border-border bg-card rounded-md p-4 hover:border-accent transition-colors font-semibold text-sm"
+                >
+                  {guide.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {nearbyCities.length > 0 && (
+        <section className="container mx-auto px-4 py-12 lg:py-16">
+          <div className="mb-6">
+            <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">
+              Nearby
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold">
+              We also serve nearby communities
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {nearbyCities.map((nearby) => (
+              <Link
+                key={nearby.slug}
+                to={`/service-areas/${nearby.slug}`}
+                className="flex items-center gap-2 p-3 bg-card border border-border rounded-md hover:border-accent transition-colors"
+              >
+                <MapPin className="h-4 w-4 text-accent shrink-0" />
+                <span className="font-semibold text-sm">{nearby.name}</span>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-6">
+            <Link
+              to="/service-areas"
+              className="text-accent font-semibold text-sm"
+            >
+              View all Westchester service areas →
+            </Link>
           </div>
         </section>
       )}
 
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16">
-          <div className="max-w-2xl mb-8">
-            <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Services in {city.name}</div>
-            <h2 className="text-2xl md:text-3xl font-extrabold">Full residential & commercial HVAC</h2>
-            <p className="mt-3 text-muted-foreground">Request a project-specific scope for heating, cooling, or indoor-air-quality work in {city.name}, including who will perform each part of the approved work.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {SERVICES.map((s) => {
-              const hasCombo = isTopCity(city.slug);
-              const href = hasCombo
-                ? `/services/${s.slug}/${city.slug}`
-                : GENERAL_SERVICE_LINKS[s.slug] ?? "/services";
-              const label = hasCombo ? `${s.title} in ${city.name} →` : `${s.title} services →`;
-              return (
-                <div key={s.slug} className="bg-card border border-border rounded-lg p-5 flex flex-col">
-                  <h3 className="font-bold mb-2">{s.title}</h3>
-                  <p className="text-sm text-muted-foreground flex-1">{s.description}</p>
-                  <Link to={href} className="text-sm text-accent font-semibold mt-4">{label}</Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="container mx-auto px-4 py-12 lg:py-16">
-        <div className="max-w-2xl mb-8">
-          <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Why local matters</div>
-          <h2 className="text-2xl md:text-3xl font-extrabold">Why {city.name} homeowners choose Bravo Mechanical</h2>
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          {[
-            { t: "We live and work in Westchester", d: `Our techs know ${city.name} — the housing stock, the climate, the building codes. No guessing.` },
-            { t: "Project-specific sizing", d: "Ask for the load assumptions, equipment selection, and written scope used for the specific building." },
-            { t: "Credential and permit check", d: "Bravo Mechanical lists Westchester HVAC license #8822. Confirm the municipal credential, permit requirements, and each party's responsibilities for the project." },
-            { t: "Written project terms", d: "Review the equipment, labor, exclusions, responsibilities, pricing, and change-order process in the written proposal before approving work." },
-          ].map((b) => (
-            <div key={b.t} className="bg-card border border-border rounded-lg p-5 flex gap-3">
-              <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
-              <div>
-                <div className="font-bold mb-1">{b.t}</div>
-                <div className="text-sm text-muted-foreground">{b.d}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-secondary border-y border-border">
-        <div className="container mx-auto px-4 py-12 lg:py-16">
           <div className="max-w-2xl mb-6">
-            <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">FAQ</div>
-            <h2 className="text-2xl md:text-3xl font-extrabold">{city.name} HVAC questions, answered</h2>
+            <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">
+              FAQ
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold">
+              {city.name} HVAC questions, answered
+            </h2>
           </div>
           <Accordion type="single" collapsible className="max-w-3xl">
-            {city.faqs.map((f, i) => (
-              <AccordionItem key={i} value={`faq-${i}`}>
-                <AccordionTrigger className="text-left font-semibold">{f.q}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">{f.a}</AccordionContent>
+            {city.faqItems.map((faq, index) => (
+              <AccordionItem key={faq.q} value={`faq-${index}`}>
+                <AccordionTrigger className="text-left font-semibold">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground">
+                  {faq.a}
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
       </section>
-
-      {localPosts.length > 0 && (
-        <section className="container mx-auto px-4 py-12 lg:py-16">
-          <div className="max-w-2xl mb-8">
-            <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Local guides</div>
-            <h2 className="text-2xl md:text-3xl font-extrabold">HVAC guides for {city.name} homeowners</h2>
-            <p className="mt-3 text-muted-foreground">
-              Practical advice from our techs on the systems, weather, and housing stock we see most often in {city.name}.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {localPosts.map((p) => (
-              <Link
-                key={p.slug}
-                to={`/blog/${p.slug}`}
-                className="group bg-card border border-border rounded-lg overflow-hidden hover:border-accent transition-colors flex flex-col"
-              >
-                {p.cover && (
-                  <img
-                    src={p.cover}
-                    alt={p.title}
-                    width={1600}
-                    height={896}
-                    loading="lazy"
-                    className="w-full aspect-[16/9] object-cover"
-                  />
-                )}
-                <div className="p-5 flex flex-col flex-1">
-                  <h3 className="font-bold text-base mb-2 group-hover:text-accent transition-colors line-clamp-2">
-                    {p.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-1">{p.excerpt}</p>
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mt-auto">
-                    <span className="inline-flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {new Date(p.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {p.readingMinutes} min
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="mt-6">
-            <Link to="/blog" className="text-accent font-semibold text-sm">Browse all HVAC guides →</Link>
-          </div>
-        </section>
-      )}
-
-      {related.length > 0 && (
-        <section className="container mx-auto px-4 py-12 lg:py-16">
-          <div className="mb-6">
-            <div className="text-accent font-bold uppercase tracking-wider text-sm mb-2">Nearby</div>
-            <h2 className="text-2xl md:text-3xl font-extrabold">We also serve nearby {city.region}</h2>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {related.map((c) => (
-              <Link
-                key={c.slug}
-                to={`/service-areas/${c.slug}`}
-                className="flex items-center gap-2 p-3 bg-card border border-border rounded-md hover:border-accent transition-colors"
-              >
-                <MapPin className="h-4 w-4 text-accent shrink-0" />
-                <span className="font-semibold text-sm">{c.name}</span>
-              </Link>
-            ))}
-          </div>
-          <div className="mt-6">
-            <Link to="/service-areas" className="text-accent font-semibold text-sm">View all Westchester service areas →</Link>
-          </div>
-        </section>
-      )}
-
     </Layout>
   );
 };

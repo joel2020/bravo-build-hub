@@ -3,7 +3,14 @@
 import { lazy, Suspense } from "react";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -25,11 +32,13 @@ import { SITE } from "../lib/site";
 import BookOnline from "../pages/BookOnline";
 import Contact from "../pages/Contact";
 import CityPage from "../pages/CityPage";
+import HighIntentServicePage from "../pages/HighIntentServicePage";
 import Financing from "../pages/Financing";
 import Index from "../pages/Index";
 import MaintenancePlans from "../pages/MaintenancePlans";
 import Projects from "../pages/Projects";
 import Services from "../pages/Services";
+import ServiceCityPage from "../pages/ServiceCityPage";
 import { trackCallClick } from "../lib/analytics";
 
 const supabaseTestState = vi.hoisted(() => ({
@@ -48,16 +57,17 @@ vi.mock("../integrations/supabase/client", () => ({
         insert: (payload: unknown) => supabaseTestState.insert(payload),
         limit: () =>
           Promise.resolve({
-            data: table === "job_photos"
-              ? [
-                  {
-                    id: "published-photo",
-                    public_url: "https://example.com/published-job.jpg",
-                    public_caption: "Published CRM project",
-                    created_at: "2026-08-10T12:00:00.000Z",
-                  },
-                ]
-              : [],
+            data:
+              table === "job_photos"
+                ? [
+                    {
+                      id: "published-photo",
+                      public_url: "https://example.com/published-job.jpg",
+                      public_caption: "Published CRM project",
+                      created_at: "2026-08-10T12:00:00.000Z",
+                    },
+                  ]
+                : [],
           }),
       };
       return query;
@@ -70,10 +80,24 @@ const TestRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<button onClick={() => navigate("/next")}>Next</button>} />
+      <Route
+        path="/"
+        element={<button onClick={() => navigate("/next")}>Next</button>}
+      />
       <Route path="/next" element={<h1>Next page</h1>} />
     </Routes>
   );
+};
+
+const renderAt = (
+  element: React.ReactNode,
+  path: string,
+  routePath: string,
+) => {
+  const router = createMemoryRouter([{ path: routePath, element }], {
+    initialEntries: [path],
+  });
+  return render(<RouterProvider router={router} />);
 };
 
 describe("frontend remediation navigation shell", () => {
@@ -93,14 +117,18 @@ describe("frontend remediation navigation shell", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("link", { name: /skip to main content/i }).getAttribute("href")).toBe(
-      "#main-content",
-    );
+    expect(
+      screen
+        .getByRole("link", { name: /skip to main content/i })
+        .getAttribute("href"),
+    ).toBe("#main-content");
     expect(screen.getByRole("main").getAttribute("tabindex")).toBe("-1");
   });
 
   it("scrolls forward navigation to top and focuses main", async () => {
-    const scrollTo = vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+    const scrollTo = vi
+      .spyOn(window, "scrollTo")
+      .mockImplementation(() => undefined);
     vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
       callback(0);
       return 0;
@@ -117,7 +145,11 @@ describe("frontend remediation navigation shell", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "Next" }));
 
-    expect(scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: "auto" });
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
     expect(document.activeElement).toBe(screen.getByRole("main"));
   });
 
@@ -125,7 +157,9 @@ describe("frontend remediation navigation shell", () => {
     const disconnect = vi.fn();
     class TestMutationObserver {
       observe() {}
-      disconnect() { disconnect(); }
+      disconnect() {
+        disconnect();
+      }
     }
     vi.stubGlobal("MutationObserver", TestMutationObserver);
     vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
@@ -156,7 +190,9 @@ describe("frontend remediation navigation shell", () => {
   });
 
   it("waits for a suspended destination layout before focusing main", async () => {
-    let resolveDestination!: (module: { default: () => React.ReactNode }) => void;
+    let resolveDestination!: (module: {
+      default: () => React.ReactNode;
+    }) => void;
     const Destination = lazy(
       () =>
         new Promise<{ default: () => React.ReactNode }>((resolve) => {
@@ -168,13 +204,18 @@ describe("frontend remediation navigation shell", () => {
       const { pathname } = useLocation();
 
       return (
-        <Suspense key={pathname} fallback={<div role="status">Loading destination</div>}>
+        <Suspense
+          key={pathname}
+          fallback={<div role="status">Loading destination</div>}
+        >
           <Routes>
             <Route
               path="/"
               element={
                 <Layout>
-                  <button onClick={() => navigate("/next", { flushSync: true })}>
+                  <button
+                    onClick={() => navigate("/next", { flushSync: true })}
+                  >
                     Load destination
                   </button>
                 </Layout>
@@ -199,7 +240,9 @@ describe("frontend remediation navigation shell", () => {
       </MemoryRouter>,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "Load destination" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Load destination" }),
+    );
     expect(screen.getByRole("status")).toBeTruthy();
 
     await act(async () => {
@@ -214,7 +257,9 @@ describe("frontend remediation navigation shell", () => {
       });
     });
 
-    expect(await screen.findByRole("heading", { name: "Loaded destination" })).toBeTruthy();
+    expect(
+      await screen.findByRole("heading", { name: "Loaded destination" }),
+    ).toBeTruthy();
     expect(document.activeElement).toBe(screen.getByRole("main"));
   });
 
@@ -235,9 +280,11 @@ describe("frontend remediation navigation shell", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("link", { name: /skip to main content/i }).getAttribute("href")).toBe(
-      "#main-content",
-    );
+    expect(
+      screen
+        .getByRole("link", { name: /skip to main content/i })
+        .getAttribute("href"),
+    ).toBe("#main-content");
     expect(screen.getByRole("main").getAttribute("tabindex")).toBe("-1");
   });
 
@@ -257,7 +304,9 @@ describe("frontend remediation navigation shell", () => {
 
     expect(trigger.getAttribute("aria-label")).toMatch(/close menu/i);
     expect(
-      screen.getByRole("navigation", { name: /mobile navigation/i }).getAttribute("id"),
+      screen
+        .getByRole("navigation", { name: /mobile navigation/i })
+        .getAttribute("id"),
     ).toBe("mobile-navigation");
 
     await user.keyboard("{Escape}");
@@ -306,7 +355,10 @@ describe("frontend remediation navigation shell", () => {
       removeListener: () => undefined,
       dispatchEvent: () => true,
     };
-    vi.stubGlobal("matchMedia", () => mediaQueryState as unknown as MediaQueryList);
+    vi.stubGlobal(
+      "matchMedia",
+      () => mediaQueryState as unknown as MediaQueryList,
+    );
     const user = userEvent.setup();
 
     render(
@@ -325,24 +377,34 @@ describe("frontend remediation navigation shell", () => {
     mediaQueryState.matches = true;
     act(() => {
       listeners.forEach((listener) =>
-        listener({ matches: true, media: mediaQueryState.media } as MediaQueryListEvent),
+        listener({
+          matches: true,
+          media: mediaQueryState.media,
+        } as MediaQueryListEvent),
       );
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
     });
 
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
-    expect(screen.queryByRole("navigation", { name: /mobile navigation/i })).toBeNull();
+    expect(
+      screen.queryByRole("navigation", { name: /mobile navigation/i }),
+    ).toBeNull();
     expect(document.activeElement).toBe(safeTarget);
 
     mediaQueryState.matches = false;
     act(() => {
       listeners.forEach((listener) =>
-        listener({ matches: false, media: mediaQueryState.media } as MediaQueryListEvent),
+        listener({
+          matches: false,
+          media: mediaQueryState.media,
+        } as MediaQueryListEvent),
       );
     });
 
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
-    expect(screen.queryByRole("navigation", { name: /mobile navigation/i })).toBeNull();
+    expect(
+      screen.queryByRole("navigation", { name: /mobile navigation/i }),
+    ).toBeNull();
   });
 
   it("shows the four focused desktop choices in the approved order and one request action", () => {
@@ -352,17 +414,31 @@ describe("frontend remediation navigation shell", () => {
       </MemoryRouter>,
     );
 
-    const primary = screen.getByRole("navigation", { name: /primary navigation/i });
+    const primary = screen.getByRole("navigation", {
+      name: /primary navigation/i,
+    });
     expect(primary.classList.contains("hidden")).toBe(true);
     expect(primary.classList.contains("xl:flex")).toBe(true);
     expect(
       Array.from(primary.children).map((item) => item.textContent?.trim()),
     ).toEqual(["Services", "Projects", "Reviews", "Service Areas"]);
-    expect(within(primary).getByRole("link", { name: "Projects" }).getAttribute("href")).toBe("/projects");
-    expect(within(primary).getByRole("link", { name: "Reviews" }).getAttribute("href")).toBe("/reviews");
-    expect(primary.textContent).not.toMatch(/Book Online|Contact|About|Blog|Español|More/);
+    expect(
+      within(primary)
+        .getByRole("link", { name: "Projects" })
+        .getAttribute("href"),
+    ).toBe("/projects");
+    expect(
+      within(primary)
+        .getByRole("link", { name: "Reviews" })
+        .getAttribute("href"),
+    ).toBe("/reviews");
+    expect(primary.textContent).not.toMatch(
+      /Book Online|Contact|About|Blog|Español|More/,
+    );
 
-    const requestService = screen.getByRole("link", { name: "Request Service" });
+    const requestService = screen.getByRole("link", {
+      name: "Request Service",
+    });
     expect(requestService.getAttribute("href")).toBe("/contact");
   });
 
@@ -377,24 +453,39 @@ describe("frontend remediation navigation shell", () => {
     const servicesTrigger = screen.getByRole("button", { name: /services/i });
     await user.click(servicesTrigger);
     expect(
-      screen.getAllByRole("menuitem").map((item) => [item.textContent, item.getAttribute("href")]),
+      screen
+        .getAllByRole("menuitem")
+        .map((item) => [item.textContent, item.getAttribute("href")]),
     ).toEqual([
-      ["24/7 Emergency HVAC", "/services/emergency-hvac-repair-westchester-county-ny"],
+      [
+        "24/7 Emergency HVAC",
+        "/services/emergency-hvac-repair-westchester-county-ny",
+      ],
       ["AC Repair", "/services/ac-repair-westchester-county-ny"],
       ["Boiler Repair", "/services/boiler-repair-westchester-county-ny"],
       ["HVAC Maintenance", "/services/hvac-maintenance-westchester-county-ny"],
       ["AC Installation", "/services/ac-installation-westchester-county-ny"],
-      ["Boiler Installation", "/services/boiler-installation-westchester-county-ny"],
-      ["Heat Pump Installation", "/services/heat-pump-installation-westchester-county-ny"],
+      [
+        "Boiler Installation",
+        "/services/boiler-installation-westchester-county-ny",
+      ],
+      [
+        "Heat Pump Installation",
+        "/services/heat-pump-installation-westchester-county-ny",
+      ],
       ["All Services", "/services"],
     ]);
     await user.click(screen.getByRole("menuitem", { name: "AC Repair" }));
     expect(screen.queryByRole("menu")).toBeNull();
 
-    const serviceAreasTrigger = screen.getByRole("button", { name: /service areas/i });
+    const serviceAreasTrigger = screen.getByRole("button", {
+      name: /service areas/i,
+    });
     await user.click(serviceAreasTrigger);
     expect(
-      screen.getAllByRole("menuitem").map((item) => [item.textContent, item.getAttribute("href")]),
+      screen
+        .getAllByRole("menuitem")
+        .map((item) => [item.textContent, item.getAttribute("href")]),
     ).toEqual([
       ["Yonkers", "/service-areas/yonkers"],
       ["White Plains", "/service-areas/white-plains"],
@@ -409,12 +500,18 @@ describe("frontend remediation navigation shell", () => {
 
   it("marks a desktop group active for one of its child routes", () => {
     render(
-      <MemoryRouter initialEntries={["/services/ac-repair-westchester-county-ny"]}>
+      <MemoryRouter
+        initialEntries={["/services/ac-repair-westchester-county-ny"]}
+      >
         <Header />
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("button", { name: /services/i }).getAttribute("aria-current")).toBe("page");
+    expect(
+      screen
+        .getByRole("button", { name: /services/i })
+        .getAttribute("aria-current"),
+    ).toBe("page");
   });
 
   it("marks service areas active for a city route", () => {
@@ -424,9 +521,11 @@ describe("frontend remediation navigation shell", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("button", { name: /service areas/i }).getAttribute("aria-current")).toBe(
-      "page",
-    );
+    expect(
+      screen
+        .getByRole("button", { name: /service areas/i })
+        .getAttribute("aria-current"),
+    ).toBe("page");
   });
 });
 
@@ -453,11 +552,18 @@ describe("loader, project proof, and contextual actions", () => {
     const loader = screen.getByRole("status");
     expect(loader.getAttribute("aria-live")).toBe("polite");
     expect(within(loader).getByText("Loading page…")).toBeTruthy();
-    expect(loader.querySelector(".page-loader__spinner")?.getAttribute("aria-hidden")).toBe("true");
+    expect(
+      loader
+        .querySelector(".page-loader__spinner")
+        ?.getAttribute("aria-hidden"),
+    ).toBe("true");
   });
 
   it("disables the page-loader animation when reduced motion is requested", () => {
-    const css = readFileSync(resolve(import.meta.dirname, "../index.css"), "utf8");
+    const css = readFileSync(
+      resolve(import.meta.dirname, "../index.css"),
+      "utf8",
+    );
 
     expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
     expect(css).toMatch(/\.page-loader__spinner\s*\{[^}]*animation:\s*none/s);
@@ -481,12 +587,20 @@ describe("loader, project proof, and contextual actions", () => {
       expect(Number(image.getAttribute("height"))).toBeGreaterThan(0);
     });
 
-    const boilerProof = screen.getByText(/Yonkers.*Gas boiler replacement/i).closest("figure");
+    const boilerProof = screen
+      .getByText(/Yonkers.*Gas boiler replacement/i)
+      .closest("figure");
     expect(boilerProof).not.toBeNull();
-    expect(within(boilerProof!).getByText(/Aging steam boiler with uneven heat and leaks/i)).toBeTruthy();
-    expect(within(boilerProof!).getByRole("link", { name: /boiler installation service/i }).getAttribute("href")).toBe(
-      "/services/boiler-installation-westchester-county-ny",
-    );
+    expect(
+      within(boilerProof!).getByText(
+        /Aging steam boiler with uneven heat and leaks/i,
+      ),
+    ).toBeTruthy();
+    expect(
+      within(boilerProof!)
+        .getByRole("link", { name: /boiler installation service/i })
+        .getAttribute("href"),
+    ).toBe("/services/boiler-installation-westchester-county-ny");
   });
 
   it("uses explicit transition properties on the homeowner system cards", () => {
@@ -496,10 +610,14 @@ describe("loader, project proof, and contextual actions", () => {
       </MemoryRouter>,
     );
 
-    const card = document.querySelector<HTMLAnchorElement>('a[data-homeowner-system="heat-pumps"]');
+    const card = document.querySelector<HTMLAnchorElement>(
+      'a[data-homeowner-system="heat-pumps"]',
+    );
     if (!card) throw new Error("Expected the heat-pump homeowner system card");
     expect(card.classList.contains("transition-all")).toBe(false);
-    expect(card.classList.contains("transition-[border-color,box-shadow]")).toBe(true);
+    expect(
+      card.classList.contains("transition-[border-color,box-shadow]"),
+    ).toBe(true);
   });
 
   it("names each service request action for the service it belongs to", () => {
@@ -517,7 +635,9 @@ describe("loader, project proof, and contextual actions", () => {
       "Residential HVAC",
       "Commercial HVAC",
     ].forEach((title) => {
-      expect(screen.getByRole("link", { name: `Request ${title}` })).toBeTruthy();
+      expect(
+        screen.getByRole("link", { name: `Request ${title}` }),
+      ).toBeTruthy();
     });
   });
 
@@ -531,18 +651,112 @@ describe("loader, project proof, and contextual actions", () => {
     );
 
     const main = screen.getByRole("main");
-    expect(within(main).getAllByRole("link", { name: /request an estimate/i })).toHaveLength(1);
+    expect(
+      within(main).getAllByRole("link", { name: /request an estimate/i }),
+    ).toHaveLength(1);
     [
-      ["HVAC Installation services →", "/services/ac-installation-westchester-county-ny"],
+      [
+        "HVAC Installation services →",
+        "/services/ac-installation-westchester-county-ny",
+      ],
       ["HVAC Repair services →", "/services/ac-repair-westchester-county-ny"],
-      ["Preventive Maintenance services →", "/services/hvac-maintenance-westchester-county-ny"],
-      ["Indoor Air Quality services →", "/services/indoor-air-quality-westchester-county-ny"],
+      [
+        "Preventive Maintenance services →",
+        "/services/hvac-maintenance-westchester-county-ny",
+      ],
+      [
+        "Indoor Air Quality services →",
+        "/services/indoor-air-quality-westchester-county-ny",
+      ],
       ["Residential HVAC services →", "/services"],
-      ["Commercial HVAC services →", "/services/commercial-hvac-westchester-county-ny"],
+      [
+        "Commercial HVAC services →",
+        "/services/commercial-hvac-westchester-county-ny",
+      ],
     ].forEach(([name, href]) => {
-      expect(screen.getByRole("link", { name }).getAttribute("href")).toBe(href);
+      expect(screen.getByRole("link", { name }).getAttribute("href")).toBe(
+        href,
+      );
     });
-    expect(screen.queryByRole("link", { name: "View all services →" })).toBeNull();
+    expect(
+      screen.queryByRole("link", { name: "View all services →" }),
+    ).toBeNull();
+  });
+});
+
+describe("reviewed local landing pages", () => {
+  afterEach(() => cleanup());
+
+  it("renders useful reviewed Yonkers city guidance", async () => {
+    renderAt(<CityPage />, "/service-areas/yonkers", "/service-areas/:slug");
+
+    expect(
+      await screen.findByRole("heading", {
+        name: "HVAC Services in Yonkers, NY",
+        level: 1,
+      }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("heading", {
+        name: /What Yonkers property owners can check safely/i,
+      }),
+    ).toBeTruthy();
+    expect(
+      screen
+        .getByRole("link", {
+          name: /City of Yonkers building permits and forms/i,
+        })
+        .getAttribute("href"),
+    ).toBe("https://www.yonkersny.gov/229/Forms-Permits");
+    expect(
+      screen
+        .getByRole("link", { name: /Call \(914\) 361-9142/i })
+        .getAttribute("href"),
+    ).toBe("tel:+19143619142");
+  });
+
+  it("renders distinct reviewed HVAC repair guidance for Yonkers", async () => {
+    renderAt(
+      <ServiceCityPage />,
+      "/services/hvac-repair/yonkers",
+      "/services/:serviceSlug/:citySlug",
+    );
+
+    expect(
+      await screen.findByRole("heading", {
+        name: "HVAC Repair in Yonkers, NY",
+        level: 1,
+      }),
+    ).toBeTruthy();
+    expect(
+      screen.getByText(
+        /Multifamily properties may require access coordination/i,
+      ),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("heading", {
+        name: /Leave these HVAC checks to a professional/i,
+      }),
+    ).toBeTruthy();
+    expect(
+      screen
+        .getByRole("link", { name: /HVAC services in Yonkers/i })
+        .getAttribute("href"),
+    ).toBe("/service-areas/yonkers");
+  });
+
+  it("links the HVAC repair parent service to its reviewed local pages", async () => {
+    renderAt(
+      <HighIntentServicePage />,
+      "/services/emergency-hvac-repair-westchester-county-ny",
+      "/services/:slug",
+    );
+
+    expect(
+      (
+        await screen.findByRole("link", { name: "HVAC Repair in Yonkers" })
+      ).getAttribute("href"),
+    ).toBe("/services/hvac-repair/yonkers");
   });
 });
 
@@ -556,13 +770,19 @@ describe("task-specific booking and contact presentation", () => {
     const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
     render(<RouterProvider router={router} />);
 
-    const summary = screen.getByRole("complementary", { name: /online booking summary/i });
-    const hero = screen.getByRole("heading", { name: "Pick a Day. Pick a Window. Done." }).closest("section");
+    const summary = screen.getByRole("complementary", {
+      name: /online booking summary/i,
+    });
+    const hero = screen
+      .getByRole("heading", { name: "Pick a Day. Pick a Window. Done." })
+      .closest("section");
     expect(summary.textContent).toContain("About 1 minute");
     expect(summary.textContent).toContain("Confirmation by text");
     expect(summary.textContent).toContain("No payment required");
     expect(hero).not.toBeNull();
-    expect(within(hero!).queryByRole("link", { name: /get a free estimate/i })).toBeNull();
+    expect(
+      within(hero!).queryByRole("link", { name: /get a free estimate/i }),
+    ).toBeNull();
   });
 
   it("uses compact hero spacing when requested", () => {
@@ -572,8 +792,8 @@ describe("task-specific booking and contact presentation", () => {
       </MemoryRouter>,
     );
 
-    const heroContainer = screen.getByRole("heading", { name: "Compact task" }).parentElement
-      ?.parentElement?.parentElement;
+    const heroContainer = screen.getByRole("heading", { name: "Compact task" })
+      .parentElement?.parentElement?.parentElement;
     expect(heroContainer?.classList.contains("py-8")).toBe(true);
     expect(heroContainer?.classList.contains("lg:py-14")).toBe(true);
   });
@@ -582,29 +802,46 @@ describe("task-specific booking and contact presentation", () => {
     const router = createMemoryRouter([{ path: "*", element: <Contact /> }]);
     render(<RouterProvider router={router} />);
 
-    const actions = screen.getByRole("complementary", { name: /call or text bravo mechanical/i });
+    const actions = screen.getByRole("complementary", {
+      name: /call or text bravo mechanical/i,
+    });
     expect(actions.textContent).toContain("Call for fastest response");
     expect(actions.textContent).toContain("Text us — fastest for photos");
 
-    const form = screen.getByRole("button", { name: /request my estimate/i }).closest("form");
-    const location = screen.getByRole("complementary", { name: /location and hours/i });
+    const form = screen
+      .getByRole("button", { name: /request my estimate/i })
+      .closest("form");
+    const location = screen.getByRole("complementary", {
+      name: /location and hours/i,
+    });
     expect(form).not.toBeNull();
-    expect(form!.compareDocumentPosition(location) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(
+      form!.compareDocumentPosition(location) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 
   it("uses an AA-intended emergency phone color and keeps the map outside its link", () => {
     const router = createMemoryRouter([{ path: "*", element: <Contact /> }]);
     render(<RouterProvider router={router} />);
 
-    const emergencyPanel = screen.getByText("Emergency HVAC service").parentElement;
-    const panelPhone = emergencyPanel?.querySelector(`a[href="${SITE.phoneHref}"]`);
+    const emergencyPanel = screen.getByText(
+      "Emergency HVAC service",
+    ).parentElement;
+    const panelPhone = emergencyPanel?.querySelector(
+      `a[href="${SITE.phoneHref}"]`,
+    );
     expect(panelPhone?.classList.contains("text-foreground")).toBe(true);
 
-    const map = screen.getByTitle("Bravo Mechanical Google Business Profile Map");
-    expect(map.closest("a")).toBeNull();
-    expect(screen.getByRole("link", { name: /open in google maps/i }).getAttribute("href")).toBe(
-      SITE.social.google,
+    const map = screen.getByTitle(
+      "Bravo Mechanical Google Business Profile Map",
     );
+    expect(map.closest("a")).toBeNull();
+    expect(
+      screen
+        .getByRole("link", { name: /open in google maps/i })
+        .getAttribute("href"),
+    ).toBe(SITE.social.google);
   });
 });
 
@@ -619,8 +856,12 @@ describe("evidence-gated public offers", () => {
     );
 
     const mainText = screen.getByRole("main").textContent || "";
-    expect(mainText).toMatch(/current financing availability and terms.*confirmed.*project/i);
-    expect(mainText).not.toMatch(/free written|price (?:is )?locked|cash, check|zelle|major credit cards/i);
+    expect(mainText).toMatch(
+      /current financing availability and terms.*confirmed.*project/i,
+    );
+    expect(mainText).not.toMatch(
+      /free written|price (?:is )?locked|cash, check|zelle|major credit cards/i,
+    );
     expect(mainText).not.toMatch(/\$\d[\d,]*(?:–|-)\$\d/);
   });
 
@@ -632,9 +873,15 @@ describe("evidence-gated public offers", () => {
     );
 
     const mainText = screen.getByRole("main").textContent || "";
-    expect(mainText).toMatch(/plan availability.*visit frequency.*confirmed in writing/i);
-    expect(mainText).not.toMatch(/front of the line|preferred repair pricing|no overtime premium/i);
-    expect(mainText).not.toMatch(/keeps? (?:your )?warranty valid|protects? your claim/i);
+    expect(mainText).toMatch(
+      /plan availability.*visit frequency.*confirmed in writing/i,
+    );
+    expect(mainText).not.toMatch(
+      /front of the line|preferred repair pricing|no overtime premium/i,
+    );
+    expect(mainText).not.toMatch(
+      /keeps? (?:your )?warranty valid|protects? your claim/i,
+    );
   });
 
   it("does not promise permit handling or fixed pricing on city pages", () => {
@@ -647,8 +894,12 @@ describe("evidence-gated public offers", () => {
     );
 
     const mainText = screen.getByRole("main").textContent || "";
-    expect(mainText).toMatch(/permit requirements and responsibilities.*written (?:proposal|scope)/i);
-    expect(mainText).not.toMatch(/we coordinate permits|we handle (?:replacement documentation and )?permit|total price fixed|no bait-and-switch|no subcontractors|handle it in-house/i);
+    expect(mainText).toMatch(
+      /permit requirements and responsibilities.*written (?:proposal|scope)/i,
+    );
+    expect(mainText).not.toMatch(
+      /we coordinate permits|we handle (?:replacement documentation and )?permit|total price fixed|no bait-and-switch|no subcontractors|handle it in-house/i,
+    );
   });
 });
 
@@ -661,13 +912,26 @@ describe("sitewide telephone analytics", () => {
     render(
       <MemoryRouter>
         <Layout>
-          <a href={SITE.phoneHref} data-call-location="test_footer" onClick={(event) => event.preventDefault()}>Call</a>
+          <a
+            href={SITE.phoneHref}
+            data-call-location="test_footer"
+            onClick={(event) => event.preventDefault()}
+          >
+            Call
+          </a>
         </Layout>
       </MemoryRouter>,
     );
     fireEvent.click(screen.getByRole("link", { name: "Call" }));
     expect(window.dataLayer).toEqual([
-      { event: "call_click", page_path: "/", page_location: "http://localhost:3000/", page_referrer: "", event_category: "engagement", location: "test_footer" },
+      {
+        event: "call_click",
+        page_path: "/",
+        page_location: "http://localhost:3000/",
+        page_referrer: "",
+        event_category: "engagement",
+        location: "test_footer",
+      },
     ]);
   });
 
@@ -677,13 +941,29 @@ describe("sitewide telephone analytics", () => {
     render(
       <MemoryRouter>
         <Layout>
-          <a href={SITE.phoneHref} data-call-tracked="true" onClick={(event) => { event.preventDefault(); trackCallClick("test_direct"); }}>Call direct</a>
+          <a
+            href={SITE.phoneHref}
+            data-call-tracked="true"
+            onClick={(event) => {
+              event.preventDefault();
+              trackCallClick("test_direct");
+            }}
+          >
+            Call direct
+          </a>
         </Layout>
       </MemoryRouter>,
     );
     fireEvent.click(screen.getByRole("link", { name: "Call direct" }));
     expect(window.dataLayer).toEqual([
-      { event: "call_click", page_path: "/", page_location: "http://localhost:3000/", page_referrer: "", event_category: "engagement", location: "test_direct" },
+      {
+        event: "call_click",
+        page_path: "/",
+        page_location: "http://localhost:3000/",
+        page_referrer: "",
+        event_category: "engagement",
+        location: "test_direct",
+      },
     ]);
   });
 
@@ -692,15 +972,26 @@ describe("sitewide telephone analytics", () => {
     delete window.gtag;
     const { container } = render(
       <MemoryRouter>
-        <EsLayout><p>Contenido</p></EsLayout>
+        <EsLayout>
+          <p>Contenido</p>
+        </EsLayout>
       </MemoryRouter>,
     );
-    const footerLink = container.querySelector<HTMLAnchorElement>('footer a[href^="tel:"]');
+    const footerLink = container.querySelector<HTMLAnchorElement>(
+      'footer a[href^="tel:"]',
+    );
     if (!footerLink) throw new Error("Expected the Spanish footer phone link");
     footerLink.addEventListener("click", (event) => event.preventDefault());
     fireEvent.click(footerLink);
     expect(window.dataLayer).toEqual([
-      { event: "call_click", page_path: "/", page_location: "http://localhost:3000/", page_referrer: "", event_category: "engagement", location: "sitewide_tel" },
+      {
+        event: "call_click",
+        page_path: "/",
+        page_location: "http://localhost:3000/",
+        page_referrer: "",
+        event_category: "engagement",
+        location: "sitewide_tel",
+      },
     ]);
   });
 });
@@ -728,12 +1019,15 @@ describe("recoverable lead forms", () => {
   };
 
   it("protects only a dirty unfinished request", async () => {
-    const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
+    const { useUnsavedChangesGuard } =
+      await import("../hooks/useUnsavedChangesGuard");
     const GuardHarness = ({ dirty }: { dirty: boolean }) => {
       useUnsavedChangesGuard(dirty);
       return null;
     };
-    const dirtyRouter = createMemoryRouter([{ path: "*", element: <GuardHarness dirty /> }]);
+    const dirtyRouter = createMemoryRouter([
+      { path: "*", element: <GuardHarness dirty /> },
+    ]);
     const { unmount } = render(<RouterProvider router={dirtyRouter} />);
 
     const dirtyEvent = new Event("beforeunload", { cancelable: true });
@@ -751,7 +1045,8 @@ describe("recoverable lead forms", () => {
   });
 
   it("prompts before dirty in-app navigation", async () => {
-    const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
+    const { useUnsavedChangesGuard } =
+      await import("../hooks/useUnsavedChangesGuard");
     const confirm = vi.spyOn(window, "confirm").mockReturnValue(false);
     const GuardHarness = () => {
       const navigate = useNavigate();
@@ -765,7 +1060,9 @@ describe("recoverable lead forms", () => {
     ]);
     render(<RouterProvider router={router} />);
 
-    await userEvent.click(screen.getByRole("button", { name: "Leave request" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Leave request" }),
+    );
 
     expect(confirm).toHaveBeenCalledWith(
       "You have an unfinished service request. Leave this page and discard it?",
@@ -774,7 +1071,8 @@ describe("recoverable lead forms", () => {
   });
 
   it("continues dirty in-app navigation after confirmation", async () => {
-    const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
+    const { useUnsavedChangesGuard } =
+      await import("../hooks/useUnsavedChangesGuard");
     vi.spyOn(window, "confirm").mockReturnValue(true);
     const GuardHarness = () => {
       const navigate = useNavigate();
@@ -787,13 +1085,18 @@ describe("recoverable lead forms", () => {
     ]);
     render(<RouterProvider router={router} />);
 
-    await userEvent.click(screen.getByRole("button", { name: "Leave request" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Leave request" }),
+    );
 
-    expect(await screen.findByRole("heading", { name: "Next page" })).toBeTruthy();
+    expect(
+      await screen.findByRole("heading", { name: "Next page" }),
+    ).toBeTruthy();
   });
 
   it("can stay on or leave a dirty request during back navigation", async () => {
-    const { useUnsavedChangesGuard } = await import("../hooks/useUnsavedChangesGuard");
+    const { useUnsavedChangesGuard } =
+      await import("../hooks/useUnsavedChangesGuard");
     const confirm = vi.spyOn(window, "confirm").mockReturnValue(false);
     const GuardHarness = () => {
       const navigate = useNavigate();
@@ -814,19 +1117,27 @@ describe("recoverable lead forms", () => {
 
     confirm.mockReturnValue(true);
     await userEvent.click(screen.getByRole("button", { name: "Back" }));
-    expect(await screen.findByRole("heading", { name: "Previous page" })).toBeTruthy();
+    expect(
+      await screen.findByRole("heading", { name: "Previous page" }),
+    ).toBeTruthy();
   });
 
   it("focuses and describes the first invalid booking field", async () => {
     const router = createMemoryRouter([{ path: "*", element: <BookOnline /> }]);
     render(<RouterProvider router={router} />);
 
-    await userEvent.click(screen.getByRole("button", { name: /book my visit/i }));
+    await userEvent.click(
+      screen.getByRole("button", { name: /book my visit/i }),
+    );
 
     expect(document.activeElement).toBe(screen.getByLabelText(/name/i));
-    expect(screen.getByLabelText(/name/i).getAttribute("aria-invalid")).toBe("true");
+    expect(screen.getByLabelText(/name/i).getAttribute("aria-invalid")).toBe(
+      "true",
+    );
     expect(
-      screen.getByRole("group", { name: /what do you need/i }).getAttribute("aria-describedby"),
+      screen
+        .getByRole("group", { name: /what do you need/i })
+        .getAttribute("aria-describedby"),
     ).toBe("booking-service-error");
   });
 
@@ -855,8 +1166,14 @@ describe("recoverable lead forms", () => {
     await user.type(phone, "abc9145551234");
     await user.type(email, "not-an-email");
     await user.click(screen.getByRole("button", { name: "AC Repair" }));
-    await user.click(screen.getAllByRole("button", { name: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),/ })[0]);
-    await user.click(screen.getByRole("button", { name: "Morning (8am–11am)" }));
+    await user.click(
+      screen.getAllByRole("button", {
+        name: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),/,
+      })[0],
+    );
+    await user.click(
+      screen.getByRole("button", { name: "Morning (8am–11am)" }),
+    );
     await user.click(screen.getByRole("button", { name: /book my visit/i }));
 
     expect(document.activeElement).toBe(phone);
@@ -873,17 +1190,23 @@ describe("recoverable lead forms", () => {
     await user.type(email, "jordan@example.com");
 
     expect(email.getAttribute("aria-invalid")).toBe("false");
-    expect(screen.getByText("Required fields are marked with an asterisk.")).toBeTruthy();
+    expect(
+      screen.getByText("Required fields are marked with an asterisk."),
+    ).toBeTruthy();
   });
 
   it("focuses the first invalid contact field after an empty submit", async () => {
     const router = createMemoryRouter([{ path: "*", element: <LeadForm /> }]);
     render(<RouterProvider router={router} />);
 
-    await userEvent.click(screen.getByRole("button", { name: /request my estimate/i }));
+    await userEvent.click(
+      screen.getByRole("button", { name: /request my estimate/i }),
+    );
 
     expect(document.activeElement).toBe(screen.getByLabelText(/full name/i));
-    expect(screen.getByLabelText(/full name/i).getAttribute("aria-invalid")).toBe("true");
+    expect(
+      screen.getByLabelText(/full name/i).getAttribute("aria-invalid"),
+    ).toBe("true");
   });
 
   it("protects a prefilled lead only after the user edits it", async () => {
@@ -897,7 +1220,9 @@ describe("recoverable lead forms", () => {
             defaultService="Emergency HVAC repair"
             defaultMessage="Urgent no-heat or no-cool issue."
           />
-          <button type="button" onClick={() => navigate("/next")}>Leave request</button>
+          <button type="button" onClick={() => navigate("/next")}>
+            Leave request
+          </button>
         </>
       );
     };
@@ -910,7 +1235,9 @@ describe("recoverable lead forms", () => {
     const pristineRender = render(<RouterProvider router={pristineRouter} />);
     await user.click(screen.getByRole("button", { name: "Leave request" }));
 
-    expect(await screen.findByRole("heading", { name: "Next page" })).toBeTruthy();
+    expect(
+      await screen.findByRole("heading", { name: "Next page" }),
+    ).toBeTruthy();
     expect(confirm).not.toHaveBeenCalled();
 
     pristineRender.unmount();
@@ -938,23 +1265,39 @@ describe("recoverable lead forms", () => {
     await user.type(screen.getByLabelText(/^name/i), "Jordan Lee");
     await user.type(screen.getByLabelText(/mobile phone/i), "9145551234");
     await user.click(screen.getByRole("button", { name: "AC Repair" }));
-    await user.click(screen.getAllByRole("button", { name: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),/ })[0]);
-    await user.click(screen.getByRole("button", { name: "Morning (8am–11am)" }));
+    await user.click(
+      screen.getAllByRole("button", {
+        name: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),/,
+      })[0],
+    );
+    await user.click(
+      screen.getByRole("button", { name: "Morning (8am–11am)" }),
+    );
     await user.click(screen.getByRole("button", { name: /book my visit/i }));
 
-    expect(screen.getByRole("button", { name: /booking/i }).hasAttribute("disabled")).toBe(true);
+    expect(
+      screen.getByRole("button", { name: /booking/i }).hasAttribute("disabled"),
+    ).toBe(true);
     expectUnloadProtection(true);
 
-    fireEvent.submit(screen.getByRole("button", { name: /booking/i }).closest("form")!);
+    fireEvent.submit(
+      screen.getByRole("button", { name: /booking/i }).closest("form")!,
+    );
     expect(supabaseTestState.insert).toHaveBeenCalledTimes(1);
-    expect(screen.queryByText("Complete your name, mobile phone, service, day, and time window.")).toBeNull();
+    expect(
+      screen.queryByText(
+        "Complete your name, mobile phone, service, day, and time window.",
+      ),
+    ).toBeNull();
 
     firstInsert.resolve({ error: new Error("insert failed") });
     expect(await screen.findByText(/something went wrong/i)).toBeTruthy();
     expectUnloadProtection(true);
 
     await user.click(screen.getByRole("button", { name: /book my visit/i }));
-    expect(await screen.findByRole("heading", { name: /you're on the board/i })).toBeTruthy();
+    expect(
+      await screen.findByRole("heading", { name: /you're on the board/i }),
+    ).toBeTruthy();
     expectUnloadProtection(false);
   });
 
@@ -981,17 +1324,29 @@ describe("recoverable lead forms", () => {
     await user.type(screen.getByLabelText(/^phone/i), "9145551234");
     await user.type(screen.getByLabelText(/^email/i), "jordan@example.com");
     await user.click(screen.getByRole("checkbox"));
-    await user.click(screen.getByRole("button", { name: /request my estimate/i }));
+    await user.click(
+      screen.getByRole("button", { name: /request my estimate/i }),
+    );
 
-    expect(screen.getByRole("button", { name: /submitting/i }).hasAttribute("disabled")).toBe(true);
+    expect(
+      screen
+        .getByRole("button", { name: /submitting/i })
+        .hasAttribute("disabled"),
+    ).toBe(true);
     expectUnloadProtection(true);
 
     firstInsert.resolve({ error: new Error("insert failed") });
-    expect(await screen.findByRole("button", { name: /request my estimate/i })).toBeTruthy();
+    expect(
+      await screen.findByRole("button", { name: /request my estimate/i }),
+    ).toBeTruthy();
     expectUnloadProtection(true);
 
-    await user.click(screen.getByRole("button", { name: /request my estimate/i }));
-    expect(await screen.findByText(/thanks — we got your request/i)).toBeTruthy();
+    await user.click(
+      screen.getByRole("button", { name: /request my estimate/i }),
+    );
+    expect(
+      await screen.findByText(/thanks — we got your request/i),
+    ).toBeTruthy();
     expectUnloadProtection(false);
   });
 });

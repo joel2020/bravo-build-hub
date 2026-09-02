@@ -8,7 +8,10 @@ import sourceDataset from '../src/content/localLandingPages.json' with { type: '
 import {
   auditLocalLandingContent,
   hasUnsafeLocalClaim,
+  initializeLocalLandingContentAudit,
 } from '../scripts/local-landing-content.mjs';
+
+await initializeLocalLandingContentAudit();
 
 function audit(mutator) {
   const dataset = structuredClone(sourceDataset);
@@ -23,7 +26,16 @@ function expectError(errors, expected) {
   );
 }
 
-assert.deepEqual(audit(() => {}), [], 'the reviewed local dataset must pass the deterministic audit');
+const baselineErrors = audit(() => {});
+expectError(
+  baselineErrors,
+  '/service-areas/white-plains: title exceeds 65 characters',
+);
+assert.equal(
+  baselineErrors.filter((error) => error.endsWith('title exceeds 65 characters')).length,
+  15,
+  'every current over-limit raw city title must be reported without a source-derived exemption',
+);
 
 assert.equal(
   hasUnsafeLocalClaim('This is not guaranteed. Service is guaranteed.', /guaranteed/i),
@@ -106,9 +118,21 @@ const cliResult = spawnSync('node', ['scripts/local-landing-content.mjs'], {
   encoding: 'utf8',
   env: { ...process.env, LOCAL_LANDING_CONTENT_PATH: malformedPath },
 });
-rmSync(tempDirectory, { recursive: true, force: true });
 assert.equal(cliResult.status, 1, 'malformed CLI input must fail');
 assert.match(cliResult.stderr, /\/service-areas\/yonkers: record must be an object/);
 assert.doesNotMatch(cliResult.stderr, /(?:TypeError|SyntaxError|at file:)/);
+
+const invalidJsonPath = path.join(tempDirectory, 'invalid.json');
+writeFileSync(invalidJsonPath, '{"cities":');
+const invalidJsonResult = spawnSync('node', ['scripts/local-landing-content.mjs'], {
+  cwd: path.resolve(import.meta.dirname, '..'),
+  encoding: 'utf8',
+  env: { ...process.env, LOCAL_LANDING_CONTENT_PATH: invalidJsonPath },
+});
+assert.equal(invalidJsonResult.status, 1, 'non-JSON CLI input must fail');
+assert.match(invalidJsonResult.stderr, /ERROR: local landing-content source is not valid JSON/);
+assert.doesNotMatch(invalidJsonResult.stderr, /(?:TypeError|SyntaxError|at file:)/);
+
+rmSync(tempDirectory, { recursive: true, force: true });
 
 console.log('Local landing-content mutation checks passed.');

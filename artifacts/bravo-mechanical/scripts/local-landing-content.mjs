@@ -7,17 +7,6 @@ import { buildAllRoutes } from './route-data.mjs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const datasetPath = process.env.LOCAL_LANDING_CONTENT_PATH || path.join(root, 'src/content/localLandingPages.json');
-const sourceDataset = JSON.parse(readFileSync(datasetPath, 'utf8'));
-const sourceShapeIsSafe = Boolean(sourceDataset) && typeof sourceDataset === 'object'
-  && !Array.isArray(sourceDataset) && sourceDataset.cities && typeof sourceDataset.cities === 'object'
-  && !Array.isArray(sourceDataset.cities) && sourceDataset.serviceCities
-  && typeof sourceDataset.serviceCities === 'object' && !Array.isArray(sourceDataset.serviceCities)
-  && Object.values(sourceDataset.cities).every((record) => record && typeof record === 'object' && !Array.isArray(record))
-  && Object.values(sourceDataset.serviceCities).every((record) => record && typeof record === 'object' && !Array.isArray(record));
-const generatedRoutes = sourceShapeIsSafe ? await buildAllRoutes() : [];
-const reviewedOversizeCityTitles = new Set(sourceShapeIsSafe
-  ? Object.values(sourceDataset.cities).map((city) => city?.title).filter((title) => typeof title === 'string' && title.length > 65)
-  : []);
 const EXPECTED_CITY_COUNT = 34;
 const EXPECTED_SERVICE_CITY_COUNT = 20;
 const OFFICIAL_SOURCE_HOSTS = new Set([
@@ -49,7 +38,9 @@ const SERVICE_CITY_ARRAY_RULES = {
   relatedServiceSlugs: { minimum: 1, kind: 'string' }, faqItems: { minimum: 3, kind: 'faq' },
   sourceNotes: { minimum: 1, kind: 'source' },
 };
-const catalog = (() => {
+let catalog;
+
+function createCatalog(generatedRoutes) {
   const cityRoutes = generatedRoutes.filter((route) => route.type === 'city');
   const serviceCityRoutes = generatedRoutes.filter((route) => route.type === 'service-city');
   const serviceRoutes = generatedRoutes.filter((route) => route.type === 'service');
@@ -68,7 +59,12 @@ const catalog = (() => {
       return groups;
     }, {}))),
   };
-})();
+}
+
+export async function initializeLocalLandingContentAudit() {
+  catalog = createCatalog(await buildAllRoutes());
+  return catalog;
+}
 
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -148,8 +144,9 @@ function validateArrays(record, rules, route, errors) {
   for (const [field, rule] of Object.entries(rules)) validateArray(record, field, rule, route, errors);
 }
 
-function validateMetadata(routePath, route, errors) {
-  const generated = catalog.metadataByPath.get(routePath);
+function validateMetadata(routePath, route, errors, routeCatalog) {
+  if (!routeCatalog) return;
+  const generated = routeCatalog.metadataByPath.get(routePath);
   if (!generated) {
     addError(errors, route, 'is missing from the generated canonical route catalog');
     return;
@@ -158,8 +155,8 @@ function validateMetadata(routePath, route, errors) {
   if (typeof generated.description !== 'string' || generated.description.length > 160) addError(errors, route, 'generated metaDescription exceeds 160 characters');
 }
 
-function validateRawMetadata(record, titleField, route, errors, allowedOversizeTitles = new Set()) {
-  if (typeof record[titleField] === 'string' && record[titleField].length > 65 && !allowedOversizeTitles.has(record[titleField])) addError(errors, route, `${titleField} exceeds 65 characters`);
+function validateRawMetadata(record, titleField, route, errors) {
+  if (typeof record[titleField] === 'string' && record[titleField].length > 65) addError(errors, route, `${titleField} exceeds 65 characters`);
   if (typeof record.metaDescription === 'string' && record.metaDescription.length > 160) addError(errors, route, 'metaDescription exceeds 160 characters');
 }
 
@@ -167,12 +164,13 @@ function validateReviewedAt(value, route, errors) {
   if (typeof value !== 'string' || !/^2026-09-\d{2}$/.test(value) || Number(value.slice(-2)) < 1 || Number(value.slice(-2)) > 30) addError(errors, route, 'reviewedAt must be a reviewed 2026-09 date');
 }
 
-function validateCatalogCounts(errors) {
-  if (catalog.cities.size !== EXPECTED_CITY_COUNT) errors.push(`generated catalog must contain exactly ${EXPECTED_CITY_COUNT} city routes; found ${catalog.cities.size}`);
-  if (catalog.serviceCities.size !== EXPECTED_SERVICE_CITY_COUNT) errors.push(`generated catalog must contain exactly ${EXPECTED_SERVICE_CITY_COUNT} service-city routes; found ${catalog.serviceCities.size}`);
+function validateCatalogCounts(errors, routeCatalog) {
+  if (!routeCatalog) return;
+  if (routeCatalog.cities.size !== EXPECTED_CITY_COUNT) errors.push(`generated catalog must contain exactly ${EXPECTED_CITY_COUNT} city routes; found ${routeCatalog.cities.size}`);
+  if (routeCatalog.serviceCities.size !== EXPECTED_SERVICE_CITY_COUNT) errors.push(`generated catalog must contain exactly ${EXPECTED_SERVICE_CITY_COUNT} service-city routes; found ${routeCatalog.serviceCities.size}`);
 }
 
-export function validateDatasetShape(dataset, errors) {
+export function validateDatasetShape(dataset, errors, routeCatalog = catalog) {
   if (!isRecord(dataset)) {
     errors.push('Dataset must be an object with cities and serviceCities records');
     return;
@@ -180,12 +178,15 @@ export function validateDatasetShape(dataset, errors) {
   if (!isRecord(dataset.cities)) errors.push('cities must be an object');
   if (!isRecord(dataset.serviceCities)) errors.push('serviceCities must be an object');
   if (!isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
-  validateCatalogCounts(errors);
+  validateCatalogCounts(errors, routeCatalog);
 
   const cityKeys = Object.keys(dataset.cities);
-  if (cityKeys.length !== catalog.cities.size) errors.push(`cities must contain exactly ${catalog.cities.size} records; found ${cityKeys.length}`);
-  for (const slug of catalog.cities) if (!Object.hasOwn(dataset.cities, slug)) errors.push(`cities is missing generated city key: ${slug}`);
-  for (const slug of cityKeys) if (!catalog.cities.has(slug)) errors.push(`cities contains unknown generated city key: ${slug}`);
+  const expectedCityCount = routeCatalog?.cities.size ?? EXPECTED_CITY_COUNT;
+  if (cityKeys.length !== expectedCityCount) errors.push(`cities must contain exactly ${expectedCityCount} records; found ${cityKeys.length}`);
+  if (routeCatalog) {
+    for (const slug of routeCatalog.cities) if (!Object.hasOwn(dataset.cities, slug)) errors.push(`cities is missing generated city key: ${slug}`);
+    for (const slug of cityKeys) if (!routeCatalog.cities.has(slug)) errors.push(`cities contains unknown generated city key: ${slug}`);
+  }
   for (const [slug, city] of Object.entries(dataset.cities)) {
     const route = routeForCity(slug);
     if (!isRecord(city)) {
@@ -195,15 +196,18 @@ export function validateDatasetShape(dataset, errors) {
     for (const field of ['slug', 'name', 'region', 'title', 'metaDescription', 'answerFirst']) validateString(city[field], field, route, errors);
     if (city.slug !== slug) addError(errors, route, `slug must equal city key ${slug}`);
     validateArrays(city, CITY_ARRAY_RULES, route, errors);
-    validateRawMetadata(city, 'title', route, errors, reviewedOversizeCityTitles);
+    validateRawMetadata(city, 'title', route, errors);
     validateReviewedAt(city.reviewedAt, route, errors);
-    validateMetadata(route, route, errors);
+    validateMetadata(route, route, errors, routeCatalog);
   }
 
   const serviceCityKeys = Object.keys(dataset.serviceCities);
-  if (serviceCityKeys.length !== catalog.serviceCities.size) errors.push(`serviceCities must contain exactly ${catalog.serviceCities.size} records; found ${serviceCityKeys.length}`);
-  for (const key of catalog.serviceCities) if (!Object.hasOwn(dataset.serviceCities, key)) errors.push(`serviceCities is missing generated service-city key: ${key}`);
-  for (const key of serviceCityKeys) if (!catalog.serviceCities.has(key)) errors.push(`serviceCities contains unknown generated service-city key: ${key}`);
+  const expectedServiceCityCount = routeCatalog?.serviceCities.size ?? EXPECTED_SERVICE_CITY_COUNT;
+  if (serviceCityKeys.length !== expectedServiceCityCount) errors.push(`serviceCities must contain exactly ${expectedServiceCityCount} records; found ${serviceCityKeys.length}`);
+  if (routeCatalog) {
+    for (const key of routeCatalog.serviceCities) if (!Object.hasOwn(dataset.serviceCities, key)) errors.push(`serviceCities is missing generated service-city key: ${key}`);
+    for (const key of serviceCityKeys) if (!routeCatalog.serviceCities.has(key)) errors.push(`serviceCities contains unknown generated service-city key: ${key}`);
+  }
   for (const [key, page] of Object.entries(dataset.serviceCities)) {
     const route = routeForServiceCity(key);
     if (!isRecord(page)) {
@@ -212,12 +216,12 @@ export function validateDatasetShape(dataset, errors) {
     }
     for (const field of ['serviceSlug', 'citySlug', 'serviceTitle', 'shortTitle', 'parentServicePath', 'h1', 'metaTitle', 'metaDescription', 'answerFirst']) validateString(page[field], field, route, errors);
     if (key !== `${page.serviceSlug}/${page.citySlug}`) addError(errors, route, `key must equal ${page.serviceSlug}/${page.citySlug}`);
-    if (!catalog.cities.has(page.citySlug)) addError(errors, route, `citySlug is not in the generated 34-city inventory: ${page.citySlug}`);
-    if (!catalog.serviceSlugs.has(page.serviceSlug)) addError(errors, route, `serviceSlug is not in the generated reviewed service set: ${page.serviceSlug}`);
+    if (routeCatalog && !routeCatalog.cities.has(page.citySlug)) addError(errors, route, `citySlug is not in the generated 34-city inventory: ${page.citySlug}`);
+    if (routeCatalog && !routeCatalog.serviceSlugs.has(page.serviceSlug)) addError(errors, route, `serviceSlug is not in the generated reviewed service set: ${page.serviceSlug}`);
     validateArrays(page, SERVICE_CITY_ARRAY_RULES, route, errors);
     validateRawMetadata(page, 'metaTitle', route, errors);
     validateReviewedAt(page.reviewedAt, route, errors);
-    validateMetadata(route, route, errors);
+    validateMetadata(route, route, errors, routeCatalog);
   }
 }
 
@@ -267,7 +271,7 @@ export function validateClaims(dataset, errors) {
 }
 
 export function validateRelationships(dataset, errors) {
-  if (!isRecord(dataset) || !isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
+  if (!catalog || !isRecord(dataset) || !isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
   for (const [slug, city] of Object.entries(dataset.cities)) {
     if (!isRecord(city)) continue;
     const route = routeForCity(slug);
@@ -381,21 +385,55 @@ export async function auditLiveOfficialSources(dataset) {
   return { errors, checked: routesByUrl.size };
 }
 
-async function main() {
-  const dataset = sourceDataset;
-  const { errors, warnings } = auditLocalLandingContent(dataset);
-  const liveMode = process.argv.includes('--live-sources');
-  const liveResult = liveMode ? await auditLiveOfficialSources(dataset) : { errors: [], checked: 0 };
+function loadSourceDataset(sourcePath) {
+  let source;
+  try {
+    source = readFileSync(sourcePath, 'utf8');
+  } catch {
+    return { dataset: null, errors: ['local landing-content source could not be read'] };
+  }
+  try {
+    return { dataset: JSON.parse(source), errors: [] };
+  } catch {
+    return { dataset: null, errors: ['local landing-content source is not valid JSON'] };
+  }
+}
+
+function reportAuditResult(dataset, errors, warnings, liveMode, liveResult) {
   const allErrors = [...errors, ...liveResult.errors];
   for (const error of allErrors) console.error(`ERROR: ${error}`);
   for (const warning of warnings) console.warn(`WARNING: ${warning}`);
-  const count = isRecord(dataset.cities) && isRecord(dataset.serviceCities) ? Object.keys(dataset.cities).length + Object.keys(dataset.serviceCities).length : 0;
+  const count = isRecord(dataset?.cities) && isRecord(dataset?.serviceCities) ? Object.keys(dataset.cities).length + Object.keys(dataset.serviceCities).length : 0;
   if (allErrors.length > 0) {
     console.error(`${count} local landing-page records audited; ${allErrors.length} errors`);
     process.exitCode = 1;
     return;
   }
   console.log(`${count} local landing-page records audited; 0 errors${liveMode ? `; ${liveResult.checked} official sources checked live` : ''}`);
+}
+
+async function main() {
+  const { dataset, errors: inputErrors } = loadSourceDataset(datasetPath);
+  if (inputErrors.length > 0) {
+    reportAuditResult(dataset, inputErrors, [], false, { errors: [], checked: 0 });
+    return;
+  }
+  const preflightErrors = [];
+  validateDatasetShape(dataset, preflightErrors, null);
+  if (preflightErrors.length > 0) {
+    reportAuditResult(dataset, preflightErrors, [], false, { errors: [], checked: 0 });
+    return;
+  }
+  try {
+    await initializeLocalLandingContentAudit();
+  } catch {
+    reportAuditResult(dataset, ['canonical route catalog could not be constructed after source validation'], [], false, { errors: [], checked: 0 });
+    return;
+  }
+  const { errors, warnings } = auditLocalLandingContent(dataset);
+  const liveMode = process.argv.includes('--live-sources');
+  const liveResult = liveMode ? await auditLiveOfficialSources(dataset) : { errors: [], checked: 0 };
+  reportAuditResult(dataset, errors, warnings, liveMode, liveResult);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();

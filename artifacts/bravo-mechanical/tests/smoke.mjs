@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import postcss from 'postcss';
+import { hasUnsafeLocalClaim } from '../scripts/local-landing-content.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -16,6 +18,29 @@ const deploymentConfig = JSON.parse(
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
+
+const localContentAudit = spawnSync('node', ['scripts/local-landing-content.mjs'], {
+  cwd: root,
+  encoding: 'utf8',
+});
+assert(
+  localContentAudit.status === 0,
+  `Local landing content audit failed: ${localContentAudit.stderr || localContentAudit.stdout}`,
+);
+
+const unsafeLocalClaims = [
+  /free (?:quote|estimate)/i,
+  /manufacturer[- ]trained/i,
+  /not subcontractors/i,
+  /manual j.{0,30}every/i,
+  /permits? (?:pulled|handled|coordinated)/i,
+  /fixed pricing/i,
+  /same[- ]day/i,
+  /guaranteed/i,
+  /prevents? breakdowns/i,
+  /keeps? (?:your )?warranty valid/i,
+  /cures?|prevents? (?:allergies|asthma|illness)/i,
+];
 
 function decodeHtml(value) {
   return value
@@ -207,6 +232,14 @@ for (const relativePath of routeHtmlFiles) {
   assert(jsonLd.filter((item) => item['@type'] === 'HVACBusiness').length <= 1, `${relativePath} has duplicate HVACBusiness schema`);
   assert((html.match(/"@type"\s*:\s*"HVACBusiness"/g) || []).length <= 1, `${relativePath} repeats the canonical HVACBusiness node`);
   assert(!/"aggregateRating"\s*:/.test(html), `${relativePath} contains self-serving LocalBusiness rating markup`);
+
+  const isLocalRoute = /^service-areas\/[^/]+\/index\.html$/.test(relativePath)
+    || /^services\/(?:hvac-installation|hvac-repair|preventive-maintenance|indoor-air-quality)\/[^/]+\/index\.html$/.test(relativePath);
+  if (isLocalRoute) {
+    for (const unsafeClaim of unsafeLocalClaims) {
+      assert(!hasUnsafeLocalClaim(html, unsafeClaim), `${relativePath} contains unsafe local claim: ${unsafeClaim}`);
+    }
+  }
 }
 
 const yonkers = await readDist('service-areas/yonkers/index.html');

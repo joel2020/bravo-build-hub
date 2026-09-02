@@ -12,6 +12,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:e2e": "node tests/smoke.mjs",
+    "audit:local-content": "node scripts/local-landing-content.mjs",
     "audit:seo": "node scripts/audit-seo.mjs",
     "audit:seo:local": "node scripts/audit-seo.mjs --directory-index http://localhost:4174"
   },

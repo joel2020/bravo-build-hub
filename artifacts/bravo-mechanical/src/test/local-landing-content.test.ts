@@ -5,6 +5,7 @@ import {
   getCityLanding,
   getServiceCityLanding,
 } from "@/lib/localLandingContent";
+import { SERVICE_CONTENT } from "@/lib/serviceContent";
 import { citySlug } from "@/lib/cities";
 import { TOWNS } from "@/lib/site";
 
@@ -37,13 +38,81 @@ const OFFICIAL_SOURCE_HOSTS = new Set([
   "www.nyserda.ny.gov",
   "www.tax.ny.gov",
   "www.yonkersny.gov",
+  "www.energy.gov",
+  "www.energystar.gov",
+  "www.epa.gov",
 ]);
+
+const topCities = ["yonkers", "white-plains", "new-rochelle", "mount-vernon", "scarsdale"];
+const services = ["hvac-installation", "hvac-repair", "preventive-maintenance", "indoor-air-quality"];
 
 describe("local landing content inventory", () => {
   it("returns records by canonical route keys", () => {
     expect(getCityLanding("yonkers")?.name).toBe("Yonkers");
-    expect(Object.keys(SERVICE_CITY_LANDING_CONTENT)).toEqual([]);
+    expect(getServiceCityLanding("hvac-repair", "yonkers")?.h1).toBe("HVAC Repair in Yonkers, NY");
     expect(getServiceCityLanding("not-a-service", "yonkers")).toBeUndefined();
+  });
+
+  it("covers every existing service-city route exactly once", () => {
+    const expected = topCities.flatMap((city) => services.map((service) => `${service}/${city}`)).sort();
+    expect(Object.keys(SERVICE_CITY_LANDING_CONTENT).sort()).toEqual(expected);
+    expect(expected).toHaveLength(20);
+  });
+
+  it("gives every service-city route distinct reviewed guidance", () => {
+    for (const [key, page] of Object.entries(SERVICE_CITY_LANDING_CONTENT)) {
+      expect(key).toBe(`${page.serviceSlug}/${page.citySlug}`);
+      expect(page.h1).toContain(CITY_LANDING_CONTENT[page.citySlug].name);
+      expect(page.metaTitle.length).toBeLessThanOrEqual(65);
+      expect(page.metaDescription.length).toBeLessThanOrEqual(160);
+      expect(page.localConsiderations.length).toBeGreaterThanOrEqual(2);
+      expect(page.commonConcerns.length).toBeGreaterThanOrEqual(3);
+      expect(page.serviceScope.length).toBeGreaterThanOrEqual(3);
+      expect(page.safeChecks.length).toBeGreaterThanOrEqual(2);
+      expect(page.professionalBoundaries.length).toBeGreaterThanOrEqual(2);
+      expect(page.faqItems.length).toBeGreaterThanOrEqual(3);
+      expect(page.sourceNotes.length).toBeGreaterThanOrEqual(1);
+    }
+
+    const pages = Object.values(SERVICE_CITY_LANDING_CONTENT);
+    expectUniqueNormalized(pages.map((page) => ({ value: page.answerFirst, cityName: CITY_LANDING_CONTENT[page.citySlug].name })));
+    expectUniqueNormalized(pages.flatMap((page) => page.localConsiderations.map((value) => ({ value, cityName: CITY_LANDING_CONTENT[page.citySlug].name }))));
+    expectUniqueNormalized(pages.flatMap((page) => page.commonConcerns.map((value) => ({ value, cityName: CITY_LANDING_CONTENT[page.citySlug].name }))));
+    expectUniqueNormalized(pages.flatMap((page) => page.faqItems.flatMap(({ q, a }) => [q, a].map((value) => ({ value, cityName: CITY_LANDING_CONTENT[page.citySlug].name })))));
+  });
+
+  it("links every service-city page to real parent and supporting routes", () => {
+    const cityKeys = new Set(Object.keys(CITY_LANDING_CONTENT));
+    for (const page of Object.values(SERVICE_CITY_LANDING_CONTENT)) {
+      expect(cityKeys.has(page.citySlug)).toBe(true);
+      expect(page.parentServicePath).toMatch(/^\/services\/[a-z0-9-]+$/);
+      expect(page.relatedServiceSlugs).not.toContain(page.serviceSlug);
+    }
+  });
+
+  it("uses official technical sources for service-city guidance", () => {
+    for (const page of Object.values(SERVICE_CITY_LANDING_CONTENT)) {
+      for (const source of page.sourceNotes) {
+        expect(OFFICIAL_SOURCE_HOSTS.has(new URL(source.url).hostname)).toBe(true);
+      }
+    }
+  });
+
+  it("keeps reusable service copy conditional and free of unsupported promises", () => {
+    const rendered = Object.values(SERVICE_CONTENT)
+      .flatMap((service) => [
+        service.metaDescription("Yonkers"),
+        service.intro("Yonkers"),
+        ...service.scope,
+        ...service.signals,
+        ...service.faqs("Yonkers").flatMap(({ q, a }) => [q, a]),
+      ])
+      .join(" ");
+
+    expect(rendered).not.toMatch(/free quotes|manufacturer-trained|not subcontractors|manual j .*every install/i);
+    expect(rendered).not.toMatch(/permits pulled|inspections coordinated|fixed pricing|take one day|2[–-]4 days/i);
+    expect(rendered).not.toMatch(/12[–-]15\+|exceed 30%|15[–-]20 years|20[–-]30 years/i);
+    expect(rendered).not.toMatch(/healthier|allergy and asthma-friendly|respiratory issues|(?:will|does|can) guarantee|guaranteed (?:results|savings|health|reliability)/i);
   });
 
   it("covers every existing city route exactly once", () => {

@@ -22,9 +22,9 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     h1: (c) => `HVAC Installation in ${c}, NY`,
     metaTitle: (c) => `HVAC Installation ${c}, NY — Furnace, AC & Heat Pump | Bravo Mechanical`,
     metaDescription: (c) =>
-      `Professional HVAC installation in ${c}, NY. Furnaces, central AC, heat pumps, ductless mini-splits, and ductwork — sized right, installed clean, code-compliant. Free quotes.`,
+      `HVAC installation planning in ${c}, NY for furnaces, air conditioning, heat pumps, ductless systems, and ductwork, with a property-specific written scope.`,
     intro: (c) =>
-      `When it's time to replace or upgrade your heating or cooling system in ${c}, the install matters more than the brand on the box. Bravo Mechanical sizes every system with a real load calculation, coordinates permit requirements when needed and installs to manufacturer specifications with commissioning checks.`,
+      `For an HVAC installation in ${c}, begin with the building's actual heating and cooling loads, existing distribution, electrical or fuel service, drainage, equipment location, and access. The written proposal should identify the selected equipment, sizing method, approved work, commissioning steps, exclusions, and who is responsible for checking current municipal requirements.`,
     scope: [
       "Gas furnaces and high-efficiency boilers",
       "Central air conditioning systems",
@@ -34,11 +34,11 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "Smart thermostat setup and integration",
     ],
     signals: [
-      "Manufacturer-trained installers — not subcontractors",
-      "Manual J load calculations on every install",
-      "Permits pulled and inspections coordinated",
-      "Clean job sites and protected floors",
-      "Written fixed pricing before any work begins",
+      "Property characteristics documented before equipment selection",
+      "Sizing method identified for the proposed system",
+      "Airflow, controls, drainage, and startup tasks stated in writing",
+      "Municipal and inspection responsibilities confirmed for the approved scope",
+      "Project-specific pricing, exclusions, and change terms documented before work",
     ],
     faqs: (c) => [
       {
@@ -47,11 +47,11 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       },
       {
         q: `How long does installation take?`,
-        a: `Most furnace or AC swaps in ${c} take one day. Full system replacements with ductwork or heat pump conversions can take 2–4 days. We give you a clear timeline up front.`,
+        a: `The timeline depends on equipment availability, access, the amount of distribution or utility work, required approvals, inspections, and site conditions. Request a project schedule for the approved ${c} scope.`,
       },
       {
-        q: `Do you pull permits?`,
-        a: `When project scope requires a permit, we coordinate with the ${c} building department and schedule required inspections.`,
+        q: `How are permit responsibilities handled?`,
+        a: `Requirements and responsible parties depend on the exact work and current rules. The ${c} proposal should state who will verify, file, pay for, and close any required permits or inspections.`,
       },
     ],
   },
@@ -63,7 +63,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     h1: (c) => `HVAC Repair in ${c}, NY`,
     metaTitle: (c) => `HVAC Repair ${c}, NY — Heating & AC Service | Bravo Mechanical`,
     metaDescription: (c) =>
-      `Fast HVAC repair in ${c}, NY. No-heat, no-cool, refrigerant leaks, blower failures — prompt appointment windows and after-hours support when available. Licensed Westchester techs.`,
+      `HVAC repair in ${c}, NY for no-heat, no-cool, airflow, control, drainage, boiler, furnace, heat-pump, and air-conditioning concerns.`,
     intro: (c) =>
       `When your heat or AC goes out in ${c}, Bravo Mechanical schedules the next available Westchester technician based on urgency and availability. We diagnose the issue, explain the scope, and quote approved work in writing.`,
     scope: [
@@ -76,7 +76,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ],
     signals: [
       "Appointment timing based on urgency and availability",
-      "24/7 emergency requests accepted by phone",
+      "Urgent requests triaged by current conditions and availability",
       "Written pricing before approved work begins",
       "Equipment-specific diagnosis and parts review",
       "Honest 'repair vs. replace' guidance — no upsell",
@@ -96,7 +96,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       },
       {
         q: `When is it time to replace instead of repair?`,
-        a: `If your system is 12–15+ years old, repair quotes exceed 30% of replacement cost, or you're losing efficiency every season, replacement usually wins. We'll give you both options in writing — no pressure.`,
+        a: `Compare property-specific written options when failures repeat, a safety issue cannot be corrected reasonably, needed parts are unavailable, or the equipment no longer serves the building's requirements. Age or a universal cost percentage alone does not decide the result.`,
       },
     ],
   },
@@ -153,40 +153,40 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     h1: (c) => `Indoor Air Quality Services in ${c}, NY`,
     metaTitle: (c) => `Indoor Air Quality ${c}, NY — Filtration, Purifiers, Humidifiers | Bravo Mechanical`,
     metaDescription: (c) =>
-      `Improve your indoor air in ${c}, NY. Whole-home air purifiers, HEPA filtration, humidifiers, dehumidifiers, and ventilation upgrades. Healthier, more comfortable homes.`,
+      `Indoor-air-quality assessment in ${c}, NY for filtration, humidity, ventilation, and source-control options matched to the building and HVAC system.`,
     intro: (c) =>
-      `Indoor air in ${c} can be 2–5x more polluted than the air outside — dust, pollen, pet dander, mold spores, and dry winter air all take a toll on comfort and health. Bravo Mechanical designs and installs whole-home air-quality solutions that work with your existing HVAC system: filtration, humidity control, purification, and ventilation, all sized for your home.`,
+      `Indoor-air-quality work in ${c} should begin with the specific pollutant, moisture, odor, or comfort concern and its likely source. EPA guidance prioritizes source control and clean-air ventilation; filtration can supplement those measures but cannot remove every pollutant. Any HVAC accessory also needs an equipment-compatibility and airflow review.`,
     scope: [
-      "Whole-home air purifiers (UV, ionization, PCO)",
-      "HEPA and high-MERV filtration upgrades",
-      "Whole-house humidifiers (winter dryness)",
-      "Whole-house dehumidifiers (basement humidity)",
-      "Fresh-air ventilation (ERV / HRV) systems",
-      "Duct cleaning coordination",
+      "Documented pollutant, moisture, odor, or comfort concern",
+      "Source-control and ventilation review",
+      "Filter-efficiency and system-airflow compatibility",
+      "Humidity measurement and moisture-source review",
+      "Equipment-specific humidification or dehumidification options",
+      "Operating limits and maintenance requirements for proposed devices",
     ],
     signals: [
-      "We assess your actual air quality, not just sell upgrades",
-      "Solutions sized for your home — not one-size-fits-all",
-      "Allergy and asthma-friendly recommendations",
-      "Quiet, low-maintenance equipment",
-      "Integration with your existing HVAC system",
+      "Concern and likely source defined before equipment selection",
+      "Source control, ventilation, and filtration considered separately",
+      "No promise that one device removes every pollutant",
+      "Ozone-generating products excluded from occupied-space recommendations",
+      "Airflow and maintenance effects documented for the existing system",
     ],
     faqs: (c) => [
       {
-        q: `Do I really need an air purifier in ${c}?`,
-        a: `If anyone in your home has allergies, asthma, pets, or sensitivity to dust and pollen — yes, it's a real comfort upgrade. ${c}'s mix of older housing stock, basements, and seasonal pollen makes whole-home filtration especially worthwhile.`,
+        q: `Do I need an air cleaner in ${c}?`,
+        a: `That depends on the identified concern and source. EPA states that source control and ventilation are primary strategies and that filtration can supplement them, but no air cleaner removes every indoor pollutant.`,
       },
       {
         q: `What's better — a humidifier or a dehumidifier?`,
-        a: `Most ${c} homes need both, just in different seasons. A whole-house humidifier helps with dry winter air (static, cracked skin, respiratory issues). A dehumidifier handles humid summers and damp basements. We assess and recommend what your home actually needs.`,
+        a: `Measure humidity and identify moisture sources first. A ${c} property may need neither device, one device, or different controls under different conditions; the HVAC system and building envelope affect the choice.`,
       },
       {
-        q: `Do air purifiers really work?`,
-        a: `Yes, when properly sized and installed. We avoid gimmicky add-ons and stick to proven technologies — high-MERV media filtration, true HEPA, UV-C sterilization, and ventilation. We'll explain what each does and what it won't do.`,
+        q: `What can an air filter accomplish?`,
+        a: `Performance depends on the pollutants addressed, filter efficiency, airflow through the device, runtime, fit, and maintenance. A filter is not a substitute for correcting a moisture, combustion, or other pollutant source.`,
       },
       {
         q: `Can you clean my ductwork?`,
-        a: `We coordinate professional duct cleaning when it's actually needed — usually after major renovations, water damage, or visible mold. For most homes, a high-quality filter and regular maintenance is more cost-effective than cleaning.`,
+        a: `First identify the material, source, affected duct section, and any moisture condition. Duct work, remediation, or cleaning should be separately scoped and should not be represented as a universal indoor-air-quality solution.`,
       },
     ],
   },
@@ -198,36 +198,36 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     h1: (c) => `Residential HVAC Services in ${c}, NY`,
     metaTitle: (c) => `Residential HVAC ${c}, NY — Whole-Home Heating & Cooling | Bravo Mechanical`,
     metaDescription: (c) =>
-      `Residential HVAC service in ${c}, NY. Whole-home heating, cooling, and air-quality solutions for single-family homes, condos, and multi-units. Trusted local techs.`,
+      `Residential HVAC service in ${c}, NY for property-specific heating, cooling, distribution, controls, and indoor-air-quality concerns.`,
     intro: (c) =>
-      `Homes in ${c} are not all the same — pre-war colonials, mid-century capes, modern new construction, and condos all need different HVAC approaches. Bravo Mechanical specializes in residential systems for Westchester housing stock. Whether you're adding cooling to a steam-heated home, converting to a heat pump, or replacing an aging furnace, we engineer the solution around your actual house.`,
+      `Residential HVAC choices in ${c} depend on the actual building, equipment, distribution, loads, utilities, controls, and owner priorities. A site assessment can compare repair, replacement, zoning, ducted, ductless, and indoor-air-quality scopes without assuming one configuration fits every home.`,
     scope: [
       "Full system replacements (furnace, AC, heat pump)",
       "Add-on cooling for older homes (high-velocity, ductless)",
       "Zoning systems for multi-floor comfort",
       "Energy-efficient upgrades and high-efficiency installs",
       "Annual maintenance plans",
-      "Fast residential repair service",
+      "Residential repair scheduling subject to current availability",
     ],
     signals: [
-      "Experience with Westchester's older housing stock",
+      "Existing equipment and distribution documented before recommendations",
       "Solutions for steam, hydronic, forced-air, and ductless homes",
       "Honest sizing — no oversold systems",
       "Clean, respectful in-home work",
-      "Trusted by ${c} homeowners",
+      "Written, property-specific scope before approved work",
     ],
     faqs: (c) => [
       {
         q: `My ${c} home doesn't have ducts. Can I add central AC?`,
-        a: `Yes — for older ${c} homes without ductwork, we typically recommend either ductless mini-splits (one outdoor unit, multiple indoor heads) or high-velocity small-duct systems that fit through walls and ceilings without major construction. We'll assess your home and explain the trade-offs.`,
+        a: `Ductless, small-duct, or new conventional ductwork may be possible, depending on loads, routing, structure, electrical capacity, drainage, exterior placement, and current requirements. Compare a site-specific design before selecting a system.`,
       },
       {
         q: `Should I switch from oil or gas to a heat pump?`,
-        a: `For many ${c} homes, modern cold-climate heat pumps make sense — they heat and cool in one system and cut fuel deliveries out entirely. But it depends on your insulation, electrical service, and current fuel costs. We give a straight answer either way.`,
+        a: `The answer depends on the building loads, distribution, electrical service, selected equipment performance, backup strategy, fuel arrangement, and owner goals. Model the proposed ${c} application rather than assuming a universal conversion result.`,
       },
       {
         q: `How long do residential HVAC systems last?`,
-        a: `Furnaces typically last 15–20 years, central AC 12–15, heat pumps 12–15, and boilers 20–30. ${c}'s humid summers and cold winters are tough on equipment — annual maintenance is what gets you to the upper end of those ranges.`,
+        a: `Service life varies with equipment, design, installation, operation, environment, maintenance history, and parts availability. Inspect the specific ${c} system and compare current condition rather than relying on a universal age range.`,
       },
       {
         q: `Do you work on condos and multi-units in ${c}?`,
@@ -243,23 +243,23 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     h1: (c) => `Commercial HVAC Services in ${c}, NY`,
     metaTitle: (c) => `Commercial HVAC ${c}, NY — Service Contracts & Repair | Bravo Mechanical`,
     metaDescription: (c) =>
-      `Commercial HVAC service in ${c}, NY. Rooftop units, split systems, service contracts, and emergency response for offices, retail, restaurants, and light industrial.`,
+      `Commercial HVAC requests in ${c}, NY for rooftop, split, packaged, ventilation, repair, replacement, and maintenance scopes, subject to equipment and availability.`,
     intro: (c) =>
-      `For ${c} businesses, HVAC downtime costs revenue. Bravo Mechanical provides commercial HVAC service — preventive maintenance contracts, rooftop unit work, emergency response, and full installations — for offices, retail, restaurants, medical, and light-industrial properties throughout Westchester. We work around your business hours when needed and document everything for your facility records.`,
+      `Commercial HVAC work in ${c} starts by identifying the equipment, spaces served, responsible contacts, access, operating constraints, records, and requested outcome. Confirm current serviceability, scheduling, included work, reporting, and any after-hours terms for the property in writing.`,
     scope: [
       "Rooftop unit (RTU) service and replacement",
       "Split and packaged commercial systems",
       "Restaurant kitchen ventilation and make-up air",
       "Service and maintenance contracts (PM agreements)",
-      "After-hours and weekend service",
+      "After-hours or weekend scheduling when currently available and agreed",
       "Multi-site and multi-unit coordination",
     ],
     signals: [
-      "Predictable PM contracts — no surprise budgeting",
-      "Priority emergency response for contract customers",
-      "Detailed service records for facility management",
-      "Experience with retail, office, restaurant, medical",
-      "Local Westchester scheduling and on-site service",
+      "Agreement-specific maintenance scope and pricing",
+      "Urgent request handling subject to current capacity and written terms",
+      "Requested service records identified before work",
+      "Equipment and occupancy suitability confirmed during intake",
+      "Access and shutdown coordination defined for the site",
     ],
     faqs: (c) => [
       {
@@ -272,11 +272,11 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       },
       {
         q: `What size commercial properties do you service?`,
-        a: `From single-tenant retail and small offices up to mid-size commercial buildings with multiple RTUs. For very large industrial sites we'll tell you honestly if we're the right fit.`,
+        a: `Provide the property use, equipment inventory, capacities, access, controls, requested work, and operating constraints. Bravo Mechanical can then confirm whether the specific ${c} scope is serviceable.`,
       },
       {
         q: `Do you handle restaurant ventilation?`,
-        a: `Yes — including kitchen exhaust, make-up air units, and rooftop equipment. We understand the code and inspection requirements for ${c} food-service operations.`,
+        a: `Describe the exhaust, make-up air, comfort equipment, controls, current approvals, and reported problem. Serviceability and any professional or municipal responsibilities must be confirmed for the exact ${c} scope.`,
       },
     ],
   },

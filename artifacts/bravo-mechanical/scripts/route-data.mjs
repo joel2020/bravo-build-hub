@@ -3,7 +3,7 @@
 // or to duplicate slug/content data. If you add a new route type, update both
 // generate-sitemap.mjs and inject-head-metadata.mjs.
 
-import { readFile, readdir } from "node:fs/promises";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -183,8 +183,8 @@ function extractStringFaqs(body) {
 }
 
 // High-intent service pages: faqs is a static array of double-quoted strings.
-async function loadHighIntentFaqsBySlug() {
-  const txt = await readSource("lib/highIntentServices.ts");
+function loadHighIntentFaqsBySlug() {
+  const txt = readSourceSync("lib/highIntentServices.ts");
   const map = new Map();
   // Match each `mk({ ... slug: "x" ... faqs: [ ... ] ... })` block.
   const blockRe = /slug:\s*"([a-z0-9-]+)"[\s\S]*?faqs:\s*\[([\s\S]*?)\],/g;
@@ -289,13 +289,17 @@ export const EQUIPMENT_GUIDES = [
 // Routes never to expose in sitemap or prerender.
 export const EXCLUDED_PATHS = new Set(["/auth", "/admin/comments", "/admin/crm"]);
 
-async function readSource(rel) {
-  return readFile(path.join(SRC, rel), "utf8");
+function readSourceSync(rel) {
+  return readFileSync(path.join(SRC, rel), "utf8");
+}
+
+function loadLocalLandingPagesSync() {
+  const raw = readFileSync(path.join(SRC, "content/localLandingPages.json"), "utf8");
+  return JSON.parse(raw);
 }
 
 export async function loadLocalLandingPages() {
-  const raw = await readFile(path.join(SRC, "content/localLandingPages.json"), "utf8");
-  return JSON.parse(raw);
+  return loadLocalLandingPagesSync();
 }
 
 function toRouteCity(content) {
@@ -366,8 +370,8 @@ const PRIORITY_SERVICE_CRAWLER_COPY = {
   },
 };
 
-export async function loadHighIntentServices() {
-  const txt = await readSource("lib/highIntentServices.ts");
+function loadHighIntentServicesSync() {
+  const txt = readSourceSync("lib/highIntentServices.ts");
   const services = [];
   // Each `mk({ slug: "...", ..., seoTitle: "...", metaDescription: "..." })`
   // or first two literal entries, parsed via a forgiving regex.
@@ -380,8 +384,16 @@ export async function loadHighIntentServices() {
   return services;
 }
 
+export async function loadHighIntentServices() {
+  return loadHighIntentServicesSync();
+}
+
+function loadPriorityServiceOverridesSync() {
+  return JSON.parse(readSourceSync("lib/priorityServiceOverrides.json"));
+}
+
 export async function loadPriorityServiceOverrides() {
-  return JSON.parse(await readSource("lib/priorityServiceOverrides.json"));
+  return loadPriorityServiceOverridesSync();
 }
 
 // ---- Blog posts (markdown frontmatter) ---------------------------------
@@ -390,12 +402,12 @@ const FULL_BODY_PRERENDER_SLUGS = new Set([
   "why-is-my-ac-not-cooling-westchester",
 ]);
 
-export async function loadBlogPosts() {
+function loadBlogPostsSync() {
   const dir = path.join(SRC, "content", "blog");
-  const files = (await readdir(dir)).filter((f) => f.endsWith(".md"));
+  const files = readdirSync(dir).filter((f) => f.endsWith(".md"));
   const posts = [];
   for (const f of files) {
-    const raw = await readFile(path.join(dir, f), "utf8");
+    const raw = readFileSync(path.join(dir, f), "utf8");
     const match = raw.match(/^---\s*\n([\s\S]*?)\n---/);
     if (!match) continue;
     const data = {};
@@ -424,16 +436,17 @@ export async function loadBlogPosts() {
   return posts;
 }
 
+export async function loadBlogPosts() {
+  return loadBlogPostsSync();
+}
+
 // ---- Build the full URL catalog ----------------------------------------
-export async function buildAllRoutes() {
-  const [dataset, hiServices, posts, hiServiceFaqs, priorityOverrides] =
-    await Promise.all([
-      loadLocalLandingPages(),
-      loadHighIntentServices(),
-      loadBlogPosts(),
-      loadHighIntentFaqsBySlug(),
-      loadPriorityServiceOverrides(),
-    ]);
+export function buildAllRoutesSync() {
+  const dataset = loadLocalLandingPagesSync();
+  const hiServices = loadHighIntentServicesSync();
+  const posts = loadBlogPostsSync();
+  const hiServiceFaqs = loadHighIntentFaqsBySlug();
+  const priorityOverrides = loadPriorityServiceOverridesSync();
   const cities = Object.values(dataset.cities);
   const serviceCities = Object.values(dataset.serviceCities);
   const topCities = new Set(serviceCities.map((page) => page.citySlug));
@@ -525,4 +538,8 @@ export async function buildAllRoutes() {
     title: fitSeoTitle(route.title),
     description: fitMetaDescription(route.description),
   }));
+}
+
+export async function buildAllRoutes() {
+  return buildAllRoutesSync();
 }

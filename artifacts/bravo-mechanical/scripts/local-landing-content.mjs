@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildAllRoutesSync } from './route-data.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -59,31 +60,7 @@ function createCatalog(generatedRoutes) {
 }
 
 function buildCanonicalAuditCatalog() {
-  const canonicalDataset = JSON.parse(readFileSync(path.join(root, 'src/content/localLandingPages.json'), 'utf8'));
-  if (!isRecord(canonicalDataset.cities) || !isRecord(canonicalDataset.serviceCities)) {
-    throw new Error('canonical local landing dataset is structurally invalid');
-  }
-  const blogDirectory = path.join(root, 'src/content/blog');
-  const blogRoutes = readdirSync(blogDirectory)
-    .filter((name) => name.endsWith('.md'))
-    .map((name) => ({ type: 'blog', path: `/blog/${name.slice(0, -3)}` }));
-  const cityRoutes = Object.entries(canonicalDataset.cities).map(([slug, content]) => ({
-    type: 'city',
-    path: routeForCity(slug),
-    title: content.title,
-    description: content.metaDescription,
-  }));
-  const serviceCityRoutes = Object.entries(canonicalDataset.serviceCities).map(([key, content]) => ({
-    type: 'service-city',
-    path: routeForServiceCity(key),
-    title: content.metaTitle,
-    description: content.metaDescription,
-    service: { slug: content.serviceSlug },
-    localContent: content,
-  }));
-  const serviceRoutes = [...new Set(serviceCityRoutes.map((route) => route.localContent.parentServicePath))]
-    .map((path) => ({ type: 'service', path }));
-  return createCatalog([...cityRoutes, ...serviceRoutes, ...serviceCityRoutes, ...blogRoutes]);
+  return createCatalog(buildAllRoutesSync());
 }
 
 export async function initializeLocalLandingContentAudit() {
@@ -168,7 +145,7 @@ function validateArrays(record, rules, route, errors) {
   for (const [field, rule] of Object.entries(rules)) validateArray(record, field, rule, route, errors);
 }
 
-function validateMetadata(routePath, route, errors, routeCatalog) {
+function validateMetadata(routePath, record, titleField, route, errors, routeCatalog) {
   if (!routeCatalog) return;
   const generated = routeCatalog.metadataByPath.get(routePath);
   if (!generated) {
@@ -177,6 +154,8 @@ function validateMetadata(routePath, route, errors, routeCatalog) {
   }
   if (typeof generated.title !== 'string' || generated.title.length > 65) addError(errors, route, 'generated title exceeds 65 characters');
   if (typeof generated.description !== 'string' || generated.description.length > 160) addError(errors, route, 'generated metaDescription exceeds 160 characters');
+  if (typeof record[titleField] === 'string' && generated.title !== record[titleField]) addError(errors, route, `${titleField} must match generated canonical route metadata`);
+  if (typeof record.metaDescription === 'string' && generated.description !== record.metaDescription) addError(errors, route, 'metaDescription must match generated canonical route metadata');
 }
 
 function validateRawMetadata(record, titleField, route, errors) {
@@ -222,7 +201,7 @@ export function validateDatasetShape(dataset, errors, routeCatalog) {
     validateArrays(city, CITY_ARRAY_RULES, route, errors);
     validateRawMetadata(city, 'title', route, errors);
     validateReviewedAt(city.reviewedAt, route, errors);
-    validateMetadata(route, route, errors, routeCatalog);
+    validateMetadata(route, city, 'title', route, errors, routeCatalog);
   }
 
   const serviceCityKeys = Object.keys(dataset.serviceCities);
@@ -245,7 +224,7 @@ export function validateDatasetShape(dataset, errors, routeCatalog) {
     validateArrays(page, SERVICE_CITY_ARRAY_RULES, route, errors);
     validateRawMetadata(page, 'metaTitle', route, errors);
     validateReviewedAt(page.reviewedAt, route, errors);
-    validateMetadata(route, route, errors, routeCatalog);
+    validateMetadata(route, page, 'metaTitle', route, errors, routeCatalog);
   }
 }
 
@@ -367,6 +346,12 @@ export function validateSimilarity(dataset, errors) {
 export function auditLocalLandingContent(dataset) {
   const errors = [];
   const warnings = [];
+  validateDatasetShape(dataset, errors, null);
+  if (errors.length > 0) {
+    validateClaims(dataset, errors);
+    validateSimilarity(dataset, errors);
+    return { errors, warnings };
+  }
   let routeCatalog;
   try {
     routeCatalog = buildCanonicalAuditCatalog();

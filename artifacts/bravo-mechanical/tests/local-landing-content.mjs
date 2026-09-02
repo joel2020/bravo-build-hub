@@ -91,8 +91,18 @@ expectError(audit((dataset) => {
 }), 'parentServicePath must reference a generated canonical service route');
 
 expectError(audit((dataset) => {
+  for (const page of Object.values(dataset.serviceCities)) {
+    if (page.serviceSlug === 'hvac-repair') page.parentServicePath = '/services/missing-family-parent';
+  }
+}), 'parentServicePath must reference a generated canonical service route');
+
+expectError(audit((dataset) => {
   dataset.serviceCities['hvac-repair/yonkers'].parentServicePath = '/services/ac-installation-westchester-county-ny';
 }), 'parentServicePath must match the reviewed hvac-repair parent route');
+
+expectError(audit((dataset) => {
+  dataset.cities.yonkers.title = 'Yonkers Heating and Cooling | Bravo Mechanical';
+}), 'title must match generated canonical route metadata');
 
 expectError(audit((dataset) => {
   dataset.cities.yonkers.title = 'x'.repeat(66);

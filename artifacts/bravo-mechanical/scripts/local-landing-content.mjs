@@ -23,6 +23,10 @@ const UNSAFE_LOCAL_CLAIMS = [
   /fixed pricing/i, /same[- ]day/i, /guaranteed/i, /prevents? breakdowns/i,
   /keeps? (?:your )?warranty valid/i, /cures?|prevents? (?:allergies|asthma|illness)/i,
 ];
+const LIVE_SOURCE_REQUEST_HEADERS = {
+  Accept: 'text/html,application/pdf;q=0.9,*/*;q=0.8',
+  'User-Agent': 'BravoMechanicalLinkVerifier/1.0 (+https://www.bravomechanicalny.com/contact)',
+};
 const CITY_ARRAY_RULES = {
   zips: { minimum: 0, kind: 'string' }, neighborhoods: { minimum: 0, kind: 'string' },
   localContext: { minimum: 2, kind: 'string' }, commonConcerns: { minimum: 3, kind: 'string' },
@@ -391,7 +395,11 @@ export async function auditLiveOfficialSources(dataset) {
   }
   await Promise.all([...routesByUrl.entries()].map(async ([url, routes]) => {
     try {
-      const response = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(20_000) });
+      const response = await fetch(url, {
+        redirect: 'follow',
+        headers: LIVE_SOURCE_REQUEST_HEADERS,
+        signal: AbortSignal.timeout(20_000),
+      });
       if (!response.ok) for (const route of routes) errors.push(`${route}: source ${url} returned HTTP ${response.status} after redirect to ${response.url}`);
     } catch (error) {
       for (const route of routes) errors.push(`${route}: source ${url} could not be checked live: ${error.message}`);

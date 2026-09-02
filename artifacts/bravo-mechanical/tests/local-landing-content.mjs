@@ -7,6 +7,7 @@ import path from 'node:path';
 import sourceDataset from '../src/content/localLandingPages.json' with { type: 'json' };
 import {
   auditLocalLandingContent,
+  auditLiveOfficialSources,
   hasUnsafeLocalClaim,
 } from '../scripts/local-landing-content.mjs';
 
@@ -142,6 +143,35 @@ const invalidJsonResult = spawnSync('node', ['scripts/local-landing-content.mjs'
 assert.equal(invalidJsonResult.status, 1, 'non-JSON CLI input must fail');
 assert.match(invalidJsonResult.stderr, /ERROR: local landing-content source is not valid JSON/);
 assert.doesNotMatch(invalidJsonResult.stderr, /(?:TypeError|SyntaxError|at file:)/);
+
+const originalFetch = globalThis.fetch;
+const observedLiveRequests = [];
+globalThis.fetch = async (url, options) => {
+  observedLiveRequests.push({ url, options });
+  if (url.endsWith('/unavailable')) return { ok: false, status: 503, url };
+  return { ok: true, status: 200, url };
+};
+try {
+  const liveResult = await auditLiveOfficialSources({
+    cities: {
+      verified: { municipalResources: [{ url: 'https://official.example/verified' }], sourceNotes: [] },
+      unavailable: { municipalResources: [{ url: 'https://official.example/unavailable' }], sourceNotes: [] },
+    },
+    serviceCities: {},
+  });
+  assert.equal(liveResult.checked, 2, 'each unique official URL must be checked once');
+  assert.equal(observedLiveRequests.length, 2, 'the audit must issue a request for every unique official URL');
+  for (const { options } of observedLiveRequests) {
+    assert.equal(options.redirect, 'follow', 'live source verification must follow redirects');
+    assert.ok(options.headers, 'live source verification must send transparent request headers');
+    assert.equal(options.headers['User-Agent'], 'BravoMechanicalLinkVerifier/1.0 (+https://www.bravomechanicalny.com/contact)', 'live source verification must identify the checker and its contact page');
+    assert.equal(options.headers.Accept, 'text/html,application/pdf;q=0.9,*/*;q=0.8', 'live source verification must state ordinary accepted content types');
+  }
+  assert.equal(liveResult.errors.length, 1, 'a non-2xx source response must remain an audit error');
+  assert.match(liveResult.errors[0], /https:\/\/official\.example\/unavailable returned HTTP 503/);
+} finally {
+  globalThis.fetch = originalFetch;
+}
 
 rmSync(tempDirectory, { recursive: true, force: true });
 

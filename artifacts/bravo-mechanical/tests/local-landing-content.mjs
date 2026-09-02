@@ -27,14 +27,10 @@ function expectError(errors, expected) {
 }
 
 const baselineErrors = audit(() => {});
-expectError(
-  baselineErrors,
-  '/service-areas/white-plains: title exceeds 65 characters',
-);
 assert.equal(
-  baselineErrors.filter((error) => error.endsWith('title exceeds 65 characters')).length,
-  15,
-  'every current over-limit raw city title must be reported without a source-derived exemption',
+  baselineErrors.length,
+  0,
+  `the reviewed local landing dataset must pass the content audit:\n${baselineErrors.join('\n')}`,
 );
 
 assert.equal(

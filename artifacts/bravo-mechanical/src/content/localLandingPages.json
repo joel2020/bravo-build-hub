@@ -2811,7 +2811,7 @@
       "metaDescription": "Plan a Yonkers HVAC installation around building loads, distribution, access, utilities, and a written scope with current City requirements checked.",
       "answerFirst": "For HVAC installation in Yonkers, start by inventorying the equipment and zones the project will replace or add. Bravo Mechanical can assess loads, distribution, access, utilities, drainage, and the property-specific scope before equipment is selected.",
       "localConsiderations": [
-        "A Yonkers project serving more than one dwelling or tenant space needs a clear map of equipment ownership, zones, shutdowns, and authorized access.",
+        "Yonkers Housing and Buildings publishes City permit and property-record channels; a project serving more than one dwelling or tenant space should use the address record to map equipment ownership, zones, shutdowns, and authorized access.",
         "The City of Yonkers publishes permit forms, but the exact scope must be checked against current requirements and the proposal must assign filing and inspection responsibilities."
       ],
       "commonConcerns": [
@@ -2841,7 +2841,7 @@
       ],
       "sourceNotes": [
         {"label": "ENERGY STAR — HVAC Quality Installation", "url": "https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation", "supports": "Official guidance on property-based sizing, airflow, and refrigerant-charge verification."},
-        {"label": "City of Yonkers forms and permits", "url": "https://www.yonkersny.gov/229/Forms-Permits", "supports": "Official City permit forms and municipal filing reference."}
+        {"label": "City of Yonkers forms and permits", "url": "https://www.yonkersny.gov/229/Forms-Permits", "supports": "Official Yonkers permit forms and municipal filing reference for address-specific project checks."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -2856,7 +2856,7 @@
       "metaDescription": "White Plains HVAC installation planning for occupied spaces, roof or interior access, controls, distribution, utilities, and commissioning details.",
       "answerFirst": "A White Plains HVAC installation should define the rooms, occupancies, and operating schedule the system must serve before selecting equipment. The assessment can then address loads, roof or interior access, controls, utilities, distribution, and shutdown planning.",
       "localConsiderations": [
-        "Where residential, office, retail, or shared spaces use the same building, the installation plan must separate comfort needs and control authority rather than treat every area as one zone.",
+        "White Plains publishes separate boiler/HVAC requirements and rigging or hoisting requirements; the exact equipment, placement, access, and permit category should be checked before an installation scope is finalized.",
         "For equipment above ceilings, on roofs, or in common areas, confirm safe access, lifting or staging constraints, tenant notices, and restoration responsibility before work begins."
       ],
       "commonConcerns": [
@@ -2885,7 +2885,8 @@
         {"q": "What commissioning information can a White Plains owner request?", "a": "The proposal can specify applicable startup readings, airflow or control checks, refrigerant procedures, equipment settings, manuals, and the final exceptions list."}
       ],
       "sourceNotes": [
-        {"label": "ENERGY STAR — HVAC Quality Installation", "url": "https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation", "supports": "Official guidance on actual property characteristics, airflow, and refrigerant verification."}
+        {"label": "ENERGY STAR — HVAC Quality Installation", "url": "https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation", "supports": "Official guidance on actual property characteristics, airflow, and refrigerant verification."},
+        {"label": "City of White Plains — Building Permits and Applications", "url": "https://www.cityofwhiteplains.com/115/Building-Permits-Applications", "supports": "Official White Plains list of boiler/HVAC requirements, mechanical requirements, and rigging or hoisting requirements."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -2900,7 +2901,7 @@
       "metaDescription": "Plan New Rochelle HVAC installation from the existing distribution outward, including room loads, routing, drainage, power, controls, and startup tests.",
       "answerFirst": "For a New Rochelle HVAC installation, trace how each room is currently heated, cooled, supplied, returned, and controlled. That distribution-first review helps define whether the project needs equipment replacement, duct changes, zoning, or a separate ductless solution.",
       "localConsiderations": [
-        "A building with radiator or baseboard heat may need a separate cooling-distribution plan; the heating terminal does not establish a route for cooling air or refrigerant lines.",
+        "New Rochelle directs building-permit applicants to its current online system and State code interpretations; any installation plan should identify which equipment, distribution, electrical, or plumbing changes require City review.",
         "Any proposed line set, condensate drain, outdoor unit, or new duct path should be checked at the property for slope, termination, appearance, service access, and current City requirements."
       ],
       "commonConcerns": [
@@ -2929,8 +2930,9 @@
         {"q": "How are multi-zone ductless heads selected for a New Rochelle property?", "a": "Each proposed zone needs its own load, placement, airflow, condensate, controls, and line-routing review; head count should not be based only on room count."}
       ],
       "sourceNotes": [
-        {"label": "U.S. Department of Energy — Heat Pump Systems", "url": "https://www.energy.gov/energysaver/heat-pump-systems", "supports": "Official description of ducted and ductless heat-pump configurations and site-specific installer review."},
-        {"label": "ENERGY STAR — HVAC Quality Installation", "url": "https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation", "supports": "Official sizing, airflow, and refrigerant-charge guidance."}
+        {"label": "NYSERDA — Heating and Cooling Systems", "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems", "supports": "Official description of ducted, ductless, and other heating-system configurations."},
+        {"label": "ENERGY STAR — HVAC Quality Installation", "url": "https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation", "supports": "Official sizing, airflow, and refrigerant-charge guidance."},
+        {"label": "City of New Rochelle — Building Permits", "url": "https://www.newrochelleny.gov/237/Building-Permits", "supports": "Official New Rochelle building-permit channel and link to current State code interpretations."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -2945,7 +2947,7 @@
       "metaDescription": "Mount Vernon HVAC installation planning for steam, hot-water, forced-air, or ductless distribution, with utilities, zones, routing, and controls reviewed.",
       "answerFirst": "Before an HVAC installation in Mount Vernon, identify whether each area uses steam, hot water, forced air, electric equipment, or no distribution at all. The proposed system must be designed around the actual loads, terminals, utilities, controls, and spaces served.",
       "localConsiderations": [
-        "A heating replacement must preserve the distinction between one-pipe steam, two-pipe steam, pumped hot water, and forced air because their piping, controls, and commissioning are not interchangeable.",
+        "Mount Vernon's Buildings Department reviews permit applications for construction, repairs, alterations, electrical work, and plumbing and oversees older multifamily properties; an installation scope should identify the current use, affected spaces, and applicable City review.",
         "An electrification or added-cooling scope should verify panel capacity, equipment location, penetrations, condensate, and the intended role of existing fuel-fired equipment before promising removal or backup operation."
       ],
       "commonConcerns": [
@@ -2974,8 +2976,8 @@
         {"q": "Can existing radiators determine the replacement boiler size in Mount Vernon?", "a": "They are part of the assessment, but the applicable sizing method also depends on system type, building load, connected radiation, operating conditions, and the proposed design."}
       ],
       "sourceNotes": [
-        {"label": "U.S. Department of Energy — Heat Pump Systems", "url": "https://www.energy.gov/energysaver/heat-pump-systems", "supports": "Official description of heat-pump types and site-specific installer review."},
-        {"label": "NYSERDA — Heating and Cooling Systems", "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems", "supports": "Official guidance distinguishing ducted, ductless, and other heating-system configurations."}
+        {"label": "NYSERDA — Heating and Cooling Systems", "url": "https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems", "supports": "Official guidance distinguishing ducted, ductless, and other heating-system configurations."},
+        {"label": "City of Mount Vernon — Buildings", "url": "https://www.mountvernonny.gov/187/Buildings", "supports": "Official Mount Vernon description of permit review, repair and alteration oversight, and older multifamily property responsibilities."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -2990,7 +2992,7 @@
       "metaDescription": "Scarsdale HVAC installation based on room loads, zoning, sound, equipment placement, distribution, service access, and a documented startup plan.",
       "answerFirst": "For HVAC installation in Scarsdale, translate room-by-room comfort goals into documented loads, zones, distribution, equipment placement, and control requirements. Compare proposals on design inputs and verification steps, not brand or nominal capacity alone.",
       "localConsiderations": [
-        "Where a property has additions, multiple exposures, or separate occupancy schedules, a single thermostat and whole-building tonnage may not describe the room-level design problem.",
+        "Scarsdale's mechanical-heating application distinguishes hot-water, hydro-air, and steam systems and requests a location diagram plus manufacturer clearances; the installation scope should preserve those property-specific distinctions.",
         "Outdoor and indoor equipment locations should be reviewed for sound, appearance, drainage, service clearances, routing, and current Village or Town requirements before final selection."
       ],
       "commonConcerns": [
@@ -3019,7 +3021,8 @@
         {"q": "What makes a Scarsdale startup plan reviewable?", "a": "It should name the equipment-specific checks, design targets, recorded settings or measurements, controls tested, deficiencies, and documents delivered at turnover."}
       ],
       "sourceNotes": [
-        {"label": "ENERGY STAR — HVAC Quality Installation", "url": "https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation", "supports": "Official guidance on property-based sizing, manufacturer airflow, and refrigerant verification."}
+        {"label": "ENERGY STAR — HVAC Quality Installation", "url": "https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation", "supports": "Official guidance on property-based sizing, manufacturer airflow, and refrigerant verification."},
+        {"label": "Village of Scarsdale — Mechanical Heating Application", "url": "https://www.scarsdale.gov/DocumentCenter/View/8645/Mechanical-Heating-Application", "supports": "Official Scarsdale form distinguishing heating-system types and requiring location and clearance details."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3034,7 +3037,7 @@
       "metaDescription": "Yonkers HVAC repair for no-heat, no-cool, airflow, control, boiler, furnace, and AC concerns, with equipment-specific diagnosis and written options.",
       "answerFirst": "For HVAC repair in Yonkers, record the equipment type, symptoms, error codes, and any water, odor, smoke, or electrical warning signs before calling. Bravo Mechanical can then confirm current availability and diagnose the property-specific fault.",
       "localConsiderations": [
-        "A multifamily or mixed-occupancy property may require access coordination and a clear record of which apartments, common areas, or zones are affected.",
+        "Yonkers Housing Code Enforcement inspects apartment houses and other multiple residences and investigates insufficient-heat or hot-water complaints; a repair intake should distinguish the affected apartment, common area, equipment, and responsible contact.",
         "Steam, hot-water, forced-air, heat-pump, and ductless systems require different diagnostic steps; identify the equipment and distribution before comparing repair options."
       ],
       "commonConcerns": [
@@ -3063,8 +3066,9 @@
         {"q": "When should a Yonkers owner compare repair and replacement?", "a": "Compare written options when the fault is costly, failures recur, parts are unavailable, safety is affected, or equipment no longer meets the property's needs; avoid a universal age rule."}
       ],
       "sourceNotes": [
-        {"label": "U.S. Department of Energy — Maintaining Your Air Conditioner", "url": "https://www.energy.gov/energysaver/maintaining-your-air-conditioner", "supports": "Official maintenance and airflow context for diagnosis."},
-        {"label": "U.S. CPSC — Carbon Monoxide Fact Sheet", "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet", "supports": "Official carbon-monoxide alarm and emergency-response guidance."}
+        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official maintenance and airflow context for diagnosis."},
+        {"label": "U.S. CPSC — Carbon Monoxide Fact Sheet", "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet", "supports": "Official carbon-monoxide alarm and emergency-response guidance."},
+        {"label": "City of Yonkers — Housing Code Enforcement", "url": "https://www.yonkersny.gov/235/Housing-Code-Enforcement", "supports": "Official Yonkers description of multiple-residence inspections and insufficient-heat or hot-water complaint investigation."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3079,7 +3083,7 @@
       "metaDescription": "White Plains HVAC repair diagnosis for rooftop, split, packaged, boiler, furnace, heat-pump, and control problems in residential or occupied spaces.",
       "answerFirst": "For a White Plains HVAC failure, identify the equipment tag, spaces served, responsible contact, access limits, and operating schedule along with the symptom. That intake separates a single-room complaint from a control, zone, or shared-equipment outage.",
       "localConsiderations": [
-        "When rooftop or common equipment serves occupied spaces, diagnosis may require authorized roof or mechanical-room access and coordination with a property manager.",
+        "White Plains Building Department oversight expressly includes repair, use, occupancy, and ventilation of structures; a repair that changes equipment or ventilation should be separated from diagnosis and checked against the current City process.",
         "A commercial or shared-system call should identify shutdown limits, tenant or staff impacts, control ownership, and who can approve diagnostic or repair work."
       ],
       "commonConcerns": [
@@ -3108,7 +3112,8 @@
         {"q": "How should intermittent White Plains control faults be documented?", "a": "Record time, mode, setpoints, schedules, alarms, affected zones, recent changes, and whether the equipment started, stopped, or changed stages before the symptom."}
       ],
       "sourceNotes": [
-        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official context for controls, electrical connections, drainage, coils, refrigerant, and airflow checks."}
+        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official context for controls, electrical connections, drainage, coils, refrigerant, and airflow checks."},
+        {"label": "City of White Plains — Building Department", "url": "https://www.cityofwhiteplains.com/86/Building", "supports": "Official White Plains description of City oversight for repairs, use, occupancy, and ventilation of structures."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3123,7 +3128,7 @@
       "metaDescription": "New Rochelle HVAC repair for cooling loss, drainage, airflow, heat-pump, furnace, boiler, thermostat, and zone concerns after safe symptom checks.",
       "answerFirst": "For HVAC repair in New Rochelle, describe whether the problem is lost capacity, poor airflow, water, ice, noise, odor, or a control error and where it appears. Diagnosis should distinguish distribution and drainage faults from electrical or sealed-refrigerant work.",
       "localConsiderations": [
-        "Water near cooling equipment may come from condensate drainage, overflow, ice melt, or another building source; visual location alone does not prove a refrigerant leak.",
+        "New Rochelle's 2025 climate plan identifies more frequent intense storms, higher temperatures, precipitation change, and flooding risks; for the specific property, record recent weather and water entry before attributing water to HVAC condensate.",
         "If only one ductless head, room, or branch is affected, note the unaffected zones so the diagnostic path does not assume a whole-system failure."
       ],
       "commonConcerns": [
@@ -3152,7 +3157,8 @@
         {"q": "Can I run New Rochelle cooling equipment while the coil is iced?", "a": "Stop cooling and request diagnosis. Continued operation can add water and obscure the cause; do not remove ice with tools or heat."}
       ],
       "sourceNotes": [
-        {"label": "U.S. Department of Energy — Maintaining Your Air Conditioner", "url": "https://www.energy.gov/energysaver/maintaining-your-air-conditioner", "supports": "Official guidance on filters, coils, condensate drains, airflow, and professional service."}
+        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official guidance on filters, coils, condensate drains, airflow, and professional service."},
+        {"label": "City of New Rochelle — GreeNR Climate Action Plan Update 2025", "url": "https://www.newrochelleny.gov/DocumentCenter/View/20595/GreenNR-Climate-Action-Plan-Update-2025", "supports": "Official New Rochelle findings on intense storms, higher temperatures, changing precipitation, and flooding risk."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3167,7 +3173,7 @@
       "metaDescription": "Mount Vernon HVAC repair for boiler, furnace, steam, hot-water, airflow, thermostat, and cooling faults, with life-safety warnings separated from diagnosis.",
       "answerFirst": "For a Mount Vernon no-heat or heating-noise call, identify the fuel, boiler or furnace type, distribution, affected rooms, pressure display if visible, and any alarm or odor. Keep life-safety actions separate from equipment troubleshooting.",
       "localConsiderations": [
-        "Steam banging, hot-water flow noise, duct expansion, and burner noise have different diagnostic paths; record exactly where and when the sound occurs.",
+        "Mount Vernon's Buildings Department monitors existing structures, oversees older multifamily properties, and reviews repair applications; identify the affected dwelling, common system, or nonresidential space before assigning access and approval.",
         "A pressure display, relief discharge, active leak, or repeated lockout is an observation for the technician, not an invitation to add water, vent radiators, or reset controls repeatedly."
       ],
       "commonConcerns": [
@@ -3182,7 +3188,7 @@
       ],
       "safeChecks": [
         "Note visible codes, gauges, leak locations, and affected rooms without touching valves or covers",
-        "Confirm the thermostat call and whether the equipment attempts a cycle once"
+        "Do not attempt an equipment cycle when there is a gas odor, smoke, fire, a carbon-monoxide alarm, an active leak, or another safety warning"
       ],
       "professionalBoundaries": [
         "Do not open, drain, fill, purge, vent, or pressurize steam or hot-water heating equipment",
@@ -3197,7 +3203,8 @@
       ],
       "sourceNotes": [
         {"label": "U.S. CPSC — Carbon Monoxide Fact Sheet", "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet", "supports": "Official alarm, evacuation, and combustion-safety guidance."},
-        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official context for qualified fuel, combustion, electrical, and control checks."}
+        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official context for qualified fuel, combustion, electrical, and control checks."},
+        {"label": "City of Mount Vernon — Buildings", "url": "https://www.mountvernonny.gov/187/Buildings", "supports": "Official Mount Vernon description of repair review, existing-structure monitoring, and older multifamily property oversight."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3212,7 +3219,7 @@
       "metaDescription": "Scarsdale HVAC repair for intermittent zone, airflow, thermostat, equipment-noise, heating, and cooling problems with symptom-based diagnosis.",
       "answerFirst": "For an intermittent HVAC repair issue in Scarsdale, build a short timeline of room temperatures, thermostat calls, zone changes, noises, codes, and outdoor conditions. Reproducible operating details are more useful than guessing which component failed.",
       "localConsiderations": [
-        "In a multi-zone system, a complaint may follow a damper, sensor, schedule, airflow path, or shared equipment stage; identify which zone calls occur together.",
+        "Scarsdale's mechanical-heating application distinguishes hot-water, hydro-air, and steam equipment and requires operating, maintenance, and shutdown instructions; repair intake should identify that documented system type and normal procedure.",
         "A sound complaint should include the listening location and operating stage because airflow noise, vibration, piping movement, and equipment faults require different tests."
       ],
       "commonConcerns": [
@@ -3241,7 +3248,8 @@
         {"q": "Can thermostat history prove which Scarsdale component failed?", "a": "It can narrow timing and demand, but a technician must compare that record with the actual control sequence and equipment response before identifying a fault."}
       ],
       "sourceNotes": [
-        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official context for thermostat, controls, electrical, airflow, and equipment-condition checks."}
+        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official context for thermostat, controls, electrical, airflow, and equipment-condition checks."},
+        {"label": "Village of Scarsdale — Mechanical Heating Application", "url": "https://www.scarsdale.gov/DocumentCenter/View/8645/Mechanical-Heating-Application", "supports": "Official Scarsdale form distinguishing heating-system types and requiring operating, maintenance, and shutdown instructions."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3256,7 +3264,7 @@
       "metaDescription": "Yonkers HVAC maintenance built from an equipment and zone inventory, with access, filters, drainage, controls, findings, and exclusions documented.",
       "answerFirst": "For HVAC maintenance in Yonkers, define the equipment, zones, filters, drains, controls, and service access included in the visit. A written inventory prevents shared or tenant-serving components from being skipped or assigned to the wrong party.",
       "localConsiderations": [
-        "A building with separate apartment equipment and common systems needs an asset-to-space list plus authorized access for every item in the maintenance scope.",
+        "Yonkers Housing Code Enforcement receives annual boiler inspection reports from owners of multiple residences with six or more units; maintenance records for an applicable property should identify the boiler and responsible owner separately from routine service notes.",
         "Filter responsibility, condensate observations, shutdown notice, and findings delivery should be assigned between owner, manager, tenant, and contractor before the visit."
       ],
       "commonConcerns": [
@@ -3285,7 +3293,8 @@
         {"q": "What should a Yonkers maintenance report show?", "a": "It should identify the asset, tasks completed, relevant observations or measurements, inaccessible items, safety findings, recommended follow-up, and work needing separate approval."}
       ],
       "sourceNotes": [
-        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official maintenance context for filters, electrical connections, condensate, controls, coils, refrigerant, airflow, and combustion."}
+        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official maintenance context for filters, electrical connections, condensate, controls, coils, refrigerant, airflow, and combustion."},
+        {"label": "City of Yonkers — Housing Code Enforcement", "url": "https://www.yonkersny.gov/235/Housing-Code-Enforcement", "supports": "Official Yonkers description of annual boiler inspection reports for multiple residences of six or more units."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3300,7 +3309,7 @@
       "metaDescription": "White Plains HVAC maintenance with asset schedules, roof and occupied-space access, control sequences, operating windows, records, and exclusions defined.",
       "answerFirst": "A White Plains maintenance plan should organize equipment by asset, spaces served, operating schedule, access requirements, and approved task list. That structure lets rooftop, tenant, and shared-control work be sequenced without implying guaranteed uptime.",
       "localConsiderations": [
-        "Roof access, occupied-area entry, alarms, building controls, and shutdown windows may require different authorized contacts even when they involve one HVAC asset.",
+        "White Plains states that required project inspections depend on scope and that mechanical work must not be concealed before City acceptance; a maintenance visit should separate routine tasks from corrective work that changes or conceals an installation.",
         "Maintenance timing should reflect actual heating, cooling, and occupancy constraints while remaining conditional on weather, equipment, safe access, and current scheduling."
       ],
       "commonConcerns": [
@@ -3329,7 +3338,8 @@
         {"q": "How are corrective repairs separated from White Plains maintenance?", "a": "The agreement should define included tasks and documentation; a newly diagnosed repair should have its own findings, authorization, scope, and price before work."}
       ],
       "sourceNotes": [
-        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official checklist covering controls, electrical, condensate, coils, refrigerant, airflow, and heating checks."}
+        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official checklist covering controls, electrical, condensate, coils, refrigerant, airflow, and heating checks."},
+        {"label": "City of White Plains — Inspection Information", "url": "https://www.cityofwhiteplains.com/123/Inspection-Information", "supports": "Official White Plains guidance that project inspections depend on scope and mechanical installations cannot be concealed before acceptance."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3344,7 +3354,7 @@
       "metaDescription": "New Rochelle HVAC maintenance focused on filters, coils, condensate, airflow, controls, accessible conditions, manufacturer guidance, and findings.",
       "answerFirst": "For HVAC maintenance in New Rochelle, connect filter, coil, drain, airflow, and control tasks to the specific equipment and accessible conditions. The visit should document what was completed, what could not be evaluated, and what needs separate repair approval.",
       "localConsiderations": [
-        "Cooling maintenance should trace accessible condensate pans, drains, pumps, overflow protection, and terminations because a generic tune-up label does not define drainage work.",
+        "New Rochelle's 2025 climate plan identifies changing precipitation and flooding risks; at a specific property, cooling maintenance should record storm exposure or prior water entry when tracing pans, drains, pumps, overflow controls, and terminations.",
         "For ductless or multi-zone systems, list each indoor unit, filter, drain route, controller, and outdoor-unit relationship rather than recording only the condenser."
       ],
       "commonConcerns": [
@@ -3373,7 +3383,8 @@
         {"q": "How often should New Rochelle filters be changed?", "a": "Use the equipment and filter manufacturer's instructions, actual loading, system use, indoor activities, and inspection findings; one interval does not fit every filter."}
       ],
       "sourceNotes": [
-        {"label": "U.S. Department of Energy — Maintaining Your Air Conditioner", "url": "https://www.energy.gov/energysaver/maintaining-your-air-conditioner", "supports": "Official guidance on filters, coils, condensate drains, and professional maintenance."}
+        {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official guidance on filters, coils, condensate drains, and professional maintenance."},
+        {"label": "City of New Rochelle — GreeNR Climate Action Plan Update 2025", "url": "https://www.newrochelleny.gov/DocumentCenter/View/20595/GreenNR-Climate-Action-Plan-Update-2025", "supports": "Official New Rochelle findings on changing precipitation and flooding risks used only as context for property-specific water-history checks."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3388,7 +3399,7 @@
       "metaDescription": "Mount Vernon heating maintenance for identified furnace, boiler, steam, or hot-water equipment with combustion, controls, distribution, and records scoped.",
       "answerFirst": "For heating maintenance in Mount Vernon, name the fuel, appliance, venting, controls, and steam, hot-water, or forced-air distribution before choosing a checklist. Combustion and pressurized-system tasks must remain with qualified personnel.",
       "localConsiderations": [
-        "A boiler visit should state whether it covers steam or hot water and identify connected controls, pumps or returns, emitters, venting, and any excluded piping work.",
+        "Mount Vernon's Buildings Department says it oversees maintenance of older multifamily properties and conducts vacant-apartment inspections; an applicable maintenance plan should distinguish apartment equipment, common equipment, access, and owner records.",
         "A furnace checklist should distinguish user-accessible filter review from professional electrical, fuel, burner, heat-exchanger, venting, and combustion tasks."
       ],
       "commonConcerns": [
@@ -3418,7 +3429,8 @@
       ],
       "sourceNotes": [
         {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official distinction between homeowner filter actions and professional electrical, fuel, combustion, control, and airflow checks."},
-        {"label": "U.S. CPSC — Carbon Monoxide Fact Sheet", "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet", "supports": "Official carbon-monoxide alarm and safety guidance."}
+        {"label": "U.S. CPSC — Carbon Monoxide Fact Sheet", "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet", "supports": "Official carbon-monoxide alarm and safety guidance."},
+        {"label": "City of Mount Vernon — Buildings", "url": "https://www.mountvernonny.gov/187/Buildings", "supports": "Official Mount Vernon description of older multifamily property maintenance and apartment inspection responsibilities."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3433,7 +3445,7 @@
       "metaDescription": "Scarsdale HVAC maintenance organized by equipment, zones, filters, controls, manufacturer documents, operating modes, readings, and follow-up work.",
       "answerFirst": "A Scarsdale maintenance scope should connect each piece of equipment to its zones, filters, controls, operating modes, and manufacturer documents. Ask for recorded findings that allow recurring comfort or airflow issues to be compared over time.",
       "localConsiderations": [
-        "A property with several systems or control zones benefits from separate asset records so settings and findings from one system are not applied to another.",
+        "Scarsdale's mechanical-heating application requires printed ignition, operating, maintenance, and shutdown instructions for the owner; the visit record should tie those documents to the specific hot-water, hydro-air, or steam equipment.",
         "Filter upgrades and control changes should be reviewed against equipment airflow and manufacturer limits rather than folded into maintenance as universal improvements."
       ],
       "commonConcerns": [
@@ -3463,7 +3475,8 @@
       ],
       "sourceNotes": [
         {"label": "ENERGY STAR — Maintenance Checklist", "url": "https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist", "supports": "Official checklist for filters, controls, electrical, drainage, coils, refrigerant, airflow, and heating equipment."},
-        {"label": "EPA — Air Cleaners and Air Filters in the Home", "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home", "supports": "Official guidance that filter effectiveness and HVAC compatibility matter and filtration cannot remove all pollutants."}
+        {"label": "EPA — Air Cleaners and Air Filters in the Home", "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home", "supports": "Official guidance that filter effectiveness and HVAC compatibility matter and filtration cannot remove all pollutants."},
+        {"label": "Village of Scarsdale — Mechanical Heating Application", "url": "https://www.scarsdale.gov/DocumentCenter/View/8645/Mechanical-Heating-Application", "supports": "Official Scarsdale requirement for equipment-specific operating, maintenance, and shutdown instructions."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3478,7 +3491,7 @@
       "metaDescription": "Yonkers indoor-air-quality assessment for source control, ventilation, filtration, humidity, equipment compatibility, and shared-building responsibilities.",
       "answerFirst": "For an indoor-air-quality concern in Yonkers, identify the pollutant, odor, moisture, particle, or comfort symptom plus when and where it occurs. Start with source control and ventilation, then evaluate filtration or humidity equipment as a supplement.",
       "localConsiderations": [
-        "In multifamily or mixed-occupancy properties, separate conditions inside the unit from shared shafts, common systems, neighboring spaces, and owner-controlled equipment before assigning an HVAC solution.",
+        "Yonkers Housing and Buildings investigates housing and building-construction complaints; for a shared property, document whether the reported condition is inside one unit, a common area, shared ventilation, or owner-controlled equipment before choosing the responsible channel.",
         "A tenant, owner, and manager may control different sources, exhaust fans, filters, windows, repairs, or central equipment, so the action plan should name responsibility for each step."
       ],
       "commonConcerns": [
@@ -3508,7 +3521,8 @@
       ],
       "sourceNotes": [
         {"label": "EPA — Air Cleaners and Air Filters in the Home", "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home", "supports": "Official guidance prioritizing source control and ventilation and treating filtration as supplemental."},
-        {"label": "EPA — Improving Indoor Air Quality", "url": "https://www.epa.gov/indoor-air-quality-iaq/improving-indoor-air-quality", "supports": "Official source-control, ventilation, and filtration framework."}
+        {"label": "EPA — Improving Indoor Air Quality", "url": "https://www.epa.gov/indoor-air-quality-iaq/improving-indoor-air-quality", "supports": "Official source-control, ventilation, and filtration framework."},
+        {"label": "City of Yonkers — Housing and Buildings", "url": "https://www.yonkersny.gov/217/Housing-Buildings", "supports": "Official Yonkers housing and building complaint, inspection, permit, and property-record responsibilities."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3523,7 +3537,7 @@
       "metaDescription": "White Plains IAQ review for occupied-space sources, outdoor-air paths, exhaust, filters, humidity, controls, and system-specific operating schedules.",
       "answerFirst": "A White Plains indoor-air-quality review should relate complaints to occupancy, cleaning, deliveries, renovations, outdoor-air schedules, exhaust, and HVAC operation. That timeline helps separate a source or ventilation issue from a filter-selection question.",
       "localConsiderations": [
-        "For offices, retail, or shared buildings, compare reported times with occupancy, outdoor-air dampers, exhaust operation, pressure relationships, and building-control schedules.",
+        "White Plains Building Department lists ventilation of occupied structures among its inspection responsibilities; a proposed ventilation change should distinguish the observed indoor concern from any alteration requiring current City review.",
         "A residential complaint and a workplace complaint may involve different responsible parties and investigation channels even when both occur at the same street address."
       ],
       "commonConcerns": [
@@ -3553,7 +3567,8 @@
       ],
       "sourceNotes": [
         {"label": "EPA — Air Cleaners and Air Filters in the Home", "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home", "supports": "Official guidance on source control, ventilation, filtration limits, and air-cleaner selection."},
-        {"label": "EPA — Indoor Air Quality", "url": "https://www.epa.gov/air-quality/indoor-air-quality", "supports": "Official three-strategy framework for indoor-air-quality improvement."}
+        {"label": "EPA — Indoor Air Quality", "url": "https://www.epa.gov/air-quality/indoor-air-quality", "supports": "Official three-strategy framework for indoor-air-quality improvement."},
+        {"label": "City of White Plains — Building Department", "url": "https://www.cityofwhiteplains.com/86/Building", "supports": "Official White Plains description of Building Department inspection responsibility for ventilation of occupied structures."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3568,7 +3583,7 @@
       "metaDescription": "New Rochelle IAQ assessment for moisture, condensation, drainage, humidity, source control, ventilation, filtration, and HVAC compatibility.",
       "answerFirst": "For a New Rochelle moisture or musty-odor concern, find the water or humidity source before choosing an air cleaner. Record condensation, leaks, drainage, indoor humidity, weather, and HVAC operation, then evaluate drying, source repair, ventilation, or dehumidification.",
       "localConsiderations": [
-        "Condensation on a window, pipe, duct, grille, or wall can reflect different surface temperatures, air leakage, insulation, airflow, and indoor moisture conditions.",
+        "New Rochelle's 2025 climate plan identifies higher temperatures, more intense storms, changing precipitation, and flooding risk; property-specific IAQ review should therefore log weather and water history without assuming every address has the same exposure.",
         "An HVAC condensate problem, plumbing or envelope leak, and high indoor humidity require different responsible trades; the assessment should not label every damp condition as an air-quality device need."
       ],
       "commonConcerns": [
@@ -3598,7 +3613,8 @@
       ],
       "sourceNotes": [
         {"label": "EPA — A Brief Guide to Mold, Moisture and Your Home", "url": "https://www.epa.gov/mold/brief-guide-mold-moisture-and-your-home", "supports": "Official moisture-control, condensate-drain, and indoor-humidity guidance."},
-        {"label": "EPA — Improving Indoor Air Quality", "url": "https://www.epa.gov/indoor-air-quality-iaq/improving-indoor-air-quality", "supports": "Official source-control, ventilation, and filtration hierarchy."}
+        {"label": "EPA — Improving Indoor Air Quality", "url": "https://www.epa.gov/indoor-air-quality-iaq/improving-indoor-air-quality", "supports": "Official source-control, ventilation, and filtration hierarchy."},
+        {"label": "City of New Rochelle — GreeNR Climate Action Plan Update 2025", "url": "https://www.newrochelleny.gov/DocumentCenter/View/20595/GreenNR-Climate-Action-Plan-Update-2025", "supports": "Official New Rochelle findings on higher temperatures, intense storms, changing precipitation, and flooding risk."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3613,7 +3629,7 @@
       "metaDescription": "Mount Vernon IAQ review that separates combustion and carbon-monoxide safety from particle filtration, moisture, ventilation, and comfort concerns.",
       "answerFirst": "For a Mount Vernon air concern near fuel-burning equipment, treat a carbon-monoxide alarm, gas odor, smoke, soot, or venting concern as a safety matter, not a filter problem. Leave first when required; assess filtration or humidity only after the site is safe.",
       "localConsiderations": [
-        "Particle filters do not correct a leaking flue, backdraft, fuel problem, or carbon-monoxide condition, and odor is not a reliable carbon-monoxide warning.",
+        "Mount Vernon's Buildings Department enforces housing standards and oversees older multifamily properties; for an applicable shared building, identify whether a condition involves one dwelling, a common system, or owner-controlled combustion equipment.",
         "Dust near radiators, registers, or equipment should be traced to the material and pathway before recommending a filter that may not serve that room or pollutant."
       ],
       "commonConcerns": [
@@ -3643,7 +3659,8 @@
       ],
       "sourceNotes": [
         {"label": "U.S. CPSC — Carbon Monoxide Fact Sheet", "url": "https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet", "supports": "Official carbon-monoxide properties, alarms, and emergency response guidance."},
-        {"label": "EPA — Air Cleaners and Air Filters in the Home", "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home", "supports": "Official limits of filtration and priority of source control and ventilation."}
+        {"label": "EPA — Air Cleaners and Air Filters in the Home", "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home", "supports": "Official limits of filtration and priority of source control and ventilation."},
+        {"label": "City of Mount Vernon — Buildings", "url": "https://www.mountvernonny.gov/187/Buildings", "supports": "Official Mount Vernon housing-standard enforcement and older multifamily property oversight."}
       ],
       "reviewedAt": "2026-09-02"
     },
@@ -3658,7 +3675,7 @@
       "metaDescription": "Scarsdale IAQ planning for measured humidity, source control, ventilation, filter fit and pressure, system reach, ozone avoidance, and maintenance.",
       "answerFirst": "For a Scarsdale filtration or humidity upgrade, define the concern and measure current conditions before selecting equipment. Review source control and ventilation first, then confirm filter fit, airflow effect, system reach, controls, drainage, and maintenance.",
       "localConsiderations": [
-        "A high-efficiency filter can address certain particles only when it fits, air passes through it, and the HVAC system can operate within its applicable airflow limits.",
+        "Scarsdale Building Department lists electrical and mechanical-heating permits among its responsibilities; if an IAQ proposal changes fixed electrical or mechanical equipment, confirm the current Village review before approval.",
         "Whole-building humidity control should use measurements from representative spaces and consider moisture sources, ventilation, equipment runtime, drainage, and envelope conditions."
       ],
       "commonConcerns": [
@@ -3689,7 +3706,8 @@
       "sourceNotes": [
         {"label": "EPA — Air Cleaners and Air Filters in the Home", "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home", "supports": "Official filtration effectiveness, HVAC compatibility, and limitation guidance."},
         {"label": "EPA — Ozone Generators Sold as Air Cleaners", "url": "https://www.epa.gov/indoor-air-quality-iaq/ozone-generators-are-sold-air-cleaners", "supports": "Official warning against ozone generators in occupied spaces."},
-        {"label": "EPA — A Brief Guide to Mold, Moisture and Your Home", "url": "https://www.epa.gov/mold/brief-guide-mold-moisture-and-your-home", "supports": "Official humidity and moisture-control guidance."}
+        {"label": "EPA — A Brief Guide to Mold, Moisture and Your Home", "url": "https://www.epa.gov/mold/brief-guide-mold-moisture-and-your-home", "supports": "Official humidity and moisture-control guidance."},
+        {"label": "Village of Scarsdale — Building Department", "url": "https://www.scarsdale.gov/169/Building", "supports": "Official Scarsdale electrical and mechanical-heating permit responsibilities used for conditional fixed-equipment review."}
       ],
       "reviewedAt": "2026-09-02"
     }

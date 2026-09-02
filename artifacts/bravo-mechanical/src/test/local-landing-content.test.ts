@@ -41,6 +41,40 @@ const OFFICIAL_SOURCE_HOSTS = new Set([
   "www.energy.gov",
   "www.energystar.gov",
   "www.epa.gov",
+  "www.cityofwhiteplains.com",
+  "www.mountvernonny.gov",
+  "www.newrochelleny.gov",
+  "www.scarsdale.gov",
+]);
+
+const LOCAL_SOURCE_URLS: Record<string, Set<string>> = {
+  yonkers: new Set([
+    "https://www.yonkersny.gov/217/Housing-Buildings",
+    "https://www.yonkersny.gov/229/Forms-Permits",
+    "https://www.yonkersny.gov/235/Housing-Code-Enforcement",
+  ]),
+  "white-plains": new Set([
+    "https://www.cityofwhiteplains.com/86/Building",
+    "https://www.cityofwhiteplains.com/115/Building-Permits-Applications",
+    "https://www.cityofwhiteplains.com/123/Inspection-Information",
+  ]),
+  "new-rochelle": new Set([
+    "https://www.newrochelleny.gov/237/Building-Permits",
+    "https://www.newrochelleny.gov/DocumentCenter/View/20595/GreenNR-Climate-Action-Plan-Update-2025",
+  ]),
+  "mount-vernon": new Set([
+    "https://www.mountvernonny.gov/187/Buildings",
+    "https://www.mountvernonny.gov/282/Documents-Forms-Fees",
+  ]),
+  scarsdale: new Set([
+    "https://www.scarsdale.gov/169/Building",
+    "https://www.scarsdale.gov/DocumentCenter/View/8645/Mechanical-Heating-Application",
+  ]),
+};
+
+const DEAD_TECHNICAL_SOURCE_URLS = new Set([
+  "https://www.energy.gov/energysaver/heat-pump-systems",
+  "https://www.energy.gov/energysaver/maintaining-your-air-conditioner",
 ]);
 
 const topCities = ["yonkers", "white-plains", "new-rochelle", "mount-vernon", "scarsdale"];
@@ -98,6 +132,31 @@ describe("local landing content inventory", () => {
     }
   });
 
+  it("traces every service-city local angle to an approved city source", () => {
+    for (const page of Object.values(SERVICE_CITY_LANDING_CONTENT)) {
+      const cityName = CITY_LANDING_CONTENT[page.citySlug].name;
+      const localSource = page.sourceNotes.find(({ url }) => LOCAL_SOURCE_URLS[page.citySlug]?.has(url));
+      expect(localSource, `${page.serviceSlug}/${page.citySlug} needs an approved local source`).toBeDefined();
+      expect(localSource?.supports).toContain(cityName);
+    }
+  });
+
+  it("does not cite retired technical source URLs", () => {
+    for (const page of Object.values(SERVICE_CITY_LANDING_CONTENT)) {
+      for (const source of page.sourceNotes) expect(DEAD_TECHNICAL_SOURCE_URLS.has(source.url)).toBe(false);
+    }
+  });
+
+  it("forbids a Mount Vernon heating cycle when a safety warning exists", () => {
+    const page = getServiceCityLanding("hvac-repair", "mount-vernon");
+    const safeChecks = page?.safeChecks.join(" ") ?? "";
+    expect(safeChecks).toMatch(/do not attempt an equipment cycle/i);
+    expect(safeChecks).toMatch(/gas odor/i);
+    expect(safeChecks).toMatch(/smoke/i);
+    expect(safeChecks).toMatch(/carbon-monoxide alarm/i);
+    expect(safeChecks).toMatch(/active leak/i);
+  });
+
   it("keeps reusable service copy conditional and free of unsupported promises", () => {
     const rendered = Object.values(SERVICE_CONTENT)
       .flatMap((service) => [
@@ -113,6 +172,7 @@ describe("local landing content inventory", () => {
     expect(rendered).not.toMatch(/permits pulled|inspections coordinated|fixed pricing|take one day|2[–-]4 days/i);
     expect(rendered).not.toMatch(/12[–-]15\+|exceed 30%|15[–-]20 years|20[–-]30 years/i);
     expect(rendered).not.toMatch(/healthier|allergy and asthma-friendly|respiratory issues|(?:will|does|can) guarantee|guaranteed (?:results|savings|health|reliability)/i);
+    expect(rendered).not.toMatch(/no upsell|honest sizing|clean, respectful|we handle condo|coordinat(?:e|ing) with building management/i);
   });
 
   it("covers every existing city route exactly once", () => {

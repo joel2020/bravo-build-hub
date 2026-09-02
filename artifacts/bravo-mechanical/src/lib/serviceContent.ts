@@ -79,7 +79,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "Urgent requests triaged by current conditions and availability",
       "Written pricing before approved work begins",
       "Equipment-specific diagnosis and parts review",
-      "Honest 'repair vs. replace' guidance — no upsell",
+      "Repair-versus-replace options tied to the documented fault and property needs",
     ],
     faqs: (c) => [
       {
@@ -212,8 +212,8 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     signals: [
       "Existing equipment and distribution documented before recommendations",
       "Solutions for steam, hydronic, forced-air, and ductless homes",
-      "Honest sizing — no oversold systems",
-      "Clean, respectful in-home work",
+      "Sizing method and design inputs stated in the proposed scope",
+      "Site-protection and restoration responsibilities stated in writing",
       "Written, property-specific scope before approved work",
     ],
     faqs: (c) => [
@@ -231,7 +231,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       },
       {
         q: `Do you work on condos and multi-units in ${c}?`,
-        a: `Yes. We handle condo and multi-family residential work, including coordinating with building management when needed.`,
+        a: `Provide the property type, equipment, spaces served, access rules, responsible contacts, and requested work. Bravo Mechanical can then confirm serviceability and whether management approval or coordination belongs in the written ${c} scope.`,
       },
     ],
   },

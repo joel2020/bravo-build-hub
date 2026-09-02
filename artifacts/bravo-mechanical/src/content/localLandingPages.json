@@ -2841,7 +2841,8 @@
       ],
       "sourceNotes": [
         {"label": "ENERGY STAR — HVAC Quality Installation", "url": "https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation", "supports": "Official guidance on property-based sizing, airflow, and refrigerant-charge verification."},
-        {"label": "City of Yonkers forms and permits", "url": "https://www.yonkersny.gov/229/Forms-Permits", "supports": "Official Yonkers permit forms and municipal filing reference for address-specific project checks."}
+        {"label": "City of Yonkers — Housing and Buildings", "url": "https://www.yonkersny.gov/217/Housing-Buildings", "supports": "Official Yonkers permit-application and property records channels for address-specific project checks."},
+        {"label": "City of Yonkers forms and permits", "url": "https://www.yonkersny.gov/229/Forms-Permits", "supports": "Official Yonkers permit forms and municipal filing reference."}
       ],
       "reviewedAt": "2026-09-02"
     },

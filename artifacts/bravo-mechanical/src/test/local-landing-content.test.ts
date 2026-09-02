@@ -141,6 +141,17 @@ describe("local landing content inventory", () => {
     }
   });
 
+  it("attributes Yonkers property-record guidance to Housing and Buildings", () => {
+    const page = getServiceCityLanding("hvac-installation", "yonkers");
+    const propertyRecordSource = page?.sourceNotes.find(
+      ({ url }) => url === "https://www.yonkersny.gov/217/Housing-Buildings",
+    );
+    expect(propertyRecordSource).toBeDefined();
+    expect(propertyRecordSource?.supports).toMatch(/property records/i);
+    const permitSource = page?.sourceNotes.find(({ url }) => url === "https://www.yonkersny.gov/229/Forms-Permits");
+    expect(permitSource?.supports).not.toMatch(/property records/i);
+  });
+
   it("does not cite retired technical source URLs", () => {
     for (const page of Object.values(SERVICE_CITY_LANDING_CONTENT)) {
       for (const source of page.sourceNotes) expect(DEAD_TECHNICAL_SOURCE_URLS.has(source.url)).toBe(false);

@@ -8,10 +8,7 @@ import sourceDataset from '../src/content/localLandingPages.json' with { type: '
 import {
   auditLocalLandingContent,
   hasUnsafeLocalClaim,
-  initializeLocalLandingContentAudit,
 } from '../scripts/local-landing-content.mjs';
-
-await initializeLocalLandingContentAudit();
 
 function audit(mutator) {
   const dataset = structuredClone(sourceDataset);
@@ -25,6 +22,13 @@ function expectError(errors, expected) {
     `Expected an audit error containing: ${expected}\nActual errors:\n${errors.join('\n')}`,
   );
 }
+
+const standaloneDataset = structuredClone(sourceDataset);
+standaloneDataset.serviceCities['hvac-repair/yonkers'].parentServicePath = '/services/ac-installation-westchester-county-ny';
+standaloneDataset.cities.yonkers.nearbyCitySlugs[0] = 'missing-canonical-city';
+const standaloneErrors = auditLocalLandingContent(standaloneDataset).errors;
+expectError(standaloneErrors, '/services/hvac-repair/yonkers: parentServicePath must match the reviewed hvac-repair parent route');
+expectError(standaloneErrors, '/service-areas/yonkers: nearbyCitySlugs references missing generated city route: missing-canonical-city');
 
 const baselineErrors = audit(() => {});
 assert.equal(

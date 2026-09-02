@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildAllRoutes } from './route-data.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -38,8 +37,6 @@ const SERVICE_CITY_ARRAY_RULES = {
   relatedServiceSlugs: { minimum: 1, kind: 'string' }, faqItems: { minimum: 3, kind: 'faq' },
   sourceNotes: { minimum: 1, kind: 'source' },
 };
-let catalog;
-
 function createCatalog(generatedRoutes) {
   const cityRoutes = generatedRoutes.filter((route) => route.type === 'city');
   const serviceCityRoutes = generatedRoutes.filter((route) => route.type === 'service-city');
@@ -61,9 +58,36 @@ function createCatalog(generatedRoutes) {
   };
 }
 
+function buildCanonicalAuditCatalog() {
+  const canonicalDataset = JSON.parse(readFileSync(path.join(root, 'src/content/localLandingPages.json'), 'utf8'));
+  if (!isRecord(canonicalDataset.cities) || !isRecord(canonicalDataset.serviceCities)) {
+    throw new Error('canonical local landing dataset is structurally invalid');
+  }
+  const blogDirectory = path.join(root, 'src/content/blog');
+  const blogRoutes = readdirSync(blogDirectory)
+    .filter((name) => name.endsWith('.md'))
+    .map((name) => ({ type: 'blog', path: `/blog/${name.slice(0, -3)}` }));
+  const cityRoutes = Object.entries(canonicalDataset.cities).map(([slug, content]) => ({
+    type: 'city',
+    path: routeForCity(slug),
+    title: content.title,
+    description: content.metaDescription,
+  }));
+  const serviceCityRoutes = Object.entries(canonicalDataset.serviceCities).map(([key, content]) => ({
+    type: 'service-city',
+    path: routeForServiceCity(key),
+    title: content.metaTitle,
+    description: content.metaDescription,
+    service: { slug: content.serviceSlug },
+    localContent: content,
+  }));
+  const serviceRoutes = [...new Set(serviceCityRoutes.map((route) => route.localContent.parentServicePath))]
+    .map((path) => ({ type: 'service', path }));
+  return createCatalog([...cityRoutes, ...serviceRoutes, ...serviceCityRoutes, ...blogRoutes]);
+}
+
 export async function initializeLocalLandingContentAudit() {
-  catalog = createCatalog(await buildAllRoutes());
-  return catalog;
+  return buildCanonicalAuditCatalog();
 }
 
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -170,7 +194,7 @@ function validateCatalogCounts(errors, routeCatalog) {
   if (routeCatalog.serviceCities.size !== EXPECTED_SERVICE_CITY_COUNT) errors.push(`generated catalog must contain exactly ${EXPECTED_SERVICE_CITY_COUNT} service-city routes; found ${routeCatalog.serviceCities.size}`);
 }
 
-export function validateDatasetShape(dataset, errors, routeCatalog = catalog) {
+export function validateDatasetShape(dataset, errors, routeCatalog) {
   if (!isRecord(dataset)) {
     errors.push('Dataset must be an object with cities and serviceCities records');
     return;
@@ -270,28 +294,28 @@ export function validateClaims(dataset, errors) {
   }
 }
 
-export function validateRelationships(dataset, errors) {
-  if (!catalog || !isRecord(dataset) || !isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
+export function validateRelationships(dataset, errors, routeCatalog) {
+  if (!routeCatalog || !isRecord(dataset) || !isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
   for (const [slug, city] of Object.entries(dataset.cities)) {
     if (!isRecord(city)) continue;
     const route = routeForCity(slug);
     for (const nearbySlug of Array.isArray(city.nearbyCitySlugs) ? city.nearbyCitySlugs : []) {
-      if (!catalog.cities.has(nearbySlug)) addError(errors, route, `nearbyCitySlugs references missing generated city route: ${nearbySlug}`);
+      if (!routeCatalog.cities.has(nearbySlug)) addError(errors, route, `nearbyCitySlugs references missing generated city route: ${nearbySlug}`);
       if (nearbySlug === slug) addError(errors, route, 'nearbyCitySlugs cannot include its own city');
     }
-    for (const guideSlug of Array.isArray(city.relatedGuideSlugs) ? city.relatedGuideSlugs : []) if (!catalog.guides.has(guideSlug)) addError(errors, route, `relatedGuideSlugs references missing frontmatter-derived blog route: ${guideSlug}`);
+    for (const guideSlug of Array.isArray(city.relatedGuideSlugs) ? city.relatedGuideSlugs : []) if (!routeCatalog.guides.has(guideSlug)) addError(errors, route, `relatedGuideSlugs references missing frontmatter-derived blog route: ${guideSlug}`);
   }
   for (const [key, page] of Object.entries(dataset.serviceCities)) {
     if (!isRecord(page)) continue;
     const route = routeForServiceCity(key);
-    if (!catalog.parentServicePaths.has(page.parentServicePath)) addError(errors, route, 'parentServicePath must reference a generated canonical service route');
-    const parents = catalog.parentByService.get(page.serviceSlug) ?? [];
+    if (!routeCatalog.parentServicePaths.has(page.parentServicePath)) addError(errors, route, 'parentServicePath must reference a generated canonical service route');
+    const parents = routeCatalog.parentByService.get(page.serviceSlug) ?? [];
     if (parents.length > 0 && parents.some((parent) => parent !== page.parentServicePath)) addError(errors, route, `parentServicePath must match the reviewed ${page.serviceSlug} parent route`);
     for (const relatedSlug of Array.isArray(page.relatedServiceSlugs) ? page.relatedServiceSlugs : []) {
-      if (!catalog.serviceSlugs.has(relatedSlug)) addError(errors, route, `relatedServiceSlugs references unreviewed generated service: ${relatedSlug}`);
+      if (!routeCatalog.serviceSlugs.has(relatedSlug)) addError(errors, route, `relatedServiceSlugs references unreviewed generated service: ${relatedSlug}`);
       if (relatedSlug === page.serviceSlug) addError(errors, route, 'relatedServiceSlugs cannot include its own service');
     }
-    for (const guideSlug of Array.isArray(page.relatedGuideSlugs) ? page.relatedGuideSlugs : []) if (!catalog.guides.has(guideSlug)) addError(errors, route, `relatedGuideSlugs references missing frontmatter-derived blog route: ${guideSlug}`);
+    for (const guideSlug of Array.isArray(page.relatedGuideSlugs) ? page.relatedGuideSlugs : []) if (!routeCatalog.guides.has(guideSlug)) addError(errors, route, `relatedGuideSlugs references missing frontmatter-derived blog route: ${guideSlug}`);
   }
 }
 
@@ -343,9 +367,15 @@ export function validateSimilarity(dataset, errors) {
 export function auditLocalLandingContent(dataset) {
   const errors = [];
   const warnings = [];
-  validateDatasetShape(dataset, errors);
+  let routeCatalog;
+  try {
+    routeCatalog = buildCanonicalAuditCatalog();
+  } catch {
+    errors.push('canonical route catalog could not be constructed');
+  }
+  validateDatasetShape(dataset, errors, routeCatalog);
   validateClaims(dataset, errors);
-  validateRelationships(dataset, errors);
+  validateRelationships(dataset, errors, routeCatalog);
   validateSimilarity(dataset, errors);
   return { errors, warnings };
 }
@@ -422,12 +452,6 @@ async function main() {
   validateDatasetShape(dataset, preflightErrors, null);
   if (preflightErrors.length > 0) {
     reportAuditResult(dataset, preflightErrors, [], false, { errors: [], checked: 0 });
-    return;
-  }
-  try {
-    await initializeLocalLandingContentAudit();
-  } catch {
-    reportAuditResult(dataset, ['canonical route catalog could not be constructed after source validation'], [], false, { errors: [], checked: 0 });
     return;
   }
   const { errors, warnings } = auditLocalLandingContent(dataset);

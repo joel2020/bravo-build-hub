@@ -341,37 +341,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.bravomechanicalny.com/services/hvac-repair/yonkers</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/yonkers</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/indoor-air-quality/yonkers</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://www.bravomechanicalny.com/services/hvac-installation/white-plains</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/hvac-repair/white-plains</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/white-plains</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/indoor-air-quality/white-plains</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -381,37 +351,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.bravomechanicalny.com/services/hvac-repair/new-rochelle</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/new-rochelle</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/indoor-air-quality/new-rochelle</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://www.bravomechanicalny.com/services/hvac-installation/mount-vernon</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/hvac-repair/mount-vernon</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/mount-vernon</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bravomechanicalny.com/services/indoor-air-quality/mount-vernon</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -421,12 +361,72 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://www.bravomechanicalny.com/services/hvac-repair/yonkers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/hvac-repair/white-plains</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/hvac-repair/new-rochelle</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/hvac-repair/mount-vernon</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://www.bravomechanicalny.com/services/hvac-repair/scarsdale</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/yonkers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/white-plains</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/new-rochelle</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/mount-vernon</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://www.bravomechanicalny.com/services/preventive-maintenance/scarsdale</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/indoor-air-quality/yonkers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/indoor-air-quality/white-plains</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/indoor-air-quality/new-rochelle</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bravomechanicalny.com/services/indoor-air-quality/mount-vernon</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>

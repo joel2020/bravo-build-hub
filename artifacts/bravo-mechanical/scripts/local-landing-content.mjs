@@ -1,33 +1,15 @@
 #!/usr/bin/env node
-import { readdirSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildAllRoutes } from './route-data.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const datasetPath = path.join(root, 'src/content/localLandingPages.json');
-const blogDirectory = path.join(root, 'src/content/blog');
-
-const CITY_SLUGS = new Set([
-  'yonkers', 'white-plains', 'new-rochelle', 'mount-vernon', 'scarsdale', 'rye',
-  'harrison', 'mamaroneck', 'larchmont', 'bronxville', 'tuckahoe', 'eastchester',
-  'tarrytown', 'sleepy-hollow', 'ossining', 'peekskill', 'mount-kisco', 'chappaqua',
-  'pleasantville', 'pound-ridge', 'bedford', 'katonah', 'armonk', 'hastings-on-hudson',
-  'dobbs-ferry', 'irvington', 'briarcliff-manor', 'croton-on-hudson', 'yorktown',
-  'somers', 'ardsley', 'hartsdale', 'pelham', 'port-chester',
-]);
-const SERVICE_SLUGS = new Set([
-  'hvac-installation', 'hvac-repair', 'preventive-maintenance', 'indoor-air-quality',
-]);
-const SERVICE_CITY_CITY_SLUGS = new Set([
-  'yonkers', 'white-plains', 'new-rochelle', 'mount-vernon', 'scarsdale',
-]);
-const PARENT_SERVICE_PATHS = new Map([
-  ['hvac-installation', '/services/ac-installation-westchester-county-ny'],
-  ['hvac-repair', '/services/emergency-hvac-repair-westchester-county-ny'],
-  ['preventive-maintenance', '/services/hvac-maintenance-westchester-county-ny'],
-  ['indoor-air-quality', '/services/indoor-air-quality-westchester-county-ny'],
-]);
+const generatedRoutes = await buildAllRoutes();
+const EXPECTED_CITY_COUNT = 34;
+const EXPECTED_SERVICE_CITY_COUNT = 20;
 const OFFICIAL_SOURCE_HOSTS = new Set([
   'bedfordny.gov', 'dos.ny.gov', 'greenburghny.com', 'mynewcastleny.gov', 'ny.gov',
   'nyserda.ny.gov', 'tax.ny.gov', 'www.bedfordny.gov', 'www.cityofwhiteplains.com',
@@ -37,41 +19,47 @@ const OFFICIAL_SOURCE_HOSTS = new Set([
   'www.tax.ny.gov', 'www.yonkersny.gov',
 ]);
 const UNSAFE_LOCAL_CLAIMS = [
-  /free (?:quote|estimate)/i,
-  /manufacturer[- ]trained/i,
-  /not subcontractors/i,
-  /manual j.{0,30}every/i,
-  /permits? (?:pulled|handled|coordinated)/i,
-  /fixed pricing/i,
-  /same[- ]day/i,
-  /guaranteed/i,
-  /prevents? breakdowns/i,
-  /keeps? (?:your )?warranty valid/i,
-  /cures?|prevents? (?:allergies|asthma|illness)/i,
+  /free (?:quote|estimate)/i, /manufacturer[- ]trained/i, /not subcontractors/i,
+  /manual j.{0,30}every/i, /permits? (?:pulled|handled|coordinated)/i,
+  /fixed pricing/i, /same[- ]day/i, /guaranteed/i, /prevents? breakdowns/i,
+  /keeps? (?:your )?warranty valid/i, /cures?|prevents? (?:allergies|asthma|illness)/i,
 ];
-const CITY_ARRAY_FIELDS = [
-  'zips', 'neighborhoods', 'localContext', 'commonConcerns', 'safeChecks',
-  'professionalBoundaries', 'municipalResources', 'relatedGuideSlugs',
-  'nearbyCitySlugs', 'faqItems', 'sourceNotes',
-];
-const SERVICE_CITY_ARRAY_FIELDS = [
-  'localConsiderations', 'commonConcerns', 'serviceScope', 'safeChecks',
-  'professionalBoundaries', 'relatedGuideSlugs', 'relatedServiceSlugs', 'faqItems',
-  'sourceNotes',
-];
-const CITY_TEXT_FIELDS = ['answerFirst', 'localContext', 'commonConcerns', 'safeChecks', 'professionalBoundaries', 'faqItems'];
-const SERVICE_CITY_TEXT_FIELDS = ['answerFirst', 'localConsiderations', 'commonConcerns', 'serviceScope', 'safeChecks', 'professionalBoundaries', 'faqItems'];
-const actualGuideSlugs = new Set(
-  readdirSync(blogDirectory)
-    .filter((file) => file.endsWith('.md'))
-    .map((file) => file.slice(0, -3)),
-);
+const CITY_ARRAY_RULES = {
+  zips: { minimum: 0, kind: 'string' }, neighborhoods: { minimum: 0, kind: 'string' },
+  localContext: { minimum: 2, kind: 'string' }, commonConcerns: { minimum: 3, kind: 'string' },
+  safeChecks: { minimum: 2, kind: 'string' }, professionalBoundaries: { minimum: 2, kind: 'string' },
+  municipalResources: { minimum: 1, kind: 'resource' }, relatedGuideSlugs: { minimum: 1, kind: 'string' },
+  nearbyCitySlugs: { minimum: 1, kind: 'string' }, faqItems: { minimum: 3, kind: 'faq' },
+  sourceNotes: { minimum: 1, kind: 'source' },
+};
+const SERVICE_CITY_ARRAY_RULES = {
+  localConsiderations: { minimum: 2, kind: 'string' }, commonConcerns: { minimum: 3, kind: 'string' },
+  serviceScope: { minimum: 3, kind: 'string' }, safeChecks: { minimum: 2, kind: 'string' },
+  professionalBoundaries: { minimum: 2, kind: 'string' }, relatedGuideSlugs: { minimum: 1, kind: 'string' },
+  relatedServiceSlugs: { minimum: 1, kind: 'string' }, faqItems: { minimum: 3, kind: 'faq' },
+  sourceNotes: { minimum: 1, kind: 'source' },
+};
+const catalog = (() => {
+  const cityRoutes = generatedRoutes.filter((route) => route.type === 'city');
+  const serviceCityRoutes = generatedRoutes.filter((route) => route.type === 'service-city');
+  const serviceRoutes = generatedRoutes.filter((route) => route.type === 'service');
+  const blogRoutes = generatedRoutes.filter((route) => route.type === 'blog');
+  return {
+    cities: new Set(cityRoutes.map((route) => route.path.slice('/service-areas/'.length))),
+    serviceCities: new Set(serviceCityRoutes.map((route) => route.path.slice('/services/'.length))),
+    serviceSlugs: new Set(serviceCityRoutes.map((route) => route.service?.slug).filter(Boolean)),
+    parentServicePaths: new Set(serviceRoutes.map((route) => route.path)),
+    guides: new Set(blogRoutes.map((route) => route.path.slice('/blog/'.length))),
+    metadataByPath: new Map(generatedRoutes.map((route) => [route.path, route])),
+  };
+})();
 
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export function normalizeUniqueCopy(value, locationNames) {
-  return value.toLowerCase()
-    .replace(new RegExp(locationNames.map(escapeRegex).join('|'), 'gi'), ' ')
+  const labels = locationNames.filter((name) => typeof name === 'string' && name.trim() !== '');
+  return String(value ?? '').toLowerCase()
+    .replace(labels.length > 0 ? new RegExp(labels.map(escapeRegex).join('|'), 'gi') : /$^/, ' ')
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
     .filter((token) => token.length > 2);
@@ -85,22 +73,16 @@ export function jaccard(left, right) {
   return union === 0 ? 1 : intersection / union;
 }
 
-function routeForCity(slug) {
-  return `/service-areas/${slug}`;
+function isRecord(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
 
-function routeForServiceCity(key) {
-  return `/services/${key}`;
-}
-
-function addError(errors, route, message) {
-  errors.push(`${route}: ${message}`);
-}
+function routeForCity(slug) { return `/service-areas/${slug}`; }
+function routeForServiceCity(key) { return `/services/${key}`; }
+function addError(errors, route, message) { errors.push(`${route}: ${message}`); }
 
 function validateString(value, field, route, errors) {
-  if (typeof value !== 'string' || value.trim() === '') {
-    addError(errors, route, `${field} must be a non-empty string`);
-  }
+  if (typeof value !== 'string' || value.trim() === '') addError(errors, route, `${field} must be a non-empty string`);
 }
 
 function validateUrl(url, route, field, errors) {
@@ -113,239 +95,210 @@ function validateUrl(url, route, field, errors) {
   }
 }
 
-function validateSourceEntries(entries, route, field, errors) {
-  if (!Array.isArray(entries) || entries.length === 0) return;
-  entries.forEach((source, index) => {
-    if (!source || typeof source !== 'object') {
-      addError(errors, route, `${field}[${index}] must be an object`);
-      return;
+function validateSourceEntry(source, route, field, errors, requiresSupports) {
+  if (!isRecord(source)) {
+    addError(errors, route, `${field} must be an object`);
+    return;
+  }
+  validateString(source.label, `${field}.label`, route, errors);
+  validateString(source.url, `${field}.url`, route, errors);
+  if (requiresSupports) validateString(source.supports, `${field}.supports`, route, errors);
+  if (typeof source.url === 'string' && source.url.trim() !== '') validateUrl(source.url, route, `${field}.url`, errors);
+}
+
+function validateArray(record, field, rule, route, errors) {
+  const value = record[field];
+  if (!Array.isArray(value)) {
+    addError(errors, route, `${field} must be a non-empty array`);
+    return;
+  }
+  if (value.length < rule.minimum) addError(errors, route, `${field} must be a non-empty array`);
+  value.forEach((entry, index) => {
+    const itemField = `${field}[${index}]`;
+    if (rule.kind === 'string') validateString(entry, itemField, route, errors);
+    if (rule.kind === 'faq') {
+      if (!isRecord(entry)) addError(errors, route, `${itemField} must be an object`);
+      else {
+        validateString(entry.q, `${itemField}.q`, route, errors);
+        validateString(entry.a, `${itemField}.a`, route, errors);
+      }
     }
-    validateString(source.label, `${field}[${index}].label`, route, errors);
-    validateString(source.url, `${field}[${index}].url`, route, errors);
-    if (field === 'sourceNotes') validateString(source.supports, `${field}[${index}].supports`, route, errors);
-    if (typeof source.url === 'string') validateUrl(source.url, route, `${field}[${index}].url`, errors);
+    if (rule.kind === 'resource') validateSourceEntry(entry, route, itemField, errors, false);
+    if (rule.kind === 'source') validateSourceEntry(entry, route, itemField, errors, true);
   });
 }
 
-function validateFaqs(items, route, errors) {
-  if (!Array.isArray(items) || items.length === 0) return;
-  items.forEach((item, index) => {
-    if (!item || typeof item !== 'object') {
-      addError(errors, route, `faqItems[${index}] must be an object`);
-      return;
-    }
-    validateString(item.q, `faqItems[${index}].q`, route, errors);
-    validateString(item.a, `faqItems[${index}].a`, route, errors);
-  });
+function validateArrays(record, rules, route, errors) {
+  for (const [field, rule] of Object.entries(rules)) validateArray(record, field, rule, route, errors);
 }
 
-function validateRecordArrays(record, fields, route, errors) {
-  for (const field of fields) {
-    if (!Array.isArray(record[field])) {
-      addError(errors, route, `${field} must be an array`);
-    }
+function validateMetadata(routePath, route, errors) {
+  const generated = catalog.metadataByPath.get(routePath);
+  if (!generated) {
+    addError(errors, route, 'is missing from the generated canonical route catalog');
+    return;
   }
-}
-
-function validateMetadata(record, titleField, route, errors, enforceTitleLimit = true) {
-  validateString(record[titleField], titleField, route, errors);
-  validateString(record.metaDescription, 'metaDescription', route, errors);
-  if (enforceTitleLimit && typeof record[titleField] === 'string' && record[titleField].length > 65) {
-    addError(errors, route, `${titleField} exceeds 65 characters`);
-  }
-  if (typeof record.metaDescription === 'string' && record.metaDescription.length > 160) {
-    addError(errors, route, 'metaDescription exceeds 160 characters');
-  }
+  if (typeof generated.title !== 'string' || generated.title.length > 65) addError(errors, route, 'generated title exceeds 65 characters');
+  if (typeof generated.description !== 'string' || generated.description.length > 160) addError(errors, route, 'generated metaDescription exceeds 160 characters');
 }
 
 function validateReviewedAt(value, route, errors) {
-  if (typeof value !== 'string' || !/^2026-09-\d{2}$/.test(value) || Number(value.slice(-2)) < 1 || Number(value.slice(-2)) > 30) {
-    addError(errors, route, 'reviewedAt must be a reviewed 2026-09 date');
-  }
+  if (typeof value !== 'string' || !/^2026-09-\d{2}$/.test(value) || Number(value.slice(-2)) < 1 || Number(value.slice(-2)) > 30) addError(errors, route, 'reviewedAt must be a reviewed 2026-09 date');
+}
+
+function validateCatalogCounts(errors) {
+  if (catalog.cities.size !== EXPECTED_CITY_COUNT) errors.push(`generated catalog must contain exactly ${EXPECTED_CITY_COUNT} city routes; found ${catalog.cities.size}`);
+  if (catalog.serviceCities.size !== EXPECTED_SERVICE_CITY_COUNT) errors.push(`generated catalog must contain exactly ${EXPECTED_SERVICE_CITY_COUNT} service-city routes; found ${catalog.serviceCities.size}`);
 }
 
 export function validateDatasetShape(dataset, errors) {
-  if (!dataset || typeof dataset !== 'object') {
+  if (!isRecord(dataset)) {
     errors.push('Dataset must be an object with cities and serviceCities records');
     return;
   }
-  const cities = dataset.cities;
-  const serviceCities = dataset.serviceCities;
-  if (!cities || typeof cities !== 'object' || Array.isArray(cities)) {
-    errors.push('cities must be an object');
-    return;
-  }
-  if (!serviceCities || typeof serviceCities !== 'object' || Array.isArray(serviceCities)) {
-    errors.push('serviceCities must be an object');
-    return;
-  }
+  if (!isRecord(dataset.cities)) errors.push('cities must be an object');
+  if (!isRecord(dataset.serviceCities)) errors.push('serviceCities must be an object');
+  if (!isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
+  validateCatalogCounts(errors);
 
-  const cityKeys = Object.keys(cities);
-  if (cityKeys.length !== CITY_SLUGS.size) errors.push(`cities must contain exactly ${CITY_SLUGS.size} records; found ${cityKeys.length}`);
-  for (const slug of CITY_SLUGS) if (!Object.hasOwn(cities, slug)) errors.push(`cities is missing required city key: ${slug}`);
-  for (const slug of cityKeys) if (!CITY_SLUGS.has(slug)) errors.push(`cities contains unknown city key: ${slug}`);
-
-  for (const [slug, city] of Object.entries(cities)) {
+  const cityKeys = Object.keys(dataset.cities);
+  if (cityKeys.length !== catalog.cities.size) errors.push(`cities must contain exactly ${catalog.cities.size} records; found ${cityKeys.length}`);
+  for (const slug of catalog.cities) if (!Object.hasOwn(dataset.cities, slug)) errors.push(`cities is missing generated city key: ${slug}`);
+  for (const slug of cityKeys) if (!catalog.cities.has(slug)) errors.push(`cities contains unknown generated city key: ${slug}`);
+  for (const [slug, city] of Object.entries(dataset.cities)) {
     const route = routeForCity(slug);
-    if (!city || typeof city !== 'object') {
+    if (!isRecord(city)) {
       addError(errors, route, 'record must be an object');
       continue;
     }
-    validateString(city.slug, 'slug', route, errors);
+    for (const field of ['slug', 'name', 'region', 'title', 'metaDescription', 'answerFirst']) validateString(city[field], field, route, errors);
     if (city.slug !== slug) addError(errors, route, `slug must equal city key ${slug}`);
-    for (const field of ['name', 'region', 'answerFirst']) validateString(city[field], field, route, errors);
-    validateRecordArrays(city, CITY_ARRAY_FIELDS, route, errors);
-    validateMetadata(city, 'title', route, errors, false);
+    validateArrays(city, CITY_ARRAY_RULES, route, errors);
     validateReviewedAt(city.reviewedAt, route, errors);
-    validateFaqs(city.faqItems, route, errors);
-    validateSourceEntries(city.municipalResources, route, 'municipalResources', errors);
-    validateSourceEntries(city.sourceNotes, route, 'sourceNotes', errors);
+    validateMetadata(route, route, errors);
   }
 
-  const expectedServiceCityKeys = new Set(
-    [...SERVICE_SLUGS].flatMap((service) => [...SERVICE_CITY_CITY_SLUGS].map((city) => `${service}/${city}`)),
-  );
-  const serviceCityKeys = Object.keys(serviceCities);
-  if (serviceCityKeys.length !== expectedServiceCityKeys.size) errors.push(`serviceCities must contain exactly ${expectedServiceCityKeys.size} records; found ${serviceCityKeys.length}`);
-  for (const key of expectedServiceCityKeys) if (!Object.hasOwn(serviceCities, key)) errors.push(`serviceCities is missing required service-city key: ${key}`);
-  for (const key of serviceCityKeys) if (!expectedServiceCityKeys.has(key)) errors.push(`serviceCities contains unknown service-city key: ${key}`);
-
-  for (const [key, page] of Object.entries(serviceCities)) {
+  const serviceCityKeys = Object.keys(dataset.serviceCities);
+  if (serviceCityKeys.length !== catalog.serviceCities.size) errors.push(`serviceCities must contain exactly ${catalog.serviceCities.size} records; found ${serviceCityKeys.length}`);
+  for (const key of catalog.serviceCities) if (!Object.hasOwn(dataset.serviceCities, key)) errors.push(`serviceCities is missing generated service-city key: ${key}`);
+  for (const key of serviceCityKeys) if (!catalog.serviceCities.has(key)) errors.push(`serviceCities contains unknown generated service-city key: ${key}`);
+  for (const [key, page] of Object.entries(dataset.serviceCities)) {
     const route = routeForServiceCity(key);
-    if (!page || typeof page !== 'object') {
+    if (!isRecord(page)) {
       addError(errors, route, 'record must be an object');
       continue;
     }
-    for (const field of ['serviceSlug', 'citySlug', 'serviceTitle', 'shortTitle', 'parentServicePath', 'h1', 'answerFirst']) validateString(page[field], field, route, errors);
+    for (const field of ['serviceSlug', 'citySlug', 'serviceTitle', 'shortTitle', 'parentServicePath', 'h1', 'metaTitle', 'metaDescription', 'answerFirst']) validateString(page[field], field, route, errors);
     if (key !== `${page.serviceSlug}/${page.citySlug}`) addError(errors, route, `key must equal ${page.serviceSlug}/${page.citySlug}`);
-    if (!CITY_SLUGS.has(page.citySlug)) addError(errors, route, `citySlug is not in the 34-city inventory: ${page.citySlug}`);
-    if (!SERVICE_SLUGS.has(page.serviceSlug)) addError(errors, route, `serviceSlug is not in the reviewed service set: ${page.serviceSlug}`);
-    validateRecordArrays(page, SERVICE_CITY_ARRAY_FIELDS, route, errors);
-    validateMetadata(page, 'metaTitle', route, errors);
+    if (!catalog.cities.has(page.citySlug)) addError(errors, route, `citySlug is not in the generated 34-city inventory: ${page.citySlug}`);
+    if (!catalog.serviceSlugs.has(page.serviceSlug)) addError(errors, route, `serviceSlug is not in the generated reviewed service set: ${page.serviceSlug}`);
+    validateArrays(page, SERVICE_CITY_ARRAY_RULES, route, errors);
     validateReviewedAt(page.reviewedAt, route, errors);
-    validateFaqs(page.faqItems, route, errors);
-    validateSourceEntries(page.sourceNotes, route, 'sourceNotes', errors);
+    validateMetadata(route, route, errors);
   }
 }
 
-function visibleText(record, fields) {
-  if (!record || typeof record !== 'object') return [];
-  return fields.flatMap((field) => {
-    const value = record[field];
-    if (typeof value === 'string') return [value];
-    if (!Array.isArray(value)) return [];
-    return value.flatMap((item) => {
-      if (typeof item === 'string') return [item];
-      if (item && typeof item === 'object') return [item.q, item.a].filter((text) => typeof text === 'string');
-      return [];
-    });
+function collectVisibleStrings(value) {
+  if (typeof value === 'string') return [value];
+  if (Array.isArray(value)) return value.flatMap(collectVisibleStrings);
+  if (!isRecord(value)) return [];
+  return Object.entries(value).flatMap(([key, item]) => {
+    if (['url', 'slug', 'reviewedAt', 'parentServicePath', 'relatedGuideSlugs', 'relatedServiceSlugs', 'nearbyCitySlugs'].includes(key)) return [];
+    return collectVisibleStrings(item);
   });
 }
 
-export function hasUnsafeLocalClaim(value, pattern) {
-  const match = pattern.exec(value);
-  if (!match) return false;
-  const priorText = value.slice(Math.max(0, match.index - 48), match.index);
-  const isQualified = /(?:\bnot\s+|\bno\s+|\bwithout\s+|\bavoids?\s+|\bavoiding\s+|\bimply(?:ing)?\s+)$/i.test(priorText);
-  const isHealthClaim = pattern.source === UNSAFE_LOCAL_CLAIMS.at(-1).source;
-  const before = value[match.index - 1] ?? '';
-  const after = value[match.index + match[0].length] ?? '';
-  const hasWordBoundaries = !/[a-z]/i.test(before) && !/[a-z]/i.test(after);
-  return !isQualified && (!isHealthClaim || hasWordBoundaries);
+function qualifiedClaim(value, start) {
+  const prior = value.slice(Math.max(0, start - 80), start);
+  return /(?:\bnot|\bno|\bwithout)(?:\s+[a-z-]+){0,3}\s+$|\bavoids?(?:\s+[a-z-]+){0,2}\s+$|\bavoiding(?:\s+[a-z-]+){0,2}\s+$|\bimply(?:ing)?(?:\s+[a-z-]+){0,2}\s+$/i.test(prior);
 }
 
+function claimMatches(value, pattern) {
+  const matcher = new RegExp(pattern.source, `${pattern.flags.replace('g', '')}g`);
+  const matches = [];
+  let match;
+  while ((match = matcher.exec(value)) !== null) {
+    const isHealthClaim = pattern.source === UNSAFE_LOCAL_CLAIMS.at(-1).source;
+    const before = value[match.index - 1] ?? '';
+    const after = value[match.index + match[0].length] ?? '';
+    const wordBoundaries = !/[a-z]/i.test(before) && !/[a-z]/i.test(after);
+    if (!qualifiedClaim(value, match.index) && (!isHealthClaim || wordBoundaries)) matches.push(match);
+    if (match[0] === '') matcher.lastIndex += 1;
+  }
+  return matches;
+}
+
+export function hasUnsafeLocalClaim(value, pattern) { return claimMatches(String(value ?? ''), pattern).length > 0; }
+
 export function validateClaims(dataset, errors) {
-  if (!dataset?.cities || !dataset?.serviceCities) return;
+  if (!isRecord(dataset) || !isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
   const records = [
-    ...Object.entries(dataset.cities).map(([slug, record]) => [routeForCity(slug), record, CITY_TEXT_FIELDS]),
-    ...Object.entries(dataset.serviceCities).map(([key, record]) => [routeForServiceCity(key), record, SERVICE_CITY_TEXT_FIELDS]),
+    ...Object.entries(dataset.cities).map(([slug, record]) => [routeForCity(slug), record]),
+    ...Object.entries(dataset.serviceCities).map(([key, record]) => [routeForServiceCity(key), record]),
   ];
-  for (const [route, record, fields] of records) {
-    for (const text of visibleText(record, fields)) {
-      for (const pattern of UNSAFE_LOCAL_CLAIMS) {
-        if (hasUnsafeLocalClaim(text, pattern)) {
-          addError(errors, route, `unsafe claim ${pattern} in visible copy: ${text}`);
-        }
-      }
+  for (const [route, record] of records) {
+    for (const text of collectVisibleStrings(record)) {
+      for (const pattern of UNSAFE_LOCAL_CLAIMS) if (hasUnsafeLocalClaim(text, pattern)) addError(errors, route, `unsafe claim ${pattern} in visible copy: ${text}`);
     }
   }
 }
 
 export function validateRelationships(dataset, errors) {
-  if (!dataset?.cities || !dataset?.serviceCities) return;
+  if (!isRecord(dataset) || !isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
   for (const [slug, city] of Object.entries(dataset.cities)) {
-    if (!city || typeof city !== 'object') continue;
+    if (!isRecord(city)) continue;
     const route = routeForCity(slug);
     for (const nearbySlug of Array.isArray(city.nearbyCitySlugs) ? city.nearbyCitySlugs : []) {
-      if (!CITY_SLUGS.has(nearbySlug)) addError(errors, route, `nearbyCitySlugs references unknown city: ${nearbySlug}`);
+      if (!catalog.cities.has(nearbySlug)) addError(errors, route, `nearbyCitySlugs references missing generated city route: ${nearbySlug}`);
       if (nearbySlug === slug) addError(errors, route, 'nearbyCitySlugs cannot include its own city');
     }
-    for (const guideSlug of Array.isArray(city.relatedGuideSlugs) ? city.relatedGuideSlugs : []) {
-      if (!actualGuideSlugs.has(guideSlug)) addError(errors, route, `relatedGuideSlugs references missing blog guide: ${guideSlug}`);
-    }
+    for (const guideSlug of Array.isArray(city.relatedGuideSlugs) ? city.relatedGuideSlugs : []) if (!catalog.guides.has(guideSlug)) addError(errors, route, `relatedGuideSlugs references missing frontmatter-derived blog route: ${guideSlug}`);
   }
   for (const [key, page] of Object.entries(dataset.serviceCities)) {
-    if (!page || typeof page !== 'object') continue;
+    if (!isRecord(page)) continue;
     const route = routeForServiceCity(key);
-    const expectedParentPath = PARENT_SERVICE_PATHS.get(page.serviceSlug);
-    if (!expectedParentPath || page.parentServicePath !== expectedParentPath) {
-      addError(errors, route, `parentServicePath must match the canonical ${page.serviceSlug} route: ${expectedParentPath ?? 'unknown service'}`);
-    }
+    if (!catalog.parentServicePaths.has(page.parentServicePath)) addError(errors, route, 'parentServicePath must reference a generated canonical service route');
     for (const relatedSlug of Array.isArray(page.relatedServiceSlugs) ? page.relatedServiceSlugs : []) {
-      if (!SERVICE_SLUGS.has(relatedSlug)) addError(errors, route, `relatedServiceSlugs references unreviewed service: ${relatedSlug}`);
+      if (!catalog.serviceSlugs.has(relatedSlug)) addError(errors, route, `relatedServiceSlugs references unreviewed generated service: ${relatedSlug}`);
       if (relatedSlug === page.serviceSlug) addError(errors, route, 'relatedServiceSlugs cannot include its own service');
     }
-    for (const guideSlug of Array.isArray(page.relatedGuideSlugs) ? page.relatedGuideSlugs : []) {
-      if (!actualGuideSlugs.has(guideSlug)) addError(errors, route, `relatedGuideSlugs references missing blog guide: ${guideSlug}`);
-    }
+    for (const guideSlug of Array.isArray(page.relatedGuideSlugs) ? page.relatedGuideSlugs : []) if (!catalog.guides.has(guideSlug)) addError(errors, route, `relatedGuideSlugs references missing frontmatter-derived blog route: ${guideSlug}`);
   }
 }
 
-function normalizedRecordCopy(record, fields, labels) {
-  return normalizeUniqueCopy(visibleText(record, fields).join(' '), labels);
+function cityName(dataset, slug) {
+  const city = isRecord(dataset?.cities) ? dataset.cities[slug] : undefined;
+  return isRecord(city) && typeof city.name === 'string' ? city.name : slug;
+}
+
+function normalizedRecordCopy(record, labels) {
+  return normalizeUniqueCopy(collectVisibleStrings(record).join(' '), labels);
 }
 
 export function validateSimilarity(dataset, errors) {
-  if (!dataset?.cities || !dataset?.serviceCities) return;
-  const cities = Object.entries(dataset.cities)
-    .filter(([, record]) => record && typeof record === 'object')
-    .map(([slug, record]) => ({ slug, record }));
+  if (!isRecord(dataset) || !isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
+  const cities = Object.entries(dataset.cities).filter(([, record]) => isRecord(record));
   for (let leftIndex = 0; leftIndex < cities.length; leftIndex += 1) {
     for (let rightIndex = leftIndex + 1; rightIndex < cities.length; rightIndex += 1) {
-      const left = cities[leftIndex];
-      const right = cities[rightIndex];
-      const labels = [left.record.name, right.record.name, left.slug, right.slug, 'hvac services', 'westchester county'];
-      const score = jaccard(
-        normalizedRecordCopy(left.record, CITY_TEXT_FIELDS, labels),
-        normalizedRecordCopy(right.record, CITY_TEXT_FIELDS, labels),
-      );
-      if (score >= 0.72) {
-        errors.push(`${routeForCity(left.slug)} and ${routeForCity(right.slug)}: normalized unique-copy similarity ${score.toFixed(2)} is at or above 0.72`);
-      }
+      const [leftSlug, left] = cities[leftIndex];
+      const [rightSlug, right] = cities[rightIndex];
+      const labels = [cityName(dataset, leftSlug), cityName(dataset, rightSlug), leftSlug, rightSlug, 'hvac services', 'westchester county'];
+      const score = jaccard(normalizedRecordCopy(left, labels), normalizedRecordCopy(right, labels));
+      if (score >= 0.72) errors.push(`${routeForCity(leftSlug)} and ${routeForCity(rightSlug)}: normalized unique-copy similarity ${score.toFixed(2)} is at or above 0.72`);
     }
   }
-
-  const pages = Object.entries(dataset.serviceCities)
-    .filter(([, record]) => record && typeof record === 'object')
-    .map(([key, record]) => ({ key, record }));
+  const pages = Object.entries(dataset.serviceCities).filter(([, record]) => isRecord(record));
   for (let leftIndex = 0; leftIndex < pages.length; leftIndex += 1) {
     for (let rightIndex = leftIndex + 1; rightIndex < pages.length; rightIndex += 1) {
-      const left = pages[leftIndex];
-      const right = pages[rightIndex];
-      if (left.record.serviceSlug !== right.record.serviceSlug) continue;
-      const labels = [left.record.citySlug, right.record.citySlug, left.record.serviceTitle, right.record.serviceTitle, left.record.shortTitle, right.record.shortTitle];
-      const leftAnswer = normalizeUniqueCopy(left.record.answerFirst || '', labels).join(' ');
-      const rightAnswer = normalizeUniqueCopy(right.record.answerFirst || '', labels).join(' ');
-      if (leftAnswer === rightAnswer) {
-        errors.push(`${routeForServiceCity(left.key)} and ${routeForServiceCity(right.key)}: answerFirst is identical after city-name normalization`);
-      }
-      const score = jaccard(
-        normalizedRecordCopy(left.record, SERVICE_CITY_TEXT_FIELDS, labels),
-        normalizedRecordCopy(right.record, SERVICE_CITY_TEXT_FIELDS, labels),
-      );
-      if (score >= 0.72) {
-        errors.push(`${routeForServiceCity(left.key)} and ${routeForServiceCity(right.key)}: normalized unique-copy similarity ${score.toFixed(2)} is at or above 0.72`);
-      }
+      const [leftKey, left] = pages[leftIndex];
+      const [rightKey, right] = pages[rightIndex];
+      if (left.serviceSlug !== right.serviceSlug) continue;
+      const labels = [cityName(dataset, left.citySlug), cityName(dataset, right.citySlug), left.citySlug, right.citySlug, left.serviceTitle, right.serviceTitle, left.shortTitle, right.shortTitle, left.h1, right.h1];
+      const leftAnswer = normalizeUniqueCopy(left.answerFirst, labels).join(' ');
+      const rightAnswer = normalizeUniqueCopy(right.answerFirst, labels).join(' ');
+      if (leftAnswer === rightAnswer) errors.push(`${routeForServiceCity(leftKey)} and ${routeForServiceCity(rightKey)}: answerFirst is identical after city-name normalization`);
+      const score = jaccard(normalizedRecordCopy(left, labels), normalizedRecordCopy(right, labels));
+      if (score >= 0.72) errors.push(`${routeForServiceCity(leftKey)} and ${routeForServiceCity(rightKey)}: normalized unique-copy similarity ${score.toFixed(2)} is at or above 0.72`);
     }
   }
 }
@@ -361,26 +314,25 @@ export function auditLocalLandingContent(dataset) {
 }
 
 function sourceEntries(dataset) {
-  return [
-    ...Object.entries(dataset.cities ?? {}).flatMap(([slug, city]) => {
-      if (!city || typeof city !== 'object') return [];
-      return [
-      ...(city.municipalResources ?? []).map((source) => ({ route: routeForCity(slug), source })),
-      ...(city.sourceNotes ?? []).map((source) => ({ route: routeForCity(slug), source })),
-      ];
-    }),
-    ...Object.entries(dataset.serviceCities ?? {}).flatMap(([key, page]) => {
-      if (!page || typeof page !== 'object') return [];
-      return (page.sourceNotes ?? []).map((source) => ({ route: routeForServiceCity(key), source }));
-    }),
-  ];
+  if (!isRecord(dataset)) return [];
+  const entries = [];
+  if (isRecord(dataset.cities)) for (const [slug, city] of Object.entries(dataset.cities)) {
+    if (!isRecord(city)) continue;
+    for (const source of Array.isArray(city.municipalResources) ? city.municipalResources : []) entries.push({ route: routeForCity(slug), source });
+    for (const source of Array.isArray(city.sourceNotes) ? city.sourceNotes : []) entries.push({ route: routeForCity(slug), source });
+  }
+  if (isRecord(dataset.serviceCities)) for (const [key, page] of Object.entries(dataset.serviceCities)) {
+    if (!isRecord(page)) continue;
+    for (const source of Array.isArray(page.sourceNotes) ? page.sourceNotes : []) entries.push({ route: routeForServiceCity(key), source });
+  }
+  return entries;
 }
 
 export async function auditLiveOfficialSources(dataset) {
   const errors = [];
   const routesByUrl = new Map();
   for (const { route, source } of sourceEntries(dataset)) {
-    if (!source?.url) continue;
+    if (!isRecord(source) || typeof source.url !== 'string' || source.url.trim() === '') continue;
     const routes = routesByUrl.get(source.url) ?? new Set();
     routes.add(route);
     routesByUrl.set(source.url, routes);
@@ -388,9 +340,7 @@ export async function auditLiveOfficialSources(dataset) {
   await Promise.all([...routesByUrl.entries()].map(async ([url, routes]) => {
     try {
       const response = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(20_000) });
-      if (!response.ok) {
-        for (const route of routes) errors.push(`${route}: source ${url} returned HTTP ${response.status} after redirect to ${response.url}`);
-      }
+      if (!response.ok) for (const route of routes) errors.push(`${route}: source ${url} returned HTTP ${response.status} after redirect to ${response.url}`);
     } catch (error) {
       for (const route of routes) errors.push(`${route}: source ${url} could not be checked live: ${error.message}`);
     }
@@ -402,20 +352,17 @@ async function main() {
   const dataset = JSON.parse(readFileSync(datasetPath, 'utf8'));
   const { errors, warnings } = auditLocalLandingContent(dataset);
   const liveMode = process.argv.includes('--live-sources');
-  let liveResult = { errors: [], checked: 0 };
-  if (liveMode) liveResult = await auditLiveOfficialSources(dataset);
+  const liveResult = liveMode ? await auditLiveOfficialSources(dataset) : { errors: [], checked: 0 };
   const allErrors = [...errors, ...liveResult.errors];
   for (const error of allErrors) console.error(`ERROR: ${error}`);
   for (const warning of warnings) console.warn(`WARNING: ${warning}`);
+  const count = isRecord(dataset.cities) && isRecord(dataset.serviceCities) ? Object.keys(dataset.cities).length + Object.keys(dataset.serviceCities).length : 0;
   if (allErrors.length > 0) {
-    console.error(`${Object.keys(dataset.cities).length + Object.keys(dataset.serviceCities).length} local landing-page records audited; ${allErrors.length} errors`);
+    console.error(`${count} local landing-page records audited; ${allErrors.length} errors`);
     process.exitCode = 1;
     return;
   }
-  const liveSummary = liveMode ? `; ${liveResult.checked} official sources checked live` : '';
-  console.log(`${Object.keys(dataset.cities).length + Object.keys(dataset.serviceCities).length} local landing-page records audited; 0 errors${liveSummary}`);
+  console.log(`${count} local landing-page records audited; 0 errors${liveMode ? `; ${liveResult.checked} official sources checked live` : ''}`);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  await main();
-}
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();

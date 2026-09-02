@@ -18,20 +18,45 @@ const escapeHtml = (value) => String(value)
 const routeByPath = new Map(allRoutes.map((route) => [route.path, route]));
 const cityBySlug = new Map(routes.filter((route) => route.type === "city").map((route) => [route.city.slug, route]));
 const blogBySlug = new Map(allRoutes.filter((route) => route.type === "blog").map((route) => [route.post.slug, route]));
-const comboByKey = new Map(routes.filter((route) => route.type === "service-city").map((route) => [`${route.service.slug}/${route.city.slug}`, route]));
+const serviceCityRoutes = routes.filter((route) => route.type === "service-city");
+const comboByKey = new Map(serviceCityRoutes.map((route) => [`${route.service.slug}/${route.city.slug}`, route]));
+
+function anchorsIn(html) {
+  return [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].map((match) => ({
+    href: match[1].match(/\bhref="([^"]*)"/i)?.[1],
+    text: match[2].replace(/<[^>]*>/g, "").trim(),
+  }));
+}
+
+function assertMeaningfulRouteLink(html, fromPath, targetPath) {
+  const links = anchorsIn(html).filter((anchor) => anchor.href === targetPath);
+  if (!links.length) throw new Error(`${fromPath} is missing crawler-visible relationship link: ${targetPath}`);
+  if (!links.some((anchor) => anchor.text && !/^(undefined|null)$/i.test(anchor.text))) {
+    throw new Error(`${fromPath} has no meaningful anchor text for relationship link: ${targetPath}`);
+  }
+}
 
 for (const route of routes) {
   const html = await readFile(path.join(dist, route.path.slice(1), "index.html"), "utf8");
   const content = route.localContent;
   const reviewedCopy = route.type === "city"
-    ? [content.answerFirst, ...content.localContext, ...content.commonConcerns, ...content.safeChecks, ...content.professionalBoundaries, ...content.municipalResources.flatMap((resource) => [resource.label]), ...content.sourceNotes.flatMap((source) => [source.label, source.supports])]
-    : [content.answerFirst, ...content.localConsiderations, ...content.commonConcerns, ...content.serviceScope, ...content.safeChecks, ...content.professionalBoundaries, ...content.sourceNotes.flatMap((source) => [source.label, source.supports])];
+    ? [content.answerFirst, ...content.localContext, ...content.commonConcerns, ...content.safeChecks, ...content.professionalBoundaries, ...content.municipalResources.flatMap((resource) => [resource.label])]
+    : [content.answerFirst, ...content.localConsiderations, ...content.commonConcerns, ...content.serviceScope, ...content.safeChecks, ...content.professionalBoundaries];
 
   for (const value of reviewedCopy) {
     const escaped = escapeHtml(value);
     if (!html.includes(escaped)) throw new Error(`${route.path} is missing crawler-visible reviewed copy: ${value}`);
   }
   const visibleHtml = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
+  for (const anchor of anchorsIn(visibleHtml)) {
+    if (!anchor.text || /^(undefined|null)$/i.test(anchor.text)) {
+      throw new Error(`${route.path} has a blank or invalid crawler-visible anchor label for ${anchor.href || "an anchor without href"}`);
+    }
+  }
+  if (visibleHtml.includes("Sources and references")) throw new Error(`${route.path} must not prerender editorial source notes`);
+  for (const source of content.sourceNotes) {
+    if (visibleHtml.includes(escapeHtml(source.supports))) throw new Error(`${route.path} must not prerender source-note editorial support text`);
+  }
   for (const faq of content.faqItems) {
     const question = escapeHtml(faq.q);
     const answer = escapeHtml(faq.a);
@@ -53,14 +78,24 @@ for (const route of routes) {
         cityBySlug.get(route.city.slug)?.path,
         ...content.relatedGuideSlugs.map((slug) => blogBySlug.get(slug)?.path),
         ...content.relatedServiceSlugs.map((slug) => comboByKey.get(`${slug}/${route.city.slug}`)?.path),
-        ...routes.filter((candidate) => candidate.type === "service-city" && candidate.city.slug === route.city.slug && candidate.path !== route.path).map((candidate) => candidate.path),
       ];
 
   for (const relatedPath of relatedPaths) {
     if (!relatedPath || !routeByPath.has(relatedPath)) throw new Error(`${route.path} has a relationship without a generated route: ${relatedPath}`);
-    if (!html.includes(`href="${escapeHtml(relatedPath)}"`)) throw new Error(`${route.path} is missing crawler-visible relationship link: ${relatedPath}`);
+    assertMeaningfulRouteLink(html, route.path, relatedPath);
   }
 }
+
+let expectedCrossCityLinks = 0;
+for (const route of serviceCityRoutes) {
+  const html = await readFile(path.join(dist, route.path.slice(1), "index.html"), "utf8");
+  const expectedOtherCities = serviceCityRoutes.filter((candidate) => candidate.service.slug === route.service.slug && candidate.city.slug !== route.city.slug);
+  for (const target of expectedOtherCities) {
+    expectedCrossCityLinks++;
+    assertMeaningfulRouteLink(html, route.path, target.path);
+  }
+}
+if (expectedCrossCityLinks !== 80) throw new Error(`Expected 80 same-service cross-city links, received ${expectedCrossCityLinks}`);
 
 for (const serviceRoute of routeByPath.values()) {
   if (serviceRoute.type !== "service") continue;

@@ -326,8 +326,14 @@ function mdToHtml(md) {
   return out.join("\n");
 }
 
+function normalizeLink(item) {
+  const label = item?.label ?? item?.linkLabel;
+  if (!item?.path || !label) throw new Error("Crawler link requires a generated path and meaningful label");
+  return { path: item.path, label };
+}
+
 function linkList(items) {
-  return `<ul>${items.map((i) => `<li><a href="${htmlEscape(i.path)}">${htmlEscape(i.label)}</a></li>`).join("")}</ul>`;
+  return `<ul>${items.map(normalizeLink).map((link) => `<li><a href="${htmlEscape(link.path)}">${htmlEscape(link.label)}</a></li>`).join("")}</ul>`;
 }
 
 function textList(title, items) {
@@ -343,8 +349,7 @@ function linkedResources(title, resources) {
       const parsed = new URL(String(resource.url));
       if (parsed.protocol === "https:" || parsed.protocol === "http:") href = parsed.href;
     } catch { /* Ignore malformed source URLs instead of emitting unsafe hrefs. */ }
-    const support = resource.supports ? ` — ${htmlEscape(resource.supports)}` : "";
-    return `<li><a href="${htmlEscape(href)}">${htmlEscape(resource.label)}</a>${support}</li>`;
+    return `<li><a href="${htmlEscape(href)}">${htmlEscape(resource.label)}</a></li>`;
   }).join("")}</ul>`;
 }
 
@@ -375,7 +380,6 @@ function renderLocalContent(route, ctx) {
       textList("Safe checks before requesting service", content.safeChecks),
       textList("When to leave the work to a professional", content.professionalBoundaries),
       linkedResources("Municipal resources", content.municipalResources),
-      linkedResources("Sources and references", content.sourceNotes),
       linkedSection("Related HVAC guides", relatedGuides),
       linkedSection(`Nearby service areas`, nearbyCities),
       linkedSection(`Services available in ${city.name}`, cityCombos),
@@ -388,7 +392,7 @@ function renderLocalContent(route, ctx) {
     const parentService = ctx.routeByPath.get(content.parentServicePath);
     const relatedGuides = localLinks(ctx, content.relatedGuideSlugs.map((slug) => ctx.blogBySlug.get(slug)?.path));
     const relatedServices = localLinks(ctx, content.relatedServiceSlugs.map((slug) => ctx.serviceCityByKey.get(`${slug}/${route.city.slug}`)?.path));
-    const nearbyCombos = (ctx.serviceCitiesByCity.get(route.city.slug) || []).filter((candidate) => candidate.path !== route.path);
+    const nearbyCombos = (ctx.serviceCitiesByService.get(route.service.slug) || []).filter((candidate) => candidate.city.slug !== route.city.slug);
     const parts = [
       `<h2>${htmlEscape(route.service.title)} guidance for ${htmlEscape(route.city.name)}, NY</h2><p>${htmlEscape(content.answerFirst)}</p>`,
       textList(`Local considerations in ${route.city.name}`, content.localConsiderations),
@@ -396,12 +400,11 @@ function renderLocalContent(route, ctx) {
       textList("What a written service scope should cover", content.serviceScope),
       textList("Safe checks before requesting service", content.safeChecks),
       textList("When to leave the work to a professional", content.professionalBoundaries),
-      linkedResources("Sources and references", content.sourceNotes),
       linkedSection("Parent countywide service", parentService ? [parentService] : []),
       linkedSection(`${route.city.name} HVAC hub`, cityHub ? [cityHub] : []),
       linkedSection("Related HVAC guides", relatedGuides),
       linkedSection(`Related services in ${route.city.name}`, relatedServices),
-      linkedSection(`Other local services in ${route.city.name}`, nearbyCombos),
+      linkedSection(`Other service areas for ${route.service.title}`, nearbyCombos),
     ];
     return parts.filter(Boolean).join("\n");
   }
@@ -512,6 +515,7 @@ async function main() {
   const routeByPath = new Map(withLinkLabels.map((route) => [route.path, route]));
   const serviceCitiesByCity = new Map();
   const serviceCitiesByParentPath = new Map();
+  const serviceCitiesByService = new Map();
   const serviceCityByKey = new Map();
   for (const route of withLinkLabels.filter((route) => route.type === "service-city")) {
     const byCity = serviceCitiesByCity.get(route.city.slug) || [];
@@ -520,6 +524,9 @@ async function main() {
     const byParent = serviceCitiesByParentPath.get(route.localContent.parentServicePath) || [];
     byParent.push(route);
     serviceCitiesByParentPath.set(route.localContent.parentServicePath, byParent);
+    const byService = serviceCitiesByService.get(route.service.slug) || [];
+    byService.push(route);
+    serviceCitiesByService.set(route.service.slug, byService);
     serviceCityByKey.set(`${route.service.slug}/${route.city.slug}`, route);
   }
   const ctx = {
@@ -528,6 +535,7 @@ async function main() {
     blogBySlug: new Map(withLinkLabels.filter((route) => route.type === "blog").map((route) => [route.post.slug, route])),
     serviceCitiesByCity,
     serviceCitiesByParentPath,
+    serviceCitiesByService,
     serviceCityByKey,
     services: withLinkLabels.filter((route) => route.type === "service").map((route) => ({ path: route.path, label: route.linkLabel })),
     guides: withLinkLabels.filter((route) => route.type === "guide").map((route) => ({ path: route.path, label: route.linkLabel })),

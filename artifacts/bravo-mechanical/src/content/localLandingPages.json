@@ -7,16 +7,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Yonkers, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Yonkers, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Yonkers HVAC service for system diagnosis, boiler and cooling planning, maintenance, and indoor-air-quality work, with City permit resources linked.",
       "answerFirst": "Bravo Mechanical provides heating, cooling, maintenance, and indoor-air-quality service for Yonkers homes and light-commercial properties. Start with the system symptom and building conditions, then confirm City requirements for the written scope.",
       "localContext": [
         "Yonkers is a city with its own Department of Housing and Buildings, which publishes permit applications and filing resources.",
-        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+        "Yonkers publishes a dedicated Boiler Permit Application and a Department of Housing and Buildings fee schedule. A proposed boiler or mechanical scope should identify who will verify the current form, filing, inspection, and closeout steps."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Matching a boiler or cooling proposal to the actual distribution serving the property",
+        "Separating tenant, owner, building-management, and contractor responsibilities before work begins",
+        "Identifying the current Yonkers mechanical or boiler filing path without promising that Bravo handles it"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -24,6 +24,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -44,16 +46,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Yonkers?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Does Yonkers publish a boiler permit form?",
+          "a": "Yes. The City Department of Housing and Buildings lists a Boiler Permit Application among its forms. The current applicability, supporting documents, fees, inspections, and closeout steps must be confirmed for the property."
         },
         {
-          "q": "How are HVAC options compared for a Yonkers property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What should a shared-system assessment document in Yonkers?",
+          "a": "It should identify which equipment serves which spaces, who controls access, the observed condition, distribution type, and which party can authorize diagnostics or repair."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Yonkers?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Can a Yonkers estimate assume one permit path for every HVAC job?",
+          "a": "No. The City process depends on the work scope and property. Filing and inspection responsibilities should be verified and written into the project documents."
         }
       ],
       "sourceNotes": [
@@ -87,16 +89,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC White Plains, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in White Plains, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "White Plains HVAC diagnostics and project planning for homes and light-commercial spaces, with City jurisdiction and written-scope guidance.",
       "answerFirst": "A White Plains HVAC recommendation should fit both the equipment and the space it serves. Bravo Mechanical can assess residential or light-commercial systems and document repair, maintenance, or replacement options for the property.",
       "localContext": [
         "New York State lists White Plains as a Westchester city, so City guidance is the starting point for local project requirements.",
-        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+        "Because White Plains is a city rather than a village inside a town, City requirements are the municipal starting point. The technical proposal should separately identify the equipment owner, served area, access route, and operational constraints."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Coordinating service access when equipment supports an occupied business or shared residential area",
+        "Explaining whether a quoted boiler, furnace, heat-pump, or cooling option changes existing distribution",
+        "Keeping City verification tasks distinct from contractor scheduling and equipment lead times"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -104,6 +106,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -124,16 +128,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in White Plains?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Which municipality should a White Plains owner consult about HVAC approvals?",
+          "a": "White Plains is its own city in the state municipality inventory, so current City guidance is the starting point. The project scope still determines which requirements apply."
         },
         {
-          "q": "How are HVAC options compared for a White Plains property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What belongs in a light-commercial HVAC service plan?",
+          "a": "The plan should name the equipment, spaces served, access hours, shutdown limits, diagnostic scope, exclusions, and how findings will be reported."
         },
         {
-          "q": "Who should verify permit or inspection requirements in White Plains?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "How should White Plains replacement quotes be compared?",
+          "a": "Compare equipment capacity basis, distribution changes, controls, electrical or fuel work, access, commissioning, and the parties responsible for municipal steps."
         }
       ],
       "sourceNotes": [
@@ -167,16 +171,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC New Rochelle, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in New Rochelle, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "New Rochelle heating and cooling service focused on system-specific diagnosis, distribution, access, and current City requirement checks.",
       "answerFirst": "Before choosing a New Rochelle HVAC solution, identify how the building currently heats and cools each space. Bravo Mechanical can trace the reported problem through the equipment, distribution, controls, and access conditions.",
       "localContext": [
         "New York State lists New Rochelle as a Westchester city, making City sources relevant when verifying local requirements.",
-        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+        "New Rochelle's city status removes the Town-versus-Village ambiguity found elsewhere in Westchester, but it does not determine the right HVAC design. The existing distribution and spaces served must still be verified at the building."
       ],
       "commonConcerns": [
-        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
-        "A replacement proposal that does not explain distribution or control changes",
-        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+        "Determining whether a comfort complaint begins at the equipment, controls, distribution, or room level",
+        "Defining tune-up tasks for the installed system instead of selling an undefined seasonal visit",
+        "Planning condensate, refrigerant-line, electrical, and service routes for any added cooling equipment"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -184,6 +188,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -204,16 +210,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in New Rochelle?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Where should a New Rochelle property owner start with municipal HVAC questions?",
+          "a": "New Rochelle is listed as a city, so the owner should start with current City sources and describe the exact work rather than asking about HVAC in general."
         },
         {
-          "q": "How are HVAC options compared for a New Rochelle property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What makes an air-conditioning tune-up scope meaningful?",
+          "a": "It should list the equipment covered, accessible inspection and cleaning tasks, measurements, exclusions, and the form of the findings report."
         },
         {
-          "q": "Who should verify permit or inspection requirements in New Rochelle?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Can poor cooling identify a failed component by itself?",
+          "a": "No. Similar symptoms can involve controls, airflow, distribution, electrical issues, refrigerant-side faults, or building load, so diagnosis should precede a repair quote."
         }
       ],
       "sourceNotes": [
@@ -247,16 +253,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Mount Vernon, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Mount Vernon, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Mount Vernon HVAC repair and replacement assessment with safe no-heat triage, equipment diagnostics, and City verification guidance.",
       "answerFirst": "No-heat, no-cooling, and uneven-comfort concerns in Mount Vernon call for safe triage followed by a system-specific diagnosis. Bravo Mechanical can turn the findings into a written next step for the property.",
       "localContext": [
         "New York State lists Mount Vernon as a Westchester city; current City channels should be used for code, permit, and inspection questions.",
-        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+        "Mount Vernon is a city with its own local authority, while system responsibility can still vary by property. Before diagnostics, confirm who controls the equipment, which areas it serves, and how the technician can reach it safely."
       ],
       "commonConcerns": [
-        "Limited or unsuitable ductwork for spaces needing conditioning",
-        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
-        "Controls or zones that do not match how the building is occupied"
+        "A furnace or boiler that fails to start without repeated unsafe reset attempts",
+        "Heating equipment located behind tenant, owner, or building-controlled access",
+        "Distinguishing an ignition symptom from a verified burner, control, venting, or fuel-supply cause"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -264,6 +270,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -284,16 +292,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Mount Vernon?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Who should verify local requirements for a Mount Vernon heating repair or replacement?",
+          "a": "The property owner should begin with current City sources, then match any requirement to the exact repair or replacement scope and assign responsibilities in writing."
         },
         {
-          "q": "How are HVAC options compared for a Mount Vernon property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What information helps with a no-heat call?",
+          "a": "Report the equipment type if known, thermostat status, displayed code, affected spaces, when heat stopped, and any alarm or odor. Do not open the burner compartment or keep resetting the system."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Mount Vernon?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Does a furnace that will not ignite always need a new igniter?",
+          "a": "No. The symptom can have multiple electrical, control, fuel, venting, or combustion-related causes. A qualified diagnosis is needed before naming a component."
         }
       ],
       "sourceNotes": [
@@ -327,16 +335,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Scarsdale, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Scarsdale, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Scarsdale HVAC planning for equipment placement, distribution, controls, and coterminous Town-Village requirement checks.",
       "answerFirst": "For a Scarsdale HVAC project, equipment location and distribution can matter as much as the equipment itself. Bravo Mechanical can review the installed system, controls, access, and proposed scope before options are compared.",
       "localContext": [
         "Scarsdale is a coterminous town-village under New York's local-government structure, so current Village/Town guidance should be checked.",
-        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+        "New York identifies Scarsdale's town and village as coterminous, so this route does not need a separate parent-town choice. Project feasibility still depends on load, distribution, exterior placement, controls, and service clearances."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Comparing replacement capacity without simply copying the existing equipment label",
+        "Locating outdoor or indoor equipment where required clearances and future service access remain practical",
+        "Understanding how a coterminous Town-Village structure affects which current municipal source to check"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -344,6 +352,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -364,16 +374,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Scarsdale?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "What does coterminous Town-Village mean for a Scarsdale HVAC project?",
+          "a": "It means the Town and Village share boundaries under New York's local-government structure. Current Scarsdale requirements still need to be checked against the exact work scope."
         },
         {
-          "q": "How are HVAC options compared for a Scarsdale property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Should a replacement automatically match the old unit's capacity?",
+          "a": "No. Existing equipment size is one data point, not proof of current building load. Distribution, envelope changes, operating history, and design conditions should be reviewed."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Scarsdale?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What placement details belong in a Scarsdale proposal?",
+          "a": "Show the intended equipment location, clearances, line or duct routes, drainage, electrical work, screening or review questions, and service access."
         }
       ],
       "sourceNotes": [
@@ -407,16 +417,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Rye, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Rye, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Rye HVAC service with City-versus-Town address checks, placement planning, and property-specific repair or replacement scopes.",
       "answerFirst": "A Rye service address needs both a City-versus-Town check and a physical review of the installation. Bravo Mechanical can assess the system, outdoor placement, drainage, electrical needs, and access without presuming which scope fits.",
       "localContext": [
         "New York State lists Rye as a city distinct from the Town of Rye; confirm that the address is inside the City before relying on City requirements.",
-        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+        "The state inventory distinguishes the City of Rye from the separate Town of Rye. A postal address or the word Rye alone cannot establish which municipal guidance applies, so the service address must be checked first."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Using City requirements for a property that may instead be in the Town of Rye",
+        "Routing a ductless or central-system project without documenting drainage, line protection, and maintenance access",
+        "Treating proximity to the Sound as proof that special materials or corrosion claims apply to every address"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -424,6 +434,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -444,16 +456,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Rye?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Is the City of Rye the same municipality as the Town of Rye?",
+          "a": "No. New York lists them separately. Verify the property's municipality before relying on a permit page, fee schedule, or inspection instruction."
         },
         {
-          "q": "How are HVAC options compared for a Rye property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What should a ductless proposal show for a Rye property?",
+          "a": "It should identify indoor and outdoor locations, load basis, line and condensate routes, electrical needs, clearances, controls, and how the equipment will be serviced."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Rye?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Does a Rye address automatically require corrosion-resistant equipment?",
+          "a": "No. Exposure should be evaluated at the actual site, and any material or coating recommendation should be tied to manufacturer documentation and observed conditions."
         }
       ],
       "sourceNotes": [
@@ -487,16 +499,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Harrison, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Harrison, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Harrison HVAC evaluation for system controls, seasonal operation, placement, and coterminous Town-Village project requirements.",
       "answerFirst": "Harrison heating and cooling work should begin with the spaces served, the existing distribution, and the available utility capacity. Bravo Mechanical can evaluate those conditions and prepare a property-specific recommendation.",
       "localContext": [
         "Harrison is a coterminous town-village under New York's local-government structure, making the Town/Village the municipal reference within its boundaries.",
-        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+        "Harrison's coterminous town-village structure provides a single municipal boundary reference, while individual properties can still have different equipment, controls, utilities, and access constraints. Those facts belong in the site record."
       ],
       "commonConcerns": [
-        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
-        "A replacement proposal that does not explain distribution or control changes",
-        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+        "Confirming which thermostat, zone control, or building automation input governs the reported condition",
+        "Separating routine seasonal checks from repairs that require additional authorization",
+        "Documenting utility capacity and equipment placement before proposing a heat-pump or cooling change"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -504,6 +516,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -524,16 +538,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Harrison?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Which local-government structure applies in Harrison?",
+          "a": "New York identifies Harrison as a coterminous town-village. Current Harrison guidance should be checked for the project rather than looking for a separate parent-town process."
         },
         {
-          "q": "How are HVAC options compared for a Harrison property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What should a seasonal HVAC checklist record?",
+          "a": "It should identify the equipment, operating mode, filter or airflow observations, accessible drains and coils where included, controls, measured findings, and recommended follow-up."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Harrison?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "When should controls be reviewed before replacing equipment?",
+          "a": "Review them whenever zoning, scheduling, staging, remote sensors, or shared control responsibilities could affect the complaint or the proposed system."
         }
       ],
       "sourceNotes": [
@@ -567,16 +581,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Mamaroneck, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Mamaroneck, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Mamaroneck HVAC service with Town-versus-Village jurisdiction checks, moisture diagnosis boundaries, and written responsibility planning.",
       "answerFirst": "Because Mamaroneck may refer to the Town or Village, the address should be confirmed before municipal guidance is used. Bravo Mechanical can separately diagnose the HVAC concern and document the equipment and building constraints.",
       "localContext": [
         "New York State lists both a Town of Mamaroneck and a Village of Mamaroneck, so the shared place name does not establish jurisdiction.",
-        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+        "The Town and Village of Mamaroneck are separate entries in the state inventory. Before using a local form or instruction, match the exact address to the responsible municipality and distinguish that task from the HVAC diagnosis."
       ],
       "commonConcerns": [
-        "Limited or unsuitable ductwork for spaces needing conditioning",
-        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
-        "Controls or zones that do not match how the building is occupied"
+        "Selecting Town guidance when the property lies in the Village, or the reverse",
+        "Investigating moisture or indoor-air complaints without promising a medical or universal equipment solution",
+        "Clarifying whether an owner, association, landlord, or tenant controls equipment access and alterations"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -584,6 +598,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -604,16 +620,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Mamaroneck?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "How do I know whether Town or Village of Mamaroneck guidance applies?",
+          "a": "Use the exact property address to confirm the municipality. The shared Mamaroneck name is not enough to choose a building authority or form."
         },
         {
-          "q": "How are HVAC options compared for a Mamaroneck property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Can an HVAC visit determine the cause of every humidity or air-quality complaint?",
+          "a": "No. HVAC inspection can identify relevant equipment, filtration, ventilation, drainage, and operating conditions, but it is not a medical assessment and may not identify non-HVAC sources."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Mamaroneck?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What responsibility details should a Mamaroneck scope include?",
+          "a": "State who authorizes work, who provides access, which equipment and spaces are included, who verifies municipal requirements, and who receives findings and closeout records."
         }
       ],
       "sourceNotes": [
@@ -647,16 +663,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Larchmont, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Larchmont, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Larchmont HVAC retrofit and controls planning with Village jurisdiction, route documentation, and service-access review.",
       "answerFirst": "Larchmont HVAC planning is most useful when equipment access, line and condensate routing, distribution, and controls are considered together. Bravo Mechanical can assess those conditions before defining repair or replacement work.",
       "localContext": [
         "New York State places the Village of Larchmont within the Town of Mamaroneck; Village guidance is the starting point inside Village boundaries.",
-        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+        "Larchmont is a village within the Town of Mamaroneck, so Village requirements—not the neighboring Village of Mamaroneck's process—are the local starting point. The proposed equipment and routing must then be documented for the address."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Confusing Larchmont Village guidance with Town or Village of Mamaroneck instructions",
+        "Confirming thermostat compatibility before changing controls or staged equipment",
+        "Showing refrigerant, condensate, electrical, and service routes without assuming a preferred exterior location"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -664,6 +680,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -684,16 +702,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Larchmont?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Which village guidance applies to a property inside Larchmont?",
+          "a": "Start with current Village of Larchmont sources. Its location within the Town of Mamaroneck does not make Village of Mamaroneck forms interchangeable."
         },
         {
-          "q": "How are HVAC options compared for a Larchmont property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Can any smart thermostat control an existing Larchmont HVAC system?",
+          "a": "No. Compatibility depends on equipment type, staging, wiring, power requirements, communicating controls, accessories, and the intended operating sequence."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Larchmont?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What routing information should a retrofit estimate include?",
+          "a": "Identify equipment locations and proposed duct, pipe, line-set, condensate, vent, and electrical paths, together with finish responsibilities and service access."
         }
       ],
       "sourceNotes": [
@@ -727,16 +745,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Bronxville, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Bronxville, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Bronxville HVAC assessment for Village requirements, boiler or heat-pump comparisons, shared access, and distribution constraints.",
       "answerFirst": "A Bronxville HVAC scope should account for the installed distribution, available equipment locations, service access, and any building-level approvals. Bravo Mechanical can evaluate the technical options at the actual property.",
       "localContext": [
         "New York State lists Bronxville as a village within the Town of Eastchester; work inside Village boundaries should be checked against Village requirements.",
-        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+        "Bronxville is one of two villages within Eastchester, and its Village process is distinct from Tuckahoe's and the Town's unincorporated-area process. Verify the address before assigning local tasks."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Comparing a boiler and heat pump without defining the existing heat distribution and electrical implications",
+        "Planning equipment or piping access through common areas without written building authorization",
+        "Using Town of Eastchester information when a current Bronxville Village requirement controls the scope"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -744,6 +762,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -764,16 +784,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Bronxville?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Does Town of Eastchester guidance automatically cover work inside Bronxville Village?",
+          "a": "Not necessarily. New York lists Bronxville as a village within Eastchester, so the exact project should be checked with the appropriate Village source."
         },
         {
-          "q": "How are HVAC options compared for a Bronxville property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What must be compared in a boiler-versus-heat-pump discussion?",
+          "a": "Compare building load, current distribution, electrical service, low-temperature capacity, controls, backup strategy, hot-water interactions, installation scope, and operating assumptions."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Bronxville?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Who should approve access through a shared Bronxville building area?",
+          "a": "The authorized owner, manager, or association should confirm access and alteration rights before work is scheduled; the HVAC proposal should not assume that permission."
         }
       ],
       "sourceNotes": [
@@ -807,16 +827,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Tuckahoe, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Tuckahoe, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Tuckahoe heating and cooling diagnosis with Village verification, safe winter outage triage, and shared-access planning.",
       "answerFirst": "For Tuckahoe heating or cooling service, first identify the equipment, the affected spaces, and any shared access. Bravo Mechanical can diagnose the concern and state the proposed work without assuming owner or municipal responsibilities.",
       "localContext": [
         "New York State lists Tuckahoe as a village within the Town of Eastchester, so Village sources apply to addresses inside its boundaries.",
-        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+        "Tuckahoe and Bronxville are separate villages inside Eastchester. A Tuckahoe address should use current Tuckahoe Village guidance rather than treating all Eastchester locations as one permitting area."
       ],
       "commonConcerns": [
-        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
-        "A replacement proposal that does not explain distribution or control changes",
-        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+        "Responding to a winter no-heat condition without unsafe burner, gas-valve, or pressure-system adjustments",
+        "Determining whether a thermostat problem affects one unit, one zone, or shared equipment",
+        "Confirming Village and property-management responsibilities before replacement or exterior work"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -824,6 +844,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -844,16 +866,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Tuckahoe?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Which municipal source should a Tuckahoe property use?",
+          "a": "For an address within Tuckahoe Village, begin with current Village information and confirm the exact work scope. Bronxville or general Town information may not be interchangeable."
         },
         {
-          "q": "How are HVAC options compared for a Tuckahoe property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What is safe to report during a Tuckahoe no-heat call?",
+          "a": "Report thermostat status, displayed codes, affected areas, alarm conditions, and visible leaks from a safe distance. Do not open panels, relight equipment, adjust gas components, or add pressure."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Tuckahoe?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "How should shared heating responsibility be established?",
+          "a": "Identify who owns the plant and controls, which zones or units it serves, who can authorize access, and how occupants will be notified of testing or shutdown."
         }
       ],
       "sourceNotes": [
@@ -887,16 +909,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Eastchester, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Eastchester, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Eastchester HVAC planning with Town-versus-Village address verification, water-heater scope boundaries, and association responsibility checks.",
       "answerFirst": "An Eastchester mailing address may fall under Town or Village requirements, so jurisdiction and system conditions should be checked separately. Bravo Mechanical can handle the technical assessment and provide a written scope.",
       "localContext": [
         "New York State lists Eastchester as a town containing the villages of Bronxville and Tuckahoe, so the address must determine the governing municipality.",
-        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+        "The Town of Eastchester contains Bronxville and Tuckahoe villages, each with separate municipal identity. An Eastchester postal address must be located before Town requirements are assumed."
       ],
       "commonConcerns": [
-        "Limited or unsuitable ductwork for spaces needing conditioning",
-        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
-        "Controls or zones that do not match how the building is occupied"
+        "Establishing whether the address is in the Town's unincorporated area, Bronxville, or Tuckahoe",
+        "Separating HVAC work from water-heater, plumbing, gas, venting, or electrical tasks that change the project scope",
+        "Obtaining owner or association approval for equipment serving a condominium or shared property"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -904,6 +926,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -924,16 +948,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Eastchester?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Why does an Eastchester address need a jurisdiction check?",
+          "a": "Because New York lists Bronxville and Tuckahoe as villages inside the Town. The mailing name alone may not identify whether Town or Village guidance applies."
         },
         {
-          "q": "How are HVAC options compared for a Eastchester property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What should a water-heater replacement scope distinguish?",
+          "a": "It should distinguish tank or heat-pump equipment, plumbing connections, fuel or electrical work, venting, drainage, expansion control, removal, inspection, and closeout responsibilities."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Eastchester?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Can Bravo assume association approval for an Eastchester condo project?",
+          "a": "No. The authorized owner or association must confirm alteration and access rights; the written HVAC scope should identify that dependency."
         }
       ],
       "sourceNotes": [
@@ -967,16 +991,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Tarrytown, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Tarrytown, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Tarrytown HVAC service for Village jurisdiction, condominium responsibility, shutdown planning, and equipment-access review.",
       "answerFirst": "Tarrytown properties may involve unit-level and building-level HVAC responsibilities. Bravo Mechanical can assess the equipment, distribution, access, routing, and controls while the owner or manager confirms approvals.",
       "localContext": [
         "New York State lists Tarrytown as a village within the Town of Greenburgh, making Village guidance the municipal starting point.",
-        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+        "Tarrytown is a Greenburgh village, while nearby Sleepy Hollow belongs to Mount Pleasant. Similar postal geography does not make their municipal instructions interchangeable."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Identifying whether a condominium unit owner or building entity controls the HVAC equipment and penetrations",
+        "Planning diagnostic shutdowns or access without disrupting equipment outside the authorized scope",
+        "Using Tarrytown Village resources rather than a neighboring river village's forms or assumptions"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -984,6 +1008,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1004,16 +1030,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Tarrytown?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Which town contains Tarrytown Village?",
+          "a": "New York's Westchester inventory places Tarrytown within Greenburgh. Current Village guidance should be matched to the property and proposed work."
         },
         {
-          "q": "How are HVAC options compared for a Tarrytown property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What should a Tarrytown condo HVAC request establish first?",
+          "a": "Establish equipment ownership, spaces served, access rights, allowable exterior or common-area changes, shutdown notice requirements, and who can authorize follow-up work."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Tarrytown?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Can a technician test equipment serving other units without authorization?",
+          "a": "Testing must remain within the authorized scope. Shared equipment, controls, or shutdowns require approval from the responsible owner or building representative."
         }
       ],
       "sourceNotes": [
@@ -1047,16 +1073,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Sleepy Hollow, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Sleepy Hollow, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Sleepy Hollow HVAC diagnosis and replacement planning with Village requirements, system identification, and venting safety boundaries.",
       "answerFirst": "A Sleepy Hollow HVAC decision should follow direct inspection of the equipment and the way heat or cooling reaches the occupied spaces. Bravo Mechanical can document repair or replacement choices for that specific installation.",
       "localContext": [
         "New York State lists Sleepy Hollow as a village within the Town of Mount Pleasant; current Village requirements should be verified.",
-        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+        "Sleepy Hollow is a Mount Pleasant village, not part of Greenburgh like Tarrytown. Property owners should use the correct Village source even when nearby addresses share postal or travel patterns."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Identifying boiler, furnace, heat-pump, central-air, or room equipment before discussing replacement paths",
+        "Leaving burner, gas-valve, vent, and combustion-control inspection to a qualified professional",
+        "Matching Village requirements to the actual mechanical, electrical, plumbing, or exterior scope"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1064,6 +1090,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1084,16 +1112,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Sleepy Hollow?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Is Sleepy Hollow governed by the same town as Tarrytown?",
+          "a": "No. The state inventory places Sleepy Hollow in Mount Pleasant and Tarrytown in Greenburgh. Each project's current local guidance should be checked separately."
         },
         {
-          "q": "How are HVAC options compared for a Sleepy Hollow property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What system details should be collected before a Sleepy Hollow visit?",
+          "a": "Record equipment labels if safely visible, thermostat status, fuels or utilities used, distribution type, affected spaces, displayed codes, and any alarm or odor."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Sleepy Hollow?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Who should inspect a suspected venting or combustion problem?",
+          "a": "A qualified professional should inspect burners, gas controls, combustion components, and vents. If an alarm sounds or gas is suspected, occupants should leave and call from a safe location."
         }
       ],
       "sourceNotes": [
@@ -1127,16 +1155,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Ossining, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Ossining, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Ossining HVAC service with Town-versus-Village verification, garage-heating safety, ventilation, and written scope responsibilities.",
       "answerFirst": "Ossining HVAC planning starts by distinguishing Town from Village jurisdiction and then examining the actual system. Bravo Mechanical can assess distribution, controls, utilities, access, and the reported problem at the property.",
       "localContext": [
         "New York State lists both a Town of Ossining and a Village of Ossining, so the place name alone cannot select the responsible authority.",
-        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+        "The Town and Village of Ossining are separate municipal entries. The service address must be matched to the correct one before a permit contact, fee, or inspection responsibility is assigned."
       ],
       "commonConcerns": [
-        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
-        "A replacement proposal that does not explain distribution or control changes",
-        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+        "Using Village instructions for a Town property or Town instructions for a Village property",
+        "Proposing garage heating without reviewing equipment listing, combustion, ventilation, clearances, and vehicle-related hazards",
+        "Confusing a postal locality with proof of elevation, climate, building type, or system prevalence"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1144,6 +1172,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1164,16 +1194,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Ossining?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "How should an Ossining owner choose between Town and Village guidance?",
+          "a": "Confirm the property's municipality from the exact address, then ask the responsible office about the defined work scope. The shared name alone is insufficient."
         },
         {
-          "q": "How are HVAC options compared for a Ossining property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What needs professional review before heating a garage?",
+          "a": "Review the proposed appliance, fuel or electrical supply, ventilation, ignition-source location, clearances, controls, combustion and venting, and applicable municipal requirements."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Ossining?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Does an Ossining mailing address establish colder design conditions?",
+          "a": "No. Equipment design should use accepted load inputs and location-specific design data rather than a broad claim based on the place name."
         }
       ],
       "sourceNotes": [
@@ -1207,16 +1237,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Peekskill, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Peekskill, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Peekskill HVAC assessment for City requirements, short-cycling diagnosis, commercial access, and safe equipment boundaries.",
       "answerFirst": "Bravo Mechanical can evaluate HVAC concerns in Peekskill homes and light-commercial spaces from the symptom through the installed system. The resulting scope should identify safety findings, access constraints, and items needing City verification.",
       "localContext": [
         "New York State lists Peekskill as a Westchester city, making City information the starting point for local approvals and inspections.",
-        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+        "Peekskill's city status gives property owners a City-level municipal starting point. For occupied commercial or shared residential space, the scope should also state access hours, shutdown limits, and who receives findings."
       ],
       "commonConcerns": [
-        "Limited or unsuitable ductwork for spaces needing conditioning",
-        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
-        "Controls or zones that do not match how the building is occupied"
+        "Diagnosing short cycling without assuming thermostat, airflow, control, fuel, refrigerant, or capacity causes",
+        "Coordinating equipment access and operational shutdowns for an occupied property",
+        "Separating a temporary restart from evidence that a heating or cooling fault has been corrected"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1224,6 +1254,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1244,16 +1276,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Peekskill?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Which municipal level should a Peekskill property owner check?",
+          "a": "Peekskill is listed as a city, so current City information is the starting point. The owner should describe the exact equipment and proposed work when asking what applies."
         },
         {
-          "q": "How are HVAC options compared for a Peekskill property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What can cause HVAC equipment to short cycle?",
+          "a": "Possible causes span controls, airflow, limits, fuel or combustion systems, refrigerant-side conditions, equipment sizing, and building load. Diagnosis is needed before selecting a repair."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Peekskill?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What should a commercial access plan include?",
+          "a": "List authorized contacts, roof or mechanical-room access, keys or escorts, safe work windows, shutdown limits, tenant notifications, and reporting expectations."
         }
       ],
       "sourceNotes": [
@@ -1287,16 +1319,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Mount Kisco, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Mount Kisco, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Mount Kisco HVAC planning for coterminous Town-Village requirements, maintenance records, zoning controls, and service access.",
       "answerFirst": "For Mount Kisco heating and cooling work, the building load, existing distribution, controls, and service access belong in the same conversation. Bravo Mechanical can compare options against those documented conditions.",
       "localContext": [
         "Mount Kisco is a coterminous town-village under New York's local-government structure, making Town/Village resources the municipal reference.",
-        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+        "Mount Kisco is a coterminous town-village rather than a village nested under a differently named town. The property record should still identify equipment, zones, controls, and responsible contacts."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Understanding the coterminous government before searching for a separate Town or Village approval path",
+        "Turning maintenance observations into dated findings instead of promises about future reliability",
+        "Mapping zones and controls when one complaint affects only part of the building"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1304,6 +1336,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1324,16 +1358,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Mount Kisco?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Does Mount Kisco require separate Town and Village jurisdiction research?",
+          "a": "New York identifies Mount Kisco as coterminous, meaning the Town and Village share boundaries. Current local requirements still depend on the project scope."
         },
         {
-          "q": "How are HVAC options compared for a Mount Kisco property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What makes an HVAC maintenance record useful?",
+          "a": "It identifies the equipment, date, approved tasks, measurements or observations, changed parts or materials, exclusions, and recommended follow-up without guaranteeing future operation."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Mount Kisco?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "How should a zone complaint be documented?",
+          "a": "Record which thermostat and terminal equipment serve the space, the operating call, control response, distribution condition, and whether other zones are affected."
         }
       ],
       "sourceNotes": [
@@ -1367,16 +1401,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Chappaqua, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Chappaqua, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Chappaqua HVAC assessment using New Castle resources, zoning-control diagnostics, permit links, and electrical-capacity review.",
       "answerFirst": "Chappaqua HVAC projects use Town of New Castle resources for municipal questions, but the technical recommendation still begins inside the building. Bravo Mechanical can assess zoning, distribution, equipment condition, and electrical capacity.",
       "localContext": [
         "The Town of New Castle's official website identifies Chappaqua as one of its hamlets and provides Town permit links.",
-        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+        "New Castle's official site identifies Chappaqua as a hamlet and directly links a building-permit application. Because a hamlet is not a separate municipal corporation, Town resources are the appropriate local starting point."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Recognizing that Chappaqua is a New Castle hamlet rather than a separate village building authority",
+        "Diagnosing zoning complaints across thermostats, dampers, pumps, valves, sensors, or equipment stages",
+        "Confirming electrical capacity and control integration before proposing additional heat-pump zones"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1384,6 +1418,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1404,16 +1440,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Chappaqua?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Does Chappaqua have a separate village building department?",
+          "a": "The Town of New Castle identifies Chappaqua as a hamlet and provides the municipal permit links. Property owners should begin with current Town resources."
         },
         {
-          "q": "How are HVAC options compared for a Chappaqua property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What should be tested when one HVAC zone is uncomfortable?",
+          "a": "Testing may include the thermostat call, sensor location, control output, damper or valve response, airflow or water flow, equipment staging, and interaction with other zones."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Chappaqua?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Why review electrical capacity before adding heat-pump equipment?",
+          "a": "The proposed indoor and outdoor units, auxiliary heat, disconnects, overcurrent protection, panel capacity, and utility conditions must fit the actual installation."
         }
       ],
       "sourceNotes": [
@@ -1447,16 +1483,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Pleasantville, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Pleasantville, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Pleasantville HVAC service for Village requirements, maintenance scope, drain and filter checks, and documented follow-up.",
       "answerFirst": "A Pleasantville repair or replacement proposal should explain how the observed symptom relates to the equipment, distribution, controls, and routing. Bravo Mechanical can perform that assessment and identify unresolved municipal questions.",
       "localContext": [
         "New York State lists Pleasantville as a village within the Town of Mount Pleasant, so current Village information applies inside its boundaries.",
-        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+        "Pleasantville and Sleepy Hollow are both Mount Pleasant villages but remain separate municipalities. Owners should use current Pleasantville guidance rather than assuming one village's process applies countywide."
       ],
       "commonConcerns": [
-        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
-        "A replacement proposal that does not explain distribution or control changes",
-        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+        "Defining filter, drain, coil, control, and operating checks appropriate to the installed equipment",
+        "Distinguishing an observed maintenance condition from a required repair or future-failure prediction",
+        "Confirming Pleasantville Village responsibilities rather than relying only on Town or neighboring-village information"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1464,6 +1500,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1484,16 +1522,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Pleasantville?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Is Pleasantville merely an unincorporated part of Mount Pleasant?",
+          "a": "No. New York lists Pleasantville as a village within the Town. Current Village requirements should be checked for work inside its boundaries."
         },
         {
-          "q": "How are HVAC options compared for a Pleasantville property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Does maintenance guarantee that equipment will not fail?",
+          "a": "No. Maintenance can document current condition and address approved tasks, but it cannot guarantee future reliability or eliminate every failure risk."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Pleasantville?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What should happen after a clogged drain or loaded filter is found?",
+          "a": "The finding, affected equipment, approved corrective task, resulting operation, and any remaining concern should be documented; inaccessible or unsafe work stays outside homeowner checks."
         }
       ],
       "sourceNotes": [
@@ -1527,16 +1565,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Pound Ridge, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Pound Ridge, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Pound Ridge HVAC planning for Town requirements, heat-pump capacity, backup strategy, fuel or electrical constraints, and access.",
       "answerFirst": "Pound Ridge HVAC options should be compared against the property's load, energy source, distribution, controls, and backup strategy. Bravo Mechanical can evaluate those factors before recommending a repair or system change.",
       "localContext": [
         "New York State lists Pound Ridge as a Westchester town, making Town sources the place to verify local requirements.",
-        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+        "Pound Ridge is a town rather than a village within another Westchester town. Its municipal status is clear, but each site's utility service, load, equipment location, and backup plan remain property-specific."
       ],
       "commonConcerns": [
-        "Limited or unsuitable ductwork for spaces needing conditioning",
-        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
-        "Controls or zones that do not match how the building is occupied"
+        "Comparing heat-pump capacity and controls at relevant outdoor design conditions",
+        "Defining when existing equipment serves as backup and who controls the changeover sequence",
+        "Verifying fuel storage, electrical service, generator interaction, and equipment access without assuming local prevalence"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1544,6 +1582,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1564,16 +1604,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Pound Ridge?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Where should a Pound Ridge owner verify municipal HVAC requirements?",
+          "a": "Pound Ridge is listed as a town, so current Town information is the local starting point. Applicability depends on the exact mechanical, electrical, plumbing, or exterior work."
         },
         {
-          "q": "How are HVAC options compared for a Pound Ridge property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What should a cold-weather heat-pump proposal show?",
+          "a": "It should show load basis, selected capacity data, design temperature, defrost and auxiliary-heat strategy, controls, electrical requirements, and expected operating sequence."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Pound Ridge?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Should a proposal assume propane, oil, or well service at a Pound Ridge property?",
+          "a": "No. Fuel, water, electrical, and backup conditions must be confirmed at the address; the town name does not establish them."
         }
       ],
       "sourceNotes": [
@@ -1607,16 +1647,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Bedford, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Bedford, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Bedford HVAC service with hamlet identification, Town requirements, property-specific utilities, distribution, placement, and access.",
       "answerFirst": "A Bedford service request benefits from an exact hamlet and address check before project requirements are discussed. Bravo Mechanical can then assess the equipment, distribution, energy source, placement, and access at the building.",
       "localContext": [
         "New York State lists Bedford as a town, and the Town's official site identifies Bedford Village, Bedford Hills, and Katonah as its three hamlets.",
-        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+        "Bedford's official site identifies three hamlets—Bedford Village, Bedford Hills, and Katonah—under one Town government. The hamlet and exact address help identify project context but are not separate permit authorities."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Recording the correct Bedford hamlet and address without treating it as a separate municipality",
+        "Assessing utility supply, distribution, and equipment access rather than inferring conditions from a rural or estate label",
+        "Checking whether exterior work raises a property-specific preservation or review question before routing equipment"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1624,6 +1664,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1644,16 +1686,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Bedford?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Are Bedford Village, Bedford Hills, and Katonah separate towns?",
+          "a": "No. The Town's official site identifies them as Bedford's three hamlets. Town resources are the municipal starting point, with address-specific review as needed."
         },
         {
-          "q": "How are HVAC options compared for a Bedford property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What site facts should a Bedford replacement proposal confirm?",
+          "a": "Confirm the served spaces, load inputs, equipment and distribution, fuel or electrical service, controls, placement, routes, clearances, and access."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Bedford?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Does every Bedford exterior HVAC change require historic review?",
+          "a": "The reviewed sources do not support a blanket rule. Check the exact property, district status if relevant, proposed exterior change, and current Town guidance."
         }
       ],
       "sourceNotes": [
@@ -1687,16 +1729,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Katonah, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Katonah, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Katonah HVAC assessment using Bedford forms, hamlet and historic-district checks, cold-weather performance data, and safe boiler boundaries.",
       "answerFirst": "Katonah properties use Town of Bedford resources for local project questions. Bravo Mechanical can separately evaluate the installed system, controls, distribution, access, and any exterior work needed for the proposed HVAC scope.",
       "localContext": [
         "The Town of Bedford's official site identifies Katonah as a hamlet, and Town building forms include HVAC work.",
-        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+        "Bedford identifies Katonah as a hamlet, and its official forms page includes both Building Department resources and a Katonah Historic District Commission section. That does not mean every property or HVAC task receives historic review."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Checking whether a proposed exterior change is at a property subject to Katonah historic-district review",
+        "Reviewing low-temperature equipment data without claiming that one design condition fits every building",
+        "Leaving steam or hot-water draining, filling, pressurizing, venting, and burner work to qualified professionals"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1704,6 +1746,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1724,19 +1768,24 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Katonah?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Does every Katonah HVAC project go to the Historic District Commission?",
+          "a": "No blanket conclusion is supported. The Town forms page shows a Katonah Historic District Commission process, so the exact property and exterior scope should be checked."
         },
         {
-          "q": "How are HVAC options compared for a Katonah property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What cold-weather data should be reviewed for a heat pump?",
+          "a": "Review the building load and manufacturer capacity, efficiency, defrost, auxiliary-heat, and operating data at the project's selected design conditions."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Katonah?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "May a homeowner add water or pressure to a Katonah boiler system?",
+          "a": "That is outside these safe checks. Opening, draining, filling, pressurizing, purging, or altering steam and hot-water systems should be left to a qualified professional."
         }
       ],
       "sourceNotes": [
+        {
+          "label": "Town of Bedford — the hamlets of Bedford",
+          "url": "https://bedfordny.gov/1884/The-Hamlets-of-Bedford",
+          "supports": "Officially identifies Katonah as one of the Town of Bedford's three hamlets."
+        },
         {
           "label": "Town of Bedford forms and applications",
           "url": "https://bedfordny.gov/180/Forms-Applications",
@@ -1767,16 +1816,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Armonk, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Armonk, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Armonk HVAC planning using North Castle's permit and hamlet-design guidance, with load, controls, placement, and review coordination.",
       "answerFirst": "Armonk HVAC work should connect North Castle's project process with the building's real design constraints. Bravo Mechanical can assess load, distribution, utility capacity, controls, placement, and serviceability before equipment is selected.",
       "localContext": [
         "The Town of North Castle identifies Armonk as one of its hamlets, and its official permit guide directs questions to the Town Building Department.",
-        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+        "North Castle's official Hamlet Design Guidelines identify Armonk as one of the Town's hamlet overlay areas, while the Town permit guide describes preliminary review and possible referrals. The exact project determines which review steps apply."
       ],
       "commonConcerns": [
-        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
-        "A replacement proposal that does not explain distribution or control changes",
-        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+        "Coordinating North Castle preliminary review questions before assuming a building-permit path",
+        "Showing how proposed exterior equipment or routes relate to Armonk hamlet-design considerations without claiming automatic approval",
+        "Documenting load, controls, electrical service, backup operation, and service access for new or replacement systems"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1784,6 +1833,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1804,19 +1855,24 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Armonk?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "What official source identifies Armonk as a North Castle hamlet area?",
+          "a": "North Castle's Hamlet Design Guidelines include Armonk among the Town's hamlet overlay areas. The Town's separate permit guide explains how project questions enter preliminary review."
         },
         {
-          "q": "How are HVAC options compared for a Armonk property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Does North Castle's preliminary review mean every Armonk HVAC job needs board approval?",
+          "a": "No. The official guide says a project may be referred depending on its scope. The owner should ask about the defined work rather than assume a universal path."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Armonk?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What should an Armonk system-design scope document?",
+          "a": "Document load inputs, distribution, equipment performance data, controls, utility capacity, backup sequence if any, equipment locations, routes, and service clearances."
         }
       ],
       "sourceNotes": [
+        {
+          "label": "Town of North Castle — Hamlet Design Guidelines",
+          "url": "https://www.northcastleny.com/DocumentCenter/View/291/Town-of-North-Castle-Hamlet-Design-Guidelines-PDF",
+          "supports": "Officially identifies Armonk as a North Castle hamlet overlay area and documents hamlet-design review context."
+        },
         {
           "label": "Town of North Castle building-permit guide",
           "url": "https://www.northcastleny.com/213/Customers-Guide-to-the-Building-Permit-P",
@@ -1847,16 +1903,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Hastings-on-Hudson, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Hastings-on-Hudson, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Hastings-on-Hudson HVAC retrofit planning for Village requirements, distribution identification, routing, drainage, and access.",
       "answerFirst": "For a Hastings-on-Hudson HVAC concern, Bravo Mechanical can examine the equipment and the routes used for air, water, refrigerant, drainage, or venting. That site evidence should drive the written repair or replacement scope.",
       "localContext": [
         "New York State lists Hastings-on-Hudson as a village within the Town of Greenburgh, so Village guidance applies inside Village boundaries.",
-        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+        "Hastings-on-Hudson is one of several separate villages within Greenburgh. Its Village identity should not be collapsed into Dobbs Ferry, Irvington, Ardsley, or unincorporated Town procedures."
       ],
       "commonConcerns": [
-        "Limited or unsuitable ductwork for spaces needing conditioning",
-        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
-        "Controls or zones that do not match how the building is occupied"
+        "Identifying steam, hot-water, forced-air, ductless, or room equipment before selecting a retrofit path",
+        "Planning exterior lines, vents, condensate, and electrical routes with clear finish and access responsibilities",
+        "Checking Hastings-on-Hudson Village guidance rather than borrowing a neighboring Greenburgh village's process"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1864,6 +1920,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1884,16 +1942,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Hastings-on-Hudson?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Is one Greenburgh permit process interchangeable across all its villages?",
+          "a": "No such assumption is supported. Hastings-on-Hudson is a separate village, so current Village guidance should be checked for work inside its boundaries."
         },
         {
-          "q": "How are HVAC options compared for a Hastings-on-Hudson property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Why identify the existing distribution before discussing a retrofit?",
+          "a": "Steam, hot-water, forced-air, ductless, and room systems have different controls, loads, interfaces, and feasible add-on or replacement paths."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Hastings-on-Hudson?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What should a line-routing plan assign?",
+          "a": "Assign equipment locations, penetration and finish work, line and drain routes, electrical work, protection, testing, access, and restoration responsibilities."
         }
       ],
       "sourceNotes": [
@@ -1927,16 +1985,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Dobbs Ferry, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Dobbs Ferry, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Dobbs Ferry HVAC diagnosis with Village verification, energy-use context, control and distribution checks, and documented outcomes.",
       "answerFirst": "A Dobbs Ferry comfort problem may originate in equipment, distribution, controls, or the spaces themselves. Bravo Mechanical can evaluate those elements together and document practical next steps for the address.",
       "localContext": [
         "New York State lists Dobbs Ferry as a village within the Town of Greenburgh, making Village guidance the local reference.",
-        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+        "Dobbs Ferry is a Greenburgh village with its own municipal identity. Energy or comfort recommendations should remain separate from Village verification and should be based on measured or documented property conditions."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Explaining high energy use without attributing it to HVAC equipment before controls, weather, rates, and building load are reviewed",
+        "Verifying zone and distribution operation when comfort differs between spaces",
+        "Assigning Dobbs Ferry Village checks, utility questions, and contractor tasks to the correct parties"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -1944,6 +2002,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -1964,16 +2024,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Dobbs Ferry?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Which municipality should a Dobbs Ferry property consult first?",
+          "a": "Dobbs Ferry is listed as a village within Greenburgh. Current Village information is the starting point for address-specific project questions."
         },
         {
-          "q": "How are HVAC options compared for a Dobbs Ferry property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Does a high utility bill prove the HVAC system is inefficient?",
+          "a": "No. Usage, rates, weather, setpoints, controls, building load, hot water, other appliances, and equipment condition can all affect a bill."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Dobbs Ferry?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "How should an energy-related service finding be reported?",
+          "a": "Report the equipment and controls inspected, measurements or observations, known operating conditions, limitations, corrective options, and assumptions requiring further data."
         }
       ],
       "sourceNotes": [
@@ -2007,16 +2067,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Irvington, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Irvington, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Irvington HVAC retrofit assessment for Village requirements, equipment placement, concealed-route feasibility, controls, and serviceability.",
       "answerFirst": "Irvington HVAC planning should account for performance, placement, routing, clearances, and future service access. Bravo Mechanical can review those conditions before narrowing repair, add-on, or replacement choices.",
       "localContext": [
         "New York State lists Irvington as a village within Greenburgh; current Village requirements should be verified inside municipal boundaries.",
-        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+        "Irvington is a separate Greenburgh village, not an informal neighborhood of the Town. Its municipal status supports a Village-specific check, while any concealed routing or placement idea needs direct site verification."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Evaluating whether a concealed duct, line, drain, or vent route is physically accessible and maintainable",
+        "Balancing proposed equipment placement with clearances, sound data, drainage, electrical work, and future service",
+        "Keeping Irvington Village research distinct from generalized Rivertowns assumptions"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2024,6 +2084,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -2044,16 +2106,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Irvington?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Where should an Irvington owner begin with local HVAC questions?",
+          "a": "Begin with current Village of Irvington sources and the exact proposed scope. Other Greenburgh village procedures should not be assumed equivalent."
         },
         {
-          "q": "How are HVAC options compared for a Irvington property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Can a concealed HVAC route be promised before site investigation?",
+          "a": "No. Cavities, structure, finishes, fire and air barriers, drainage slope, line limits, access, and restoration needs must be evaluated."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Irvington?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What placement details should be approved before installation?",
+          "a": "Approve equipment dimensions and locations, clearances, routes, drains, vents, electrical components, sound-related data, service access, and finish responsibilities."
         }
       ],
       "sourceNotes": [
@@ -2087,16 +2149,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Briarcliff Manor, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Briarcliff Manor, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Briarcliff Manor HVAC service with dual-town address context, Village requirement checks, approval roles, placement, and access planning.",
       "answerFirst": "Because Briarcliff Manor spans two towns, the exact address matters before project requirements are assigned. Bravo Mechanical can assess the system and building conditions while the owner confirms the applicable municipal path.",
       "localContext": [
         "New York State records Briarcliff Manor as a village in both the towns of Ossining and Mount Pleasant, so the exact address matters.",
-        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+        "The state tax source specifically lists Briarcliff Manor among villages located in more than one town—Ossining and Mount Pleasant. The Village is the first municipal reference, while the town location remains an address fact to confirm."
       ],
       "commonConcerns": [
-        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
-        "A replacement proposal that does not explain distribution or control changes",
-        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+        "Recording whether a Briarcliff Manor parcel lies in Ossining or Mount Pleasant when that distinction affects the inquiry",
+        "Avoiding duplicate or conflicting assumptions about Village, town, utility, and contractor responsibilities",
+        "Defining exterior placement, routes, access, and restoration before a replacement scope is authorized"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2104,6 +2166,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -2124,16 +2188,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Briarcliff Manor?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Why can the town location matter for a Briarcliff Manor address?",
+          "a": "New York's official table places the Village in both Ossining and Mount Pleasant. Confirm the parcel's town location and ask the Village which current requirements apply."
         },
         {
-          "q": "How are HVAC options compared for a Briarcliff Manor property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Should an owner contact both towns for every HVAC project?",
+          "a": "The reviewed source does not establish that rule. Start with the Village and the exact address and scope; follow any direction to additional authorities."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Briarcliff Manor?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What prevents responsibility gaps in a dual-jurisdiction inquiry?",
+          "a": "The written scope should name who verifies each municipal or utility item, who files if required, who schedules inspections, and who keeps closeout records."
         }
       ],
       "sourceNotes": [
@@ -2167,16 +2231,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Croton-on-Hudson, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Croton-on-Hudson, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Croton-on-Hudson HVAC planning for Village requirements, outdoor placement, drainage, electrical routes, clearances, and access.",
       "answerFirst": "A Croton-on-Hudson HVAC assessment should follow the full installation path, including distribution, controls, utility supply, drainage, routing, clearances, and access. Bravo Mechanical can use those findings to define the next step.",
       "localContext": [
         "New York State lists Croton-on-Hudson as a village within the Town of Cortlandt, so Village sources apply inside its boundaries.",
-        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+        "Croton-on-Hudson is a village within Cortlandt, whereas nearby Peekskill is a city and Ossining has both Town and Village entities. The exact address and municipality must anchor local guidance."
       ],
       "commonConcerns": [
-        "Limited or unsuitable ductwork for spaces needing conditioning",
-        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
-        "Controls or zones that do not match how the building is occupied"
+        "Documenting outdoor-equipment support, drainage, line protection, electrical disconnect, clearances, and access",
+        "Avoiding generalized claims that slope or river proximity dictates system performance at every property",
+        "Using Croton-on-Hudson Village guidance rather than City of Peekskill or Ossining materials"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2184,6 +2248,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -2204,16 +2270,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Croton-on-Hudson?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "How does Cortlandt relate to Croton-on-Hudson Village?",
+          "a": "New York's municipality inventory places Croton-on-Hudson within the Town of Cortlandt. Current Village requirements should be checked for an address inside the Village."
         },
         {
-          "q": "How are HVAC options compared for a Croton-on-Hudson property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What belongs in an outdoor-equipment placement plan?",
+          "a": "Include equipment dimensions, support, required clearances, airflow, drainage, line and electrical routes, disconnect, protection, sound data if relevant, and service access."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Croton-on-Hudson?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Does a hillside or waterfront label determine HVAC design?",
+          "a": "No. Grade, exposure, drainage, load, and placement conditions must be observed or documented at the actual site before they influence a design."
         }
       ],
       "sourceNotes": [
@@ -2247,16 +2313,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Yorktown, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Yorktown, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Yorktown HVAC diagnostics for Town jurisdiction, refrigerant symptoms, address verification, equipment access, and written repair scope.",
       "answerFirst": "Yorktown HVAC work should be scoped to the actual address rather than a postal label or broad town profile. Bravo Mechanical can diagnose the equipment and compare options against distribution, utilities, controls, and site access.",
       "localContext": [
         "New York State lists Yorktown as a Westchester town; a postal place name should not substitute for address verification.",
-        "Identify the exact address and jurisdiction, then assess building load, installed distribution, energy source, access, and project goals."
+        "Yorktown is a town, and postal communities within or near a town do not replace parcel-level jurisdiction checks. The service record should use the exact address and avoid turning ZIP or hamlet names into boundaries."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Diagnosing a suspected refrigerant problem without relying on icing, warm air, or noise alone",
+        "Confirming the exact address and municipal responsibility before citing Town requirements",
+        "Reviewing equipment location, electrical supply, distribution, controls, and access across the full proposed scope"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2264,6 +2330,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -2284,16 +2352,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Yorktown?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Why use an exact address for Yorktown municipal questions?",
+          "a": "Town and postal labels are not interchangeable boundaries. Confirm the property location, then ask current Town sources about the specific work."
         },
         {
-          "q": "How are HVAC options compared for a Yorktown property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What symptoms can overlap with a refrigerant-side fault?",
+          "a": "Airflow restrictions, controls, electrical components, dirty heat-transfer surfaces, load conditions, and refrigerant-side problems can produce overlapping symptoms."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Yorktown?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Who may handle refrigerant during a Yorktown service visit?",
+          "a": "Refrigerant access, recovery, charging, leak repair, and circuit opening are professional work and must follow applicable requirements; homeowner checks should not enter that system."
         }
       ],
       "sourceNotes": [
@@ -2327,16 +2395,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Somers, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Somers, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Somers HVAC system planning for Town requirements, fuel or electric options, backup sequence, shared-community responsibilities, and access.",
       "answerFirst": "For a Somers heating or cooling project, Bravo Mechanical can review the building load, distribution, energy source, controls, outdoor location, and backup arrangements. Those findings support a property-specific decision.",
       "localContext": [
         "New York State lists Somers as a Westchester town, making Town information the starting point for local project questions.",
-        "Record the reported symptom, affected spaces, equipment, controls, utility supply, routing constraints, and any building approvals."
+        "Somers is a town without a same-named village in the state inventory. That simplifies the municipal starting point but does not establish the property's fuel, utility, ownership, or equipment arrangement."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Comparing fuel-fired and electric options without assuming which energy sources are present",
+        "Defining backup-heat changeover, controls, capacity, and owner operating responsibilities",
+        "Establishing whether a community, association, or individual owner controls shared equipment or exterior changes"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2344,6 +2412,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -2364,16 +2434,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Somers?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Does Somers have a separate Village of Somers building authority?",
+          "a": "The state Westchester inventory lists Somers as a town and does not list a same-named village. Current Town guidance is the local starting point."
         },
         {
-          "q": "How are HVAC options compared for a Somers property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What should be compared when changing heating energy sources?",
+          "a": "Compare load, distribution, equipment capacity, utility upgrades, fuel disposition, controls, backup strategy, installation scope, operating assumptions, and current incentives separately."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Somers?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "How should association responsibility be verified?",
+          "a": "Review governing documents and obtain authorization from the responsible party for access, common elements, exterior equipment, shutdowns, and recordkeeping before scheduling work."
         }
       ],
       "sourceNotes": [
@@ -2407,16 +2477,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Ardsley, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Ardsley, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Ardsley HVAC diagnosis for Village requirements, duct and airflow investigation, equipment scope, controls, and access.",
       "answerFirst": "An Ardsley comfort concern should be traced through equipment, ductwork or piping, controls, and the affected spaces. Bravo Mechanical can document the cause found and the repair or replacement scope proposed.",
       "localContext": [
         "New York State lists Ardsley as a village within the Town of Greenburgh, so Village guidance should be checked for the property.",
-        "Compare installed equipment, distribution, controls, access, utilities, and safety symptoms before choosing repair, maintenance, or replacement."
+        "Ardsley is a Greenburgh village, but the similarly named Ardsley Park area is not evidence that every Ardsley mailing address shares one municipal identity. Use the exact property location."
       ],
       "commonConcerns": [
-        "Repeated resets, breaker trips, alarms, odors, or unusual equipment noise",
-        "A replacement proposal that does not explain distribution or control changes",
-        "Unclear permit, inspection, owner, landlord, or association responsibilities"
+        "Testing a suspected duct leak without promising a specific energy or comfort improvement",
+        "Separating equipment faults from return, supply, balancing, control, or building-envelope conditions",
+        "Confirming Ardsley Village requirements rather than relying on a neighborhood or postal label"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2424,6 +2494,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -2444,16 +2516,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Ardsley?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Is every address using Ardsley in its name necessarily inside Ardsley Village?",
+          "a": "That should not be assumed from the place name alone. Verify the property location before using Village guidance."
         },
         {
-          "q": "How are HVAC options compared for a Ardsley property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "How can suspected duct leakage be evaluated?",
+          "a": "Review accessible duct condition, connections, insulation, pressure relationships, airflow, and test results where included; avoid guaranteeing savings from sealing."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Ardsley?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What should an airflow correction scope state?",
+          "a": "State the diagnosed condition, test method, accessible work area, sealing or repair materials, balancing tasks, exclusions, finish responsibilities, and post-work verification."
         }
       ],
       "sourceNotes": [
@@ -2487,16 +2559,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Hartsdale, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Hartsdale, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Hartsdale HVAC service with Greenburgh jurisdiction checks, shared-building authorization, through-wall or central-system scope, and access planning.",
       "answerFirst": "A Hartsdale mailing address should be paired with a Greenburgh jurisdiction check and a clear statement of equipment responsibility. Bravo Mechanical can assess the HVAC system while owners, landlords, or associations confirm approvals.",
       "localContext": [
         "Hartsdale is not separately listed as a city, town, or village in New York State's inventory; Town of Greenburgh records identify Hartsdale locations.",
-        "Document served spaces, equipment type, distribution, electrical or fuel constraints, service access, and occupancy before proposing work."
+        "Hartsdale is a hamlet rather than a city, town, or village in New York's municipal framework, and Greenburgh records identify Hartsdale locations. Town guidance is the starting point once the address is confirmed."
       ],
       "commonConcerns": [
-        "Limited or unsuitable ductwork for spaces needing conditioning",
-        "Outdoor-equipment, vent, line-set, condensate, or service-access placement",
-        "Controls or zones that do not match how the building is occupied"
+        "Determining whether a unit owner, cooperative, condominium, landlord, or Town rule controls the proposed change",
+        "Identifying whether comfort equipment is central, unitary, through-wall, ductless, hydronic, or another configuration",
+        "Obtaining written approval for penetrations, exterior components, condensate routes, electrical work, and common-area access"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2504,12 +2576,14 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
         {
-          "label": "Town of Greenburgh official website",
-          "url": "https://www.greenburghny.com/"
+          "label": "Town of Greenburgh comprehensive plan",
+          "url": "https://greenburghny.com/DocumentCenter/View/1948/Adopted-Comprehensive-Plan-Reduced-Size-PDF"
         }
       ],
       "relatedGuideSlugs": [
@@ -2524,23 +2598,23 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Hartsdale?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Does Hartsdale have its own village building department?",
+          "a": "Hartsdale is not listed as a separate municipality; it is treated as a Greenburgh hamlet in official Town records. Confirm the address and begin with current Town sources."
         },
         {
-          "q": "How are HVAC options compared for a Hartsdale property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What equipment-responsibility question comes first in a shared building?",
+          "a": "Establish who owns and maintains the equipment and distribution, which components are common elements, who authorizes access, and which spaces the system serves."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Hartsdale?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What should be approved before adding a through-wall or ductless system?",
+          "a": "Confirm load, equipment listing, opening and finish work, exterior appearance, drainage, electrical supply, sound data, controls, common elements, and service access."
         }
       ],
       "sourceNotes": [
         {
-          "label": "Town of Greenburgh official website",
-          "url": "https://www.greenburghny.com/",
-          "supports": "Official Town source for Greenburgh services and Hartsdale-related municipal records."
+          "label": "Town of Greenburgh comprehensive plan",
+          "url": "https://greenburghny.com/DocumentCenter/View/1948/Adopted-Comprehensive-Plan-Reduced-Size-PDF",
+          "supports": "Official Town planning source documenting Hartsdale locations and municipal context."
         },
         {
           "label": "New York State Department of State — Local Government Handbook",
@@ -2567,16 +2641,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Pelham, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Pelham, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Pelham HVAC assessment with Town, Pelham Village, and Pelham Manor address checks, radiator diagnosis, and pressure-system boundaries.",
       "answerFirst": "Pelham may refer to the Town, Village of Pelham, or Pelham Manor, so the address must lead municipal research. Bravo Mechanical can separately evaluate the equipment, distribution, routing, utilities, and access.",
       "localContext": [
         "New York State lists a Town of Pelham containing the Village of Pelham and Village of Pelham Manor, so the address must identify the municipality.",
-        "Confirm ducts, hydronic distribution, room units, controls, clearances, drainage or vent routing, and access at the actual address."
+        "Pelham has a town plus two villages—Pelham and Pelham Manor—in the official inventory. A request using only Pelham does not identify the correct village or whether a Town-level question is involved."
       ],
       "commonConcerns": [
-        "Uneven comfort between rooms or levels",
-        "Equipment that starts inconsistently or stops before reaching the setpoint",
-        "Whether existing distribution and electrical or fuel service can support a proposed change"
+        "Distinguishing Village of Pelham, Pelham Manor, and Town responsibilities from a mailing label",
+        "Diagnosing a cold radiator without opening, draining, venting, filling, or pressurizing the system as a homeowner check",
+        "Planning cooling or heat-pump additions only after distribution, electrical capacity, routes, and approvals are known"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2584,6 +2658,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -2604,16 +2680,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Pelham?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Which Pelham municipality should a property owner contact?",
+          "a": "Confirm whether the address lies in the Village of Pelham or Pelham Manor and describe the exact scope. The Town and two villages are distinct entries in the state inventory."
         },
         {
-          "q": "How are HVAC options compared for a Pelham property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "Why might one radiator stay cold?",
+          "a": "Possible causes include controls, air or steam distribution, valves, traps, flow, pressure, piping, balancing, or plant operation. A qualified diagnosis is needed before changing the system."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Pelham?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "Should an occupant bleed or pressurize a Pelham heating system?",
+          "a": "Not under these safe checks. Opening, draining, filling, venting, or pressurizing steam and hot-water systems can create burn, water, or pressure hazards and belongs to qualified professionals."
         }
       ],
       "sourceNotes": [
@@ -2647,16 +2723,16 @@
       "zips": [],
       "neighborhoods": [],
       "title": "HVAC Port Chester, NY — Heating, Cooling & Repair | Bravo Mechanical",
-      "metaDescription": "HVAC service in Port Chester, NY for heating, cooling, repair, maintenance, and indoor air quality. Request a property-specific assessment and written scope.",
+      "metaDescription": "Port Chester HVAC service for Village requirements, shared or commercial equipment responsibility, heating-noise diagnosis, ventilation, and access.",
       "answerFirst": "Port Chester HVAC work can involve residential, shared-building, or light-commercial responsibilities. Bravo Mechanical can identify who controls the equipment and assess distribution, access, ventilation, utilities, and the reported concern.",
       "localContext": [
         "New York State lists Port Chester as a village within the Town of Rye, making Village requirements the starting point inside its boundaries.",
-        "Review equipment condition, distribution, controls, electrical capacity, outdoor placement, serviceability, and ownership responsibilities."
+        "Port Chester is a village within the Town of Rye and is distinct from the City of Rye. A Rye mailing or utility reference must not substitute for checking the Port Chester property itself."
       ],
       "commonConcerns": [
-        "A no-heat or no-cooling condition needing safe diagnosis",
-        "Airflow, radiator, baseboard, or room-unit performance that differs across the property",
-        "Access, placement, or approval constraints for repair or replacement"
+        "Tracing heating noises without assuming air, pressure, flow, expansion, burner, or equipment causes",
+        "Defining who controls equipment serving tenants, storefronts, common areas, or more than one occupancy",
+        "Coordinating access, shutdowns, ventilation review, and Village verification for an occupied property"
       ],
       "safeChecks": [
         "Confirm the thermostat is powered, set to the intended mode, and using a reasonable setpoint",
@@ -2664,6 +2740,8 @@
       ],
       "professionalBoundaries": [
         "Do not open equipment panels, bypass safety controls, handle refrigerant, or continue resetting a breaker that trips again",
+        "Leave gas-valve, burner, fuel-train, venting, and combustion-control inspection or adjustment to a qualified professional",
+        "Do not open, drain, fill, purge, vent, or pressurize a steam or hot-water heating system as a homeowner check",
         "If a carbon-monoxide alarm sounds, or there is smoke, fire, or a suspected gas leak, leave the building and contact emergency services or the gas utility from a safe location"
       ],
       "municipalResources": [
@@ -2684,16 +2762,16 @@
       ],
       "faqItems": [
         {
-          "q": "What should I check before requesting HVAC service in Port Chester?",
-          "a": "Note the thermostat setting, equipment type if known, when the symptom began, any error code, unusual sound or odor, and which spaces are affected. Do not remove panels or defeat a safety control."
+          "q": "Is Port Chester governed by the City of Rye?",
+          "a": "No. New York lists Port Chester as a village within the Town of Rye, while the City of Rye is separate. Use current Port Chester guidance for Village properties."
         },
         {
-          "q": "How are HVAC options compared for a Port Chester property?",
-          "a": "Compare options against the existing distribution, building load, electrical or fuel constraints, equipment location, controls, serviceability, project goals, and conditions documented at the site."
+          "q": "What information helps diagnose heating-system noise?",
+          "a": "Record when and where it occurs, operating mode, affected zones, visible codes or leaks, recent work, and whether the sound is at equipment, piping, radiators, ductwork, or terminals."
         },
         {
-          "q": "Who should verify permit or inspection requirements in Port Chester?",
-          "a": "Requirements depend on the property jurisdiction and work scope. Use the current municipal source for the address, and state filing, fee, inspection, and closeout responsibilities in the written project scope."
+          "q": "What belongs in a tenant-impact plan for HVAC work?",
+          "a": "Identify authorized contacts, affected equipment and spaces, access, shutdown timing, temporary conditions, ventilation limits, notices, restoration, and reporting responsibilities."
         }
       ],
       "sourceNotes": [

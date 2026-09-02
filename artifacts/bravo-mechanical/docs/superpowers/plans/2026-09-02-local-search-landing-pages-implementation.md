@@ -804,13 +804,13 @@ git commit -m "docs: record local landing page verification"
 
 Run: `git status --short --branch && git rev-parse HEAD`
 
-Expected: branch `codex/seo-aeo-phase1`; only unrelated pre-existing changes remain outside this task's scoped files.
+Expected: isolated implementation branch `codex/local-landing-pages` with no task-related uncommitted changes. The original checkout and its unrelated changes remain untouched.
 
 - [ ] **Step 2: Push the scoped commits to the same remote branch**
 
-Run: `git push origin codex/seo-aeo-phase1`
+Run: `git fetch origin codex/seo-aeo-phase1 && git merge-base --is-ancestor origin/codex/seo-aeo-phase1 HEAD && git push origin HEAD:codex/seo-aeo-phase1`
 
-Expected: remote branch advances to the exact locally verified commit. Do not merge.
+Expected: the ancestry guard passes and the remote `codex/seo-aeo-phase1` branch advances by fast-forward to the exact locally verified commit. If the guard or push fails, stop and reconcile the remote change without force-pushing or merging.
 
 - [ ] **Step 3: Deploy the exact commit to a protected Vercel preview**
 
@@ -837,7 +837,7 @@ Expected: zero failures. If any check fails, do not promote; correct the issue i
 ```bash
 git add docs/seo/2026-09-02-local-landing-page-evidence.md
 git commit -m "docs: record local landing page preview"
-git push origin codex/seo-aeo-phase1
+git push origin HEAD:codex/seo-aeo-phase1
 ```
 
 ---
@@ -878,7 +878,7 @@ Add production deployment ID, commit SHA, verification results, rollback status,
 ```bash
 git add docs/seo/2026-09-02-local-landing-page-evidence.md
 git commit -m "docs: record local landing page production release"
-git push origin codex/seo-aeo-phase1
+git push origin HEAD:codex/seo-aeo-phase1
 ```
 
 ## Completion Criteria

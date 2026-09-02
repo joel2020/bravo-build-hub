@@ -1,0 +1,57 @@
+{
+  "cities": {
+    "yonkers": {
+      "slug": "yonkers",
+      "name": "Yonkers",
+      "region": "Lower Westchester",
+      "zips": ["10701"],
+      "neighborhoods": [],
+      "title": "HVAC Information for Yonkers, NY | Bravo Mechanical",
+      "metaDescription": "Review practical HVAC project next steps and Yonkers municipal permit resources before planning work at your property.",
+      "answerFirst": "For a Yonkers HVAC project, begin with the system issue and scope, then verify applicable permitting requirements with the City's Department of Housing and Buildings.",
+      "localContext": [
+        "The Yonkers Department of Housing and Buildings accepts applications online through the forms published on its Forms & Permits page.",
+        "The City's Forms & Permits page includes a Boiler Permit Application and a Department of Housing and Buildings fee schedule."
+      ],
+      "commonConcerns": [
+        "Whether the planned work needs a City permit.",
+        "Which City application or supporting materials apply to the project."
+      ],
+      "safeChecks": [
+        "Gather the system details and project scope before seeking an assessment.",
+        "Review the City's current forms and fee information before submitting an application."
+      ],
+      "professionalBoundaries": [
+        "Confirm permit requirements and application responsibilities with the City of Yonkers.",
+        "A general overview cannot determine code, permit, or inspection requirements for a specific property."
+      ],
+      "municipalResources": [
+        {
+          "label": "Yonkers Department of Housing and Buildings — Forms & Permits",
+          "url": "https://www.yonkersny.gov/229/Forms-Permits"
+        }
+      ],
+      "relatedGuideSlugs": ["hvac-permits-yonkers-guide"],
+      "nearbyCitySlugs": [],
+      "faqItems": [
+        {
+          "q": "Where can I find Yonkers permit forms?",
+          "a": "The Yonkers Department of Housing and Buildings publishes permit applications and related forms on its Forms & Permits page."
+        },
+        {
+          "q": "Does Yonkers publish a boiler permit application?",
+          "a": "Yes. The City's Forms & Permits page lists a Boiler Permit Application; confirm current project requirements with the City."
+        }
+      ],
+      "sourceNotes": [
+        {
+          "label": "Yonkers Department of Housing and Buildings — Forms & Permits",
+          "url": "https://www.yonkersny.gov/229/Forms-Permits",
+          "supports": "Online application filing and the published permit forms, including a Boiler Permit Application and fee schedule."
+        }
+      ],
+      "reviewedAt": "2026-09-02"
+    }
+  },
+  "serviceCities": {}
+}

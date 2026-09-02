@@ -156,14 +156,6 @@ const ServiceCityPage = () => {
                     {consideration}
                   </li>
                 ))}
-                {landing.citySlug === "yonkers" &&
-                  landing.serviceSlug === "hvac-repair" && (
-                    <li className="flex gap-2 text-sm">
-                      <CheckCircle2 className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-                      Multifamily properties may require access coordination
-                      before diagnosis or repair.
-                    </li>
-                  )}
               </ul>
             </div>
             <div className="grid sm:grid-cols-2 gap-5">

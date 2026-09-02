@@ -243,21 +243,15 @@ const CityPage = () => {
             proposal or scope for the specific project.
           </p>
           <div className="grid sm:grid-cols-2 gap-3">
-            {city.municipalResources.map((resource) => {
-              const label =
-                resource.label === "City of Yonkers forms and permits"
-                  ? "City of Yonkers building permits and forms"
-                  : resource.label;
-              return (
-                <a
-                  key={resource.url}
-                  href={resource.url}
-                  className="border border-border rounded-md p-4 hover:border-accent transition-colors font-semibold text-sm"
-                >
-                  {label}
-                </a>
-              );
-            })}
+            {city.municipalResources.map((resource) => (
+              <a
+                key={resource.url}
+                href={resource.url}
+                className="border border-border rounded-md p-4 hover:border-accent transition-colors font-semibold text-sm"
+              >
+                {resource.label}
+              </a>
+            ))}
           </div>
         </section>
       )}

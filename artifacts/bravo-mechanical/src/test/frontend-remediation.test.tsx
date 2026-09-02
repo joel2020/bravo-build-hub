@@ -704,7 +704,7 @@ describe("reviewed local landing pages", () => {
     expect(
       screen
         .getByRole("link", {
-          name: /City of Yonkers building permits and forms/i,
+          name: /City of Yonkers forms and permits/i,
         })
         .getAttribute("href"),
     ).toBe("https://www.yonkersny.gov/229/Forms-Permits");
@@ -730,7 +730,7 @@ describe("reviewed local landing pages", () => {
     ).toBeTruthy();
     expect(
       screen.getByText(
-        /Multifamily properties may require access coordination/i,
+        /Yonkers Housing Code Enforcement inspects apartment houses and other multiple residences/i,
       ),
     ).toBeTruthy();
     expect(

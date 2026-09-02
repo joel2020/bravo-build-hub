@@ -1,5 +1,92 @@
 # Local landing-page evidence review - 2026-09-02
 
+## Task 8 local release-candidate verification - 2026-09-02
+
+**Status: VERIFIED — ready for protected preview.** Every required local application, live authoritative-source, build, static-page, internal-link, schema, and crawler gate passed. Verification ran against branch `codex/local-landing-pages` at candidate commit `cac8dbad3b43b7099ae84851c99ca6fa7a2c9d2e` from 17:51 through 17:53 EDT (21:51 through 21:53 UTC).
+
+### Required command results
+
+| Command | Exit | Exact result |
+|---|---:|---|
+| `pnpm run audit:local-content` | 0 | 54 local landing-page records audited; 0 errors. |
+| `node scripts/local-landing-content.mjs --live-sources` | 0 | 54 local landing-page records audited; 0 errors; 29 official sources checked live. A read-only per-URL confirmation using the same request headers recorded HTTP 200 for all 29. |
+| `pnpm run typecheck` | 0 | `tsc -p tsconfig.json --noEmit` completed with no diagnostics. |
+| `PORT=4174 pnpm run test` | 0 | Vitest: 5 test files passed (5); 75 tests passed (75); 0 failed. |
+| `pnpm run build` | 0 | Vite transformed 2,283 modules; sitemap generation wrote exactly 141 URLs; metadata injection wrote exactly 141 per-route HTML files. |
+| `pnpm run test:e2e` | 0 | The smoke script passed its homepage, CTA, robots.txt, sitemap.xml, llms.txt, and core-route assertions. The script does not emit an assertion count. |
+| `node tests/local-landing-pages.mjs` | 0 | Dedicated local landing-page checks passed exactly 54 routes: 34 city routes and 20 service-city routes. |
+| `PORT=4174 pnpm run serve` | running until audit completed | Port 4174 was clear before startup. The built preview became ready at `http://localhost:4174/`; readiness request returned success; the listener was PID 91839. |
+| `pnpm run audit:seo:local` | 0 | 141 sitemap URLs audited; 141 passed; 0 failed against the built local preview. |
+| Preview cleanup check | 0 | Sent an interrupt only to the preview session started for this audit. PID 91839 no longer existed and port 4174 had no listening process afterward. |
+
+Final gate warnings: none. Interrupting the long-running preview command produced the package runner's expected non-zero shutdown status after the successful audit; the independent PID and port checks above confirmed clean termination.
+
+### Request-identification correction
+
+The first verification at commit `6bb38d4912d1f3eb8b864cb9292f61b4dbcea3e1` correctly failed rather than masking 61 route-level HTTP 403 responses from two New York State hosts, even though follow-up curl GETs returned HTTP 200. Commit `cac8dbad3b43b7099ae84851c99ca6fa7a2c9d2e` corrected that client-dependent rejection by applying the same transparent headers to every official-source request: `User-Agent: BravoMechanicalLinkVerifier/1.0 (+https://www.bravomechanicalny.com/contact)` and `Accept: text/html,application/pdf;q=0.9,*/*;q=0.8`.
+
+The implementation contains no URL-specific exception, allowlist bypass, ignored status, or 403 waiver. Its regression coverage observes two representative source requests, asserts that both receive the request identity, redirect following, and accepted content types, and confirms that a simulated HTTP 503 remains an audit error. The fresh required live run then checked the complete 29-URL catalog with 0 errors.
+
+### Live authoritative-source results
+
+The required live command uses Node `fetch` with redirects enabled, transparent request-identification headers, and a 20-second timeout. It deduplicates identical URLs and treats every non-2xx response or request error as a failure for each affected route. The command checked all 29 unique authoritative URLs and exited 0 with 54 records audited and 0 errors. A read-only per-URL confirmation using the same dataset and headers recorded HTTP 200 for every URL; there were no timeouts, DNS errors, connection failures, or non-2xx responses.
+
+#### HTTP 200 — 29 unique URLs
+
+| Route references | Authoritative source URL | Redirect outcome |
+|---:|---|---|
+| 1 | https://bedfordny.gov/180/Forms-Applications | None |
+| 2 | https://bedfordny.gov/1884/The-Hamlets-of-Bedford | None |
+| 34 | https://dos.ny.gov/system/files/documents/2025/01/localgovernmenthandbook_2024.pdf | None |
+| 1 | https://greenburghny.com/DocumentCenter/View/1948/Adopted-Comprehensive-Plan-Reduced-Size-PDF | None |
+| 1 | https://www.cityofwhiteplains.com/115/Building-Permits-Applications | None |
+| 1 | https://www.cityofwhiteplains.com/123/Inspection-Information | None |
+| 2 | https://www.cityofwhiteplains.com/86/Building | None |
+| 38 | https://www.cpsc.gov/safety-education/safety-guides/carbon-monoxide/carbon-monoxide-fact-sheet | None |
+| 4 | https://www.energystar.gov/saveathome/heating-cooling/hvac-quality-installation | None |
+| 10 | https://www.energystar.gov/saveathome/heating-cooling/maintenance-checklist | None |
+| 1 | https://www.epa.gov/air-quality/indoor-air-quality | None |
+| 5 | https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home | None |
+| 2 | https://www.epa.gov/indoor-air-quality-iaq/improving-indoor-air-quality | None |
+| 1 | https://www.epa.gov/indoor-air-quality-iaq/ozone-generators-are-sold-air-cleaners | None |
+| 2 | https://www.epa.gov/mold/brief-guide-mold-moisture-and-your-home | None |
+| 4 | https://www.mountvernonny.gov/187/Buildings | None |
+| 1 | https://www.mynewcastleny.gov/ | None |
+| 1 | https://www.newrochelleny.gov/237/Building-Permits | None |
+| 3 | https://www.newrochelleny.gov/DocumentCenter/View/20595/GreenNR-Climate-Action-Plan-Update-2025 | None |
+| 1 | https://www.northcastleny.com/213/Customers-Guide-to-the-Building-Permit-P | HTTP 200 at `https://www.northcastleny.gov/DocumentCenter/View/272/A-Customers-Guide-to-the-Building-Permit-Process-PDF` |
+| 1 | https://www.northcastleny.com/DocumentCenter/View/291/Town-of-North-Castle-Hamlet-Design-Guidelines-PDF | HTTP 200 at `https://www.northcastleny.gov/DocumentCenter/View/291/Town-of-North-Castle-Hamlet-Design-Guidelines-PDF` |
+| 27 | https://www.ny.gov/counties/westchester | None |
+| 36 | https://www.nyserda.ny.gov/Residents-and-Homeowners/Heat-and-Cool-Your-Home/Heating-Systems | None |
+| 1 | https://www.scarsdale.gov/169/Building | None |
+| 3 | https://www.scarsdale.gov/DocumentCenter/View/8645/Mechanical-Heating-Application | None |
+| 1 | https://www.tax.ny.gov/research/property/osc_table4.htm | None |
+| 2 | https://www.yonkersny.gov/217/Housing-Buildings | None |
+| 2 | https://www.yonkersny.gov/229/Forms-Permits | None |
+| 2 | https://www.yonkersny.gov/235/Housing-Code-Enforcement | None |
+
+### Route, metadata, indexability, schema, and link outcomes
+
+| Verification surface | Exact outcome |
+|---|---|
+| Local inventory | 54/54 generated local routes present: 34 city routes plus 20 service-city routes. |
+| Sitemap and static output | 141 sitemap URLs and 141 generated route HTML files. |
+| Local preview crawl | 141/141 sitemap URLs returned HTTP 200; 0 failed. |
+| Titles and descriptions | Present on 141/141 generated route HTML files; smoke checks also enforced title length at most 65 characters and description length at most 160 characters. |
+| H1 | Exactly one crawler-visible H1 on 141/141 generated route HTML files. |
+| Canonical | Correct self-referencing production canonical on 141/141 generated route HTML files. |
+| Indexability | Explicit `index, follow` metadata on 141/141 generated route HTML files; 0 contained `noindex`. `robots.txt` allowed crawling and referenced the canonical sitemap; private routes remained excluded/noindex by deployment configuration and absent from the sitemap. |
+| Structured data | JSON-LD parsed on all generated pages. There were 141 `HVACBusiness` nodes and 70 `FAQPage` nodes; 0 pages had duplicate `HVACBusiness`, 0 had duplicate `FAQPage`, and 0 contained self-serving `aggregateRating` markup. |
+| Local crawler-visible content | 54/54 local routes contained the reviewed copy and exactly one visible copy of each reviewed FAQ; editorial source notes were not exposed in the rendered body. |
+| Local calls to action | 54/54 local routes contained the verified `/contact` link and `tel:+19143619142`. |
+| Intentional relationships | Every asserted related city, related guide, city hub, parent service, and related service link resolved to a generated route and had meaningful anchor text. All 80 expected same-service cross-city links passed, and each applicable parent service linked to its service-city children. No blank, `undefined`, or `null` visible anchor label was found on the 54 local routes. |
+
+### Search Console baseline and remaining uncertainty
+
+The known baseline is the Google Search Console Page Indexing report last updated 2026-08-27: 114 indexed pages and 77 non-indexed pages. Of the sitemap's 141 discovered URLs, 63 were non-indexed: 40 `Discovered - currently not indexed`, 18 `Alternate page with proper canonical tag`, 3 `Duplicate without user-selected canonical`, and 2 `Crawled - currently not indexed`. The discovered-not-indexed group included 29 priority local pages: 15 city routes and 14 service-city routes.
+
+Local verification establishes accessibility, self-canonicals, indexability, structured data, crawler-visible content, and internal discovery; it cannot establish when Google will crawl a URL or whether Google will select it for indexing. No bulk indexing request or sitemap resubmission was made. A settled post-deployment Search Console comparison remains required after an approved preview and production release. With the live-source gate now passing, this exact candidate is ready for protected-preview verification; production promotion still requires the plan's separate approval and public checks.
+
 ## Review method
 
 All material locality claims were checked against primary government sources. Each ledger row identifies the concrete jurisdiction or locality claim retained and the official source that supports it. New York State municipal sources support government structure; route-specific Town, Village, or City sources support named local relationships and process references; NYSERDA supports system-configuration planning; and the U.S. Consumer Product Safety Commission supports carbon-monoxide boundaries.

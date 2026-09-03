@@ -1,8 +1,51 @@
 # Local landing-page evidence review - 2026-09-02
 
-## Task 10 production promotion and verification - 2026-09-02
+## Task 10 rollback and corrective release-candidate verification - 2026-09-02
 
-**Status: PASSED — approved preview promoted and production verified; rollback not needed.** The exact fully tested preview `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF` (`https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app`) was promoted without a new source build. Vercel created production copy `dpl_EBQ89q2tekUjitsHLJc3ezxUf4Ad` at `https://bravo-build-k78jdttca-joel-carias-projects.vercel.app`; its metadata records `action=promote`, `originalDeploymentId=dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF`, and source commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a`. The public production and custom-domain aliases now resolve to that READY production copy.
+**Current status: ROLLED BACK — corrective commit verified locally; no corrected preview or production release yet.** The original production promotion passed its immediate route and infrastructure gate, but the final whole-branch semantic/regression review found release-critical content and parity problems outside that gate. Under the approved rollback condition, `vercel rollback dpl_8NZZStt8oGFr5GA7abA4RvApXp4L --yes` restored the exact previous production deployment at `2026-09-02T23:57:24Z`. Production remains on that rollback deployment while corrected commit `a47f6e403bc53711c91c8b0b365588aa5763fd75` awaits a new protected preview and separate promotion decision.
+
+### Rollback trigger and restored production
+
+The final review identified six material issue classes in the promoted candidate:
+
+1. Contradictory service-area claims describing 30 cities, 34 cities, and all-county coverage.
+2. Incomplete crawler-visible service links in initial HTML.
+3. Unsupported health-outcome copy.
+4. Service-city pages linked to parent services with mismatched search intent.
+5. Crawler/client drift in H1 and structured-data output.
+6. Broken empty-neighborhood copy on 26 blog pages.
+
+The rollback command completed successfully in two seconds and restored READY production `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L` at `https://bravo-build-lz4b5l0cu-joel-carias-projects.vercel.app`, sourced from `5c99146071d9db0b873697a07da6cd3d5c27f70d`. Direct alias-to-deployment checks confirmed that `www.bravomechanicalny.com`, `bravomechanicalny.com`, `app.bravomechanicalny.com`, `bravo-build-hub.vercel.app`, and `bravo-build-hub-joel-carias-projects.vercel.app` all resolved to the restored deployment. The public root returned HTTP 200, retained HTML `index, follow`, had no response-level `noindex`, and passed 3/3 security headers: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and `X-Frame-Options: SAMEORIGIN`. The apex host returned HTTP 308 to the exact `www` root. The superseded promoted deployment `dpl_EBQ89q2tekUjitsHLJc3ezxUf4Ad` no longer controlled any production alias.
+
+### Consolidated corrective wave and review
+
+The six findings were addressed in one consolidated corrective wave at commit `a47f6e403bc53711c91c8b0b365588aa5763fd75` (`fix: enforce local landing page release invariants`). The original reviewer re-reviewed that corrective commit and returned **APPROVED**, with no Critical or Important findings.
+
+### Controller final verification on corrective HEAD
+
+| Verification surface | Exact result |
+|---|---|
+| Workspace type checking | 7/7 scoped projects passed. |
+| Unit tests | `PORT=4174` run: 8 test files passed; 92/92 tests passed; 0 failed. |
+| Local content audit | 54 records audited; 0 errors. |
+| Live authoritative sources | 29/29 unique official sources passed. |
+| Mutation suite | Passed. |
+| Bravo production build | Passed: 2,285 modules transformed and 141 routes prerendered. |
+| Smoke gate | Passed. |
+| Static local pages | 54/54 passed. |
+| React semantic parity | 3/3 parity boundaries passed across all 54 local routes. |
+| Bundle boundaries | `ServiceDetail`: 13,263 raw / 3,615 gzip bytes; compact links: 2,814 raw / 421 gzip bytes; editorial baseline: 217,642 raw / 39,703 gzip bytes and absent from the 10-asset production graph. |
+| CI configuration | 10/10 checks passed. |
+| Local SEO crawl | 141/141 sitemap URLs passed; 0 failed. |
+| Hygiene | Diff check clean; port 4174 stopped after verification. |
+
+The workspace-wide build command completed all type-check phases but did **not** complete green locally: it stopped in the unrelated `bravo-mechanical-deck` and `mockup-sandbox` projects because the local macOS environment lacks `lightningcss.darwin-arm64.node`. The required Bravo Mechanical application production build passed independently. Ubuntu CI remains the canonical environment for the workspace-wide build, so this local workspace build interruption is recorded rather than waived or mislabeled as a pass.
+
+No corrected preview has been deployed, no corrected artifact has been promoted, and production remains rolled back to `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`. No indexing request, bulk indexing action, or sitemap resubmission was made. A settled Search Console review date must be scheduled from the eventual corrected production release date; the previously provisional 2026-09-30 date is no longer release-derived after rollback.
+
+## Task 10 original production promotion and immediate verification - 2026-09-02 (superseded)
+
+**Historical immediate-gate status: PASSED, later superseded by semantic review and rollback.** The exact fully tested preview `dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF` (`https://bravo-build-pkts1wvph-joel-carias-projects.vercel.app`) was promoted without a new source build. Vercel created production copy `dpl_EBQ89q2tekUjitsHLJc3ezxUf4Ad` at `https://bravo-build-k78jdttca-joel-carias-projects.vercel.app`; its metadata records `action=promote`, `originalDeploymentId=dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF`, and source commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a`. At the time of the immediate gate, the public production and custom-domain aliases resolved to that READY production copy. The later whole-branch findings and rollback are the controlling current status recorded above.
 
 ### Production identity and timing
 
@@ -12,9 +55,9 @@
 | Production deployment | `dpl_EBQ89q2tekUjitsHLJc3ezxUf4Ad`; `https://bravo-build-k78jdttca-joel-carias-projects.vercel.app`; target `production`; status `READY` |
 | Source | GitHub repository `joel2020/bravo-build-hub`, branch `codex/seo-aeo-phase1`, commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` |
 | Promotion timing | Created `2026-09-02T23:26:21.312Z` (`2026-09-02 19:26:21.312 EDT`); building `2026-09-02T23:26:22.557Z`; READY `2026-09-02T23:26:40.071Z` (`2026-09-02 19:26:40.071 EDT`). Created-to-ready was 18.759 seconds and building-to-ready was 17.514 seconds. |
-| Production aliases | `https://www.bravomechanicalny.com`, `https://bravomechanicalny.com`, `https://app.bravomechanicalny.com`, `https://bravo-build-hub.vercel.app`, and `https://bravo-build-hub-joel-carias-projects.vercel.app` |
+| Production aliases during the immediate gate | `https://www.bravomechanicalny.com`, `https://bravomechanicalny.com`, `https://app.bravomechanicalny.com`, `https://bravo-build-hub.vercel.app`, and `https://bravo-build-hub-joel-carias-projects.vercel.app` |
 | Rollback target retained | `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`; source `5c99146071d9db0b873697a07da6cd3d5c27f70d` |
-| Rollback status | Not needed: zero confirmed release-critical failures. |
+| Rollback status | Invoked after the later semantic/regression review; restored `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L` at `2026-09-02T23:57:24Z`. |
 
 Before promotion, the candidate was still READY at the approved SHA, `www.bravomechanicalny.com` still resolved to rollback target `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`, and both the clean worktree HEAD and `origin/codex/seo-aeo-phase1` were `cb6063009ca8942ec9d0a5cef0b51b78ab3216b4`. The only tracked difference from source commit `44b6680f5eeb301a32880d63eddb20b14c46eb1a` was this evidence document. `vercel promote dpl_8BHWXRPhZCe1zhZwXcZXyMbGDjYF --yes` was the only promotion command; no rebuild, different deployment, source commit, production setting, or protection setting was used.
 
@@ -37,13 +80,13 @@ Before promotion, the candidate was still READY at the approved SHA, `www.bravom
 | Cache policies | 1/1 fingerprinted asset returned `Cache-Control: public, max-age=31536000, immutable`; 1/1 sitemap returned `Cache-Control: public, max-age=86400`. |
 | Analytics privacy | 6/6 passed: private-path rejection, query/hash rejection, automatic page views disabled, referrer redaction, `ignore_referrer`, and dynamic-only GA loading. |
 | Robots and local-content audit | `robots.txt` passed 3/3 allow/canonical-sitemap/no-root-block checks. `pnpm run audit:local-content` exited 0: 54 records audited; 0 errors. |
-| Confirmed release failures | 0. Rollback was therefore not invoked. |
+| Immediate route/infrastructure failures | 0. The later whole-branch semantic/regression review found the six release-critical issue classes above and triggered rollback. |
 
 Vercel CLI `59.11.2` labels `vercel curl` beta. Read-only runner development produced several non-release false positives before the final assertions: raw HTML-entity length versus decoded title length; a report counter that added the separately reported 80 cross-city and 20 parent links to the 344 core relationships; an absolute-only `Location` expectation for valid relative path redirects; a source-text matcher that did not match the shipped private-path regular expression; and the expected Vercel preview feedback-toolbar trailer. Each was narrowed to runner bookkeeping or platform-only preview markup, not an application or production boundary failure. The final corrected checks above passed. No token, bypass secret, or credential was printed or persisted, and no material observability gap remains.
 
-### Search Console follow-up
+### Superseded Search Console follow-up
 
-The **first settled Google Search Console review date is 2026-09-30**. This is 28 full days after the 2026-09-02 production release, providing one complete four-week post-release observation window for crawl, canonical-selection, indexing, and performance data to settle before comparing against the 2026-08-27 baseline. No indexing request, bulk indexing action, or sitemap resubmission was made during this release; the existing canonical sitemap remains available at `https://www.bravomechanicalny.com/sitemap.xml`.
+The original promotion provisionally set 2026-09-30 as a four-week Search Console review point. Because that release was rolled back, this is no longer the settled review date for the corrected work. A new date must be calculated from the eventual corrected production release. No indexing request, bulk indexing action, or sitemap resubmission was made; the existing production sitemap remains available at `https://www.bravomechanicalny.com/sitemap.xml`.
 
 ## Task 9 protected-preview verification - 2026-09-02
 

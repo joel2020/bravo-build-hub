@@ -2,7 +2,37 @@
 
 ## Task 10 rollback and corrective release-candidate verification - 2026-09-02
 
-**Current status: CORRECTED PROTECTED PREVIEW PASSED — production remains rolled back and unchanged.** Exact release-chronology commit deacb0f930d617c96908f7ad0ecb3c68356c52fc, which contains corrective code commit a47f6e403bc53711c91c8b0b365588aa5763fd75, was built as a protected preview and passed the full authenticated gate with zero confirmed boundary failures. No corrected artifact was promoted. Production remains on restored deployment dpl_8NZZStt8oGFr5GA7abA4RvApXp4L, sourced from 5c99146071d9db0b873697a07da6cd3d5c27f70d.
+**Current status: CORRECTED RELEASE PROMOTED AND VERIFIED.** Production is READY deployment `dpl_8bdRzPJLpjPrAQUaEGd3iWJEq9c7`, sourced from exact release-chronology commit `deacb0f930d617c96908f7ad0ecb3c68356c52fc`, which contains corrective code commit `a47f6e403bc53711c91c8b0b365588aa5763fd75`. All canonical and public aliases converged to that one Current deployment, the immediate corrected production gate passed with zero confirmed release-critical failures, and rollback was not needed.
+
+### Corrected production promotion and immediate verification — 2026-09-03
+
+The corrected release used a two-stage Vercel promotion because the earlier Instant Rollback had disabled automatic assignment of production domains. The first approved command, `vercel promote dpl_5fe71WZoDkTrSUdb3jre6ydGHwhQ --yes`, ran from `2026-09-03T01:28:58Z` through `2026-09-03T01:29:01Z` and created exact production copy `dpl_8bdRzPJLpjPrAQUaEGd3iWJEq9c7` at `https://bravo-build-o4ydvz8or-joel-carias-projects.vercel.app`. It reached READY at `2026-09-03T01:29:20.857Z`, but remained STAGED while the customer domains stayed safely on rollback deployment `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`. A rollback command directed to that already-Current safe deployment was rejected with HTTP 422 because Vercel correctly still considered it Current. Read-only diagnosis then confirmed `autoAssignCustomDomains: false`, no Rolling Release, no deployment checks, valid domains, and no active self-healing promotion.
+
+After explicit approval for the staged deployment, `vercel promote dpl_8bdRzPJLpjPrAQUaEGd3iWJEq9c7 --yes` ran from `2026-09-03T04:59:09Z` through `2026-09-03T04:59:13Z` and completed successfully. The first settled alias check at `2026-09-03T04:59:20Z` showed project Current plus `www.bravomechanicalny.com`, `bravomechanicalny.com`, `app.bravomechanicalny.com`, `bravo-build-hub.vercel.app`, and `bravo-build-hub-joel-carias-projects.vercel.app` all assigned to `dpl_8bdRzPJLpjPrAQUaEGd3iWJEq9c7`. Final identity at `2026-09-03T05:05:47Z` remained the same, with source `deacb0f930d617c96908f7ad0ecb3c68356c52fc` and `autoAssignCustomDomains: true` restored.
+
+| Corrected production gate | Exact result |
+|---|---|
+| Normal production crawler | `pnpm run audit:seo` passed 141/141 sitemap URLs; 0 failed. |
+| Sitemap and local inventory | 141/141 unique canonical URLs; 54/54 local pages: 34 city and 20 service-city. |
+| HTTP, canonical, indexability, metadata | 141/141 HTTP 200; 141/141 exact self-canonicals; 141/141 public `index, follow` with no response `noindex`; exactly one H1, valid title, and valid description on 141/141. |
+| Preview-to-production integrity | 141/141 public production bodies matched the exact approved protected preview after removing only Vercel's preview feedback-toolbar script and, on `/`, the terminal newline consumed with that injected trailer. No application-content difference remained. |
+| Structured data | 610/610 JSON-LD scripts parsed as 610 nodes; 141/141 exact `HVACBusiness` nodes with the approved 34-Place inventory; 70 `FAQPage` nodes; 0 duplicate, parse, or aggregate-rating failures. |
+| Local crawler/React semantic parity | H1, complete route schema array, `BreadcrumbList`, `Service`, and `FAQPage` passed 54/54; visible/source/schema equality passed for all 162/162 FAQ pairs. The committed React parity suite passed 3/3 across all 54 routes. |
+| Local content and city destinations | 702 reviewed content fields passed across 54/54 local pages; city-service destinations passed 204/204. |
+| Internal relationships | 344/344 reviewed relationship links, 80/80 same-service cross-city links, and 20/20 parent-to-service-city links passed. The live crawl found 2,276 internal-link occurrences resolving to 122/122 unique sitemap targets, with 0 extra or broken targets. |
+| Approved coverage inventory | Base/noscript names 34/34; schema 141/141; `llms.txt` 2/2; Company Facts count plus names 35/35. |
+| Obsolete and unsupported claims | Across all 141 visible bodies plus `llms.txt`: 0 obsolete 30-city/count claims, 0 all-county claims, and 0 unsupported healthier-indoor-environment claims. |
+| Blog empty-neighborhood fallback | 26/26 city-matched blog records use the empty-neighborhood branch; deployed `BlogPost-DoyZ6Dwu.js` contains the complete reviewed fallback and excludes the broken `techs serve and the rest` copy. |
+| Redirects | 8/8 path redirects and the functional apex-to-`www` redirect passed; total 9/9. |
+| Security and private routes | 423/423 global security-header assertions passed. `/auth`, `/admin/crm`, and `/proposal/preview-gate` passed 3/3 HTTP 200 and 3/3 `noindex, nofollow` boundaries. |
+| Privacy, robots, and cache | Analytics privacy 6/6; robots 3/3; fingerprinted asset and sitemap caching 2/2. |
+| Reproducible application gates | Typecheck passed; 8 unit-test files and 92/92 tests passed with `PORT=4174`; local content 54 records/0 errors; live sources 29/29; mutation suite passed; Bravo build passed with 2,285 modules and 141 prerendered routes; smoke passed; static local pages 54/54; local SEO crawl 141/141; CI config 10/10; diff check clean. |
+| Bundle boundary | Local regression: `ServiceDetail` 13,263 raw / 3,615 gzip; compact links 2,814 / 421; 217,642 / 39,703 editorial baseline absent from the 10-asset graph. The promoted remote artifact had already passed at 13,263 / 3,616, 2,814 / 421, and 217,225 / 39,461 respectively. |
+| Gate result and rollback | 0 confirmed release-critical failures. The authorized rollback target remains `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`, source `5c99146071d9db0b873697a07da6cd3d5c27f70d`; rollback was not invoked after the successful staged promotion. |
+
+Vercel CLI `59.11.2` labels `vercel curl` beta. Supplemental read-only runner drafts produced three verifier-only false positives before the final scoped assertions: an H1 regular expression that mishandled an attribute-free tag, selection of the font-loader `<noscript>` instead of the service-area `<noscript><h2>`, and expectations for React-only Company Facts/blog text in the initial HTML or app entry chunk. The established crawler, exact service-area noscript, Company Facts count-plus-name, and deployed code-split `BlogPost` assertions all passed. A one-hour production error-log query returned `No logs found`; this gives no error entries to report but is not a substitute for the direct static-route gate. No protection, logging, or project configuration was changed during verification.
+
+The first settled Google Search Console comparison is scheduled for **2026-10-01**, after 28 complete post-release days from the corrected September 3 promotion. This provides a full four-week window for crawl discovery, canonical selection, indexing, and performance data to settle. No indexing request, bulk-indexing action, or sitemap submission/resubmission was made.
 
 ### Corrected protected preview and authenticated gate
 
@@ -78,7 +108,7 @@ The six findings were addressed in one consolidated corrective wave at commit `a
 
 The workspace-wide build command completed all type-check phases but did **not** complete green locally: it stopped in the unrelated `bravo-mechanical-deck` and `mockup-sandbox` projects because the local macOS environment lacks `lightningcss.darwin-arm64.node`. The required Bravo Mechanical application production build passed independently. Ubuntu CI remains the canonical environment for the workspace-wide build, so this local workspace build interruption is recorded rather than waived or mislabeled as a pass.
 
-Corrected protected preview dpl_5fe71WZoDkTrSUdb3jre6ydGHwhQ has passed, but no corrected artifact has been promoted and production remains rolled back to dpl_8NZZStt8oGFr5GA7abA4RvApXp4L. No indexing request, bulk indexing action, or sitemap resubmission was made. A settled Search Console review date must be scheduled from the eventual corrected production release date; the previously provisional 2026-09-30 date is no longer release-derived after rollback.
+At this controller-verification checkpoint, corrected protected preview `dpl_5fe71WZoDkTrSUdb3jre6ydGHwhQ` had passed while production still remained rolled back to `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`. That historical checkpoint is superseded by the corrected September 3 production promotion recorded above. No indexing request, bulk-indexing action, or sitemap resubmission was made; the release-derived settled Search Console review date is now 2026-10-01.
 
 ## Task 10 original production promotion and immediate verification - 2026-09-02 (superseded)
 

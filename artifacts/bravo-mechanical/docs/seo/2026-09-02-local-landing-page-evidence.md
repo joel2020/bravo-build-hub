@@ -2,7 +2,44 @@
 
 ## Task 10 rollback and corrective release-candidate verification - 2026-09-02
 
-**Current status: ROLLED BACK — corrective commit verified locally; no corrected preview or production release yet.** The original production promotion passed its immediate route and infrastructure gate, but the final whole-branch semantic/regression review found release-critical content and parity problems outside that gate. Under the approved rollback condition, `vercel rollback dpl_8NZZStt8oGFr5GA7abA4RvApXp4L --yes` restored the exact previous production deployment at `2026-09-02T23:57:24Z`. Production remains on that rollback deployment while corrected commit `a47f6e403bc53711c91c8b0b365588aa5763fd75` awaits a new protected preview and separate promotion decision.
+**Current status: CORRECTED PROTECTED PREVIEW PASSED — production remains rolled back and unchanged.** Exact release-chronology commit deacb0f930d617c96908f7ad0ecb3c68356c52fc, which contains corrective code commit a47f6e403bc53711c91c8b0b365588aa5763fd75, was built as a protected preview and passed the full authenticated gate with zero confirmed boundary failures. No corrected artifact was promoted. Production remains on restored deployment dpl_8NZZStt8oGFr5GA7abA4RvApXp4L, sourced from 5c99146071d9db0b873697a07da6cd3d5c27f70d.
+
+### Corrected protected preview and authenticated gate
+
+| Field | Exact result |
+|---|---|
+| Fully tested immutable preview | dpl_5fe71WZoDkTrSUdb3jre6ydGHwhQ; https://bravo-build-lln6xpxtz-joel-carias-projects.vercel.app |
+| Target and status | preview; READY; Deployment Protection remained enabled |
+| Exact tested source | GitHub branch codex/seo-aeo-phase1; deacb0f930d617c96908f7ad0ecb3c68356c52fc |
+| Corrective code ancestry | a47f6e403bc53711c91c8b0b365588aa5763fd75 is an ancestor of the tested source; later commits through deacb0f contain evidence chronology only |
+| Framework and output | Vite; Node 24.x; dist/public; 2,285 modules transformed; 141 sitemap URLs and 141 route HTML files generated |
+| Timing | Created 2026-09-03T00:51:35.316Z; building 2026-09-03T00:51:36.403Z; READY 2026-09-03T00:51:53.992Z (2026-09-02 20:51:53.992 EDT). Created-to-ready was 18.676 seconds and building-to-ready was 17.589 seconds. Vercel reported Build Completed in /vercel/output [13s]. |
+| Immutable URL versus branch alias | The URL above is the fully crawled immutable artifact. At gate time, Vercel's managed https://bravo-build-hub-git-codex-seo-aeo-phase1-joel-carias-projects.vercel.app branch-preview alias resolved to it. That alias advances automatically after each Git push, including evidence-only pushes, and is not a stable substitute for the immutable tested URL. |
+
+All HTTP checks used the caller's existing Vercel authentication through vercel curl; no token or bypass secret was printed or persisted, and protection was not disabled.
+
+| Verification surface | Exact outcome |
+|---|---|
+| Sitemap and local inventory | 141/141 unique canonical sitemap URLs; 54/54 local pages: 34 city and 20 service-city. |
+| Normal crawler and metadata | 141/141 HTTP 200; H1 141/141; nonempty decoded title at most 65 characters 141/141; nonempty decoded description at most 160 characters 141/141; exact self-canonical 141/141. |
+| Preview isolation | 141/141 page responses and the sitemap carried response-level X-Robots-Tag: noindex; production-intended HTML remained free of HTML noindex. llms.txt and robots.txt were also protected with response-level noindex. |
+| Structured data | 610/610 JSON-LD scripts parsed as 610 nodes; 141/141 pages contained one HVACBusiness with the exact approved 34-Place inventory; 70 FAQPage nodes; 0 self-serving aggregate-rating findings. |
+| Exact crawler/React local parity | H1 54/54; complete route schema array 54/54; BreadcrumbList 54/54; Service 54/54; FAQPage 54/54; all 162/162 reviewed FAQ question/answer pairs matched crawler-visible output and schema. The 3/3 local React parity tests also passed across all 54 routes. |
+| Local copy and destinations | 702 reviewed content fields were present across 54/54 local pages; contact and phone links 54/54; editorial source notes absent 54/54. City-service destinations were exact 204/204 (six per city); service parents 20/20. |
+| Internal links | 344/344 reviewed relationship links, 80/80 same-service cross-city links, and 20/20 parent-to-service-city links passed. The full authenticated crawl found 2,276 internal-link occurrences resolving to 122/122 unique sitemap targets, with 0 extra or broken targets. |
+| Approved coverage inventory | Base/noscript names 34/34; schema inventory 141/141; llms.txt approved-count and directory assertions 2/2; Company Facts approved names and count 35/35. |
+| Contradictory and unsupported claims | All 141 visible page bodies plus llms.txt produced 0 obsolete 30-city/count claims, 0 all-county claims, and 0 unsupported healthier-indoor-environment claims. |
+| Blog empty-neighborhood fallback | 26/26 city-matched blog routes use the empty-neighborhood branch. The deployed BlogPost-DoyZ6Dwu.js chunk contained the complete reviewed fallback and excluded the broken empty-neighborhood copy; the representative Hartsdale React render passed. |
+| Redirect boundaries | 8/8 path redirects returned HTTP 308 with exact destinations; the deployed configuration contained the permanent apex-to-www host redirect. Total: 9/9. The apex rule was inspected rather than functionally exercised because assigning a production hostname to the protected preview was outside scope. |
+| Security and private routes | 423/423 security-header assertions passed across the sitemap. /auth, /admin/comments, and /proposal/example passed 3/3 HTTP/rewrite and noindex, nofollow boundaries. |
+| Privacy, cache, and robots | Analytics privacy 6/6; fingerprinted asset cache 2/2; sitemap cache 2/2; robots directives 3/3 with no blanket root block. |
+| Local audit and authoritative sources | Unit suite 92/92; local audit 54 records/0 errors; live authoritative sources 29/29; mutation checks passed; smoke passed; static local pages 54/54; local React parity 3/3. |
+| Remote bundle boundary | ServiceDetail-lDH4iLg9.js: 13,263 raw / 3,616 gzip bytes; localServiceLinks-CyBq-ysj.js: 2,814 raw / 421 gzip bytes; editorial chunk: 217,225 raw / 39,461 gzip bytes and absent from the 10-asset static ServiceDetail dependency graph. |
+| Gate total | 0 confirmed application, metadata, schema, link, security, privacy, cache, claim, or deployment-identity failures. |
+
+Vercel CLI 59.11.2 labels vercel curl beta. Three preliminary verifier assertions were corrected before the final clean run: one expected React-only Company Facts wording in crawler HTML, one used two analytics checks outside the established six-assertion contract, and one included dynamic imports in a static dependency-graph traversal. Each mismatch was isolated to the read-only verifier and the final corrected gate passed end to end. No application fix or deployment change was made during verification.
+
+Production identity was checked before deployment, immediately before the live gate, and after the gate. Every check retained READY production dpl_8NZZStt8oGFr5GA7abA4RvApXp4L at https://bravo-build-lz4b5l0cu-joel-carias-projects.vercel.app, sourced from 5c99146071d9db0b873697a07da6cd3d5c27f70d, with www.bravomechanicalny.com, bravomechanicalny.com, app.bravomechanicalny.com, and the established project production aliases unchanged. No promotion occurred.
 
 ### Rollback trigger and restored production
 
@@ -41,7 +78,7 @@ The six findings were addressed in one consolidated corrective wave at commit `a
 
 The workspace-wide build command completed all type-check phases but did **not** complete green locally: it stopped in the unrelated `bravo-mechanical-deck` and `mockup-sandbox` projects because the local macOS environment lacks `lightningcss.darwin-arm64.node`. The required Bravo Mechanical application production build passed independently. Ubuntu CI remains the canonical environment for the workspace-wide build, so this local workspace build interruption is recorded rather than waived or mislabeled as a pass.
 
-No corrected preview has been deployed, no corrected artifact has been promoted, and production remains rolled back to `dpl_8NZZStt8oGFr5GA7abA4RvApXp4L`. No indexing request, bulk indexing action, or sitemap resubmission was made. A settled Search Console review date must be scheduled from the eventual corrected production release date; the previously provisional 2026-09-30 date is no longer release-derived after rollback.
+Corrected protected preview dpl_5fe71WZoDkTrSUdb3jre6ydGHwhQ has passed, but no corrected artifact has been promoted and production remains rolled back to dpl_8NZZStt8oGFr5GA7abA4RvApXp4L. No indexing request, bulk indexing action, or sitemap resubmission was made. A settled Search Console review date must be scheduled from the eventual corrected production release date; the previously provisional 2026-09-30 date is no longer release-derived after rollback.
 
 ## Task 10 original production promotion and immediate verification - 2026-09-02 (superseded)
 

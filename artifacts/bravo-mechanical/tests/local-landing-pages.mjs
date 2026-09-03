@@ -1,7 +1,13 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import assert from "node:assert/strict";
 import { buildAllRoutes } from "../scripts/route-data.mjs";
+import {
+  buildCityPageSemantics,
+  buildServiceCityPageSemantics,
+  localPageSchemaArray,
+} from "../src/lib/localPageModel.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist/public");
@@ -14,6 +20,13 @@ const escapeHtml = (value) => String(value)
   .replace(/</g, "&lt;")
   .replace(/>/g, "&gt;")
   .replace(/\"/g, "&quot;");
+
+const decodeHtml = (value) => String(value)
+  .replace(/&quot;/g, '"')
+  .replace(/&#39;|&#x27;/g, "'")
+  .replace(/&lt;/g, "<")
+  .replace(/&gt;/g, ">")
+  .replace(/&amp;/g, "&");
 
 const routeByPath = new Map(allRoutes.map((route) => [route.path, route]));
 const cityBySlug = new Map(routes.filter((route) => route.type === "city").map((route) => [route.city.slug, route]));
@@ -38,7 +51,27 @@ function assertMeaningfulRouteLink(html, fromPath, targetPath) {
 
 for (const route of routes) {
   const html = await readFile(path.join(dist, route.path.slice(1), "index.html"), "utf8");
+  const visibleHtml = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
   const content = route.localContent;
+  const semantics = route.type === "city"
+    ? buildCityPageSemantics(content, "https://www.bravomechanicalny.com")
+    : buildServiceCityPageSemantics(content, route.city, "https://www.bravomechanicalny.com");
+  const h1 = decodeHtml(visibleHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]*>/g, "") ?? "");
+  assert.equal(h1, semantics.h1, `${route.path} crawler H1 must match the React semantic model`);
+
+  const routeSchemas = [...html.matchAll(/<script[^>]+type="application\/ld\+json"[^>]+data-seo-route="true"[^>]*>([\s\S]*?)<\/script>/gi)]
+    .map((match) => JSON.parse(match[1]));
+  assert.deepEqual(routeSchemas, localPageSchemaArray(semantics), `${route.path} crawler schemas must match the React semantic model exactly`);
+  const faqSchemas = routeSchemas.filter((schema) => schema["@type"] === "FAQPage");
+  assert.equal(faqSchemas.length, 1, `${route.path} must contain exactly one FAQPage schema`);
+  const schemaFaqs = faqSchemas[0].mainEntity.map((question) => ({
+    q: question.name,
+    a: question.acceptedAnswer?.text,
+  }));
+  const visibleQuestions = [...visibleHtml.matchAll(/<h3\s+data-faq-question[^>]*>([\s\S]*?)<\/h3>\s*<p\s+data-faq-answer[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((match) => ({ q: decodeHtml(match[1].replace(/<[^>]*>/g, "")), a: decodeHtml(match[2].replace(/<[^>]*>/g, "")) }));
+  assert.deepEqual(visibleQuestions, content.faqItems, `${route.path} visible FAQs must match reviewed content exactly`);
+  assert.deepEqual(schemaFaqs, visibleQuestions, `${route.path} FAQ schema must match its visible FAQs exactly`);
   const reviewedCopy = route.type === "city"
     ? [content.answerFirst, ...content.localContext, ...content.commonConcerns, ...content.safeChecks, ...content.professionalBoundaries, ...content.municipalResources.flatMap((resource) => [resource.label])]
     : [content.answerFirst, ...content.localConsiderations, ...content.commonConcerns, ...content.serviceScope, ...content.safeChecks, ...content.professionalBoundaries];
@@ -47,7 +80,6 @@ for (const route of routes) {
     const escaped = escapeHtml(value);
     if (!html.includes(escaped)) throw new Error(`${route.path} is missing crawler-visible reviewed copy: ${value}`);
   }
-  const visibleHtml = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
   for (const anchor of anchorsIn(visibleHtml)) {
     if (!anchor.text || /^(undefined|null)$/i.test(anchor.text)) {
       throw new Error(`${route.path} has a blank or invalid crawler-visible anchor label for ${anchor.href || "an anchor without href"}`);
@@ -66,6 +98,15 @@ for (const route of routes) {
   }
   if (!html.includes('href="/contact"')) throw new Error(`${route.path} is missing the request-service link`);
   if (!html.includes('href="tel:+19143619142"')) throw new Error(`${route.path} is missing the verified phone link`);
+
+  if (route.type === "city") {
+    const visibleAnchors = anchorsIn(visibleHtml);
+    assert.equal(route.serviceDestinations.length, 6, `${route.path} must define six city-service destinations`);
+    for (const destination of route.serviceDestinations) {
+      const matches = visibleAnchors.filter((anchor) => anchor.href === destination.path && anchor.text === destination.label);
+      assert.equal(matches.length, 1, `${route.path} must contain exactly one service destination ${destination.label} -> ${destination.path}`);
+    }
+  }
 
   const relatedPaths = route.type === "city"
     ? [
@@ -98,12 +139,13 @@ for (const route of serviceCityRoutes) {
 if (expectedCrossCityLinks !== 80) throw new Error(`Expected 80 same-service cross-city links, received ${expectedCrossCityLinks}`);
 
 for (const serviceRoute of routeByPath.values()) {
-  if (serviceRoute.type !== "service") continue;
   const expectedCombos = routes.filter((route) => route.type === "service-city" && route.localContent.parentServicePath === serviceRoute.path);
   if (!expectedCombos.length) continue;
   const html = await readFile(path.join(dist, serviceRoute.path.slice(1), "index.html"), "utf8");
   for (const combo of expectedCombos) {
-    if (!html.includes(`href="${combo.path}"`)) throw new Error(`${serviceRoute.path} is missing crawler-visible local service link: ${combo.path}`);
+    const expectedLabel = combo.localContent.h1.replace(", NY", "");
+    const matches = anchorsIn(html).filter((anchor) => anchor.href === combo.path && anchor.text === expectedLabel);
+    assert.equal(matches.length, 1, `${serviceRoute.path} must contain one local service link ${expectedLabel} -> ${combo.path}`);
   }
 }
 

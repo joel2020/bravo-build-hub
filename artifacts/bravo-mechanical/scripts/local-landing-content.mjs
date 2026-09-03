@@ -1,20 +1,28 @@
 #!/usr/bin/env node
 import { readFileSync } from 'node:fs';
+import { lookup } from 'node:dns/promises';
+import { request as httpsRequest } from 'node:https';
+import { isIP } from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildAllRoutesSync } from './route-data.mjs';
+import {
+  APPROVED_SERVICE_AREAS,
+  LOCAL_PAGE_SHARED_STRINGS,
+  SERVICE_INTENT_PARENTS,
+} from '../src/lib/localPageModel.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const datasetPath = process.env.LOCAL_LANDING_CONTENT_PATH || path.join(root, 'src/content/localLandingPages.json');
-const EXPECTED_CITY_COUNT = 34;
+const EXPECTED_CITY_COUNT = APPROVED_SERVICE_AREAS.length;
 const EXPECTED_SERVICE_CITY_COUNT = 20;
 const OFFICIAL_SOURCE_HOSTS = new Set([
   'bedfordny.gov', 'dos.ny.gov', 'greenburghny.com', 'mynewcastleny.gov', 'ny.gov',
   'nyserda.ny.gov', 'tax.ny.gov', 'www.bedfordny.gov', 'www.cityofwhiteplains.com',
   'www.cpsc.gov', 'www.energystar.gov', 'www.epa.gov', 'www.greenburghny.com',
   'www.mountvernonny.gov', 'www.mynewcastleny.gov', 'www.newrochelleny.gov',
-  'www.northcastleny.com', 'www.ny.gov', 'www.nyserda.ny.gov', 'www.scarsdale.gov',
+  'www.northcastleny.gov', 'www.ny.gov', 'www.nyserda.ny.gov', 'www.scarsdale.gov',
   'www.tax.ny.gov', 'www.yonkersny.gov',
 ]);
 const UNSAFE_LOCAL_CLAIMS = [
@@ -22,11 +30,14 @@ const UNSAFE_LOCAL_CLAIMS = [
   /manual j.{0,30}every/i, /permits? (?:pulled|handled|coordinated)/i,
   /fixed pricing/i, /same[- ]day/i, /guaranteed/i, /prevents? breakdowns/i,
   /keeps? (?:your )?warranty valid/i, /cures?|prevents? (?:allergies|asthma|illness)/i,
+  /healthier indoor environments?/i,
 ];
 const LIVE_SOURCE_REQUEST_HEADERS = {
   Accept: 'text/html,application/pdf;q=0.9,*/*;q=0.8',
   'User-Agent': 'BravoMechanicalLinkVerifier/1.0 (+https://www.bravomechanicalny.com/contact)',
 };
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+const DEFAULT_MAX_REDIRECTS = 5;
 const CITY_ARRAY_RULES = {
   zips: { minimum: 0, kind: 'string' }, neighborhoods: { minimum: 0, kind: 'string' },
   localContext: { minimum: 2, kind: 'string' }, commonConcerns: { minimum: 3, kind: 'string' },
@@ -45,21 +56,14 @@ const SERVICE_CITY_ARRAY_RULES = {
 function createCatalog(generatedRoutes) {
   const cityRoutes = generatedRoutes.filter((route) => route.type === 'city');
   const serviceCityRoutes = generatedRoutes.filter((route) => route.type === 'service-city');
-  const serviceRoutes = generatedRoutes.filter((route) => route.type === 'service');
   const blogRoutes = generatedRoutes.filter((route) => route.type === 'blog');
   return {
     cities: new Set(cityRoutes.map((route) => route.path.slice('/service-areas/'.length))),
     serviceCities: new Set(serviceCityRoutes.map((route) => route.path.slice('/services/'.length))),
     serviceSlugs: new Set(serviceCityRoutes.map((route) => route.service?.slug).filter(Boolean)),
-    parentServicePaths: new Set(serviceRoutes.map((route) => route.path)),
+    parentServicePaths: new Set(generatedRoutes.map((route) => route.path)),
     guides: new Set(blogRoutes.map((route) => route.path.slice('/blog/'.length))),
     metadataByPath: new Map(generatedRoutes.map((route) => [route.path, route])),
-    parentByService: new Map(Object.entries(serviceCityRoutes.reduce((groups, route) => {
-      const key = route.service?.slug;
-      const page = route.localContent;
-      if (key && page?.parentServicePath) groups[key] = [...(groups[key] || []), page.parentServicePath];
-      return groups;
-    }, {}))),
   };
 }
 
@@ -188,8 +192,14 @@ export function validateDatasetShape(dataset, errors, routeCatalog) {
   validateCatalogCounts(errors, routeCatalog);
 
   const cityKeys = Object.keys(dataset.cities);
+  const approvedBySlug = new Map(APPROVED_SERVICE_AREAS.map((area) => [area.slug, area.name]));
   const expectedCityCount = routeCatalog?.cities.size ?? EXPECTED_CITY_COUNT;
   if (cityKeys.length !== expectedCityCount) errors.push(`cities must contain exactly ${expectedCityCount} records; found ${cityKeys.length}`);
+  for (const [slug, name] of approvedBySlug) {
+    if (!Object.hasOwn(dataset.cities, slug)) errors.push(`cities is missing approved service-area key: ${slug}`);
+    else if (dataset.cities[slug]?.name !== name) errors.push(`approved service-area ${slug} must use name ${name}`);
+  }
+  for (const slug of cityKeys) if (!approvedBySlug.has(slug)) errors.push(`cities contains unapproved service-area key: ${slug}`);
   if (routeCatalog) {
     for (const slug of routeCatalog.cities) if (!Object.hasOwn(dataset.cities, slug)) errors.push(`cities is missing generated city key: ${slug}`);
     for (const slug of cityKeys) if (!routeCatalog.cities.has(slug)) errors.push(`cities contains unknown generated city key: ${slug}`);
@@ -252,11 +262,10 @@ function claimMatches(value, pattern) {
   const matches = [];
   let match;
   while ((match = matcher.exec(value)) !== null) {
-    const isHealthClaim = pattern.source === UNSAFE_LOCAL_CLAIMS.at(-1).source;
     const before = value[match.index - 1] ?? '';
     const after = value[match.index + match[0].length] ?? '';
     const wordBoundaries = !/[a-z]/i.test(before) && !/[a-z]/i.test(after);
-    if (!qualifiedClaim(value, match.index) && (!isHealthClaim || wordBoundaries)) matches.push(match);
+    if (!qualifiedClaim(value, match.index) && wordBoundaries) matches.push(match);
     if (match[0] === '') matcher.lastIndex += 1;
   }
   return matches;
@@ -264,7 +273,7 @@ function claimMatches(value, pattern) {
 
 export function hasUnsafeLocalClaim(value, pattern) { return claimMatches(String(value ?? ''), pattern).length > 0; }
 
-export function validateClaims(dataset, errors) {
+export function validateClaims(dataset, errors, sharedStrings = LOCAL_PAGE_SHARED_STRINGS) {
   if (!isRecord(dataset) || !isRecord(dataset.cities) || !isRecord(dataset.serviceCities)) return;
   const records = [
     ...Object.entries(dataset.cities).map(([slug, record]) => [routeForCity(slug), record]),
@@ -273,6 +282,11 @@ export function validateClaims(dataset, errors) {
   for (const [route, record] of records) {
     for (const text of collectVisibleStrings(record)) {
       for (const pattern of UNSAFE_LOCAL_CLAIMS) if (hasUnsafeLocalClaim(text, pattern)) addError(errors, route, `unsafe claim ${pattern} in visible copy: ${text}`);
+    }
+  }
+  for (const text of sharedStrings) {
+    for (const pattern of UNSAFE_LOCAL_CLAIMS) {
+      if (hasUnsafeLocalClaim(text, pattern)) addError(errors, 'shared local-page copy', `unsafe claim ${pattern} in shared local-page copy: ${text}`);
     }
   }
 }
@@ -292,8 +306,9 @@ export function validateRelationships(dataset, errors, routeCatalog) {
     if (!isRecord(page)) continue;
     const route = routeForServiceCity(key);
     if (!routeCatalog.parentServicePaths.has(page.parentServicePath)) addError(errors, route, 'parentServicePath must reference a generated canonical service route');
-    const parents = routeCatalog.parentByService.get(page.serviceSlug) ?? [];
-    if (parents.length > 0 && parents.some((parent) => parent !== page.parentServicePath)) addError(errors, route, `parentServicePath must match the reviewed ${page.serviceSlug} parent route`);
+    const expectedParent = SERVICE_INTENT_PARENTS[page.serviceSlug]?.path;
+    if (!expectedParent) addError(errors, route, `serviceSlug has no approved intent parent: ${page.serviceSlug}`);
+    else if (page.parentServicePath !== expectedParent) addError(errors, route, `parentServicePath must match the independent ${page.serviceSlug} parent ${expectedParent}`);
     for (const relatedSlug of Array.isArray(page.relatedServiceSlugs) ? page.relatedServiceSlugs : []) {
       if (!routeCatalog.serviceSlugs.has(relatedSlug)) addError(errors, route, `relatedServiceSlugs references unreviewed generated service: ${relatedSlug}`);
       if (relatedSlug === page.serviceSlug) addError(errors, route, 'relatedServiceSlugs cannot include its own service');
@@ -384,7 +399,175 @@ function sourceEntries(dataset) {
   return entries;
 }
 
-export async function auditLiveOfficialSources(dataset) {
+function parseIpv4(address) {
+  if (isIP(address) !== 4) return null;
+  return address.split('.').map(Number);
+}
+
+function ipv4IsNonPublic(address) {
+  const octets = parseIpv4(address);
+  if (!octets) return true;
+  const [a, b, c] = octets;
+  return a === 0
+    || a === 10
+    || a === 100 && b >= 64 && b <= 127
+    || a === 127
+    || a === 169 && b === 254
+    || a === 172 && b >= 16 && b <= 31
+    || a === 192 && b === 0 && (c === 0 || c === 2)
+    || a === 192 && b === 168
+    || a === 198 && (b === 18 || b === 19)
+    || a === 198 && b === 51 && c === 100
+    || a === 203 && b === 0 && c === 113
+    || a >= 224;
+}
+
+function ipv6Words(address) {
+  let normalized = address.toLowerCase().split('%')[0];
+  const dottedIndex = normalized.lastIndexOf(':');
+  if (normalized.includes('.')) {
+    const ipv4 = parseIpv4(normalized.slice(dottedIndex + 1));
+    if (!ipv4) return null;
+    normalized = `${normalized.slice(0, dottedIndex)}:${((ipv4[0] << 8) | ipv4[1]).toString(16)}:${((ipv4[2] << 8) | ipv4[3]).toString(16)}`;
+  }
+  const halves = normalized.split('::');
+  if (halves.length > 2) return null;
+  const left = halves[0] ? halves[0].split(':') : [];
+  const right = halves[1] ? halves[1].split(':') : [];
+  const fill = halves.length === 2 ? 8 - left.length - right.length : 0;
+  const parts = [...left, ...Array.from({ length: fill }, () => '0'), ...right];
+  if (parts.length !== 8 || parts.some((part) => !/^[0-9a-f]{1,4}$/.test(part))) return null;
+  return parts.map((part) => Number.parseInt(part, 16));
+}
+
+function ipv6IsNonPublic(address) {
+  const words = ipv6Words(address);
+  if (!words) return true;
+  const [first, second] = words;
+  const mappedIpv4 = words.slice(0, 5).every((word) => word === 0) && words[5] === 0xffff
+    ? `${words[6] >> 8}.${words[6] & 255}.${words[7] >> 8}.${words[7] & 255}`
+    : null;
+  if (mappedIpv4) return ipv4IsNonPublic(mappedIpv4);
+  return first === 0
+    || (first & 0xfe00) === 0xfc00
+    || (first & 0xffc0) === 0xfe80
+    || (first & 0xffc0) === 0xfec0
+    || (first & 0xff00) === 0xff00
+    || first === 0x2001 && second === 0x0db8;
+}
+
+function addressIsNonPublic(address) {
+  const version = isIP(address);
+  return version === 4 ? ipv4IsNonPublic(address) : version === 6 ? ipv6IsNonPublic(address) : true;
+}
+
+function officialUrl(rawUrl) {
+  let parsed;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    throw new Error(`source URL is invalid: ${rawUrl}`);
+  }
+  if (parsed.protocol !== 'https:') throw new Error(`source URL must use HTTPS: ${parsed.href}`);
+  if (parsed.username || parsed.password) throw new Error(`source URL must not include credentials: ${parsed.href}`);
+  if (parsed.port && parsed.port !== '443') throw new Error(`source URL must use the standard HTTPS port: ${parsed.href}`);
+  if (!OFFICIAL_SOURCE_HOSTS.has(parsed.hostname)) throw new Error(`source URL must use an approved official source host: ${parsed.hostname}`);
+  return parsed;
+}
+
+async function assertPublicResolution(hostname, resolveHostname) {
+  const answers = await resolveHostname(hostname);
+  const records = Array.isArray(answers) ? answers : [answers];
+  if (records.length === 0) throw new Error(`official source host did not resolve: ${hostname}`);
+  const validated = [];
+  for (const record of records) {
+    const address = typeof record === 'string' ? record : record?.address;
+    if (typeof address !== 'string' || addressIsNonPublic(address)) {
+      throw new Error(`official source host resolved to a non-public address: ${hostname} (${address ?? 'unknown'})`);
+    }
+    validated.push({ address, family: isIP(address) });
+  }
+  return validated;
+}
+
+async function cancelBody(response) {
+  try {
+    await response?.body?.cancel?.();
+  } catch {
+    // Response-body cleanup must not hide the actual HTTP validation result.
+  }
+}
+
+export function pinnedHttpsRequest(url, options, requestFactory = httpsRequest) {
+  const parsed = new URL(url);
+  const { address, family } = options.resolvedAddress;
+  return new Promise((resolve, reject) => {
+    const request = requestFactory(parsed, {
+      method: 'GET',
+      headers: options.headers,
+      signal: options.signal,
+      agent: false,
+      servername: parsed.hostname,
+      lookup(_hostname, lookupOptions, callback) {
+        const done = typeof lookupOptions === 'function' ? lookupOptions : callback;
+        const wantsAll = typeof lookupOptions === 'object' && lookupOptions?.all;
+        if (wantsAll) done(null, [{ address, family }]);
+        else done(null, address, family);
+      },
+    }, (response) => {
+      const status = response.statusCode ?? 0;
+      resolve({
+        ok: status >= 200 && status < 300,
+        status,
+        url: parsed.href,
+        headers: {
+          get(name) {
+            const value = response.headers[String(name).toLowerCase()];
+            return Array.isArray(value) ? value[0] ?? null : value ?? null;
+          },
+        },
+        body: { cancel: async () => response.destroy() },
+      });
+    });
+    request.on('error', reject);
+    request.end();
+  });
+}
+
+export async function fetchOfficialSource(initialUrl, options = {}) {
+  const requestImpl = options.requestImpl ?? pinnedHttpsRequest;
+  const resolveHostname = options.resolveHostname ?? ((hostname) => lookup(hostname, { all: true, verbatim: true }));
+  const maxRedirects = options.maxRedirects ?? DEFAULT_MAX_REDIRECTS;
+  if (!Number.isInteger(maxRedirects) || maxRedirects < 0 || maxRedirects > 10) {
+    throw new Error('maxRedirects must be an integer between 0 and 10');
+  }
+
+  let current = officialUrl(initialUrl);
+  let redirects = 0;
+  while (true) {
+    const resolvedAddresses = await assertPublicResolution(current.hostname, resolveHostname);
+    const resolvedAddress = resolvedAddresses.find(({ family }) => family === 4) ?? resolvedAddresses[0];
+    const response = await requestImpl(current.href, {
+      redirect: 'manual',
+      headers: LIVE_SOURCE_REQUEST_HEADERS,
+      signal: AbortSignal.timeout(20_000),
+      resolvedAddress,
+    });
+    if (!REDIRECT_STATUSES.has(response.status)) {
+      await cancelBody(response);
+      return { ok: response.ok, status: response.status, url: current.href, redirects };
+    }
+
+    const location = response.headers?.get?.('location');
+    await cancelBody(response);
+    if (!location) throw new Error(`source redirect returned HTTP ${response.status} without a Location header: ${current.href}`);
+    if (redirects >= maxRedirects) throw new Error(`source ${initialUrl} exceeded ${maxRedirects} redirects`);
+    current = officialUrl(new URL(location, current).href);
+    redirects += 1;
+  }
+}
+
+export async function auditLiveOfficialSources(dataset, options = {}) {
   const errors = [];
   const routesByUrl = new Map();
   for (const { route, source } of sourceEntries(dataset)) {
@@ -395,11 +578,7 @@ export async function auditLiveOfficialSources(dataset) {
   }
   await Promise.all([...routesByUrl.entries()].map(async ([url, routes]) => {
     try {
-      const response = await fetch(url, {
-        redirect: 'follow',
-        headers: LIVE_SOURCE_REQUEST_HEADERS,
-        signal: AbortSignal.timeout(20_000),
-      });
+      const response = await fetchOfficialSource(url, options);
       if (!response.ok) for (const route of routes) errors.push(`${route}: source ${url} returned HTTP ${response.status} after redirect to ${response.url}`);
     } catch (error) {
       for (const route of routes) errors.push(`${route}: source ${url} could not be checked live: ${error.message}`);

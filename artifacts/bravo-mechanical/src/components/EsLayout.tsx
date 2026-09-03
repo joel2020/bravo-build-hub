@@ -6,6 +6,7 @@ import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { trackCallClick } from "@/lib/analytics";
 import { useTelephoneAnalytics } from "@/lib/useTelephoneAnalytics";
+import { APPROVED_SERVICE_AREAS } from "@/lib/localPageModel";
 import logo from "@/assets/logo-bravo.webp";
 
 // Lightweight Spanish shell for the /es pages: Spanish nav + footer with a
@@ -87,7 +88,7 @@ export const EsLayout = ({ children }: { children: ReactNode }) => {
         <div className="container mx-auto px-4 py-10 grid gap-8 md:grid-cols-3">
           <div>
             <div className="font-extrabold text-lg mb-2">Bravo Mechanical</div>
-            <p className="text-sm text-primary-foreground/80">Servicio de calefacción y aire acondicionado para todo el condado de Westchester, NY. Hablamos español.</p>
+            <p className="text-sm text-primary-foreground/80">Servicio de calefacción y aire acondicionado en {APPROVED_SERVICE_AREAS.length} comunidades enumeradas de Westchester, NY. Hablamos español.</p>
           </div>
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider mb-3">Páginas</h3>

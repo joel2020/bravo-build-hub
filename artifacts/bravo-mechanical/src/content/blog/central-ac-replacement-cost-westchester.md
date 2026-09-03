@@ -72,7 +72,7 @@ A 1,900 sq ft Central Westchester colonial replacing a 14-year-old 3-ton R-410A 
 
 Most Westchester central AC replacements land between **$8,500 and $14,000** in 2026, with ductwork and efficiency level being the main swing factors. The most expensive mistake is oversizing or mismatching equipment — both waste money up front and on every summer bill after.
 
-Bravo Mechanical provides flat, on-site [AC installation](/services/ac-installation-westchester-county-ny) quotes across Westchester County, including a [Manual J sizing check](/blog/what-size-central-ac-westchester) so you don't pay for more (or less) system than your home needs.
+Bravo Mechanical accepts [AC installation](/services/ac-installation-westchester-county-ny) estimate requests in its [listed Westchester service areas](/service-areas). Ask what sizing review and written scope apply to your project before authorizing work.
 
 ## Related guides
 

@@ -10,6 +10,9 @@ import { formatBlogDate } from "@/lib/blog";
 // Build scripts are plain ESM and intentionally do not ship TypeScript declarations.
 // @ts-expect-error test-only import of the real metadata generator
 import { buildAllRoutes } from "../../scripts/route-data.mjs";
+// @ts-expect-error test-only import of the real route builder
+import { buildAllRoutesSync } from "../../scripts/route-data.mjs";
+import localLandingPages from "@/content/localLandingPages.json";
 
 type GeneratedRoute = {
   path: string;
@@ -58,6 +61,24 @@ describe("SEO generation", () => {
     expect(paths).not.toContain("/blog/ac-not-cooling-westchester");
     expect(paths).not.toContain("/services/heat-pumps");
     expect(routes.filter((route) => route.canonical && route.canonical !== route.path)).toEqual([]);
+  });
+
+  it("fails before route generation when approved city inventory drifts", () => {
+    const dataset = structuredClone(localLandingPages);
+    Reflect.deleteProperty(dataset.cities, "hartsdale");
+
+    expect(() => buildAllRoutesSync({ localDataset: dataset })).toThrow(
+      "Missing approved service-area record: hartsdale",
+    );
+  });
+
+  it("fails fast when a service-city record references a missing city", () => {
+    const dataset = structuredClone(localLandingPages);
+    dataset.serviceCities["hvac-repair/yonkers"].citySlug = "missing-city";
+
+    expect(() => buildAllRoutesSync({ localDataset: dataset })).toThrow(
+      "Service-city hvac-repair/yonkers references missing city: missing-city",
+    );
   });
 });
 

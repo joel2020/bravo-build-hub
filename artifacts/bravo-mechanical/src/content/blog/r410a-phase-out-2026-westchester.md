@@ -63,7 +63,7 @@ An R-410A system **cannot** be retrofitted to R-454B or R-32. The components, oi
 
 The phase-out is a manufacturing change, not a mandate to replace your equipment. Run and repair your R-410A system as long as it makes financial sense; when it's time to replace, choose a contractor properly equipped for A2L installs.
 
-Bravo Mechanical installs and services current A2L systems across Westchester County and will give you a straight repair-vs-replace recommendation on aging R-410A equipment through our [AC repair](/services/ac-repair-westchester-county-ny) and [AC installation](/services/ac-installation-westchester-county-ny) services.
+Bravo Mechanical accepts current A2L system requests in its [listed Westchester service areas](/service-areas) and provides repair-vs-replace options for aging R-410A equipment through our [AC repair](/services/ac-repair-westchester-county-ny) and [AC installation](/services/ac-installation-westchester-county-ny) services.
 
 ## Related guides
 

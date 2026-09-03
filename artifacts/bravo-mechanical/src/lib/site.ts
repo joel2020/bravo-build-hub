@@ -1,3 +1,8 @@
+import {
+  APPROVED_SERVICE_AREAS,
+  CITY_SERVICE_INTENTS,
+} from "./localPageModel";
+
 export const SITE = {
   name: "Bravo Mechanical",
   legalName: "Bravo Mechanical LLC",
@@ -48,7 +53,7 @@ export const SITE = {
 // deep-link to the high-intent service pages — linking them all to /services
 // starves the pages that actually convert of internal link equity.
 export const FEATURED_SERVICE_LINKS = [
-  { title: "AC Repair", path: "/services/ac-repair-westchester-county-ny", description: "No cool air? Get AC diagnostics and repair options for homes and light-commercial properties across Westchester." },
+  { title: "AC Repair", path: "/services/ac-repair-westchester-county-ny", description: "No cool air? Get AC diagnostics and repair options for homes and light-commercial properties in listed Westchester communities." },
   { title: "AC Installation", path: "/services/ac-installation-westchester-county-ny", description: "Central AC and ductless cooling installed with honest Manual J sizing and SEER2 equipment." },
   { title: "Boiler Repair", path: "/services/boiler-repair-westchester-county-ny", description: "Steam and hot-water boiler troubleshooting for short cycling, leaks, pressure problems, and no-heat calls." },
   { title: "Boiler Installation", path: "/services/boiler-installation-westchester-county-ny", description: "High-efficiency boiler replacement with near-boiler piping done right and a written fixed price first." },
@@ -56,21 +61,10 @@ export const FEATURED_SERVICE_LINKS = [
   { title: "24/7 Emergency HVAC", path: "/services/emergency-hvac-repair-westchester-county-ny", description: "Request emergency help for no heat, no cooling, or water around HVAC equipment. Dispatch depends on availability." },
 ];
 
-export const SERVICES = [
-  { slug: "hvac-installation", title: "HVAC Installation", description: "New furnace, AC, heat pump, and ductwork installation sized and engineered for your space." },
-  { slug: "hvac-repair", title: "HVAC Repair", description: "Diagnostics and repair for heating and cooling systems, including urgent and after-hours service requests." },
-  { slug: "preventive-maintenance", title: "Preventive Maintenance", description: "Seasonal maintenance that documents system condition and helps identify avoidable reliability risks." },
-  { slug: "indoor-air-quality", title: "Indoor Air Quality", description: "Filtration, humidifiers, dehumidifiers, and air purifiers for healthier indoor environments." },
-  { slug: "residential", title: "Residential HVAC", description: "Whole-home heating and cooling solutions for single-family homes, condos, and multi-units." },
-  { slug: "commercial", title: "Commercial HVAC", description: "Reliable HVAC service for offices, retail, restaurants, and light-industrial buildings." },
-];
+export const SERVICES = CITY_SERVICE_INTENTS.map(({ slug, title, description }) => ({
+  slug,
+  title,
+  description,
+}));
 
-export const TOWNS = [
-  "Yonkers", "White Plains", "New Rochelle", "Mount Vernon", "Scarsdale",
-  "Rye", "Harrison", "Mamaroneck", "Larchmont", "Bronxville",
-  "Tuckahoe", "Eastchester", "Tarrytown", "Sleepy Hollow", "Ossining",
-  "Peekskill", "Mount Kisco", "Chappaqua", "Pleasantville", "Pound Ridge",
-  "Bedford", "Katonah", "Armonk", "Hastings-on-Hudson", "Dobbs Ferry",
-  "Irvington", "Briarcliff Manor", "Croton-on-Hudson", "Yorktown", "Somers",
-  "Ardsley", "Hartsdale", "Pelham", "Port Chester",
-];
+export const TOWNS = APPROVED_SERVICE_AREAS.map(({ name }) => name);

@@ -8,6 +8,7 @@ import {
 import { SERVICE_CONTENT } from "@/lib/serviceContent";
 import { citySlug } from "@/lib/cities";
 import { TOWNS } from "@/lib/site";
+import { SERVICE_INTENT_PARENTS } from "@/lib/localPageModel";
 
 const normalizeForDuplication = (value: string, cityName: string) =>
   value
@@ -33,7 +34,7 @@ const OFFICIAL_SOURCE_HOSTS = new Set([
   "www.cpsc.gov",
   "www.greenburghny.com",
   "www.mynewcastleny.gov",
-  "www.northcastleny.com",
+  "www.northcastleny.gov",
   "www.ny.gov",
   "www.nyserda.ny.gov",
   "www.tax.ny.gov",
@@ -119,7 +120,7 @@ describe("local landing content inventory", () => {
     const cityKeys = new Set(Object.keys(CITY_LANDING_CONTENT));
     for (const page of Object.values(SERVICE_CITY_LANDING_CONTENT)) {
       expect(cityKeys.has(page.citySlug)).toBe(true);
-      expect(page.parentServicePath).toMatch(/^\/services\/[a-z0-9-]+$/);
+      expect(page.parentServicePath).toBe(SERVICE_INTENT_PARENTS[page.serviceSlug].path);
       expect(page.relatedServiceSlugs).not.toContain(page.serviceSlug);
     }
   });
@@ -255,7 +256,7 @@ describe("local landing content inventory", () => {
       }
     }
     expect(getCityLanding("armonk")?.sourceNotes.map(({ url }) => url)).toContain(
-      "https://www.northcastleny.com/DocumentCenter/View/291/Town-of-North-Castle-Hamlet-Design-Guidelines-PDF",
+      "https://www.northcastleny.gov/DocumentCenter/View/291/Town-of-North-Castle-Hamlet-Design-Guidelines-PDF",
     );
   });
 });

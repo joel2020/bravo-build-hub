@@ -11,6 +11,10 @@ import { SITE, FEATURED_SERVICE_LINKS } from "@/lib/site";
 import { NY_SYSTEMS } from "@/lib/nySystems";
 import { getFeaturedGoogleReviews } from "@/lib/googleReviews";
 import { trackRequestServiceClick } from "@/lib/analytics";
+import {
+  APPROVED_SERVICE_AREAS,
+  SERVICE_AREA_SUMMARY,
+} from "@/lib/localPageModel";
 import heroTechnician from "@/assets/hero-technician.webp";
 import jobMitsubishi from "@/assets/job-mitsubishi-install.webp";
 import jobBoiler from "@/assets/job-boiler-install.webp";
@@ -46,7 +50,7 @@ const Index = () => {
     },
     {
       q: "What areas does Bravo Mechanical serve?",
-      a: "Bravo Mechanical serves all of Westchester County, NY, including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Bronxville, Rye, Harrison, Mamaroneck, Larchmont, Tarrytown, Sleepy Hollow, Ossining, Peekskill, Mount Kisco, Chappaqua, Bedford, Katonah, Armonk, Hastings-on-Hudson, Dobbs Ferry, Irvington, Briarcliff Manor, Croton-on-Hudson, Yorktown, and Somers — 30 municipalities in total.",
+      a: `${SERVICE_AREA_SUMMARY} The published directory lists ${APPROVED_SERVICE_AREAS.map(({ name }) => name).join(", ")}. Confirm availability for the specific address when requesting service.`,
     },
     {
       q: "Does Bravo Mechanical offer 24/7 emergency HVAC service?",
@@ -66,7 +70,7 @@ const Index = () => {
     },
     {
       q: "Does Bravo Mechanical service both residential and commercial properties?",
-      a: "Yes. Bravo Mechanical works with single-family homeowners, multi-family property managers, and light-commercial customers (offices, retail, restaurants, mixed-use buildings) across Westchester County, NY.",
+      a: "Yes. Bravo Mechanical accepts requests from single-family homeowners, multi-family property managers, and light-commercial customers (offices, retail, restaurants, mixed-use buildings) in its listed Westchester communities.",
     },
     {
       q: "How do I contact Bravo Mechanical?",
@@ -285,7 +289,7 @@ const Index = () => {
             </div>
             <div>
               <h3 className="font-bold text-lg mb-1">Where does Bravo Mechanical work?</h3>
-              <p className="text-muted-foreground">Bravo Mechanical works throughout Westchester County including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, and surrounding towns.</p>
+              <p className="text-muted-foreground">Bravo Mechanical accepts service requests in the 34 communities listed in its Westchester service-area directory, including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, and Harrison.</p>
             </div>
           </div>
         </div>
@@ -302,7 +306,7 @@ const Index = () => {
                 { icon: ShieldCheck, title: "Licensed HVAC contractor", text: "License #8822; ask us which municipal requirements apply to your project." },
                 { icon: Clock, title: "Responsive service", text: "Prompt scheduling with after-hours support when available." },
                 { icon: Award, title: "Quality workmanship", text: "Clean installs, careful diagnostics, and equipment we'd put in our own homes." },
-                { icon: MapPin, title: "Local to Westchester", text: "We live and work here, with service throughout Westchester County." },
+                { icon: MapPin, title: "Local to Westchester", text: "We accept service requests in 34 listed Westchester communities." },
               ].map((b) => (
                 <li key={b.title} className="flex gap-4">
                   <div className="h-10 w-10 rounded-md bg-accent text-accent-foreground flex items-center justify-center shrink-0">
@@ -329,7 +333,7 @@ const Index = () => {
       <section className="container mx-auto px-4 py-16 lg:py-24">
         <div className="grid md:grid-cols-2 gap-6">
           {[
-            { title: "Residential HVAC", img: jobBoiler, text: "Heating and cooling for single-family homes, condos, and multi-family properties across Westchester County.", points: ["Furnace & boiler service", "Central AC and ductless mini-splits", "Heat pumps & thermostats", "Air quality & humidity control"] },
+            { title: "Residential HVAC", img: jobBoiler, text: "Heating and cooling for single-family homes, condos, and multi-family properties in listed Westchester communities.", points: ["Furnace & boiler service", "Central AC and ductless mini-splits", "Heat pumps & thermostats", "Air quality & humidity control"] },
             { title: "Commercial HVAC", img: jobRadiator, text: "Reliable HVAC service for offices, retail, restaurants, and light-industrial facilities.", points: ["Rooftop units", "Service contracts", "Preventive maintenance", "Emergency response"] },
           ].map((c) => (
             <div key={c.title} className="bg-card border border-border rounded-lg overflow-hidden">

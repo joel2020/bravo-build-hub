@@ -59,4 +59,4 @@ An actively draining tank warrants a [24/7 emergency service request](/services/
 
 ---
 
-*Water on the floor right now? Shut the cold valve, kill the power or gas, and call **(914) 361-9142** — we answer around the clock across Westchester County.*
+*Water on the floor right now? Shut the cold valve, turn off the power or gas only when safe, and call **(914) 361-9142** to request urgent service in a [listed Westchester service area](/service-areas).*

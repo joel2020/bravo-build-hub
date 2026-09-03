@@ -2,10 +2,12 @@
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import strictAssert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import postcss from 'postcss';
 import { hasUnsafeLocalClaim } from '../scripts/local-landing-content.mjs';
+import { approvedServiceAreaPlaces } from '../src/lib/localPageModel.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -40,6 +42,7 @@ const unsafeLocalClaims = [
   /prevents? breakdowns/i,
   /keeps? (?:your )?warranty valid/i,
   /cures?|prevents? (?:allergies|asthma|illness)/i,
+  /healthier indoor environments?/i,
 ];
 
 function decodeHtml(value) {
@@ -154,6 +157,8 @@ for (const [pattern, claim] of [
   [/licensed\s*(?:&|and)\s*insured|fully licensed and insured/i, 'unverified insurance claim'],
   [/financing for qualified homeowners is available|cash, check, Zelle, and major credit cards/i, 'unverified financing or payment-method claim'],
   [/same[- ]day repair|completed same day|same day or next morning/i, 'unverified same-day service claim'],
+  [/todo el condado de Westchester/i, 'unsupported claim to every Westchester locality'],
+  [/(?:HVAC service|HVAC support|heating and cooling|accepts?[^.]{0,80}requests?|installs and services)[^.]{0,100}across Westchester County/i, 'unsupported countywide service-area claim'],
 ]) {
   assert(!pattern.test(bundledApp), `Built app contains ${claim}`);
 }
@@ -228,14 +233,29 @@ for (const relativePath of routeHtmlFiles) {
       const parsed = JSON.parse(match[1]);
       return Array.isArray(parsed) ? parsed : [parsed];
     });
-  assert(jsonLd.filter((item) => item['@type'] === 'FAQPage').length <= 1, `${relativePath} has duplicate FAQPage schema`);
-  assert(jsonLd.filter((item) => item['@type'] === 'HVACBusiness').length <= 1, `${relativePath} has duplicate HVACBusiness schema`);
+  const faqSchemas = jsonLd.filter((item) => item['@type'] === 'FAQPage');
+  assert(faqSchemas.length <= 1, `${relativePath} has duplicate FAQPage schema`);
+  const businessSchemas = jsonLd.filter((item) => item['@type'] === 'HVACBusiness');
+  assert(businessSchemas.length === 1, `${relativePath} must have exactly one HVACBusiness schema`);
+  strictAssert.deepEqual(
+    businessSchemas[0].areaServed,
+    approvedServiceAreaPlaces(),
+    `${relativePath} HVACBusiness coverage must match the approved 34-community inventory`,
+  );
   assert((html.match(/"@type"\s*:\s*"HVACBusiness"/g) || []).length <= 1, `${relativePath} repeats the canonical HVACBusiness node`);
   assert(!/"aggregateRating"\s*:/.test(html), `${relativePath} contains self-serving LocalBusiness rating markup`);
 
   const isLocalRoute = /^service-areas\/[^/]+\/index\.html$/.test(relativePath)
     || /^services\/(?:hvac-installation|hvac-repair|preventive-maintenance|indoor-air-quality)\/[^/]+\/index\.html$/.test(relativePath);
   if (isLocalRoute) {
+    assert(faqSchemas.length === 1, `${relativePath} must contain exactly one FAQPage schema`);
+    const visibleFaqs = [...html.matchAll(/<h3 data-faq-question>([\s\S]*?)<\/h3>\s*<p data-faq-answer>([\s\S]*?)<\/p>/gi)]
+      .map((match) => ({ question: decodeHtml(match[1]), answer: decodeHtml(match[2]) }));
+    const schemaFaqs = faqSchemas[0].mainEntity.map((item) => ({
+      question: item.name,
+      answer: item.acceptedAnswer?.text,
+    }));
+    strictAssert.deepEqual(schemaFaqs, visibleFaqs, `${relativePath} FAQ schema must exactly match visible FAQs`);
     for (const unsafeClaim of unsafeLocalClaims) {
       assert(!hasUnsafeLocalClaim(html, unsafeClaim), `${relativePath} contains unsafe local claim: ${unsafeClaim}`);
     }

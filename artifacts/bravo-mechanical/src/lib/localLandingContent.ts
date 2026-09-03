@@ -54,6 +54,6 @@ const dataset = raw as {
 
 export const CITY_LANDING_CONTENT = dataset.cities;
 export const SERVICE_CITY_LANDING_CONTENT = dataset.serviceCities;
-export const getCityLanding = (slug: string) => CITY_LANDING_CONTENT[slug];
-export const getServiceCityLanding = (serviceSlug: string, citySlug: string) =>
+export const getCityLanding = (slug: string): CityLandingContent | undefined => CITY_LANDING_CONTENT[slug];
+export const getServiceCityLanding = (serviceSlug: string, citySlug: string): ServiceCityLandingContent | undefined =>
   SERVICE_CITY_LANDING_CONTENT[`${serviceSlug}/${citySlug}`];

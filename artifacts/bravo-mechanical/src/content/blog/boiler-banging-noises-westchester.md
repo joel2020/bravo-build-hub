@@ -60,4 +60,4 @@ Get the noise diagnosed and ask for both numbers. Past 20–25 years, major repa
 
 ---
 
-*Boiler talking to you? We speak fluent hydronics. Call **(914) 361-9142** or [request boiler service](/services/boiler-repair-westchester-county-ny) — all of Westchester County, 24/7 for no-heat emergencies.*
+*Boiler talking to you? We speak fluent hydronics. Call **(914) 361-9142** or [request boiler service](/services/boiler-repair-westchester-county-ny) in one of our 34 listed Westchester communities; emergency dispatch depends on current availability.*

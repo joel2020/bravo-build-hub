@@ -61,4 +61,4 @@ Yes: dirty filters/coil or low refrigerant. Mini-split filters clean in a sink i
 
 ---
 
-*AC frozen again after a fresh filter? That's a leak. Call **(914) 361-9142** or [book a repair visit online](/book) — we serve all of Westchester County.*
+*AC frozen again after a fresh filter? Stop cooling and call **(914) 361-9142** or [book a repair visit online](/book) in one of our 34 listed Westchester communities.*

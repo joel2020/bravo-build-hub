@@ -7,6 +7,7 @@ import { CTABand } from "@/components/CTABand";
 import { CITIES } from "@/lib/cities";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
+import { APPROVED_SERVICE_AREAS } from "@/lib/localPageModel";
 
 const REGION_ORDER = [
   "Lower Westchester",
@@ -19,7 +20,7 @@ const REGION_ORDER = [
 const ServiceAreas = () => {
   useSeo({
     title: "HVAC Service Areas | Westchester County, NY | Bravo Mechanical",
-    description: "See all Westchester County service areas for Bravo Mechanical HVAC services, including White Plains, Yonkers, New Rochelle, Scarsdale, Rye, and more.",
+    description: `See Bravo Mechanical's ${APPROVED_SERVICE_AREAS.length} listed Westchester County service areas, including White Plains, Yonkers, New Rochelle, Scarsdale, and Rye.`,
     canonical: `${SITE.siteUrl}/service-areas`,
   });
 
@@ -32,13 +33,13 @@ const ServiceAreas = () => {
     <Layout>
       <PageHero
         eyebrow="Service Areas"
-        title="HVAC Service Throughout Westchester County, NY"
-        subtitle="Bravo Mechanical accepts residential and light-commercial HVAC requests throughout Westchester County. Call to confirm service availability for your address."
+        title={`HVAC Service in ${APPROVED_SERVICE_AREAS.length} Westchester Communities`}
+        subtitle="Bravo Mechanical accepts residential and light-commercial HVAC requests in the communities listed below. Call to confirm availability for your address."
       />
 
       <section className="container mx-auto px-4 py-12 lg:py-16">
-        <h2 className="text-2xl md:text-3xl font-extrabold mb-2">Towns we serve in Westchester County</h2>
-        <p className="text-muted-foreground mb-10 max-w-2xl">From the Hudson River to the Long Island Sound — and from Yonkers up through Yorktown — we cover the full county. Click any town for local service details.</p>
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-2">Communities we serve in Westchester County</h2>
+        <p className="text-muted-foreground mb-10 max-w-2xl">The published service-area list includes 34 communities from the Hudson River to the Sound and from lower to northern Westchester. Select a community for local service details.</p>
 
         <div className="space-y-10">
           {grouped.map((g) => (
@@ -63,8 +64,8 @@ const ServiceAreas = () => {
 
       <section className="bg-secondary border-y border-border">
         <div className="container mx-auto px-4 py-12 lg:py-16 max-w-3xl">
-          <h2 className="text-2xl md:text-3xl font-extrabold mb-3">Don't see your town?</h2>
-          <p className="text-muted-foreground mb-6">We cover all of Westchester County, NY. If you're not sure whether we service your address, just give us a call — we'll confirm right away.</p>
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-3">Don't see your community?</h2>
+          <p className="text-muted-foreground mb-6">Our published service area is the 34 communities listed above. Call before scheduling if you need us to confirm availability for another address.</p>
           <div className="flex flex-col sm:flex-row gap-3">
             <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"><Link to="/contact">Request an Estimate</Link></Button>
             <Button asChild variant="outline" className="font-semibold"><a href={SITE.phoneHref}>Call {SITE.phone}</a></Button>

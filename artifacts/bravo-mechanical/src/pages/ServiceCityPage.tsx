@@ -18,6 +18,10 @@ import {
 } from "@/lib/localLandingContent";
 import { SITE } from "@/lib/site";
 import {
+  buildServiceCityPageSemantics,
+  localPageSchemaArray,
+} from "@/lib/localPageModel";
+import {
   trackEmergencyCtaClick,
   trackRequestServiceClick,
 } from "@/lib/analytics";
@@ -36,69 +40,19 @@ const ServiceCityPage = () => {
   const pageUrl = landing
     ? `${SITE.siteUrl}/services/${landing.serviceSlug}/${landing.citySlug}`
     : SITE.siteUrl;
+  const semantics = landing && city
+    ? buildServiceCityPageSemantics(landing, city, SITE.siteUrl)
+    : undefined;
 
   useSeo({
     title: landing?.metaTitle ?? "",
     description: landing?.metaDescription ?? "",
     canonical: pageUrl,
     image: "/og-image.jpg",
-    jsonLd:
-      landing && city
-        ? [
-            {
-              "@context": "https://schema.org",
-              "@type": "Service",
-              name: landing.h1,
-              serviceType: landing.serviceTitle,
-              description: landing.metaDescription,
-              url: pageUrl,
-              areaServed: { "@type": "City", name: `${city.name}, NY` },
-              provider: { "@id": `${SITE.siteUrl}/#localbusiness` },
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: landing.faqItems.map((faq) => ({
-                "@type": "Question",
-                name: faq.q,
-                acceptedAnswer: { "@type": "Answer", text: faq.a },
-              })),
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                {
-                  "@type": "ListItem",
-                  position: 1,
-                  name: "Home",
-                  item: `${SITE.siteUrl}/`,
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: "Services",
-                  item: `${SITE.siteUrl}/services`,
-                },
-                {
-                  "@type": "ListItem",
-                  position: 3,
-                  name: landing.serviceTitle,
-                  item: `${SITE.siteUrl}${landing.parentServicePath}`,
-                },
-                {
-                  "@type": "ListItem",
-                  position: 4,
-                  name: `${landing.shortTitle} in ${city.name}`,
-                  item: pageUrl,
-                },
-              ],
-            },
-          ]
-        : undefined,
+    jsonLd: semantics ? localPageSchemaArray(semantics) : undefined,
   });
 
-  if (!landing || !city) return <Navigate to="/services" replace />;
+  if (!landing || !city || !semantics) return <Navigate to="/services" replace />;
 
   const relatedGuides = landing.relatedGuideSlugs
     .map(getPostBySlug)
@@ -115,18 +69,17 @@ const ServiceCityPage = () => {
     <Layout>
       <PageHero
         eyebrow={`${landing.serviceTitle} • ${city.name}, NY`}
-        title={landing.h1}
+        title={semantics.h1}
         subtitle={`Property-specific ${landing.serviceTitle.toLowerCase()} guidance for ${city.name} homes and light-commercial spaces from a Westchester HVAC contractor.`}
       />
 
       <section className="container mx-auto px-4 py-10 lg:py-14">
         <div className="mb-6 flex flex-wrap gap-x-4 gap-y-2 text-sm">
           <Link
-            to={landing.parentServicePath}
+            to={semantics.parent.path}
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
           >
-            <ArrowLeft className="h-4 w-4" /> All {landing.serviceTitle} in
-            Westchester County
+            <ArrowLeft className="h-4 w-4" /> {semantics.parent.linkLabel}
           </Link>
           <Link
             to={`/service-areas/${city.slug}`}
@@ -334,7 +287,7 @@ const ServiceCityPage = () => {
               Nearby cities
             </div>
             <h2 className="text-2xl md:text-3xl font-extrabold">
-              {landing.serviceTitle} across Westchester County
+              {landing.serviceTitle} in other published service areas
             </h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">

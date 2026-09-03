@@ -60,4 +60,4 @@ Almost never. They're the loudest and least efficient option, and single-hose un
 
 ---
 
-*Done sweating in the one room your AC can't reach? Call **(914) 361-9142** or [request a free mini-split estimate](/services/mini-split-installation-westchester-county-ny) — written pricing, room-by-room sizing, all of Westchester.*
+*Done sweating in the one room your AC can't reach? Call **(914) 361-9142** or [request a mini-split estimate](/services/mini-split-installation-westchester-county-ny) — written, project-specific options for our listed Westchester communities.*

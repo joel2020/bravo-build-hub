@@ -1,5 +1,5 @@
-import { CITY_LANDING_CONTENT, type CityLandingContent } from "./localLandingContent";
-import { TOWNS } from "./site";
+import { getCityLanding, type CityLandingContent } from "./localLandingContent";
+import { APPROVED_SERVICE_AREAS } from "./localPageModel";
 
 export type City = {
   slug: string;
@@ -17,8 +17,8 @@ export type City = {
 export const citySlug = (name: string) =>
   name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-export const CITIES: City[] = TOWNS.map((name) => {
-  const content = CITY_LANDING_CONTENT[citySlug(name)];
+export const CITIES: City[] = APPROVED_SERVICE_AREAS.map(({ slug, name }) => {
+  const content = getCityLanding(slug);
   if (!content) throw new Error(`Missing reviewed local landing content for ${name}`);
 
   return {

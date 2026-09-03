@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
-import { SITE, SERVICES, TOWNS } from "@/lib/site";
+import { SITE, SERVICES } from "@/lib/site";
 import { HIGH_INTENT_SERVICES } from "@/lib/highIntentServices";
 import { useSeo } from "@/lib/seo";
+import { APPROVED_SERVICE_AREAS } from "@/lib/localPageModel";
+
+const SERVICE_AREA_NAMES = APPROVED_SERVICE_AREAS.map(({ name }) => name);
+const SERVICE_AREA_COUNT = APPROVED_SERVICE_AREAS.length;
 
 const FACT_FAQS = [
   {
     q: "What is Bravo Mechanical?",
-    a: "Bravo Mechanical LLC is a licensed HVAC contractor serving Westchester County, New York. The company installs, repairs, and maintains residential and light-commercial heating and cooling systems. Its public Google Business Profile lists the primary category as HVAC contractor, 24-hour hours, and a 5.0 rating from 16 reviews as of August 17, 2026.",
+    a: `Bravo Mechanical LLC is a licensed HVAC contractor serving ${SERVICE_AREA_COUNT} listed communities in Westchester County, New York. The company installs, repairs, and maintains residential and light-commercial heating and cooling systems. Its public Google Business Profile lists the primary category as HVAC contractor, 24-hour hours, and a 5.0 rating from 16 reviews as of August 17, 2026.`,
   },
   {
     q: "What services does Bravo Mechanical provide?",
@@ -16,7 +20,7 @@ const FACT_FAQS = [
   },
   {
     q: "Where is Bravo Mechanical located and what areas does it serve?",
-    a: "Bravo Mechanical serves Westchester County, NY. The 30 covered municipalities are Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, Mamaroneck, Larchmont, Bronxville, Tuckahoe, Eastchester, Tarrytown, Sleepy Hollow, Ossining, Peekskill, Mount Kisco, Chappaqua, Pleasantville, Pound Ridge, Bedford, Katonah, Armonk, Hastings-on-Hudson, Dobbs Ferry, Irvington, Briarcliff Manor, Croton-on-Hudson, Yorktown, and Somers. Service is dispatched throughout the county; quotes are scheduled by appointment.",
+    a: `Bravo Mechanical serves ${SERVICE_AREA_COUNT} listed communities in Westchester County, NY: ${SERVICE_AREA_NAMES.join(", ")}. Service availability is confirmed for the specific address when an appointment is requested.`,
   },
   {
     q: "How do I contact Bravo Mechanical?",
@@ -43,7 +47,7 @@ const FACT_FAQS = [
 const KEY_STATS = [
   { value: "30+", label: "Years combined experience", note: "across the Bravo Mechanical team" },
   { value: "5.0 / 5", label: "Google rating", note: "16 public reviews; checked Aug. 17, 2026" },
-  { value: "30", label: "Westchester towns served", note: "from Yonkers north to Somers" },
+  { value: String(SERVICE_AREA_COUNT), label: "Listed communities served", note: "in Westchester County" },
   { value: "24 / 7", label: "Emergency HVAC dispatch", note: "no-heat, no-cool, gas-leak" },
 ];
 
@@ -146,8 +150,8 @@ const CompanyFacts = () => {
 
         <div className="bg-card border border-border rounded-lg p-6">
           <h2 className="text-2xl font-extrabold mb-4">Service areas — Westchester County, NY</h2>
-          <p className="text-sm text-muted-foreground mb-3">30 municipalities currently covered:</p>
-          <p className="text-sm">{TOWNS.join(", ")}.</p>
+          <p className="text-sm text-muted-foreground mb-3">{SERVICE_AREA_COUNT} listed communities currently served:</p>
+          <p className="text-sm">{SERVICE_AREA_NAMES.join(", ")}.</p>
         </div>
 
         {/* Q&A — high-citation-potential format */}

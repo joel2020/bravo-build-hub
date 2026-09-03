@@ -7,6 +7,8 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { SITE } from "@/lib/site";
 import { HIGH_INTENT_SERVICES } from "@/lib/highIntentServices";
+import { getLocalServiceLinksForParent } from "@/generated/localServiceLinks";
+import { approvedServiceAreaPlaces } from "@/lib/localPageModel";
 import { useSeo } from "@/lib/seo";
 
 const SITE_URL = "https://www.bravomechanicalny.com";
@@ -36,7 +38,7 @@ const services = [
   {
     icon: Wind,
     title: "Indoor Air Quality",
-    desc: "Cleaner, healthier indoor air with filtration, humidity control, and purification solutions.",
+    desc: "Filtration, humidity-control, ventilation, and purification options matched to the building and HVAC system.",
     tasks: ["Whole-home air purifiers", "Humidifiers & dehumidifiers", "HEPA & high-efficiency filtration", "Duct cleaning coordination", "Ventilation upgrades"],
     benefits: ["Options matched to the building", "Filtration and humidity evaluation", "Clear maintenance guidance"],
   },
@@ -57,9 +59,10 @@ const services = [
 ];
 
 const Services = () => {
+  const localServicePages = getLocalServiceLinksForParent("/services");
   useSeo({
     title: "HVAC Services in Westchester County, NY | Bravo Mechanical",
-    description: "AC repair & install, furnace and boiler repair, heat pumps, HVAC maintenance, and commercial HVAC across Westchester County, NY.",
+    description: "AC repair and installation, furnace and boiler repair, heat pumps, HVAC maintenance, and commercial HVAC for listed Westchester communities.",
     canonical: `${SITE.siteUrl}/services`,
   });
 
@@ -84,7 +87,7 @@ const Services = () => {
       serviceType: s.title,
       description: s.desc,
       provider,
-      areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
+      areaServed: approvedServiceAreaPlaces(),
       url: `${SITE_URL}/services#${s.title.toLowerCase().replace(/\s+/g, "-")}`,
     }));
 
@@ -116,6 +119,17 @@ const Services = () => {
           {HIGH_INTENT_SERVICES.map((service) => (
             <Link key={service.slug} to={`/services/${service.slug}`} className="border border-border rounded-md p-3 text-sm font-semibold hover:border-accent transition-colors">
               {service.h1}
+            </Link>
+          ))}
+        </div>
+      </div>
+      <div className="bg-card border border-border rounded-lg p-6">
+        <h2 className="text-2xl font-extrabold mb-3">Installation and repair in listed communities</h2>
+        <p className="text-muted-foreground mb-4">Explore published installation and repair pages for individual service areas.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {localServicePages.map((page) => (
+            <Link key={page.path} to={page.path} className="border border-border rounded-md p-3 text-sm font-semibold hover:border-accent transition-colors">
+              {page.label}
             </Link>
           ))}
         </div>

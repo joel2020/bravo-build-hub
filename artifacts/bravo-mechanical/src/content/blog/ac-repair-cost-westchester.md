@@ -69,4 +69,4 @@ Maybe not. Run through our [AC no-cooling checklist](/blog/why-is-my-ac-not-cool
 
 ---
 
-*Want a real number instead of a range? Call **(914) 361-9142** or [request AC repair online](/services/ac-repair-westchester-county-ny) — written pricing before any work begins, across all of Westchester County.*
+*Want a property-specific number instead of a range? Call **(914) 361-9142** or [request AC repair online](/services/ac-repair-westchester-county-ny) in one of our 34 listed Westchester communities.*

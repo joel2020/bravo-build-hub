@@ -30,16 +30,20 @@ import { LeadForm } from "../components/LeadForm";
 import { PageHero } from "../components/PageHero";
 import { SITE } from "../lib/site";
 import BookOnline from "../pages/BookOnline";
+import BlogPost from "../pages/BlogPost";
 import Contact from "../pages/Contact";
+import CompanyFacts from "../pages/CompanyFacts";
 import CityPage from "../pages/CityPage";
 import HighIntentServicePage from "../pages/HighIntentServicePage";
 import Financing from "../pages/Financing";
 import Index from "../pages/Index";
 import MaintenancePlans from "../pages/MaintenancePlans";
+import NYSystem from "../pages/NYSystem";
 import Projects from "../pages/Projects";
 import Services from "../pages/Services";
 import ServiceCityPage from "../pages/ServiceCityPage";
 import { trackCallClick } from "../lib/analytics";
+import { approvedServiceAreaPlaces } from "../lib/localPageModel";
 
 const supabaseTestState = vi.hoisted(() => ({
   insert: vi.fn(),
@@ -656,21 +660,21 @@ describe("loader, project proof, and contextual actions", () => {
     ).toHaveLength(1);
     [
       [
-        "HVAC Installation services →",
-        "/services/ac-installation-westchester-county-ny",
+        "HVAC Installation: browse all HVAC services →",
+        "/services",
       ],
-      ["HVAC Repair services →", "/services/ac-repair-westchester-county-ny"],
+      ["HVAC Repair: browse all HVAC services →", "/services"],
       [
-        "Preventive Maintenance services →",
+        "HVAC Maintenance in Westchester →",
         "/services/hvac-maintenance-westchester-county-ny",
       ],
       [
-        "Indoor Air Quality services →",
+        "Indoor Air Quality Services in Westchester →",
         "/services/indoor-air-quality-westchester-county-ny",
       ],
-      ["Residential HVAC services →", "/services"],
+      ["Residential HVAC: browse all HVAC services →", "/services"],
       [
-        "Commercial HVAC services →",
+        "Commercial HVAC in Westchester →",
         "/services/commercial-hvac-westchester-county-ny",
       ],
     ].forEach(([name, href]) => {
@@ -745,18 +749,74 @@ describe("reviewed local landing pages", () => {
     ).toBe("/service-areas/yonkers");
   });
 
-  it("links the HVAC repair parent service to its reviewed local pages", async () => {
+  it("links the generic HVAC parent to its installation and repair city pages", async () => {
+    renderAt(<Services />, "/services", "/services");
+
+    expect(
+      screen
+        .getByRole("link", { name: "HVAC Installation in Yonkers" })
+        .getAttribute("href"),
+    ).toBe("/services/hvac-installation/yonkers");
+    expect(
+      screen
+        .getByRole("link", { name: "HVAC Repair in Yonkers" })
+        .getAttribute("href"),
+    ).toBe("/services/hvac-repair/yonkers");
+  });
+
+  it("links a true broad service parent to its reviewed local pages", async () => {
     renderAt(
       <HighIntentServicePage />,
-      "/services/emergency-hvac-repair-westchester-county-ny",
+      "/services/hvac-maintenance-westchester-county-ny",
       "/services/:slug",
     );
 
     expect(
       (
-        await screen.findByRole("link", { name: "HVAC Repair in Yonkers" })
+        await screen.findByRole("link", { name: "HVAC Maintenance in Yonkers" })
       ).getAttribute("href"),
-    ).toBe("/services/hvac-repair/yonkers");
+    ).toBe("/services/preventive-maintenance/yonkers");
+  });
+
+  it("scopes generic service detail schema to the approved communities", async () => {
+    renderAt(<NYSystem />, "/services/gas-boilers", "/services/:slug");
+
+    await screen.findByRole("heading", { level: 1 });
+    const serviceScript = document.head.querySelector<HTMLScriptElement>(
+      'script[data-jsonld="service"]',
+    );
+    expect(serviceScript).not.toBeNull();
+    const serviceSchema = JSON.parse(serviceScript?.textContent ?? "{}");
+    expect(serviceSchema.areaServed).toEqual(approvedServiceAreaPlaces());
+    expect(serviceSchema.provider).toEqual({
+      "@id": `${SITE.siteUrl}/#localbusiness`,
+    });
+  });
+
+  it("renders a complete local-service sentence when a blog city's neighborhoods are empty", async () => {
+    renderAt(
+      <BlogPost />,
+      "/blog/fall-furnace-tune-up-hartsdale",
+      "/blog/:slug",
+    );
+
+    expect(
+      await screen.findByText(
+        "Need help with this in Hartsdale? Bravo Mechanical accepts service requests in Hartsdale and the other listed Westchester communities.",
+      ),
+    ).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/techs serve\s+and the rest/i);
+  });
+
+  it("publishes the approved 34-community inventory in Company Facts", () => {
+    renderAt(<CompanyFacts />, "/company-facts", "/company-facts");
+
+    expect(screen.getByText("34", { selector: ".text-3xl" })).toBeTruthy();
+    expect(document.body.textContent).toContain("34 listed communities currently served");
+    for (const name of ["Ardsley", "Hartsdale", "Pelham", "Port Chester"]) {
+      expect(document.body.textContent).toContain(name);
+    }
+    expect(document.body.textContent).not.toContain("30 covered municipalities");
   });
 });
 

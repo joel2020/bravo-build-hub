@@ -1840,7 +1840,7 @@
       "municipalResources": [
         {
           "label": "Town of North Castle building-permit guide",
-          "url": "https://www.northcastleny.com/213/Customers-Guide-to-the-Building-Permit-P"
+          "url": "https://www.northcastleny.gov/213/Customers-Guide-to-the-Building-Permit-P"
         }
       ],
       "relatedGuideSlugs": [
@@ -1870,12 +1870,12 @@
       "sourceNotes": [
         {
           "label": "Town of North Castle — Hamlet Design Guidelines",
-          "url": "https://www.northcastleny.com/DocumentCenter/View/291/Town-of-North-Castle-Hamlet-Design-Guidelines-PDF",
+          "url": "https://www.northcastleny.gov/DocumentCenter/View/291/Town-of-North-Castle-Hamlet-Design-Guidelines-PDF",
           "supports": "Officially identifies Armonk as a North Castle hamlet overlay area and documents hamlet-design review context."
         },
         {
           "label": "Town of North Castle building-permit guide",
-          "url": "https://www.northcastleny.com/213/Customers-Guide-to-the-Building-Permit-P",
+          "url": "https://www.northcastleny.gov/213/Customers-Guide-to-the-Building-Permit-P",
           "supports": "Official Town permit-process guide and Building Department contact for Armonk."
         },
         {
@@ -2805,7 +2805,7 @@
       "citySlug": "yonkers",
       "serviceTitle": "HVAC Installation",
       "shortTitle": "Installation",
-      "parentServicePath": "/services/ac-installation-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Installation in Yonkers, NY",
       "metaTitle": "HVAC Installation Yonkers, NY | Bravo Mechanical",
       "metaDescription": "Plan a Yonkers HVAC installation around building loads, distribution, access, utilities, and a written scope with current City requirements checked.",
@@ -2851,7 +2851,7 @@
       "citySlug": "white-plains",
       "serviceTitle": "HVAC Installation",
       "shortTitle": "Installation",
-      "parentServicePath": "/services/ac-installation-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Installation in White Plains, NY",
       "metaTitle": "HVAC Installation White Plains, NY | Bravo Mechanical",
       "metaDescription": "White Plains HVAC installation planning for occupied spaces, roof or interior access, controls, distribution, utilities, and commissioning details.",
@@ -2896,7 +2896,7 @@
       "citySlug": "new-rochelle",
       "serviceTitle": "HVAC Installation",
       "shortTitle": "Installation",
-      "parentServicePath": "/services/ac-installation-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Installation in New Rochelle, NY",
       "metaTitle": "HVAC Installation New Rochelle, NY | Bravo Mechanical",
       "metaDescription": "Plan New Rochelle HVAC installation from the existing distribution outward, including room loads, routing, drainage, power, controls, and startup tests.",
@@ -2942,7 +2942,7 @@
       "citySlug": "mount-vernon",
       "serviceTitle": "HVAC Installation",
       "shortTitle": "Installation",
-      "parentServicePath": "/services/ac-installation-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Installation in Mount Vernon, NY",
       "metaTitle": "HVAC Installation Mount Vernon, NY | Bravo Mechanical",
       "metaDescription": "Mount Vernon HVAC installation planning for steam, hot-water, forced-air, or ductless distribution, with utilities, zones, routing, and controls reviewed.",
@@ -2987,7 +2987,7 @@
       "citySlug": "scarsdale",
       "serviceTitle": "HVAC Installation",
       "shortTitle": "Installation",
-      "parentServicePath": "/services/ac-installation-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Installation in Scarsdale, NY",
       "metaTitle": "HVAC Installation Scarsdale, NY | Bravo Mechanical",
       "metaDescription": "Scarsdale HVAC installation based on room loads, zoning, sound, equipment placement, distribution, service access, and a documented startup plan.",
@@ -3032,7 +3032,7 @@
       "citySlug": "yonkers",
       "serviceTitle": "HVAC Repair",
       "shortTitle": "Repair",
-      "parentServicePath": "/services/emergency-hvac-repair-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Repair in Yonkers, NY",
       "metaTitle": "HVAC Repair Yonkers, NY | Bravo Mechanical",
       "metaDescription": "Yonkers HVAC repair for no-heat, no-cool, airflow, control, boiler, furnace, and AC concerns, with equipment-specific diagnosis and written options.",
@@ -3078,7 +3078,7 @@
       "citySlug": "white-plains",
       "serviceTitle": "HVAC Repair",
       "shortTitle": "Repair",
-      "parentServicePath": "/services/emergency-hvac-repair-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Repair in White Plains, NY",
       "metaTitle": "HVAC Repair White Plains, NY | Bravo Mechanical",
       "metaDescription": "White Plains HVAC repair diagnosis for rooftop, split, packaged, boiler, furnace, heat-pump, and control problems in residential or occupied spaces.",
@@ -3123,7 +3123,7 @@
       "citySlug": "new-rochelle",
       "serviceTitle": "HVAC Repair",
       "shortTitle": "Repair",
-      "parentServicePath": "/services/emergency-hvac-repair-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Repair in New Rochelle, NY",
       "metaTitle": "HVAC Repair New Rochelle, NY | Bravo Mechanical",
       "metaDescription": "New Rochelle HVAC repair for cooling loss, drainage, airflow, heat-pump, furnace, boiler, thermostat, and zone concerns after safe symptom checks.",
@@ -3168,7 +3168,7 @@
       "citySlug": "mount-vernon",
       "serviceTitle": "HVAC Repair",
       "shortTitle": "Repair",
-      "parentServicePath": "/services/emergency-hvac-repair-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Repair in Mount Vernon, NY",
       "metaTitle": "HVAC Repair Mount Vernon, NY | Bravo Mechanical",
       "metaDescription": "Mount Vernon HVAC repair for boiler, furnace, steam, hot-water, airflow, thermostat, and cooling faults, with life-safety warnings separated from diagnosis.",
@@ -3214,7 +3214,7 @@
       "citySlug": "scarsdale",
       "serviceTitle": "HVAC Repair",
       "shortTitle": "Repair",
-      "parentServicePath": "/services/emergency-hvac-repair-westchester-county-ny",
+      "parentServicePath": "/services",
       "h1": "HVAC Repair in Scarsdale, NY",
       "metaTitle": "HVAC Repair Scarsdale, NY | Bravo Mechanical",
       "metaDescription": "Scarsdale HVAC repair for intermittent zone, airflow, thermostat, equipment-noise, heating, and cooling problems with symptom-based diagnosis.",

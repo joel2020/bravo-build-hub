@@ -8,6 +8,7 @@ import { CTABand } from "@/components/CTABand";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getNYSystem, NY_SYSTEMS } from "@/lib/nySystems";
+import { approvedServiceAreaPlaces } from "@/lib/localPageModel";
 import { SITE } from "@/lib/site";
 import { trackRequestServiceClick } from "@/lib/analytics";
 
@@ -43,14 +44,8 @@ const NYSystem = () => {
       name: system.page.title,
       serviceType: system.card.title,
       description: system.page.metaDescription,
-      areaServed: { "@type": "AdministrativeArea", name: SITE.area },
-      provider: {
-        "@type": "LocalBusiness",
-        name: SITE.name,
-        telephone: SITE.phone,
-        email: SITE.email,
-        areaServed: SITE.area,
-      },
+      areaServed: approvedServiceAreaPlaces(),
+      provider: { "@id": `${SITE.siteUrl}/#localbusiness` },
       url: pageUrl,
     };
     const faqLd = {

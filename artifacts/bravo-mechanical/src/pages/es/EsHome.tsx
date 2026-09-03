@@ -5,6 +5,7 @@ import { EsLayout } from "@/components/EsLayout";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { trackCallClick } from "@/lib/analytics";
+import { APPROVED_SERVICE_AREAS } from "@/lib/localPageModel";
 import heroTechnician from "@/assets/hero-technician.webp";
 
 const SERVICIOS = [
@@ -25,7 +26,7 @@ const FAQS = [
   { q: "¿Hablan español?", a: "Sí. Puede llamarnos, mandarnos un texto o llenar el formulario en español y le atenderemos en su idioma." },
   { q: "¿Cómo preparan el precio del trabajo?", a: "El alcance y el precio dependen del equipo, la falla y las condiciones del proyecto. Pida los cargos aplicables y las opciones por escrito antes de autorizar el trabajo." },
   { q: "¿Aceptan solicitudes de emergencia de noche o en fin de semana?", a: "Sí. Llame al (914) 361-9142 para solicitar servicio urgente. El despacho depende del clima, el volumen de llamadas, la ubicación y la disponibilidad del técnico." },
-  { q: "¿Qué zonas atienden?", a: "Todo el condado de Westchester, NY: Yonkers, White Plains, New Rochelle, Mount Vernon, Port Chester, Ossining, Peekskill y más de 30 municipios." },
+  { q: "¿Qué zonas atienden?", a: `Bravo Mechanical publica ${APPROVED_SERVICE_AREAS.length} comunidades de servicio en Westchester, NY. Confirme la disponibilidad para su dirección cuando solicite servicio.` },
   { q: "¿Hay opciones de financiamiento?", a: "Pregunte qué opciones están disponibles actualmente para su proyecto. La aprobación y los términos corresponden al proveedor de financiamiento." },
 ];
 
@@ -76,7 +77,7 @@ const EsHome = () => {
       {/* Servicios */}
       <section className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-extrabold mb-2">¿En qué le podemos ayudar?</h2>
-        <p className="text-muted-foreground mb-8">Servicio residencial y comercial ligero en todo Westchester.</p>
+        <p className="text-muted-foreground mb-8">Solicitudes residenciales y comerciales ligeras en {APPROVED_SERVICE_AREAS.length} comunidades de Westchester enumeradas.</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {SERVICIOS.map((s) => (
             <div key={s.title} className="bg-card border border-border rounded-lg p-6">

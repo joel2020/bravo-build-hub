@@ -14,7 +14,8 @@ import {
   getHighIntentService,
   HIGH_INTENT_SERVICES,
 } from "@/lib/highIntentServices";
-import { SERVICE_CITY_LANDING_CONTENT } from "@/lib/localLandingContent";
+import { getLocalServiceLinksForParent } from "@/generated/localServiceLinks";
+import { approvedServiceAreaPlaces } from "@/lib/localPageModel";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { trackCallClick, trackRequestServiceClick } from "@/lib/analytics";
@@ -28,9 +29,7 @@ const HighIntentServicePage = () => {
   const related = HIGH_INTENT_SERVICES.filter(
     (item) => item.slug !== service.slug,
   ).slice(0, 4);
-  const localServicePages = Object.values(SERVICE_CITY_LANDING_CONTENT).filter(
-    (page) => page.parentServicePath === `/services/${service.slug}`,
-  );
+  const localServicePages = getLocalServiceLinksForParent(`/services/${service.slug}`);
 
   const jsonLd: Record<string, unknown>[] = [
     {
@@ -41,10 +40,7 @@ const HighIntentServicePage = () => {
       description: service.metaDescription,
       keywords: service.primaryKeyword,
       url,
-      areaServed: {
-        "@type": "AdministrativeArea",
-        name: "Westchester County, NY",
-      },
+      areaServed: approvedServiceAreaPlaces(),
       provider: {
         "@id": `${SITE.siteUrl}/#localbusiness`,
       },
@@ -55,7 +51,7 @@ const HighIntentServicePage = () => {
               "@type": "ContactPoint",
               telephone: SITE.phone,
               contactType: "Emergency HVAC",
-              areaServed: "Westchester County, NY",
+              areaServed: approvedServiceAreaPlaces(),
             },
           }
         : undefined,
@@ -262,11 +258,11 @@ const HighIntentServicePage = () => {
               <div className="grid sm:grid-cols-2 gap-3">
                 {localServicePages.map((page) => (
                   <Link
-                    key={`${page.serviceSlug}-${page.citySlug}`}
-                    to={`/services/${page.serviceSlug}/${page.citySlug}`}
+                    key={page.path}
+                    to={page.path}
                     className="border border-border rounded-md p-3 hover:border-accent transition-colors font-semibold text-sm"
                   >
-                    {page.h1.replace(", NY", "")}
+                    {page.label}
                   </Link>
                 ))}
               </div>
@@ -331,7 +327,7 @@ const HighIntentServicePage = () => {
 
       <CTABand
         title={`Book ${service.h1}`}
-        subtitle="Residential and commercial HVAC service throughout Westchester County, NY."
+        subtitle="Residential and commercial HVAC service in Bravo Mechanical's listed Westchester communities."
       />
     </Layout>
   );

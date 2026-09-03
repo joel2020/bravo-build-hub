@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, Lock } from "lucide-react";
 import { SITE, FEATURED_SERVICE_LINKS } from "@/lib/site";
 import logo from "@/assets/logo-bravo.webp";
+import { SERVICE_AREA_SUMMARY } from "@/lib/localPageModel";
 
 export const Footer = () => {
   const year = new Date().getFullYear();
@@ -15,7 +16,7 @@ export const Footer = () => {
             </div>
             <div className="font-extrabold text-lg">Bravo Mechanical</div>
           </div>
-          <p className="text-sm text-primary-foreground/80">Serving all of Westchester County, NY.</p>
+          <p className="text-sm text-primary-foreground/80">{SERVICE_AREA_SUMMARY}</p>
           <p className="text-sm text-primary-foreground/80 mt-2">Reliable HVAC service for homes and businesses.</p>
           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
             <Link to="/about" className="text-primary-foreground/80 hover:text-primary-foreground hover:underline">
@@ -100,7 +101,7 @@ export const Footer = () => {
             </li>
             <li className="flex items-start gap-2">
               <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-              <span>{SITE.address.full}<br />Serving all of Westchester County</span>
+              <span>{SITE.address.full}<br />34 listed Westchester communities</span>
             </li>
           </ul>
         </div>

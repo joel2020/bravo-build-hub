@@ -29,6 +29,14 @@ import {
   OG_IMAGE,
 } from "./route-data.mjs";
 import { PRIVACY_POLICY_HTML, TERMS_HTML } from "./legal-content.mjs";
+import {
+  SERVICE_AREA_SUMMARY,
+  approvedServiceAreaPlaces,
+  buildCityPageSemantics,
+  buildServiceCityPageSemantics,
+  localPageSchemaArray,
+} from "../src/lib/localPageModel.ts";
+import { LOCAL_SERVICE_LINKS } from "../src/generated/localServiceLinks.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -99,26 +107,7 @@ function buildJsonLd(route) {
   }
 
   if (route.type === "city" && route.city) {
-    const out = [
-      {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "@id": `${url}#service`,
-        name: `HVAC service in ${route.city.name}, NY`,
-        serviceType: "Heating, cooling, installation, repair, and maintenance",
-        description: route.description,
-        url,
-        areaServed: { "@type": "City", name: `${route.city.name}, NY` },
-        provider: { "@id": `${SITE_URL}/#localbusiness` },
-      },
-      breadcrumbs([
-        { name: "Home", url: `${SITE_URL}/` },
-        { name: "Service Areas", url: `${SITE_URL}/service-areas` },
-        { name: route.city.name, url },
-      ]),
-    ];
-    if (route.faqs && route.faqs.length) out.push(buildFaqPage(route.faqs, url));
-    return out;
+    return localPageSchemaArray(buildCityPageSemantics(route.localContent, SITE_URL));
   }
 
   if (route.type === "service" && route.service) {
@@ -130,7 +119,7 @@ function buildJsonLd(route) {
         description: route.service.metaDescription,
         url,
         serviceType: route.service.seoTitle,
-        areaServed: { "@type": "AdministrativeArea", name: "Westchester County, NY" },
+        areaServed: approvedServiceAreaPlaces(),
         provider: { "@id": `${SITE_URL}/#localbusiness` },
       },
       breadcrumbs([
@@ -144,26 +133,7 @@ function buildJsonLd(route) {
   }
 
   if (route.type === "service-city" && route.city && route.service) {
-    const out = [
-      {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        name: `${route.service.title} in ${route.city.name}, NY`,
-        serviceType: route.service.title,
-        description: route.description,
-        url,
-        areaServed: { "@type": "City", name: `${route.city.name}, NY` },
-        provider: { "@id": `${SITE_URL}/#localbusiness` },
-      },
-      breadcrumbs([
-        { name: "Home", url: `${SITE_URL}/` },
-        { name: "Services", url: `${SITE_URL}/services` },
-        { name: route.service.title, url: `${SITE_URL}/services` },
-        { name: `${route.service.title} in ${route.city.name}`, url },
-      ]),
-    ];
-    if (route.faqs && route.faqs.length) out.push(buildFaqPage(route.faqs, url));
-    return out;
+    return localPageSchemaArray(buildServiceCityPageSemantics(route.localContent, route.city, SITE_URL));
   }
 
   if (route.path === "/") {
@@ -270,8 +240,8 @@ function rewriteHead(html, route, ctx) {
   return out;
 }
 
-// Strips self-serving review markup (review / aggregateRating) from any
-// LocalBusiness-family JSON-LD block. Google ignores self-hosted review
+// Normalizes every LocalBusiness-family block to the approved coverage model
+// and strips self-serving review markup. Google ignores self-hosted review
 // markup for LocalBusiness and it can trigger a manual action; the map-pack
 // star rating comes from the Google Business Profile, not schema.
 function stripSelfServingReviewMarkup(html) {
@@ -283,6 +253,7 @@ function stripSelfServingReviewMarkup(html) {
       if (parsed && (parsed["@type"] === "HVACBusiness" || parsed["@type"] === "LocalBusiness")) {
         delete parsed.review;
         delete parsed.aggregateRating;
+        parsed.areaServed = approvedServiceAreaPlaces();
         return `<script type="application/ld+json">${JSON.stringify(parsed).replace(/<\/script/gi, "<\\/script")}</script>`;
       }
       return full;
@@ -370,7 +341,7 @@ function renderLocalContent(route, ctx) {
 
   if (route.type === "city") {
     const city = route.city;
-    const cityCombos = ctx.serviceCitiesByCity.get(city.slug) || [];
+    const serviceDestinations = route.serviceDestinations;
     const relatedGuides = localLinks(ctx, content.relatedGuideSlugs.map((slug) => ctx.blogBySlug.get(slug)?.path));
     const nearbyCities = localLinks(ctx, content.nearbyCitySlugs.map((slug) => ctx.cityBySlug.get(slug)?.path));
     const parts = [
@@ -382,14 +353,14 @@ function renderLocalContent(route, ctx) {
       linkedResources("Municipal resources", content.municipalResources),
       linkedSection("Related HVAC guides", relatedGuides),
       linkedSection(`Nearby service areas`, nearbyCities),
-      linkedSection(`Services available in ${city.name}`, cityCombos),
+      linkedSection(`Services available in ${city.name}`, serviceDestinations),
     ];
     return parts.filter(Boolean).join("\n");
   }
 
   if (route.type === "service-city") {
     const cityHub = ctx.cityBySlug.get(route.city.slug);
-    const parentService = ctx.routeByPath.get(content.parentServicePath);
+    const semantics = buildServiceCityPageSemantics(content, route.city, SITE_URL);
     const relatedGuides = localLinks(ctx, content.relatedGuideSlugs.map((slug) => ctx.blogBySlug.get(slug)?.path));
     const relatedServices = localLinks(ctx, content.relatedServiceSlugs.map((slug) => ctx.serviceCityByKey.get(`${slug}/${route.city.slug}`)?.path));
     const nearbyCombos = (ctx.serviceCitiesByService.get(route.service.slug) || []).filter((candidate) => candidate.city.slug !== route.city.slug);
@@ -400,7 +371,7 @@ function renderLocalContent(route, ctx) {
       textList("What a written service scope should cover", content.serviceScope),
       textList("Safe checks before requesting service", content.safeChecks),
       textList("When to leave the work to a professional", content.professionalBoundaries),
-      linkedSection("Parent countywide service", parentService ? [parentService] : []),
+      linkedSection("Parent service", [{ path: semantics.parent.path, label: semantics.parent.linkLabel }]),
       linkedSection(`${route.city.name} HVAC hub`, cityHub ? [cityHub] : []),
       linkedSection("Related HVAC guides", relatedGuides),
       linkedSection(`Related services in ${route.city.name}`, relatedServices),
@@ -414,9 +385,14 @@ function renderLocalContent(route, ctx) {
 
 function buildBodyInsert(route, ctx) {
   const esc = htmlEscape;
-  const h1 = esc(route.type === "service-city" ? route.localContent.h1 : String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
+  const localSemantics = route.type === "city"
+    ? buildCityPageSemantics(route.localContent, SITE_URL)
+    : route.type === "service-city"
+      ? buildServiceCityPageSemantics(route.localContent, route.city, SITE_URL)
+      : null;
+  const h1 = esc(localSemantics?.h1 ?? String(route.title).split("|")[0].replace(/—\s*Buyer's Guide/i, "").trim());
   const parts = [];
-  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed HVAC contractor (License #8822) · 30+ years of combined HVAC experience · 1 Fowler Avenue, Yonkers, NY 10701 · Serving all of Westchester County · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service requests · <a href="/contact">Request an estimate</a></p></header>`);
+  parts.push(`<header><p><strong>Bravo Mechanical LLC</strong> — Licensed HVAC contractor (License #8822) · 30+ years of combined HVAC experience · 1 Fowler Avenue, Yonkers, NY 10701 · ${esc(SERVICE_AREA_SUMMARY)} · <a href="tel:+19143619142">${esc(SITE_PHONE)}</a> · 24/7 emergency service requests · <a href="/contact">Request an estimate</a></p></header>`);
   parts.push(`<main>`);
   parts.push(`<h1>${h1}</h1>`);
   parts.push(`<p>${esc(route.description)}</p>`);
@@ -438,9 +414,7 @@ function buildBodyInsert(route, ctx) {
     parts.push(renderLocalContent(route, ctx));
   }
 
-  if (route.type === "service") {
-    parts.push(linkedSection("Local service pages", ctx.serviceCitiesByParentPath.get(route.path) || []));
-  }
+  parts.push(linkedSection("Local service pages", ctx.serviceCitiesByParentPath.get(route.path) || []));
 
   // Legal pages must serve their FULL text to non-JS crawlers — automated
   // compliance verifiers (e.g. Twilio A2P 10DLC vetting) fetch these URLs
@@ -456,7 +430,7 @@ function buildBodyInsert(route, ctx) {
   }
 
   if (route.type === "service" || route.type === "guide") {
-    parts.push(`<h2>All Westchester HVAC services</h2>`);
+    parts.push(`<h2>Westchester HVAC service options</h2>`);
     parts.push(linkList(ctx.services));
   } else if (route.path === "/" || route.path === "/services") {
     parts.push(`<h2>HVAC services</h2>`);
@@ -473,7 +447,7 @@ function buildBodyInsert(route, ctx) {
     parts.push(linkList(ctx.posts));
   }
 
-  parts.push(`<p><a href="/contact">Request service or an estimate</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. Serving all of Westchester County, NY.</p>`);
+  parts.push(`<p><a href="/contact">Request service or an estimate</a> or call <a href="tel:+19143619142">${esc(SITE_PHONE)}</a>. ${esc(SERVICE_AREA_SUMMARY)}</p>`);
   parts.push(`</main>`);
   parts.push(`<nav><a href="/">Home</a> · <a href="/services">Services</a> · <a href="/service-areas">Service Areas</a> · <a href="/services/emergency-hvac-repair-westchester-county-ny">24/7 Emergency</a> · <a href="/reviews">Reviews</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></nav>`);
 
@@ -513,17 +487,20 @@ async function main() {
           : String(route.title).split("|")[0].trim(),
   }));
   const routeByPath = new Map(withLinkLabels.map((route) => [route.path, route]));
-  const serviceCitiesByCity = new Map();
   const serviceCitiesByParentPath = new Map();
+  for (const link of LOCAL_SERVICE_LINKS) {
+    if (!routeByPath.has(link.path)) throw new Error(`Compact local-service link references a missing route: ${link.path}`);
+    const byParent = serviceCitiesByParentPath.get(link.parentServicePath) || [];
+    byParent.push(link);
+    serviceCitiesByParentPath.set(link.parentServicePath, byParent);
+  }
+  const generatedServiceCityPaths = new Set(withLinkLabels.filter((route) => route.type === "service-city").map((route) => route.path));
+  if (generatedServiceCityPaths.size !== LOCAL_SERVICE_LINKS.length || LOCAL_SERVICE_LINKS.some((link) => !generatedServiceCityPaths.has(link.path))) {
+    throw new Error("Compact local-service links must match every generated service-city route");
+  }
   const serviceCitiesByService = new Map();
   const serviceCityByKey = new Map();
   for (const route of withLinkLabels.filter((route) => route.type === "service-city")) {
-    const byCity = serviceCitiesByCity.get(route.city.slug) || [];
-    byCity.push(route);
-    serviceCitiesByCity.set(route.city.slug, byCity);
-    const byParent = serviceCitiesByParentPath.get(route.localContent.parentServicePath) || [];
-    byParent.push(route);
-    serviceCitiesByParentPath.set(route.localContent.parentServicePath, byParent);
     const byService = serviceCitiesByService.get(route.service.slug) || [];
     byService.push(route);
     serviceCitiesByService.set(route.service.slug, byService);
@@ -533,7 +510,6 @@ async function main() {
     routeByPath,
     cityBySlug: new Map(withLinkLabels.filter((route) => route.type === "city").map((route) => [route.city.slug, route])),
     blogBySlug: new Map(withLinkLabels.filter((route) => route.type === "blog").map((route) => [route.post.slug, route])),
-    serviceCitiesByCity,
     serviceCitiesByParentPath,
     serviceCitiesByService,
     serviceCityByKey,

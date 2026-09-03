@@ -5,11 +5,12 @@ import { LeadForm } from "@/components/LeadForm";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { trackCallClick } from "@/lib/analytics";
+import { APPROVED_SERVICE_AREAS } from "@/lib/localPageModel";
 
 const EsContact = () => {
   useSeo({
     title: "Contacto en Español | Bravo Mechanical — HVAC en Westchester, NY",
-    description: "Pida servicio de aire acondicionado o calefacción en español. Bravo Mechanical atiende todo el condado de Westchester, NY. Llame al (914) 361-9142 o envíe el formulario.",
+    description: `Pida servicio de aire acondicionado o calefacción en español en las ${APPROVED_SERVICE_AREAS.length} comunidades de Westchester enumeradas por Bravo Mechanical. Llame al (914) 361-9142.`,
     canonical: `${SITE.siteUrl}/es/contacto`,
   });
 
@@ -53,7 +54,7 @@ const EsContact = () => {
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Dirección</div>
                 <div className="font-semibold">{SITE.address.full}</div>
-                <div className="text-sm text-muted-foreground">Servicio en todo el condado de Westchester, NY</div>
+                <div className="text-sm text-muted-foreground">Servicio en {APPROVED_SERVICE_AREAS.length} comunidades enumeradas de Westchester, NY</div>
               </div>
             </div>
             <div className="flex items-start gap-3">

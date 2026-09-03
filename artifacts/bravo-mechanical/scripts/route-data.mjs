@@ -1,11 +1,16 @@
 // Shared route + metadata catalog used by build-time SEO scripts.
-// Read from TS source via lightweight regex parsing so we never need a TS runtime
-// or to duplicate slug/content data. If you add a new route type, update both
-// generate-sitemap.mjs and inject-head-metadata.mjs.
+// Local landing records are read from the reviewed JSON source; selected legacy
+// route metadata is still extracted from TypeScript until those modules migrate.
+// If you add a new route type, update the sitemap and metadata injectors too.
 
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  APPROVED_SERVICE_AREAS,
+  SERVICE_AREA_SUMMARY,
+  getCityServiceDestinations,
+} from "../src/lib/localPageModel.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -24,7 +29,7 @@ export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 export const HOMEPAGE_FAQS = [
   {
     q: "What areas does Bravo Mechanical serve?",
-    a: "Bravo Mechanical serves all of Westchester County, New York — 30 municipalities including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Bronxville, Rye, Tarrytown, Mount Kisco, Bedford, and Yorktown.",
+    a: `${SERVICE_AREA_SUMMARY} The published service-area directory lists ${APPROVED_SERVICE_AREAS.map(({ name }) => name).join(", ")}. Confirm availability for the specific address when requesting service.`,
   },
   {
     q: "What license number does Bravo Mechanical list?",
@@ -207,10 +212,10 @@ export const STATIC_ROUTES = [
     description: "Bravo Mechanical LLC is a licensed Westchester HVAC contractor focused on honest sizing, clear written quotes, and dependable installs." },
   { path: "/services", changefreq: "monthly", priority: "0.9",
     title: "HVAC Services in Westchester County, NY | Bravo Mechanical",
-    description: "Full HVAC services in Westchester County: AC repair and installation, boiler service, furnace repair, heat pumps, mini-splits, and indoor air quality." },
+    description: "HVAC service options for listed Westchester communities: AC repair and installation, boiler service, furnace repair, heat pumps, mini-splits, and indoor air quality." },
   { path: "/service-areas", changefreq: "monthly", priority: "0.8",
     title: "Westchester County HVAC Service Areas | Bravo Mechanical",
-    description: "Local HVAC service for cities and towns across Westchester County, NY — Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale and more." },
+    description: `Local HVAC service for ${APPROVED_SERVICE_AREAS.length} listed Westchester County communities, including Yonkers, White Plains, New Rochelle, Mount Vernon, and Scarsdale.` },
   { path: "/reviews", changefreq: "monthly", priority: "0.7",
     title: "Customer Reviews | Bravo Mechanical HVAC Westchester County",
     description: "Read recent customer reviews of Bravo Mechanical LLC, a 5.0-rated HVAC contractor serving Westchester County, NY." },
@@ -241,7 +246,7 @@ export const STATIC_ROUTES = [
   { path: "/es/contacto", changefreq: "monthly", priority: "0.7", lang: "es",
     alternates: { en: "/contact", es: "/es/contacto" },
     title: "Contacto en Español | Bravo Mechanical — HVAC en Westchester, NY",
-    description: "Pida servicio de aire acondicionado o calefacción en español. Bravo Mechanical atiende todo el condado de Westchester, NY. Llame al (914) 361-9142 o envíe el formulario." },
+    description: `Pida servicio de aire acondicionado o calefacción en español en las ${APPROVED_SERVICE_AREAS.length} comunidades de Westchester enumeradas por Bravo Mechanical. Llame al (914) 361-9142.` },
   { path: "/es/reservar", changefreq: "monthly", priority: "0.7", lang: "es",
     alternates: { en: "/book", es: "/es/reservar" },
     title: "Reservar Cita de HVAC en Línea | Bravo Mechanical Westchester — En Español",
@@ -441,8 +446,21 @@ export async function loadBlogPosts() {
 }
 
 // ---- Build the full URL catalog ----------------------------------------
-export function buildAllRoutesSync() {
-  const dataset = loadLocalLandingPagesSync();
+function assertApprovedServiceAreaInventory(dataset) {
+  const approvedBySlug = new Map(APPROVED_SERVICE_AREAS.map((area) => [area.slug, area.name]));
+  for (const [slug, name] of approvedBySlug) {
+    const record = dataset.cities?.[slug];
+    if (!record) throw new Error(`Missing approved service-area record: ${slug}`);
+    if (record.name !== name) throw new Error(`Approved service-area ${slug} must use name ${name}`);
+  }
+  for (const slug of Object.keys(dataset.cities || {})) {
+    if (!approvedBySlug.has(slug)) throw new Error(`Unapproved service-area record: ${slug}`);
+  }
+}
+
+export function buildAllRoutesSync({ localDataset } = {}) {
+  const dataset = localDataset ?? loadLocalLandingPagesSync();
+  assertApprovedServiceAreaInventory(dataset);
   const hiServices = loadHighIntentServicesSync();
   const posts = loadBlogPostsSync();
   const hiServiceFaqs = loadHighIntentFaqsBySlug();
@@ -462,6 +480,10 @@ export function buildAllRoutesSync() {
   // City pages
   for (const content of cities) {
     const city = toRouteCity(content);
+    const serviceDestinations = getCityServiceDestinations(
+      city,
+      serviceCities.filter((page) => page.citySlug === city.slug),
+    );
     routes.push({
       path: `/service-areas/${city.slug}`,
       changefreq: "monthly",
@@ -472,6 +494,7 @@ export function buildAllRoutesSync() {
       city,
       faqs: content.faqItems,
       localContent: content,
+      serviceDestinations,
     });
   }
 
@@ -491,9 +514,9 @@ export function buildAllRoutesSync() {
   }
 
   // Service-city combo pages
-  for (const content of serviceCities) {
+  for (const [key, content] of Object.entries(dataset.serviceCities)) {
     const cityContent = dataset.cities[content.citySlug];
-    if (!cityContent) continue;
+    if (!cityContent) throw new Error(`Service-city ${key} references missing city: ${content.citySlug}`);
     routes.push({
       path: `/services/${content.serviceSlug}/${content.citySlug}`,
       changefreq: "monthly",

@@ -68,7 +68,7 @@ export const PRIVACY_POLICY_HTML = `
 <h2>11. SMS Terms</h2>
 <p>Please review our <a href="/terms-and-conditions">Terms and Conditions</a>, which include detailed SMS program terms.</p>
 <h2>12. Contact Information</h2>
-<p>Bravo Mechanical LLC<br/>1 Fowler Avenue, Yonkers, NY 10701 — serving all of Westchester County, NY<br/>Phone: <a href="tel:+19143619142">(914) 361-9142</a><br/>Email: <a href="mailto:info@bravomechanicalny.com">info@bravomechanicalny.com</a></p>
+<p>Bravo Mechanical LLC<br/>1 Fowler Avenue, Yonkers, NY 10701 — serving 34 listed communities in Westchester County, NY<br/>Phone: <a href="tel:+19143619142">(914) 361-9142</a><br/>Email: <a href="mailto:info@bravomechanicalny.com">info@bravomechanicalny.com</a></p>
 `;
 
 export const TERMS_HTML = `
@@ -138,5 +138,5 @@ export const TERMS_HTML = `
 <h3>21. Privacy</h3>
 <p>Your information will be handled in accordance with our <a href="/privacy-policy">Privacy Policy</a>.</p>
 <h2>Contact</h2>
-<p>Bravo Mechanical LLC<br/>1 Fowler Avenue, Yonkers, NY 10701 — serving all of Westchester County, NY<br/>Phone: <a href="tel:+19143619142">(914) 361-9142</a><br/>Email: <a href="mailto:info@bravomechanicalny.com">info@bravomechanicalny.com</a></p>
+<p>Bravo Mechanical LLC<br/>1 Fowler Avenue, Yonkers, NY 10701 — serving 34 listed communities in Westchester County, NY<br/>Phone: <a href="tel:+19143619142">(914) 361-9142</a><br/>Email: <a href="mailto:info@bravomechanicalny.com">info@bravomechanicalny.com</a></p>
 `;

@@ -12,21 +12,16 @@ import {
 import { getPostBySlug } from "@/lib/blog";
 import {
   getCityLanding,
-  getServiceCityLanding,
   SERVICE_CITY_LANDING_CONTENT,
 } from "@/lib/localLandingContent";
-import { SERVICES, SITE } from "@/lib/site";
+import {
+  buildCityPageSemantics,
+  getCityServiceDestinations,
+  localPageSchemaArray,
+} from "@/lib/localPageModel";
+import { SITE } from "@/lib/site";
 import { trackRequestServiceClick } from "@/lib/analytics";
 import { useSeo } from "@/lib/seo";
-
-const GENERAL_SERVICE_LINKS: Record<string, string> = {
-  "hvac-installation": "/services/ac-installation-westchester-county-ny",
-  "hvac-repair": "/services/ac-repair-westchester-county-ny",
-  "preventive-maintenance": "/services/hvac-maintenance-westchester-county-ny",
-  "indoor-air-quality": "/services/indoor-air-quality-westchester-county-ny",
-  residential: "/services",
-  commercial: "/services/commercial-hvac-westchester-county-ny",
-};
 
 const CityPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -34,64 +29,17 @@ const CityPage = () => {
   const pageUrl = city
     ? `${SITE.siteUrl}/service-areas/${city.slug}`
     : SITE.siteUrl;
+  const semantics = city ? buildCityPageSemantics(city, SITE.siteUrl) : undefined;
 
   useSeo({
     title: city ? city.title : "Service Areas",
     description: city?.metaDescription ?? "",
     canonical: pageUrl,
     image: "/og-image.jpg",
-    jsonLd: city
-      ? [
-          {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "@id": `${pageUrl}#service`,
-            name: `HVAC service in ${city.name}, NY`,
-            serviceType:
-              "Heating, cooling, installation, repair, and maintenance",
-            description: city.metaDescription,
-            url: pageUrl,
-            areaServed: { "@type": "City", name: `${city.name}, NY` },
-            provider: { "@id": `${SITE.siteUrl}/#localbusiness` },
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: city.faqItems.map((faq) => ({
-              "@type": "Question",
-              name: faq.q,
-              acceptedAnswer: { "@type": "Answer", text: faq.a },
-            })),
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: `${SITE.siteUrl}/`,
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Service Areas",
-                item: `${SITE.siteUrl}/service-areas`,
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: city.name,
-                item: pageUrl,
-              },
-            ],
-          },
-        ]
-      : undefined,
+    jsonLd: semantics ? localPageSchemaArray(semantics) : undefined,
   });
 
-  if (!city) return <Navigate to="/service-areas" replace />;
+  if (!city || !semantics) return <Navigate to="/service-areas" replace />;
 
   const relatedGuides = city.relatedGuideSlugs
     .map(getPostBySlug)
@@ -99,12 +47,16 @@ const CityPage = () => {
   const nearbyCities = city.nearbyCitySlugs
     .map(getCityLanding)
     .filter((nearby): nearby is NonNullable<typeof nearby> => !!nearby);
+  const serviceDestinations = getCityServiceDestinations(
+    city,
+    Object.values(SERVICE_CITY_LANDING_CONTENT),
+  );
 
   return (
     <Layout>
       <PageHero
         eyebrow={`${city.region} • Westchester County, NY`}
-        title={`HVAC Services in ${city.name}, NY`}
+        title={semantics.h1}
         subtitle={`Local heating, cooling, and air-quality service for homes and businesses in ${city.name}, provided by a licensed Westchester HVAC contractor.`}
         hideRightSlot
       />
@@ -115,7 +67,7 @@ const CityPage = () => {
             to="/service-areas"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
           >
-            <ArrowLeft className="h-4 w-4" /> All Westchester service areas
+            <ArrowLeft className="h-4 w-4" /> All listed Westchester service areas
           </Link>
         </div>
         <div className="grid lg:grid-cols-3 gap-10">
@@ -266,30 +218,23 @@ const CityPage = () => {
           </h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {SERVICES.map((service) => {
-            const localService = getServiceCityLanding(service.slug, city.slug);
-            const href = localService
-              ? `/services/${localService.serviceSlug}/${localService.citySlug}`
-              : (GENERAL_SERVICE_LINKS[service.slug] ?? "/services");
-            const label = localService
-              ? `${localService.serviceTitle} in ${city.name} →`
-              : `${service.title} services →`;
+          {serviceDestinations.map((service) => {
             return (
               <div
-                key={service.slug}
+                key={service.serviceSlug}
                 className="bg-card border border-border rounded-lg p-5 flex flex-col"
               >
                 <h3 className="font-bold mb-2">
-                  {localService?.serviceTitle ?? service.title}
+                  {service.title}
                 </h3>
                 <p className="text-sm text-muted-foreground flex-1">
-                  {localService?.answerFirst ?? service.description}
+                  {service.description}
                 </p>
                 <Link
-                  to={href}
+                  to={service.path}
                   className="text-sm text-accent font-semibold mt-4"
                 >
-                  {label}
+                  {service.label}
                 </Link>
               </div>
             );
@@ -345,7 +290,7 @@ const CityPage = () => {
               to="/service-areas"
               className="text-accent font-semibold text-sm"
             >
-              View all Westchester service areas →
+              View all listed Westchester service areas →
             </Link>
           </div>
         </section>

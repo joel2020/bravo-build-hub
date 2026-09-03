@@ -4,6 +4,7 @@ import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SITE, TOWNS } from "@/lib/site";
+import { approvedServiceAreaPlaces } from "@/lib/localPageModel";
 import { useSeo } from "@/lib/seo";
 import { LeadForm } from "@/components/LeadForm";
 import { trackEmergencyCtaClick } from "@/lib/analytics";
@@ -43,7 +44,7 @@ const faqs = [
   },
   {
     q: "What towns do you cover for emergency HVAC?",
-    a: "All of Westchester County, NY — including Yonkers, White Plains, New Rochelle, Mount Vernon, Scarsdale, Rye, Harrison, Mamaroneck, Larchmont, Bronxville, Tarrytown, Ossining, Chappaqua, and surrounding areas.",
+    a: "Emergency HVAC requests are accepted in the 34 communities in our published Westchester service-area directory. Call to confirm current availability for the service address.",
   },
   {
     q: "Should I replace or repair an older furnace that keeps failing?",
@@ -59,7 +60,7 @@ const EmergencyHVAC = () => {
   useSeo({
     title: "Emergency HVAC & No Heat Repair in Westchester, NY | 24/7",
     description:
-      "24/7 emergency furnace repair and no-heat service across Westchester County, NY. Licensed techs, fast dispatch, upfront pricing. Call (914) 361-9142.",
+      "Request 24/7 emergency furnace repair and no-heat service in Bravo Mechanical's listed Westchester communities. Dispatch depends on availability. Call (914) 361-9142.",
     canonical,
     type: "website",
     jsonLd: [
@@ -69,7 +70,7 @@ const EmergencyHVAC = () => {
         name: `${SITE.name} — 24/7 Emergency HVAC`,
         url: canonical,
         telephone: SITE.phone,
-        areaServed: TOWNS.map((t) => ({ "@type": "City", name: `${t}, NY` })),
+        areaServed: approvedServiceAreaPlaces(),
         availableService: [
           { "@type": "Service", name: "Emergency Furnace Repair" },
           { "@type": "Service", name: "No Heat Repair" },
@@ -211,7 +212,7 @@ const EmergencyHVAC = () => {
                 <span key={t} className="text-xs bg-secondary text-foreground px-2.5 py-1 rounded-full border border-border">{t}</span>
               ))}
             </div>
-            <p className="text-xs text-muted-foreground mt-4">Don't see your town? Call us — we cover all of Westchester County.</p>
+            <p className="text-xs text-muted-foreground mt-4">Don't see your community? Call before scheduling so we can confirm availability for the address.</p>
           </div>
         </div>
       </section>

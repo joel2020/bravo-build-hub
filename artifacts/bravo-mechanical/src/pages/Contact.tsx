@@ -6,9 +6,10 @@ import { LeadForm } from "@/components/LeadForm";
 import { SITE } from "@/lib/site";
 import { useSeo } from "@/lib/seo";
 import { trackCallClick } from "@/lib/analytics";
+import { SERVICE_AREA_SUMMARY } from "@/lib/localPageModel";
 
 const trustBullets = [
-  "Serving Westchester County, NY",
+  SERVICE_AREA_SUMMARY,
   "AC, furnace, boiler, heat pump, and mini-split service",
   "Residential and light commercial HVAC",
   "Written estimates for approved project work",
@@ -107,7 +108,7 @@ const Contact = () => {
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Address</div>
                 <div className="font-semibold">{SITE.address.full}</div>
-                <div className="text-sm text-muted-foreground">Serving all of Westchester County, NY</div>
+                <div className="text-sm text-muted-foreground">{SERVICE_AREA_SUMMARY}</div>
               </div>
             </div>
             <div className="flex items-start gap-3">

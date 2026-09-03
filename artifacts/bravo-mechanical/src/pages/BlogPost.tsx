@@ -138,11 +138,9 @@ const BlogPost = () => {
                   HVAC service in {cityMatch.name}, NY
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Need help with this in {cityMatch.name}? Our licensed Westchester techs serve
-                  {cityMatch.neighborhoods.length > 0 && (
-                    <> {cityMatch.neighborhoods.slice(0, 3).join(", ")}, </>
-                  )}
-                  {" "}and the rest of {cityMatch.region}.
+                  {cityMatch.neighborhoods.length > 0
+                    ? `Need help with this in ${cityMatch.name}? Bravo Mechanical accepts service requests in ${cityMatch.neighborhoods.slice(0, 3).join(", ")} and other parts of ${cityMatch.name}.`
+                    : `Need help with this in ${cityMatch.name}? Bravo Mechanical accepts service requests in ${cityMatch.name} and the other listed Westchester communities.`}
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-2 sm:shrink-0">

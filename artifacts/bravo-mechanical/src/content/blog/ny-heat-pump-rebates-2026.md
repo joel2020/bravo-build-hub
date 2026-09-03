@@ -68,7 +68,7 @@ An income-eligible household on the same project could push the net materially l
 3. **Check income eligibility** for EmPower+ even if you assume you won't qualify — thresholds are higher than most people expect.
 4. **Keep the AHRI certificate** — it documents that your equipment qualifies for the Clean Heat rebate tier.
 
-Bravo Mechanical is a participating [cold-climate heat pump installer](/services/heat-pump-installation-westchester-county-ny) across Westchester County and handles the Clean Heat paperwork for you, so the rebate shows up as a discount on your quote.
+Bravo Mechanical accepts [cold-climate heat pump installation](/services/heat-pump-installation-westchester-county-ny) requests in its [listed Westchester service areas](/service-areas). Ask the applicable program administrator to confirm current eligibility and paperwork requirements for your project.
 
 ## Related guides
 

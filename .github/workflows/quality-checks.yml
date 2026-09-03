@@ -28,11 +28,32 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Unit tests
+        run: PORT=4174 pnpm --filter @workspace/bravo-mechanical run test
+
       - name: Typecheck
         run: pnpm run typecheck
 
-      - name: Build
-        run: pnpm run build
+      - name: Audit local landing content
+        run: pnpm --filter @workspace/bravo-mechanical run audit:local-content
+
+      - name: Mutation-test local landing content
+        run: pnpm --filter @workspace/bravo-mechanical run test:local-content
+
+      - name: Build workspace
+        run: PORT=4174 pnpm run build
 
       - name: Smoke test Bravo app
         run: pnpm --filter @workspace/bravo-mechanical run test:e2e
+
+      - name: Check all local landing pages
+        run: pnpm --filter @workspace/bravo-mechanical run test:local-pages
+
+      - name: Check React and crawler semantic parity
+        run: PORT=4174 pnpm --filter @workspace/bravo-mechanical run test:local-parity
+
+      - name: Check service bundle boundary
+        run: pnpm --filter @workspace/bravo-mechanical run test:bundle
+
+      - name: Validate CI acceptance path
+        run: pnpm --filter @workspace/bravo-mechanical run test:ci-config

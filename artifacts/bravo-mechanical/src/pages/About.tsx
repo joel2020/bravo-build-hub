@@ -4,6 +4,7 @@ import { PageHero } from "@/components/PageHero";
 import { CTABand } from "@/components/CTABand";
 import { useSeo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
+import { SERVICE_AREA_SUMMARY } from "@/lib/localPageModel";
 import jobBoilerAfter from "@/assets/job-boiler-after.avif";
 import jobMiniSplit from "@/assets/job-mini-split-exterior.webp";
 import jobWaterHeater from "@/assets/job-water-heater.webp";
@@ -21,7 +22,7 @@ const customerExpectations = [
   "Practical repair-versus-replace guidance",
   "Written estimates for approved project work",
   "Respectful work inside homes and businesses",
-  "Local HVAC service across Westchester County",
+  "Local HVAC service in listed Westchester communities",
 ];
 
 const About = () => {
@@ -36,7 +37,7 @@ const About = () => {
       <PageHero
         eyebrow="About Bravo Mechanical"
         title="Local HVAC service built around clear answers and clean work"
-        subtitle="Bravo Mechanical LLC serves Westchester County homeowners, property managers, and light commercial customers with practical heating, cooling, repair, installation, and maintenance support."
+        subtitle={`${SERVICE_AREA_SUMMARY} Bravo Mechanical accepts requests from homeowners, property managers, and light-commercial customers for heating, cooling, repair, installation, and maintenance support.`}
       />
 
       <section className="container mx-auto px-4 py-16 grid lg:grid-cols-2 gap-12 items-start">

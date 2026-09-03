@@ -13,6 +13,10 @@
     "test": "vitest run",
     "test:e2e": "node tests/smoke.mjs",
     "test:local-content": "node tests/local-landing-content.mjs",
+    "test:local-pages": "node tests/local-landing-pages.mjs",
+    "test:local-parity": "vitest run src/test/local-page-react-parity.test.tsx",
+    "test:bundle": "node tests/bundle-boundary.mjs",
+    "test:ci-config": "node tests/ci-quality-checks.mjs",
     "audit:local-content": "node scripts/local-landing-content.mjs",
     "audit:seo": "node scripts/audit-seo.mjs",
     "audit:seo:local": "node scripts/audit-seo.mjs --directory-index http://localhost:4174"

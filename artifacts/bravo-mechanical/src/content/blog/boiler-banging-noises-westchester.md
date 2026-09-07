@@ -45,7 +45,7 @@ For any of those, turn the boiler's service switch off and call us at (914) 361-
 
 ## The maintenance connection
 
-Almost every sound above traces to things an annual service visit checks: water chemistry and scale, expansion tank pressure, air venting, circulator health, steam pitch and vents. A [fall boiler tune-up](/maintenance-plans) is cheaper than any of the repairs these noises grow into — and it's on our [seasonal maintenance checklist](/blog/hvac-maintenance-checklist-westchester) for exactly that reason.
+Boiler noise can be related to water condition, expansion control, trapped air, circulator operation, or steam-system components, but the sound alone does not establish the cause. Review what a professional [fall boiler tune-up may include](/blog/boiler-tune-up-checklist-westchester), and use the [seasonal maintenance checklist](/blog/hvac-maintenance-checklist-westchester) to prepare observations for the visit.
 
 ## FAQs
 

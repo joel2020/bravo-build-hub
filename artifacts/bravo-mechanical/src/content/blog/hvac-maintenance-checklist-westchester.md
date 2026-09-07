@@ -44,6 +44,7 @@ author: Bravo Mechanical Team
 - Clear the area around the furnace/boiler; nothing stored against it.
 
 **Pro (the fall tune-up):**
+- For steam and hot-water equipment, use the [Westchester boiler tune-up checklist](/blog/boiler-tune-up-checklist-westchester) to understand which observations to report and which fuel, combustion, venting, pressure, and safety-control tasks belong to a qualified technician.
 - Combustion analysis and gas-pressure check — efficiency and safety in one test
 - Heat-exchanger inspection (furnaces) — the crack check that matters for CO
 - Boilers: pressure, expansion tank, relief valve, circulator, and low-water cutoff checks

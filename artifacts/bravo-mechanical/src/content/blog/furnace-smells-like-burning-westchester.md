@@ -6,6 +6,12 @@ excerpt: Learn which furnace odors can happen at first startup, which warning si
 tags: Repair, Heating, Safety, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
+cover: /images/blog/furnace-smells-like-burning-westchester-photo.webp
+coverSmall: /images/blog/furnace-smells-like-burning-westchester-photo-640.webp
+coverAlt: Photorealistic illustration of a closed furnace and a wall thermostat in a utility room.
+coverCaption: AI-generated photorealistic illustration, not a Bravo installation photo.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 **Quick answer:** A light dusty odor can occur when a furnace runs for the first time after months of sitting idle, and it should fade rather than grow stronger. Turn the system off and call for professional help if the odor persists, intensifies, smells like hot plastic or an electrical fault, or comes with smoke, soot, unusual noises, or repeated shutdowns. If you smell rotten eggs, hear a carbon monoxide alarm, or see fire, leave the building and call 911 from a safe location.

@@ -6,6 +6,12 @@ excerpt: Seven safe checks for a Westchester AC that runs without cooling, plus 
 tags: Repair, Cooling, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
+cover: /images/blog/why-is-my-ac-not-cooling-westchester-photo.webp
+coverSmall: /images/blog/why-is-my-ac-not-cooling-westchester-photo-640.webp
+coverAlt: Photorealistic illustration of an outdoor central air-conditioning condenser beside a house.
+coverCaption: AI-generated photorealistic illustration, not a Bravo installation photo.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 **Quick answer:** When an AC runs but does not cool, first check the thermostat, filter, breakers, outdoor unit, visible ice, supply and return vents, and condensate pan. Stop and call a technician if a breaker trips again, ice returns after thawing, the outdoor unit buzzes without starting, or you hear hissing near a refrigerant line.

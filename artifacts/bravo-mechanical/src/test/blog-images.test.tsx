@@ -14,7 +14,14 @@ afterEach(() => {
 describe("blog image SEO", () => {
   it("keeps build-time image data aligned with client frontmatter", async () => {
     const posts = getAllPosts().filter((post) => post.cover?.startsWith("/images/blog/"));
-    expect(posts).toHaveLength(3);
+    expect(posts.map((post) => post.slug)).toEqual(expect.arrayContaining([
+      "boiler-repair-vs-replacement-westchester",
+      "heat-pump-estimate-checklist-westchester",
+      "merv-8-11-13-air-filter-westchester",
+      "boiler-tune-up-checklist-westchester",
+      "furnace-smells-like-burning-westchester",
+      "why-is-my-ac-not-cooling-westchester",
+    ]));
     const routes = await buildAllRoutes();
     for (const post of posts) {
       const route = routes.find((candidate: { path: string }) => candidate.path === `/blog/${post.slug}`);

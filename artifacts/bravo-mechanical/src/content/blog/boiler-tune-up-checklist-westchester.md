@@ -6,6 +6,12 @@ excerpt: Learn what a professional boiler tune-up may include, what differs betw
 tags: Maintenance, Boilers, Heating, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
+cover: /images/blog/boiler-tune-up-checklist-westchester-photo.webp
+coverSmall: /images/blog/boiler-tune-up-checklist-westchester-photo-640.webp
+coverAlt: Photorealistic illustration of a boiler with a service checklist and closed tool bag.
+coverCaption: AI-generated photorealistic illustration, not a Bravo installation photo.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 **Quick answer:** A professional boiler tune-up should identify the boiler type and fuel, inspect the visible system and venting, check the operating cycle and controls, and perform the manufacturer-appropriate safety and combustion work. Steam, hot-water, condensing, combi, gas, and oil boilers do not share one universal checklist. Schedule the visit before regular heating demand begins, and tell the technician about leaks, odors, noises, cold rooms, pressure changes, or recent shutdowns before the boiler is tested.

@@ -35,7 +35,10 @@ const BlogPost = () => {
     description: post.excerpt,
     canonical: url,
     type: "article",
-    image: post.cover,
+    image: absoluteCover,
+    imageAlt: post.coverAlt,
+    imageWidth: post.coverWidth,
+    imageHeight: post.coverHeight,
     jsonLd: [
       {
         "@context": "https://schema.org",
@@ -111,14 +114,19 @@ const BlogPost = () => {
             )}
           </div>
           {post.cover && (
+            <figure>
             <img
               src={post.cover}
-              alt={post.title}
-              width={1600}
-              height={896}
+              srcSet={post.coverSmall ? `${post.coverSmall} 640w, ${post.cover} 1600w` : undefined}
+              sizes={post.coverSmall ? "(max-width: 768px) 100vw, 768px" : undefined}
+              alt={post.coverAlt || post.title}
+              width={post.coverWidth || 1600}
+              height={post.coverHeight || 896}
               fetchPriority="high"
               className="w-full h-auto rounded-lg border border-border shadow-sm aspect-[16/9] object-cover"
             />
+            {post.coverCaption && <figcaption className="mt-2 text-sm text-muted-foreground">{post.coverCaption}</figcaption>}
+            </figure>
           )}
         </header>
 

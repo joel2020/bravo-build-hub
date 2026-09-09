@@ -6,6 +6,12 @@ excerpt: Choose an HVAC filter by MERV rating, fit, and system compatibility. Co
 tags: Indoor Air Quality, Maintenance, Filters, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
+cover: /images/blog/merv-8-11-13-air-filter-westchester.webp
+coverSmall: /images/blog/merv-8-11-13-air-filter-westchester-640.webp
+coverAlt: Illustration of three pleated HVAC filters labeled MERV 8, MERV 11, and MERV 13.
+coverCaption: Conceptual illustration. MERV ratings describe tested performance, not filter appearance.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 **Quick answer:** Choose a filter that fits correctly and provides the highest particle-removal efficiency your HVAC system can accommodate. MERV 13 captures smaller tested particles more effectively than MERV 8 or 11, but the rating alone does not establish compatibility with your fan, filter cabinet, or duct system. Check the equipment guidance and ask an HVAC professional before making an uncertain upgrade. A filter is not a remedy for a gas leak, carbon monoxide, or the source of a moisture problem.

@@ -6,6 +6,9 @@ type SeoOptions = {
   description: string;
   canonical?: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: "website" | "article";
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
@@ -58,7 +61,7 @@ function toCanonicalUrl(pathOrUrl?: string) {
   return `${SITE_URL}${pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`}`.replace(/\/$/, "");
 }
 
-export function useSeo({ title, description, canonical, image, type = "website", jsonLd, noindex = false }: SeoOptions) {
+export function useSeo({ title, description, canonical, image, imageAlt, imageWidth, imageHeight, type = "website", jsonLd, noindex = false }: SeoOptions) {
   const serializedJsonLd = jsonLd ? JSON.stringify(jsonLd) : "";
 
   useEffect(() => {
@@ -77,10 +80,20 @@ export function useSeo({ title, description, canonical, image, type = "website",
       upsertMeta('meta[name="twitter:image"]', "name", "twitter:image", absoluteImage);
       upsertMeta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
     }
+    for (const [key, value, attr] of [
+      ["og:image:alt", image && imageAlt, "property"],
+      ["twitter:image:alt", image && imageAlt, "name"],
+      ["og:image:width", image && imageWidth, "property"],
+      ["og:image:height", image && imageHeight, "property"],
+    ] as const) {
+      const selector = `meta[${attr}="${key}"]`;
+      if (value) upsertMeta(selector, attr, key, String(value));
+      else document.head.querySelector(selector)?.remove();
+    }
     const url = toCanonicalUrl(canonical);
     upsertLink("canonical", url);
     upsertMeta('meta[property="og:url"]', "property", "og:url", url);
-    upsertMeta('meta[name="robots"]', "name", "robots", noindex ? "noindex, nofollow" : "index, follow");
+    upsertMeta('meta[name="robots"]', "name", "robots", noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large");
 
     let scriptEl: HTMLScriptElement | null = null;
     document.head.querySelectorAll('script[data-seo-route="true"]').forEach((script) => script.remove());
@@ -97,5 +110,5 @@ export function useSeo({ title, description, canonical, image, type = "website",
       if (scriptEl && scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl);
       document.documentElement.removeAttribute("data-seo-ready");
     };
-  }, [title, description, canonical, image, type, noindex, jsonLd, serializedJsonLd]);
+  }, [title, description, canonical, image, imageAlt, imageWidth, imageHeight, type, noindex, jsonLd, serializedJsonLd]);
 }

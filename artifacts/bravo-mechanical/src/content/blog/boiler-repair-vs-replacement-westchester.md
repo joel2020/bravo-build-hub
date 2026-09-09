@@ -6,6 +6,12 @@ excerpt: Compare boiler repair and replacement using the diagnosis, repair histo
 tags: Boilers, Heating, Repair, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
+cover: /images/blog/boiler-repair-vs-replacement-westchester.webp
+coverSmall: /images/blog/boiler-repair-vs-replacement-westchester-640.webp
+coverAlt: Illustration of a residential boiler beside a checklist and wrench.
+coverCaption: Conceptual illustration for this guide, not a specific installation.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 **Quick answer:** Repair is worth considering when a qualified technician identifies a contained problem and finds the rest of the boiler suitable for continued service. Replacement deserves a closer look when there is major deterioration, recurring failure, unavailable parts, or a broader comfort problem that a repair will not resolve. Age and the repair price are useful inputs, but neither is a diagnosis. Ask for the reason behind the recommendation and compare written scopes before deciding.

@@ -6,6 +6,12 @@ excerpt: Compare heat pump estimates in Westchester with a checklist for sizing,
 tags: Heat Pumps, Installation, Planning, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
+cover: /images/blog/heat-pump-estimate-checklist-westchester.webp
+coverSmall: /images/blog/heat-pump-estimate-checklist-westchester-640.webp
+coverAlt: Illustration of an outdoor heat pump and a checklist in front of a house.
+coverCaption: Conceptual illustration for this guide, not a specific installation.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 **Quick answer:** A useful heat pump estimate identifies the exact equipment, the rooms it will serve, the sizing basis, and how heating demand will be met in cold weather. It also explains installation work, electrical responsibilities, controls, commissioning, exclusions, and written coverage. Before comparing totals, confirm that each contractor is pricing the same outcome: supplemental comfort, a whole-home conversion, or a system that works alongside existing heat.

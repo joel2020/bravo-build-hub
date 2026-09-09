@@ -127,9 +127,11 @@ const Blog = () => {
                 {post.cover && (
                   <img
                     src={post.cover}
-                    alt={post.title}
-                    width={1600}
-                    height={896}
+                    srcSet={post.coverSmall ? `${post.coverSmall} 640w, ${post.cover} 1600w` : undefined}
+                    sizes={post.coverSmall ? "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" : undefined}
+                    alt={post.coverAlt || post.title}
+                    width={post.coverWidth || 1600}
+                    height={post.coverHeight || 896}
                     loading="lazy"
                     className="w-full aspect-[16/9] object-cover"
                   />

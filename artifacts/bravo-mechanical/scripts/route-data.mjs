@@ -435,6 +435,13 @@ function loadBlogPostsSync() {
       date: data.date || "1970-01-01",
       excerpt: data.excerpt || "",
       city: data.city || "",
+      // Public blog images have stable, crawlable URLs in initial HTML and metadata.
+      cover: /^\/images\/blog\/[a-z0-9-]+\.webp$/.test(data.cover || "") ? data.cover : null,
+      coverSmall: /^\/images\/blog\/[a-z0-9-]+\.webp$/.test(data.coverSmall || "") ? data.coverSmall : null,
+      coverAlt: data.coverAlt || data.title || slug,
+      coverCaption: data.coverCaption || "",
+      coverWidth: Number(data.coverWidth) || 1600,
+      coverHeight: Number(data.coverHeight) || 900,
       // Full markdown body (after frontmatter) — prerendered into the static
       // HTML so crawlers that don't execute JS see the whole article.
       body: FULL_BODY_PRERENDER_SLUGS.has(slug) ? raw.slice(match[0].length).trim() : "",

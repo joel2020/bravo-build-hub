@@ -11,6 +11,11 @@ export type BlogPost = {
   tags: string[];
   city?: string;
   cover?: string;
+  coverSmall?: string;
+  coverAlt?: string;
+  coverCaption?: string;
+  coverWidth?: number;
+  coverHeight?: number;
   author: string;
   readingMinutes: number;
   body: string;
@@ -56,6 +61,11 @@ const posts: BlogPost[] = Object.entries(modules)
       tags: (data.tags || "").split(",").map((t) => t.trim()).filter(Boolean),
       city: data.city || undefined,
       cover: getCoverForSlug(data.slug || fileSlug) || data.cover || undefined,
+      coverSmall: data.coverSmall || undefined,
+      coverAlt: data.coverAlt || undefined,
+      coverCaption: data.coverCaption || undefined,
+      coverWidth: Number(data.coverWidth) || undefined,
+      coverHeight: Number(data.coverHeight) || undefined,
       author: data.author || "Bravo Mechanical Team",
       readingMinutes: estimateMinutes(body),
       body,

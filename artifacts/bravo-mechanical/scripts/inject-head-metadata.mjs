@@ -77,7 +77,7 @@ function buildJsonLd(route) {
         mainEntityOfPage: { "@type": "WebPage", "@id": url },
         author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
         publisher: { "@type": "Organization", name: SITE_LEGAL, url: SITE_URL, logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.webp` } },
-        image: [OG_IMAGE],
+        image: [route.post.cover ? `${SITE_URL}${route.post.cover}` : OG_IMAGE],
         url,
       },
       breadcrumbs([
@@ -175,6 +175,7 @@ function buildHeadInsert(route) {
   const title = htmlEscape(route.title);
   const desc = htmlEscape(route.description);
   const ogType = route.type === "blog" ? "article" : "website";
+  const coverImage = route.post?.cover ? `${SITE_URL}${route.post.cover}` : OG_IMAGE;
 
   const canonical = route.canonical || url;
   const tags = [
@@ -186,10 +187,16 @@ function buildHeadInsert(route) {
     `<meta property="og:description" content="${desc}" />`,
     `<meta property="og:url" content="${htmlEscape(url)}" />`,
     `<meta property="og:type" content="${ogType}" />`,
-    `<meta property="og:image" content="${OG_IMAGE}" />`,
+    `<meta property="og:image" content="${htmlEscape(coverImage)}" />`,
+    ...(route.post?.cover ? [
+      `<meta property="og:image:alt" content="${htmlEscape(route.post.coverAlt)}" />`,
+      `<meta property="og:image:width" content="${route.post.coverWidth}" />`,
+      `<meta property="og:image:height" content="${route.post.coverHeight}" />`,
+      `<meta name="twitter:image:alt" content="${htmlEscape(route.post.coverAlt)}" />`,
+    ] : []),
     `<meta name="twitter:title" content="${title}" />`,
     `<meta name="twitter:description" content="${desc}" />`,
-    `<meta name="twitter:image" content="${OG_IMAGE}" />`,
+    `<meta name="twitter:image" content="${htmlEscape(coverImage)}" />`,
   ];
 
   // hreflang alternates for routes that exist in both languages.
@@ -399,6 +406,11 @@ function buildBodyInsert(route, ctx) {
 
   if (route.type === "blog" && route.post) {
     if (route.post.date) parts.push(`<p><em>Published ${esc(route.post.date)} · Bravo Mechanical, Westchester County, NY</em></p>`);
+    if (route.post.cover) {
+      const post = route.post;
+      const responsive = post.coverSmall ? ` srcset="${esc(post.coverSmall)} 640w, ${esc(post.cover)} 1600w" sizes="(max-width: 768px) 100vw, 768px"` : "";
+      parts.push(`<figure><img src="${esc(post.cover)}"${responsive} alt="${esc(post.coverAlt)}" width="${post.coverWidth}" height="${post.coverHeight}" fetchpriority="high" style="max-width:100%;height:auto" />${post.coverCaption ? `<figcaption>${esc(post.coverCaption)}</figcaption>` : ""}</figure>`);
+    }
     if (route.post.body) parts.push(mdToHtml(route.post.body));
   }
 

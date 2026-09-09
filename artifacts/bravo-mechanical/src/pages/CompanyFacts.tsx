@@ -36,7 +36,7 @@ const FACT_FAQS = [
   },
   {
     q: "Does Bravo Mechanical offer 24/7 emergency HVAC service in Westchester County?",
-    a: "Yes. Bravo Mechanical offers 24-hour emergency HVAC dispatch in Westchester County, NY for no-heat, no-cool, gas-leak, and water-leak situations. Customers should call (914) 361-9142 to request emergency service. Response timing depends on weather, call volume, technician availability, and geographic location within the county.",
+    a: "Bravo Mechanical accepts 24/7 emergency heating and cooling service requests in Westchester County. Call (914) 361-9142 to discuss availability. If you smell gas or suspect a gas leak, leave the area immediately. Once safely away, call 911 or your gas utility before seeking HVAC service.",
   },
   {
     q: "What is the Google review rating for Bravo Mechanical?",
@@ -48,7 +48,7 @@ const KEY_STATS = [
   { value: "30+", label: "Years combined experience", note: "across the Bravo Mechanical team" },
   { value: "5.0 / 5", label: "Google rating", note: "16 public reviews; checked Aug. 17, 2026" },
   { value: String(SERVICE_AREA_COUNT), label: "Listed communities served", note: "in Westchester County" },
-  { value: "24 / 7", label: "Emergency HVAC dispatch", note: "no-heat, no-cool, gas-leak" },
+  { value: "24 / 7", label: "Emergency HVAC requests", note: "heating and cooling service" },
 ];
 
 const CompanyFacts = () => {

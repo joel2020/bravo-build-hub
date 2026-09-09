@@ -37,7 +37,7 @@ export const HOMEPAGE_FAQS = [
   },
   {
     q: "Does Bravo Mechanical offer 24/7 emergency HVAC service?",
-    a: "Yes. Bravo Mechanical provides 24/7 emergency HVAC dispatch in Westchester County for no-heat, no-cool, and gas-leak situations. Call (914) 361-9142.",
+    a: "Bravo Mechanical accepts 24/7 emergency heating and cooling service requests in Westchester County. Call (914) 361-9142 to discuss availability. If you smell gas or suspect a gas leak, leave the area immediately. Once safely away, call 911 or your gas utility before seeking HVAC service.",
   },
   {
     q: "How is an HVAC installation estimate prepared?",

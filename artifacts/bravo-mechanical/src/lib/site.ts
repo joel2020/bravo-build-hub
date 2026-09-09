@@ -35,6 +35,8 @@ export const SITE = {
   rating: { score: 5.0, count: 16, source: "Google", verifiedOn: "August 17, 2026" },
   social: {
     facebook: "https://www.facebook.com/p/Bravo-Mechanical-LLC-61576283462607/",
+    linkedin: "https://www.linkedin.com/company/bravo-mechanical-ny/",
+    instagram: "https://www.instagram.com/bravomechanicalny/",
     google: "https://www.google.com/maps/place/Bravo+Mechanical+LLC/data=!4m2!3m1!1s0x0:0x51712bb23caf72a8",
   },
   hours: [

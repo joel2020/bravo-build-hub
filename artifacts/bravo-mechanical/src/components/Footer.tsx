@@ -26,6 +26,11 @@ export const Footer = () => {
               HVAC Resources
             </Link>
           </div>
+          <nav aria-label="Bravo Mechanical social profiles" className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <a href={SITE.social.facebook} className="text-primary-foreground/80 hover:text-primary-foreground hover:underline">Facebook</a>
+            <a href={SITE.social.linkedin} className="text-primary-foreground/80 hover:text-primary-foreground hover:underline">LinkedIn</a>
+            <a href={SITE.social.instagram} className="text-primary-foreground/80 hover:text-primary-foreground hover:underline">Instagram</a>
+          </nav>
         </div>
 
         <div>

@@ -405,6 +405,9 @@ export async function loadPriorityServiceOverrides() {
 const FULL_BODY_PRERENDER_SLUGS = new Set([
   "furnace-smells-like-burning-westchester",
   "why-is-my-ac-not-cooling-westchester",
+  "boiler-repair-vs-replacement-westchester",
+  "heat-pump-estimate-checklist-westchester",
+  "merv-8-11-13-air-filter-westchester",
 ]);
 
 function loadBlogPostsSync() {

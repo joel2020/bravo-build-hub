@@ -6,10 +6,10 @@ excerpt: Choose an HVAC filter by MERV rating, fit, and system compatibility. Co
 tags: Indoor Air Quality, Maintenance, Filters, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
-cover: /images/blog/merv-8-11-13-air-filter-westchester.webp
-coverSmall: /images/blog/merv-8-11-13-air-filter-westchester-640.webp
-coverAlt: Illustration of three pleated HVAC filters labeled MERV 8, MERV 11, and MERV 13.
-coverCaption: Conceptual illustration. MERV ratings describe tested performance, not filter appearance.
+cover: /images/blog/merv-8-11-13-air-filter-westchester-photo.webp
+coverSmall: /images/blog/merv-8-11-13-air-filter-westchester-photo-640.webp
+coverAlt: Photorealistic illustration of three pleated HVAC filters labeled MERV 8, MERV 11, and MERV 13.
+coverCaption: AI-generated photorealistic illustration. MERV ratings describe tested performance, not filter appearance.
 coverWidth: 1600
 coverHeight: 900
 ---

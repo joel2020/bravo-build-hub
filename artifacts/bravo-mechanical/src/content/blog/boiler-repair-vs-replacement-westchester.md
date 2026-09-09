@@ -6,10 +6,10 @@ excerpt: Compare boiler repair and replacement using the diagnosis, repair histo
 tags: Boilers, Heating, Repair, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
-cover: /images/blog/boiler-repair-vs-replacement-westchester.webp
-coverSmall: /images/blog/boiler-repair-vs-replacement-westchester-640.webp
-coverAlt: Illustration of a residential boiler beside a checklist and wrench.
-coverCaption: Conceptual illustration for this guide, not a specific installation.
+cover: /images/blog/boiler-repair-vs-replacement-westchester-photo.webp
+coverSmall: /images/blog/boiler-repair-vs-replacement-westchester-photo-640.webp
+coverAlt: Photorealistic illustration of a residential boiler beside a checklist and wrench.
+coverCaption: AI-generated photorealistic illustration, not a Bravo installation photo.
 coverWidth: 1600
 coverHeight: 900
 ---

@@ -6,10 +6,10 @@ excerpt: Compare heat pump estimates in Westchester with a checklist for sizing,
 tags: Heat Pumps, Installation, Planning, Westchester
 city: Westchester County
 author: Bravo Mechanical Team
-cover: /images/blog/heat-pump-estimate-checklist-westchester.webp
-coverSmall: /images/blog/heat-pump-estimate-checklist-westchester-640.webp
-coverAlt: Illustration of an outdoor heat pump and a checklist in front of a house.
-coverCaption: Conceptual illustration for this guide, not a specific installation.
+cover: /images/blog/heat-pump-estimate-checklist-westchester-photo.webp
+coverSmall: /images/blog/heat-pump-estimate-checklist-westchester-photo-640.webp
+coverAlt: Photorealistic illustration of an outdoor heat pump and a checklist in front of a house.
+coverCaption: AI-generated photorealistic illustration, not a Bravo installation photo.
 coverWidth: 1600
 coverHeight: 900
 ---

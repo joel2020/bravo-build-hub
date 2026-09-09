@@ -6,6 +6,12 @@ excerpt: Manufacturer warranty vs. labor warranty vs. extended service plan — 
 tags: Cost, Maintenance
 city: Westchester County
 author: Bravo Mechanical Team
+cover: /images/blog/hvac-warranty-guide-westchester-photo.webp
+coverSmall: /images/blog/hvac-warranty-guide-westchester-photo-640.webp
+coverAlt: Photorealistic illustration of an HVAC warranty folder and pen on a wooden desk.
+coverCaption: AI-generated photorealistic illustration, not a Bravo project photo.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 Every Westchester HVAC quote includes warranty language that's intentionally confusing. Here's what each type actually covers and what's worth your money.

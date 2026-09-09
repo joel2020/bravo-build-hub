@@ -21,6 +21,9 @@ describe("blog image SEO", () => {
       "boiler-tune-up-checklist-westchester",
       "furnace-smells-like-burning-westchester",
       "why-is-my-ac-not-cooling-westchester",
+      "hvac-warranty-guide-westchester",
+      "garage-heating-ossining",
+      "old-house-hvac-irvington",
     ]));
     const routes = await buildAllRoutes();
     for (const post of posts) {

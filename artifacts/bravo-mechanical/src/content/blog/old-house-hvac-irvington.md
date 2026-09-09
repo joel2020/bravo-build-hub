@@ -6,6 +6,12 @@ excerpt: Cooling and heating an 1880s Hudson Valley Victorian in Irvington witho
 tags: Heating, Cooling, Irvington
 city: Irvington
 author: Bravo Mechanical Team
+cover: /images/blog/old-house-hvac-irvington-photo.webp
+coverSmall: /images/blog/old-house-hvac-irvington-photo-640.webp
+coverAlt: Photorealistic illustration of a Victorian living room with a radiator and ductless mini-split.
+coverCaption: AI-generated photorealistic illustration, not a Bravo project photo.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 Irvington (10533) has one of the most architecturally significant housing stocks in Westchester — 1850s–1910s Victorian, Italianate, and Queen Anne homes lining the Hudson River bluffs. Adding modern HVAC without ruining 9-foot ceilings, plaster walls, or original woodwork is genuinely hard. Here's what works.

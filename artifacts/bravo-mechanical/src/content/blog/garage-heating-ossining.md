@@ -6,6 +6,12 @@ excerpt: Mini-split, garage heater, infrared, or boiler extension? Here's the ri
 tags: Heating, Cost, Ossining
 city: Ossining
 author: Bravo Mechanical Team
+cover: /images/blog/garage-heating-ossining-photo.webp
+coverSmall: /images/blog/garage-heating-ossining-photo-640.webp
+coverAlt: Photorealistic illustration of a ductless mini-split in an insulated garage workshop.
+coverCaption: AI-generated photorealistic illustration, not a Bravo project photo.
+coverWidth: 1600
+coverHeight: 900
 ---
 
 Ossining (10562) properties — particularly the older sections near Croton Aqueduct and the new construction in Briarcliff Manor — frequently include detached garages, workshops, or studios that someone now wants heated. Here's the realistic option breakdown.

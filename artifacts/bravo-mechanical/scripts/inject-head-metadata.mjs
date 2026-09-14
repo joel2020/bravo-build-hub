@@ -421,6 +421,9 @@ function buildBodyInsert(route, ctx) {
     parts.push(`<h2>Service process</h2><ol>${copy.process.map((item) => `<li>${esc(item)}</li>`).join("")}</ol>`);
     parts.push(`<h2>Repair, replacement, and safety guidance</h2><p>${esc(copy.guidance)}</p>`);
   }
+  if (route.path === "/services/furnace-repair-westchester-county-ny") {
+    parts.push(`<p><a href="/blog/furnace-blowing-cold-air-westchester">Read the Westchester furnace cold-air troubleshooting guide</a></p>`);
+  }
 
   if (route.type === "city" || route.type === "service-city") {
     parts.push(renderLocalContent(route, ctx));

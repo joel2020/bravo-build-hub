@@ -20,6 +20,19 @@
       { "q": "How do I request urgent no-heat service?", "a": "Call (914) 361-9142. Emergency requests are accepted 24/7; timing depends on weather, call volume, location, and technician availability." }
     ]
   },
+  "furnace-repair-westchester-county-ny": {
+    "relatedLinks": [
+      { "label": "Schedule service", "href": "/contact" },
+      { "label": "View all services", "href": "/services" },
+      { "label": "Westchester service areas", "href": "/service-areas" },
+      { "label": "HVAC in Yonkers", "href": "/service-areas/yonkers" },
+      { "label": "HVAC in White Plains", "href": "/service-areas/white-plains" },
+      { "label": "Company facts", "href": "/company-facts" },
+      { "label": "Furnace installation in Westchester", "href": "/services/furnace-installation-westchester-county-ny" },
+      { "label": "HVAC maintenance", "href": "/services/hvac-maintenance-westchester-county-ny" },
+      { "label": "Why a furnace blows cold air", "href": "/blog/furnace-blowing-cold-air-westchester" }
+    ]
+  },
   "heat-pump-installation-westchester-county-ny": {
     "faqs": [
       { "q": "Can heat pumps work in Westchester winters?", "a": "Cold-climate models are designed for low outdoor temperatures, but correct sizing, design conditions, controls, and any backup strategy must be evaluated for the building." },

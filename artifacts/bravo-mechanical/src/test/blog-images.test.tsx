@@ -15,6 +15,7 @@ describe("blog image SEO", () => {
   it("keeps build-time image data aligned with client frontmatter", async () => {
     const posts = getAllPosts().filter((post) => post.cover?.startsWith("/images/blog/"));
     expect(posts.map((post) => post.slug)).toEqual(expect.arrayContaining([
+      "furnace-blowing-cold-air-westchester",
       "boiler-repair-vs-replacement-westchester",
       "heat-pump-estimate-checklist-westchester",
       "merv-8-11-13-air-filter-westchester",
@@ -35,6 +36,15 @@ describe("blog image SEO", () => {
       expect(route.post.coverHeight).toBe(900);
       expect(post.coverCaption).toContain("illustration");
     }
+    const coldAirPost = posts.find((post) => post.slug === "furnace-blowing-cold-air-westchester");
+    expect(coldAirPost).toMatchObject({
+      cover: "/images/blog/furnace-blowing-cold-air-westchester-photo.webp",
+      coverSmall: "/images/blog/furnace-blowing-cold-air-westchester-photo-640.webp",
+      coverAlt: "Homeowner checking cool airflow from a supply register while a closed furnace runs in a basement utility room.",
+      coverCaption: "AI-generated photorealistic conceptual illustration, not a Bravo installation or customer-home photo.",
+      coverWidth: 1600,
+      coverHeight: 900,
+    });
   });
 
   it("updates image descriptions on navigation and clears missing details", () => {

@@ -192,10 +192,20 @@ for (const route of ['/', '/contact', '/services', '/about']) {
   assert(sitemap.includes(loc), `sitemap.xml missing ${loc}`);
 }
 assert(
+  sitemap.includes(`${canonicalOrigin}/blog/furnace-blowing-cold-air-westchester`),
+  'sitemap.xml missing the latest weekly SEO article',
+);
+assert(
   sitemap.includes(`${canonicalOrigin}/blog/furnace-smells-like-burning-westchester`),
-  'sitemap.xml missing the current weekly SEO article',
+  'sitemap.xml missing the prior weekly SEO article',
 );
 assert(!sitemap.includes('https://bravomechanicalny.com'), 'sitemap.xml must not use the redirecting non-www host');
+
+const furnaceRepair = await readDist('services/furnace-repair-westchester-county-ny/index.html');
+assert(
+  furnaceRepair.includes('href="/blog/furnace-blowing-cold-air-westchester"'),
+  'Furnace repair must provide a crawler-visible link to the current cold-air guide',
+);
 const privateSitemapEntry = sitemap.match(
   /<loc>[^<]*\/(?:auth|admin|proposal)(?:\/[^<]*)?<\/loc>/,
 )?.[0];
